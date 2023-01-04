@@ -8,3 +8,11 @@
 .project
 .metadata
 .settings
+
+# Personnal
+.DS_STORE
+.gitconfig
+
+# Compilation
+docker/*
+**/.antlr/*

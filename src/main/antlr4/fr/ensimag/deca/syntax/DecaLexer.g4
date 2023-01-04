@@ -89,9 +89,9 @@ EOL : '\r'? '\n' | '\r' {skip();} ;
 MULTI_LINE_STRING : '"' (LETTER | WS | '\\"' | '\\\\' | EOL)* '"' {skip();} ;
 
 // Commentaires
-// COMMENT : '//' ~('\n'|'\r')* '\r'? '\n' {skip();} 
-//         | '/*' ()*? '*/' {skip();} 
-//         ; 
+COMMENT : '//' ~('\n'|'\r')* '\r'? '\n' {skip();} 
+        | '/*' .*? '*/' {skip();} 
+        ;
 
 // Includes
 FILENAME : (LETTER | DIGIT | DOT | '-' | '_')+;

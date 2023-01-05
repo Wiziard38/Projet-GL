@@ -372,15 +372,18 @@ primary_expr
                 $tree = $expr.tree;             //ici
         }
 	| READINT OPARENT CPARENT {
+                $tree = new ReadInt();          //ici
         }
 	| READFLOAT OPARENT CPARENT {
+                $tree = new ReadFloat();                //ici
         }
 	| NEW ident OPARENT CPARENT {
                 assert($ident.tree != null);
+                $tree = $ident.tree;            //ici
         }
 	| cast = OPARENT type CPARENT OPARENT expr CPARENT {
                 assert($type.tree != null);
-                assert($expr.tree != null);
+                assert($expr.tree != null);                     //ici pas supporté
         }
 	| literal {
                 assert($literal.tree != null);
@@ -397,24 +400,30 @@ type
 literal
 	returns[AbstractExpr tree]:
 	INT {
+                $tree = new IntLiteral(Integer.parseInt($INT.text));        //ici
         }
 	| fd = FLOAT {
+                $tree = new FloatLiteral(Float.parseFloat($fd.text));        //ici
         }
 	| STRING {
                 $tree = new StringLiteral($STRING.text);        //ici
         }
 	| TRUE {
+                $tree = new BooleanLiteral(true);        //ici
         }
 	| FALSE {
+                $tree = new BooleanLiteral(false);        //ici
         }
-	| THIS {
+	| THIS {                                        //ici pas supporté
         }
-	| NULL {
+	| NULL {                                        //ici pas supporté
         };
 
 ident
 	returns[AbstractIdentifier tree]:
 	IDENT {
+                symbolTable???.create($IDENT.text);          //ici pas sur
+                $tree = new Identifier(symbol);         //ici
         };
 
 /****     Class related rules     ****/

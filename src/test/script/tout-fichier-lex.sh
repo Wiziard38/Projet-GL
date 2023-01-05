@@ -1,4 +1,12 @@
 
+#Un script shell qui lance tous les tests créer pour le lexeur
+
+#Utilisation: On créer des fihiers de tests dans src/test/deca/syntax/[invalid|valid] avec comme nom "fichier_test.deca"
+#Dans le dossier src/test/deca/syntax/[invalid|valid]/resultat on met pour chaque fichier test "fichier_test.deca"
+#un fichier resultat "fichier_test-resultat.txt" qui contient le résultat attendu par le lexeur.
+
+#Ce script comparera le résultat du lexeur et le fichier résultat, écrira ok si se sont les mêmes et faux sinon
+
 
 cd "$(dirname "$0")"/../../.. || exit 1
 

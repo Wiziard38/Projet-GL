@@ -16,11 +16,11 @@ import org.apache.log4j.Logger;
  */
 public class Main extends AbstractMain {
     private static final Logger LOG = Logger.getLogger(Main.class);
-    
+
     private ListDeclVar declVariables;
     private ListInst insts;
-    public Main(ListDeclVar declVariables,
-            ListInst insts) {
+
+    public Main(ListDeclVar declVariables, ListInst insts) {
         Validate.notNull(declVariables);
         Validate.notNull(insts);
         this.declVariables = declVariables;
@@ -41,7 +41,7 @@ public class Main extends AbstractMain {
         compiler.addComment("Beginning of main instructions:");
         insts.codeGenListInst(compiler);
     }
-    
+
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");
@@ -57,7 +57,7 @@ public class Main extends AbstractMain {
         declVariables.iter(f);
         insts.iter(f);
     }
- 
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         declVariables.prettyPrint(s, prefix, false);

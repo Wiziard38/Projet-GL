@@ -16,3 +16,4 @@
 # Compilation
 docker/*
 **/.antlr/*
+target/*

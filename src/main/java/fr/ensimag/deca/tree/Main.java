@@ -3,6 +3,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+
+import static org.mockito.ArgumentMatchers.nullable;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -27,8 +30,8 @@ public class Main extends AbstractMain {
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
-        this.insts.verifyListInst(compiler, null, null, null);
         this.declVariables.verifyListDeclVariable(compiler, null, null);
+        this.insts.verifyListInst(compiler, null, null, null);
         LOG.debug("verify Main: end");
     }
 

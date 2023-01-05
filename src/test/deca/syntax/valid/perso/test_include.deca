@@ -1,0 +1,12 @@
+// Description:
+//    Programme minimaliste testant le include.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+#include "fichier_1.txt"
+

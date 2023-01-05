@@ -24,8 +24,14 @@ public class SymbolTable {
      * If a symbol already exists with the same name in this table, then return
      * this Symbol. Otherwise, create a new Symbol and add it to the table.
      */
-    public Symbol create(String name) {
-        throw new UnsupportedOperationException("Symbol creation");
+    public Symbol create(String name) { // polo did the body of this function
+        if (map.containsKey(name)) {
+            return map.get(name);
+        } else {
+            Symbol symbol = new Symbol(name);
+            map.put(name, symbol);
+            return symbol;
+        }
     }
 
     public static class Symbol {

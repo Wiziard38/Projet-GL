@@ -84,8 +84,24 @@ list_decl_var[ListDeclVar l, AbstractIdentifier t]
       )*
     ;
 
+<<<<<<< HEAD
 decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 @init   {
+=======
+decl_var[AbstractIdentifier t]
+	returns[AbstractDeclVar tree]
+	@init {
+                AbstractInitialization init = new NoInitialization();         //ici
+        }:
+	i = ident {
+		/* condition: expression e must be a "LVALUE" */ 
+                if (! ($e.tree instanceof AbstractLValue)) {
+                        throw new InvalidLValue(this, $ctx);
+                } 
+        } (
+		EQUALS e = expr {
+                        init = new Initialization($e.tree);         //ici
+>>>>>>> ac65368 (parser ok pour Hello world)
         }
     : i=ident {
         }
@@ -143,11 +159,42 @@ if_then_else returns[IfThenElse tree]
       )*
       (ELSE OBRACE li_else=list_inst CBRACE {
         }
+<<<<<<< HEAD
       )?
     ;
 
 list_expr returns[ListExpr tree]
 @init   {
+=======
+	| WHILE OPARENT condition = expr CPARENT OBRACE body = list_inst CBRACE {
+                assert($condition.tree != null);
+                assert($body.tree != null);
+                $tree = new While($condition.tree, $body.tree);           //ici
+        }
+	| RETURN expr SEMI {
+                assert($expr.tree != null);
+                $tree = $expr.tree;                      //ici
+        };
+
+if_then_else
+	returns[IfThenElse tree]
+	@init {
+                // ListInst else_branch = new ListInst();        //ici
+                // ListInst elsif_else_branch = new ListInst();     //ici
+                // Tree last_else;                                 //ici
+}:
+	if1 = IF OPARENT condition = expr CPARENT OBRACE li_if = list_inst CBRACE {
+                // assert($condition.tree != null);                //ici
+                // assert($li_if.tree != null);                    //ici
+                // $tree = new IfThenElse($condition.tree, li_if.tree, else_branch);          //ici
+                // last_else = else_branch;                        //ici
+        } (
+		ELSE elsif = IF OPARENT elsif_cond = expr CPARENT OBRACE elsif_li = list_inst CBRACE {
+                        // assert($elsif_cond.tree != null);               //d'ici
+                        // assert($elsif_li.tree != null);
+                        // last_else.add(new IfThenElse($elsif_cond.tree, $elsif_li.tree, elsif_else_branch));
+                        // last_else = elsif_else_branch;          //a la
+>>>>>>> ac65368 (parser ok pour Hello world)
         }
     : (e1=expr {
         }
@@ -162,6 +209,7 @@ expr returns[AbstractExpr tree]
         }
     ;
 
+<<<<<<< HEAD
 assign_expr returns[AbstractExpr tree]
     : e=or_expr (
         /* condition: expression e must be a "LVALUE" */ {
@@ -182,6 +230,27 @@ assign_expr returns[AbstractExpr tree]
 or_expr returns[AbstractExpr tree]
     : e=and_expr {
             assert($e.tree != null);
+=======
+expr
+	returns[AbstractExpr tree]:
+	assign_expr {
+                assert($assign_expr.tree != null);
+                $tree = $assign_expr.tree;               //ici
+        };
+
+assign_expr
+	returns[AbstractExpr tree]:
+	e = or_expr (
+		{
+		/* condition: expression e must be a "LVALUE" */
+                if (! ($e.tree instanceof AbstractLValue)) {
+                        throw new InvalidLValue(this, $ctx);
+                }
+        } EQUALS e2 = assign_expr {
+                assert($e.tree != null);
+                assert($e2.tree != null);
+                $tree = new Assign((AbstractLValue) $e.tree, $e2.tree);          //ici
+>>>>>>> ac65368 (parser ok pour Hello world)
         }
     | e1=or_expr OR e2=and_expr {
             assert($e1.tree != null);
@@ -239,6 +308,40 @@ inequality_expr returns[AbstractExpr tree]
         }
     ;
 
+<<<<<<< HEAD
+=======
+inequality_expr
+	returns[AbstractExpr tree]:
+	e = sum_expr {
+                assert($e.tree != null);
+                $tree = $e.tree;                //ici
+        }
+	| e1 = inequality_expr LEQ e2 = sum_expr {
+                assert($e1.tree != null);
+                assert($e2.tree != null);
+                $tree = new LowerOrEqual($e1.tree, $e2.tree);         //ici
+        }
+	| e1 = inequality_expr GEQ e2 = sum_expr {
+                assert($e1.tree != null);
+                assert($e2.tree != null);
+                $tree = new GreaterOrEqual($e1.tree, $e2.tree);         //ici
+        }
+	| e1 = inequality_expr GT e2 = sum_expr {
+                assert($e1.tree != null);
+                assert($e2.tree != null);
+                $tree = new Greater($e1.tree, $e2.tree);         //ici
+        }
+	| e1 = inequality_expr LT e2 = sum_expr {
+                assert($e1.tree != null);
+                assert($e2.tree != null);
+                $tree = new Lower($e1.tree, $e2.tree);         //ici
+        }
+	| e1 = inequality_expr INSTANCEOF type {
+                assert($e1.tree != null);
+                assert($type.tree != null);
+                // $tree = new Instanceof($e1.tree, $e2.tree);         //ici pas supporté
+        };
+>>>>>>> ac65368 (parser ok pour Hello world)
 
 sum_expr returns[AbstractExpr tree]
     : e=mult_expr {
@@ -288,9 +391,21 @@ select_expr returns[AbstractExpr tree]
     : e=primary_expr {
             assert($e.tree != null);
         }
+<<<<<<< HEAD
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
             assert($i.tree != null);
+=======
+	| e1 = select_expr DOT i = ident {
+                assert($e1.tree != null);
+                assert($i.tree != null);
+                $tree = $e.tree;                //ici pas supporté
+        } (
+		o = OPARENT args = list_expr CPARENT {
+                // we matched "e1.i(args)"
+                assert($args.tree != null);
+                // $tree = $args.tree;             //ici ??
+>>>>>>> ac65368 (parser ok pour Hello world)
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
@@ -324,10 +439,17 @@ primary_expr returns[AbstractExpr tree]
             assert($type.tree != null);
             assert($expr.tree != null);
         }
+<<<<<<< HEAD
     | literal {
             assert($literal.tree != null);
         }
     ;
+=======
+	| literal {
+                assert($literal.tree != null);
+                $tree = $literal.tree;      //ici
+        };
+>>>>>>> ac65368 (parser ok pour Hello world)
 
 type returns[AbstractIdentifier tree]
     : ident {
@@ -340,7 +462,12 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT {
         }
+<<<<<<< HEAD
     | STRING {
+=======
+	| STRING {
+                $tree = new StringLiteral($STRING.text);        //ici
+>>>>>>> ac65368 (parser ok pour Hello world)
         }
     | TRUE {
         }
@@ -359,9 +486,19 @@ ident returns[AbstractIdentifier tree]
 
 /****     Class related rules     ****/
 
+<<<<<<< HEAD
 list_classes returns[ListDeclClass tree]
     :
       (c1=class_decl {
+=======
+list_classes
+	returns[ListDeclClass tree]
+	@init {
+        $tree = new ListDeclClass();
+    }:
+	(
+		c1 = class_decl {
+>>>>>>> ac65368 (parser ok pour Hello world)
         }
       )*
     ;

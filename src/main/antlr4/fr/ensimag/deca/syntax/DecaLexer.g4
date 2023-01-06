@@ -85,7 +85,7 @@ FLOAT: FLOATDEC | FLOATHEX;
 WS: (' ' | '\n' | '\r' | '\t') {skip();};
 
 // Strings
-STRING: '"' (LETTER | WS | '\\"' | '\\\\')* '"';
+STRING: '"' (LETTER | WS | '\\"' | '\\\\' | ',' | '!')* '"';
 EOL: '\r'? '\n' | '\r' {skip();};
 MULTI_LINE_STRING:
 	'"' (LETTER | WS | '\\"' | '\\\\' | EOL)* '"';

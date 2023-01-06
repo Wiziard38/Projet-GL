@@ -55,6 +55,8 @@ block
                 assert($list_inst.tree != null);
                 $decls = $list_decl.tree;
                 $insts = $list_inst.tree;
+                setLocation($decl, $list_decl.start);       //ici
+                setLocation($insts, list_inst.start);       //ici
         };
 
 list_decl

@@ -75,20 +75,15 @@ fragment DEC: NUM DOT NUM;
 fragment FLOATDEC: (DEC | DEC EXP) ('F' | 'f')?;
 fragment DIGITHEX: (DIGIT | 'A' .. 'F' | 'a' .. 'f');
 fragment NUMHEX: DIGITHEX+;
-fragment FLOATHEX: ('0x' | '0X') NUMHEX DOT NUMHEX ('P' | 'p') SIGN NUM (
-		'F'
-		| 'f'
-	)?;
+fragment FLOATHEX: ('0x' | '0X') NUMHEX DOT NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f')?;
 FLOAT: FLOATDEC | FLOATHEX;
 
 // Separateurs
 WS: (' ' | '\n' | '\r' | '\t') {skip();};
 
 // Strings
-STRING: '"' (LETTER | WS | '\\"' | '\\\\' | ',' | '!')* '"';
-EOL: '\r'? '\n' | '\r' {skip();};
-MULTI_LINE_STRING:
-	'"' (LETTER | WS | '\\"' | '\\\\' | EOL)* '"';
+STRING: '"' ~('\n')*? '"';
+MULTI_LINE_STRING: '"' .*? '"';
 
 // Commentaires
 COMMENT:

@@ -81,18 +81,19 @@ fragment FLOATHEX : ('0x' | '0X') NUMHEX DOT NUMHEX ('P' | 'p') SIGN NUM ('F' | 
 FLOAT : FLOATDEC | FLOATHEX;
 
 // Separateurs
-WS : (' ' | '\n' | '\r' | '\t') {skip();} ;
+WS: (' ' | '\n' | '\r' | '\t') {skip();};
 
 // Strings
-STRING : '"' (LETTER | WS | '\\"' | '\\\\')* '"' {skip();} ;
-EOL : '\r'? '\n' | '\r' {skip();} ;
-MULTI_LINE_STRING : '"' (LETTER | WS | '\\"' | '\\\\' | EOL)* '"' {skip();} ;
+STRING: '"' (LETTER | WS | '\\"' | '\\\\' | ',' | '!')* '"';
+EOL: '\r'? '\n' | '\r' {skip();};
+MULTI_LINE_STRING:
+	'"' (LETTER | WS | '\\"' | '\\\\' | EOL)* '"';
 
 // Commentaires
-COMMENT : '//' ~('\n'|'\r')* '\r'? '\n' {skip();} 
-        | '/*' .*? '*/' {skip();} 
-        ;
+COMMENT:
+	'//' ~('\n' | '\r')* '\r'? '\n' {skip();}
+	| '/*' .*? '*/' {skip();};
 
 // Includes
-FILENAME : (LETTER | DIGIT | DOT | '-' | '_')+;
-INCLUDE : '#include' (' ')* '"' FILENAME '"';
+FILENAME: (LETTER | DIGIT | DOT | '-' | '_')+;
+INCLUDE: '#include' (' ')* '"' FILENAME '"';

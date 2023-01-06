@@ -1,4 +1,3 @@
-
 #Un script shell qui lance tous les tests créer pour le lexeur
 
 #Utilisation: On créer des fihiers de tests dans src/test/deca/syntax/[invalid|valid] avec comme nom "fichier_test.deca"
@@ -16,15 +15,15 @@ echo ""
 echo "---------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/valid/*.deca
+for fichier in ./src/test/deca/syntax/parser/valid/*.deca
 do
     echo "$fichier"
     nom=${fichier##*/}
     export nom
-    test_lex "$fichier" 2>&1 > actual
+    test_synt "$fichier" 2>&1 > actual
     cat actual
     echo ""
-    if diff -w actual "./src/test/deca/syntax/lexer/valid/resultat/${nom%.deca}_resultat.txt"
+    if diff -w actual "./src/test/deca/syntax/parser/valid/resultat/${nom%.deca}_resultat.txt"
     then
         echo ""
         echo "ok"
@@ -42,13 +41,13 @@ echo "Début des tests invalids"
 echo "--------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/invalid/*.deca
+for fichier in ./src/test/deca/syntax/parser/invalid/*.deca
 do
     echo "$fichier"
     nom=${fichier##*/}
     export nom
-    test_lex "$fichier" 2>&1 >actual
-    if diff -w actual "./src/test/deca/syntax/lexer/invalid/resultat/${nom%.deca}_resultat.txt"
+    test_synt "$fichier" 2>&1 >actual
+    if diff -w actual "./src/test/deca/syntax/parser/invalid/resultat/${nom%.deca}_resultat.txt"
     then
         echo ""
         echo "ok"

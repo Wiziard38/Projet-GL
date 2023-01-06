@@ -422,8 +422,8 @@ literal
 ident
 	returns[AbstractIdentifier tree]:
 	IDENT {
-                symbolTable???.create($IDENT.text);          //ici pas sur
-                $tree = new Identifier(symbol);         //ici
+                //symbolTable???.create($IDENT.text);          //ici pas sur
+                //$tree = new Identifier(symbol);         //ici
         };
 
 /****     Class related rules     ****/

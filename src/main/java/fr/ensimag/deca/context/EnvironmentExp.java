@@ -2,7 +2,7 @@ package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -24,8 +24,8 @@ import java.util.Map;
  */
 public class EnvironmentExp {
     private Map<Symbol, ExpDefinition> currentEnvironmentExp 
-        = new HashMap<Symbol, ExpDefinition>();
-    EnvironmentExp parentEnvironment;
+        = new LinkedHashMap<Symbol, ExpDefinition>();
+    private EnvironmentExp parentEnvironment;
     
     public EnvironmentExp(EnvironmentExp parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
@@ -50,6 +50,13 @@ public class EnvironmentExp {
     }
 
     /**
+     * 
+     */
+    public Map<Symbol, ExpDefinition> getLocalEnv() {
+        return this.currentEnvironmentExp;
+    }
+
+    /**
      * Add the definition def associated to the symbol name in the environment.
      * 
      * Adding a symbol which is already defined in the environment,
@@ -65,7 +72,7 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-        if (this.currentEnvironmentExp.containsKey(name)) {
+        if (!this.currentEnvironmentExp.containsKey(name)) {
             this.currentEnvironmentExp.put(name, def);
         } else {
             throw new DoubleDefException();

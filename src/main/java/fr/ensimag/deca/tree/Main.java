@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
@@ -31,10 +32,10 @@ public class Main extends AbstractMain {
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
-        EnvironmentType environmentType = new EnvironmentType(compiler);
-
-        this.declVariables.verifyListDeclVariable(compiler, null, null);
-        this.insts.verifyListInst(compiler, null, null, null);
+        //EnvironmentExp localEnv = new EnvironmentExp(null);
+        
+        //this.declVariables.verifyListDeclVariable(compiler, localEnv, null);
+        //this.insts.verifyListInst(compiler, localEnv, null, null);
         LOG.debug("verify Main: end");
     }
 

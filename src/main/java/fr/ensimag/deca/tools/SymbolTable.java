@@ -34,6 +34,15 @@ public class SymbolTable {
         }
     }
 
+    /**
+     * 
+     * @param symbol
+     * @return
+     */
+    public boolean contains(Symbol symbol) {
+        return this.map.containsValue(symbol);
+    }
+
     public static class Symbol {
         // Constructor is private, so that Symbol instances can only be created
         // through SymbolTable.create factory (which thus ensures uniqueness

@@ -162,7 +162,7 @@ if_then_else
 	if1 = IF OPARENT condition = expr CPARENT OBRACE li_if = list_inst CBRACE {
                 assert($condition.tree != null);                //ici
                 assert($li_if.tree != null);                    //ici
-                $tree = new IfThenElse($condition.tree, li_if.tree, else_branch);          //ici
+                $tree = new IfThenElse($condition.tree, $li_if.tree, else_branch);          //ici
         } (
 		ELSE elsif = IF OPARENT elsif_cond = expr CPARENT OBRACE elsif_li = list_inst CBRACE {
                         assert($elsif_cond.tree != null);
@@ -175,7 +175,7 @@ if_then_else
         }
 	)* (
 		ELSE OBRACE li_else = list_inst CBRACE {
-                        else_branch.add($li_else.tree);
+                        else_branch = $li_else.tree;
         }
 	)?;
 
@@ -411,12 +411,28 @@ type
 literal
 	returns[AbstractExpr tree]:
 	INT {
-                $tree = new IntLiteral(Integer.parseInt($INT.text));        //ici
-                setLocation($tree, $INT);          //ici
+                try {
+                        $tree = new IntLiteral(Integer.parseInt($INT.text));
+                        setLocation($tree, $INT);
+                } catch (NumberFormatException e) {
+                        // The integer could not be parsed (probably it's too large).
+                        // set $tree to null, and then fail with the semantic predicate
+                        // {$tree != null}?. In decac, we'll have a more advanced error
+                        // management.
+                        $tree = null;
+                }
         }
 	| fd = FLOAT {
-                $tree = new FloatLiteral(Float.parseFloat($fd.text));        //ici
-                setLocation($tree, $fd);          //ici
+                try {
+                        $tree = new FloatLiteral(Float.parseFloat($fd.text));
+                        setLocation($tree, $fd);
+                } catch (NumberFormatException e) {
+                        // The integer could not be parsed (probably it's too large).
+                        // set $tree to null, and then fail with the semantic predicate
+                        // {$tree != null}?. In decac, we'll have a more advanced error
+                        // management.
+                        $tree = null;
+                }
         }
 	| STRING {
                 $tree = new StringLiteral($STRING.text);        //ici

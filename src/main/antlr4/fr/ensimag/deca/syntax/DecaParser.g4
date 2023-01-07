@@ -177,7 +177,9 @@ if_then_else
         }
 	)* (
 		ELSE OBRACE li_else = list_inst CBRACE {
-                        else_branch = $li_else.tree;
+                        for (AbstractInst currentInst : $li_else.tree.getList()) {
+                                else_branch.add(currentInst);
+                        }
         }
 	)?;
 

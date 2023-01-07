@@ -20,7 +20,18 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        
+        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        
+        if ((typeLeft == compiler.environmentType.BOOLEAN) 
+                && (typeRight == compiler.environmentType.BOOLEAN)) {
+            
+            return compiler.environmentType.BOOLEAN;
+        }
+
+        throw new ContextualError("Boolean operation with non-booleans", this.getLocation());
+    
     }
 
 }

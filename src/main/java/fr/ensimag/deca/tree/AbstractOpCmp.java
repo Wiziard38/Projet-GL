@@ -20,8 +20,26 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
 
+        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        
+        if ((typeLeft == compiler.environmentType.FLOAT || typeLeft == compiler.environmentType.INT) 
+                && (typeRight == compiler.environmentType.FLOAT || typeRight == compiler.environmentType.INT)) {
+
+            return compiler.environmentType.BOOLEAN;
+        }
+        if (this.getClass() == Equals.class || this.getClass() == NotEquals.class) {
+        //if (this.getClass().isInstance(AbstractOpCmp.class)) {
+        
+            if ((typeLeft == compiler.environmentType.BOOLEAN) 
+                    && (typeRight == compiler.environmentType.BOOLEAN)) {
+                return compiler.environmentType.BOOLEAN;
+            }
+            // TODO rajouter si c'est des type_class !
+        }
+
+        throw new ContextualError("Tying to compare with non-numbers", this.getLocation());
+    }
 
 }

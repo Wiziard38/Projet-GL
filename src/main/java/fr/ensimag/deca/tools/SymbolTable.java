@@ -24,14 +24,23 @@ public class SymbolTable {
      * If a symbol already exists with the same name in this table, then return
      * this Symbol. Otherwise, create a new Symbol and add it to the table.
      */
-    public Symbol create(String name) { // ici polo did the body of this function
-        if (map.containsKey(name)) {
-            return map.get(name);
+    public Symbol create(String name) {
+        if (this.map.containsKey(name)) {
+            return this.map.get(name);
         } else {
-            Symbol symbol = new Symbol(name);
-            map.put(name, symbol);
-            return symbol;
+            Symbol newSymbol = new Symbol(name);
+            this.map.put(name, newSymbol);
+            return newSymbol;
         }
+    }
+
+    /**
+     * 
+     * @param symbol
+     * @return
+     */
+    public boolean contains(Symbol symbol) {
+        return this.map.containsValue(symbol);
     }
 
     public static class Symbol {

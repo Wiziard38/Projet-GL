@@ -81,17 +81,18 @@ decl_var[AbstractIdentifier t]
                 AbstractInitialization init = new NoInitialization();         //ici
         }:
 	i = ident {
-		/* condition: expression e must be a "LVALUE" */ 
-                if (! ($e.tree instanceof AbstractLValue)) {
+		/* condition: expression i must be a "LVALUE" */ 
+                if (! ($i.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
                 } 
-                setLocation($tree, $i.start);
         } (
 		EQUALS e = expr {
+                        assert($e.tree != null);
                         init = new Initialization($e.tree);         //ici
         }
 	)? {
                 $tree = new DeclVar($t, $ident.tree, init);         //ici
+                setLocation($tree, $i.start);
         };
 
 list_inst
@@ -333,7 +334,7 @@ mult_expr
 	e = unary_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;                //ici
-                setLocation($tree, $e1.start);
+                setLocation($tree, $e.start);
         }
 	| e1 = mult_expr TIMES e2 = unary_expr {
                 assert($e1.tree != null);                                         
@@ -494,8 +495,7 @@ literal
 ident
 	returns[AbstractIdentifier tree]:
 	IDENT {
-                symbolTable???.create($IDENT.text);     //comment accéder à la SymbolTable??
-                $tree = new Identifier(symbol);
+                $tree = new Identifier(getDecacCompiler().createSymbol($IDENT.text));
                 setLocation($tree, $IDENT);
         };
 
@@ -508,14 +508,12 @@ list_classes
         }:
 	(
 		c1 = class_decl {
-                        // $tree.add($c1.tree);
         }
 	)*;
 
 class_decl:
 	CLASS name = ident superclass = class_extension OBRACE class_body CBRACE {
                 
-                // setLocation($tree, $THIS);
         };
 
 class_extension

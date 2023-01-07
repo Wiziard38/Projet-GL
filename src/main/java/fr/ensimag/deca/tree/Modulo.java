@@ -20,7 +20,13 @@ public class Modulo extends AbstractOpArith {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+
+        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.INT) 
+                || (this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.INT)) {
+            return compiler.environmentType.INT;
+        }
+
+        throw new ContextualError("Trying modulo with non-INT types", this.getLocation());
     }
 
 

@@ -9,6 +9,8 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
+import org.apache.log4j.Logger;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -18,6 +20,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public class StringLiteral extends AbstractStringLiteral {
+    private static final Logger LOG = Logger.getLogger(StringLiteral.class);
 
     @Override
     public String getValue() {
@@ -34,7 +37,9 @@ public class StringLiteral extends AbstractStringLiteral {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        LOG.debug("verify getting into string literal");
+        this.setType(compiler.environmentType.STRING);
+        return compiler.environmentType.STRING;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        s.print(value);
     }
 
     @Override
@@ -56,7 +61,7 @@ public class StringLiteral extends AbstractStringLiteral {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
-    
+
     @Override
     String prettyPrintNode() {
         return "StringLiteral (" + value + ")";

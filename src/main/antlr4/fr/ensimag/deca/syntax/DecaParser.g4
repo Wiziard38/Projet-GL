@@ -85,6 +85,7 @@ decl_var[AbstractIdentifier t]
                 if (! ($e.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
                 } 
+                setLocation($tree, $i.start);
         } (
 		EQUALS e = expr {
                         init = new Initialization($e.tree);         //ici
@@ -154,24 +155,27 @@ inst
 if_then_else
 	returns[IfThenElse tree]
 	@init {
-                // ListInst else_branch = new ListInst();        //ici
-                // ListInst elsif_else_branch = new ListInst();     //ici
-                // Tree last_else;                                 //ici
+                ListInst else_branch = new ListInst();        //ici
+                IfThenElse elsif_branch = null;
+                ListInst elsif_else_branch = null;
 }:
 	if1 = IF OPARENT condition = expr CPARENT OBRACE li_if = list_inst CBRACE {
-                // assert($condition.tree != null);                //ici
-                // assert($li_if.tree != null);                    //ici
-                // $tree = new IfThenElse($condition.tree, li_if.tree, else_branch);          //ici
-                // last_else = else_branch;                        //ici
+                assert($condition.tree != null);                //ici
+                assert($li_if.tree != null);                    //ici
+                $tree = new IfThenElse($condition.tree, li_if.tree, else_branch);          //ici
         } (
 		ELSE elsif = IF OPARENT elsif_cond = expr CPARENT OBRACE elsif_li = list_inst CBRACE {
-                        // assert($elsif_cond.tree != null);               //d'ici
-                        // assert($elsif_li.tree != null);
-                        // last_else.add(new IfThenElse($elsif_cond.tree, $elsif_li.tree, elsif_else_branch));
-                        // last_else = elsif_else_branch;          //a la
+                        assert($elsif_cond.tree != null);
+                        assert($elsif_li.tree != null);
+                        
+                        elsif_else_branch  = new ListInst();
+                        elsif_branch = new IfThenElse($elsif_cond.tree, $elsif_li.tree, elsif_else_branch);
+                        else_branch.add(elsif_branch);
+                        else_branch = elsif_else_branch;
         }
 	)* (
 		ELSE OBRACE li_else = list_inst CBRACE {
+                        else_branch.add($li_else.tree);
         }
 	)?;
 

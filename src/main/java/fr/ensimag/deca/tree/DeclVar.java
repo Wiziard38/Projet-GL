@@ -33,6 +33,14 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        
+        
+        /* 
+        if (localEnv.getLocalEnv().containsKey(this.varName.toString())) {
+            throw new ContextualError(String.format(
+                "Variable %s deja instanciée localement", this.varName), this.getLocation());
+        } */
+        //if (!compiler.symbolTable.contains(this.varName));
     }
 
     

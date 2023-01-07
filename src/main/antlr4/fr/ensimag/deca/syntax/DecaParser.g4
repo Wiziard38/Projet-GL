@@ -108,40 +108,47 @@ inst
 	e1 = expr SEMI {
                 assert($e1.tree != null);
                 $tree = $e1.tree;                   //ici
+                setLocation($tree, $e1.start);          //ici
         }
 	| SEMI {
                 $tree = new NoOperation();       //ici
+                setLocation($tree, tokenLocation($SEMI));          //ici
         }
 	| PRINT OPARENT list_expr CPARENT SEMI {
                 assert($list_expr.tree != null);
                 $tree = new Print(false, $list_expr.tree);          //ici
+                setLocation($tree, tokenLocation($PRINT));          //ici
         }
 	| PRINTLN OPARENT list_expr CPARENT SEMI {
                 assert($list_expr.tree != null);
                 $tree = new Println(false, $list_expr.tree);        //ici
+                setLocation($tree, tokenLocation($PRINTLN));          //ici
         }
 	| PRINTX OPARENT list_expr CPARENT SEMI {
                 assert($list_expr.tree != null);
                 $tree = new Print(true, $list_expr.tree);          //ici
-
+                setLocation($tree, tokenLocation($PRINTX));          //ici
         }
 	| PRINTLNX OPARENT list_expr CPARENT SEMI {
                 assert($list_expr.tree != null);
                 $tree = new Println(true, $list_expr.tree);        //ici
-             
+                setLocation($tree, tokenLocation($PRINTLNX));          //ici             
         }
 	| if_then_else {
                 assert($if_then_else.tree != null);
                 $tree = $if_then_else.tree;                     //ici
+                setLocation($tree, $if_then_else.start);          //ici
         }
 	| WHILE OPARENT condition = expr CPARENT OBRACE body = list_inst CBRACE {
                 assert($condition.tree != null);
                 assert($body.tree != null);
                 $tree = new While($condition.tree, $body.tree);           //ici
+                setLocation($tree, tokenLocation($WHILE));          //ici
         }
 	| RETURN expr SEMI {
                 assert($expr.tree != null);
                 $tree = $expr.tree;                      //ici
+                setLocation($tree, tokenLocation($RETURN));          //ici
         };
 
 if_then_else
@@ -401,18 +408,23 @@ literal
 	returns[AbstractExpr tree]:
 	INT {
                 $tree = new IntLiteral(Integer.parseInt($INT.text));        //ici
+                setLocation($tree, tokenLocation($INT));          //ici
         }
 	| fd = FLOAT {
                 $tree = new FloatLiteral(Float.parseFloat($fd.text));        //ici
+                setLocation($tree, tokenLocation($fd));          //ici
         }
 	| STRING {
                 $tree = new StringLiteral($STRING.text);        //ici
+                setLocation($tree, tokenLocation($STRING));          //ici
         }
 	| TRUE {
                 $tree = new BooleanLiteral(true);        //ici
+                setLocation($tree, tokenLocation($TRUE));          //ici
         }
 	| FALSE {
                 $tree = new BooleanLiteral(false);        //ici
+                setLocation($tree, tokenLocation($FALSE));          //ici
         }
 	| THIS {                                        //ici pas supporté
         }

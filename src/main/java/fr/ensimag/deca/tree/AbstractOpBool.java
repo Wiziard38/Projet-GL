@@ -27,6 +27,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         if ((typeLeft == compiler.environmentType.BOOLEAN) 
                 && (typeRight == compiler.environmentType.BOOLEAN)) {
             
+            this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }
 

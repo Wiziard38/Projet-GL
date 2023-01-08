@@ -3,6 +3,8 @@ package fr.ensimag.deca.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -42,23 +44,11 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
      */
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
+        Validate.notNull(localEnv);
 
-        /*
-         * List<AbstractDeclVar> listAddedDeclarations= new
-         * ArrayList<AbstractDeclVar>();
-         * for (AbstractDeclVar currentDeclaration : this.getList()) {
-         * if (listAddedDeclarations.contains(currentDeclaration)) {
-         * throw new ContextualError(String.format("Variable %s déclarée deux fois",
-         * currentDeclaration.toString()), currentDeclaration.getLocation());
-         * } else {
-         * Symbol newSymbol = compiler.createSymbol(currentDeclaration.getName());
-         * localEnv.declare(currentDeclaration., null);
-         * }
-         * }
-         * for (AbstractDeclVar currentDeclaration : this.getList()) {
-         * currentDeclaration.verifyDeclVar(compiler, localEnv, currentClass);
-         * }
-         */
+        for (AbstractDeclVar currentDeclaration : this.getList()) {
+            currentDeclaration.verifyDeclVar(compiler, localEnv, currentClass);
+        }        
 
     }
 

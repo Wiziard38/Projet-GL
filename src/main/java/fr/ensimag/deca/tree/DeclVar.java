@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
+import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -32,15 +35,26 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        Validate.notNull(localEnv);
 
-        /*
-         * if (localEnv.getLocalEnv().containsKey(this.varName.toString())) {
-         * throw new ContextualError(String.format(
-         * "Variable %s deja instanciée localement", this.varName), this.getLocation());
-         * }
-         */
-        // if (!compiler.symbolTable.contains(this.varName));
+        // On verifie que le type existe bien
+        Type initializationType = this.type.verifyType(compiler);
+        //this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
+
+        // On verifie que varName n'est pas deja declare localement
+        try {
+            this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
+            localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());
+        }
+        catch (Exception DoubleDefException) {
+            throw new ContextualError("Variable already declared locally, cannot re declare", this.getLocation());
+        }
+
+
+        this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);
+
     }
+
 
     @Override
     public void decompile(IndentPrintStream s) {

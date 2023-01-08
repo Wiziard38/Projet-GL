@@ -84,11 +84,12 @@ decl_var[AbstractIdentifier t]
 		/* condition: expression i must be a "LVALUE" */ 
                 if (! ($i.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
-                } 
+                }
         } (
 		EQUALS e = expr {
                         assert($e.tree != null);
                         init = new Initialization($e.tree);         //ici
+                        setLocation(init, $expr.start);             //ici
         }
 	)? {
                 $tree = new DeclVar($t, $ident.tree, init);         //ici
@@ -177,7 +178,9 @@ if_then_else
         }
 	)* (
 		ELSE OBRACE li_else = list_inst CBRACE {
-                        else_branch = $li_else.tree;
+                        for (AbstractInst currentInst : $li_else.tree.getList()) {
+                                else_branch.add(currentInst);
+                        }
         }
 	)?;
 
@@ -211,7 +214,6 @@ assign_expr
                 if (! ($e.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
                 }
-                setLocation($tree, $e.start);
         } EQUALS e2 = assign_expr {
                 assert($e.tree != null);
                 assert($e2.tree != null);
@@ -220,6 +222,7 @@ assign_expr
 		| /* epsilon */ {
                 assert($e.tree != null);
                 $tree = $e.tree;                //ici
+                setLocation($tree, $e.start);
         }
 	);
 

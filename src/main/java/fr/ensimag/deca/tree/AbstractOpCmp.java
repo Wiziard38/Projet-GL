@@ -27,13 +27,14 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         if ((typeLeft == compiler.environmentType.FLOAT || typeLeft == compiler.environmentType.INT) 
                 && (typeRight == compiler.environmentType.FLOAT || typeRight == compiler.environmentType.INT)) {
 
+            this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }
-        if (this.getClass() == Equals.class || this.getClass() == NotEquals.class) {
-        //if (this.getClass().isInstance(AbstractOpCmp.class)) {
-        
+        if (this.getClass() == Equals.class || this.getClass() == NotEquals.class) {        
             if ((typeLeft == compiler.environmentType.BOOLEAN) 
                     && (typeRight == compiler.environmentType.BOOLEAN)) {
+                
+                this.setType(compiler.environmentType.BOOLEAN);
                 return compiler.environmentType.BOOLEAN;
             }
             // TODO rajouter si c'est des type_class !

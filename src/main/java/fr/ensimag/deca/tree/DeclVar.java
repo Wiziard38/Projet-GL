@@ -15,7 +15,6 @@ import org.apache.commons.lang.Validate;
  */
 public class DeclVar extends AbstractDeclVar {
 
-    
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
@@ -33,30 +32,33 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        
-        
-        /* 
-        if (localEnv.getLocalEnv().containsKey(this.varName.toString())) {
-            throw new ContextualError(String.format(
-                "Variable %s deja instanciée localement", this.varName), this.getLocation());
-        } */
-        //if (!compiler.symbolTable.contains(this.varName));
+
+        /*
+         * if (localEnv.getLocalEnv().containsKey(this.varName.toString())) {
+         * throw new ContextualError(String.format(
+         * "Variable %s deja instanciée localement", this.varName), this.getLocation());
+         * }
+         */
+        // if (!compiler.symbolTable.contains(this.varName));
     }
 
-    
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        type.decompile(s);
+        s.print(" ");
+        varName.decompile(s);
+        s.print(" ");
+        initialization.decompile(s);
+        s.print(";");
     }
 
     @Override
-    protected
-    void iterChildren(TreeFunction f) {
+    protected void iterChildren(TreeFunction f) {
         type.iter(f);
         varName.iter(f);
         initialization.iter(f);
     }
-    
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);

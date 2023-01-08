@@ -1,0 +1,17 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'affectation de l'instruction while.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    int x = 3;
+    while (x < 5 ){
+        println(x);
+        x +=1;
+    }
+}

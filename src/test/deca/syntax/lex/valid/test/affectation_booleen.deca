@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant une affectation de booléen.
+//
+// Resultats:
+//    je
+//     suis
+//
+// Historique:
+//    cree le 01/01/2023
+
+{
+        bool i = false;
+}

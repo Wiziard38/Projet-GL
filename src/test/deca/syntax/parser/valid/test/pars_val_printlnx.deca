@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'affectation de l'instruction printlnx.
+//
+// Resultats:
+//    Hello
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    printlnx("Hello");
+}

@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'affectation de l'instruction println.
+//
+// Resultats:
+//    Hello
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    println("Hello");
+}

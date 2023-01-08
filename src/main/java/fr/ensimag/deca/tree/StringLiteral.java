@@ -22,7 +22,6 @@ import org.apache.commons.lang.Validate;
 public class StringLiteral extends AbstractStringLiteral {
     private static final Logger LOG = Logger.getLogger(StringLiteral.class);
 
-
     @Override
     public String getValue() {
         return value;
@@ -50,7 +49,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        s.print(value);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class StringLiteral extends AbstractStringLiteral {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
-    
+
     @Override
     String prettyPrintNode() {
         return "StringLiteral (" + value + ")";

@@ -41,6 +41,7 @@ public class Initialization extends AbstractInitialization {
 
         if (t == compiler.environmentType.FLOAT && ExpressionType == compiler.environmentType.INT) {
             ConvFloat newTreeNode = new ConvFloat(this.expression);
+            newTreeNode.setType(compiler.environmentType.FLOAT);
             this.setExpression(newTreeNode);
         } else if (this.getExpression().verifyExpr(compiler, localEnv, currentClass) != t) {
             throw new ContextualError("Initialization type not equal to variable type", this.getLocation());

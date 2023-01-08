@@ -39,16 +39,17 @@ public class DeclVar extends AbstractDeclVar {
 
         // On verifie que le type existe bien
         Type initializationType = this.type.verifyType(compiler);
-        this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
+        //this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
 
         // On verifie que varName n'est pas deja declare localement
-        this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
         try {
+            this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
             localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());
         }
         catch (Exception DoubleDefException) {
             throw new ContextualError("Variable already declared locally, cannot re declare", this.getLocation());
         }
+
 
         this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);
 

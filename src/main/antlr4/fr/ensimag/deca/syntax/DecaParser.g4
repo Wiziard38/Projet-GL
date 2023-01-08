@@ -214,7 +214,6 @@ assign_expr
                 if (! ($e.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
                 }
-                setLocation($tree, $e.start);
         } EQUALS e2 = assign_expr {
                 assert($e.tree != null);
                 assert($e2.tree != null);
@@ -223,6 +222,7 @@ assign_expr
 		| /* epsilon */ {
                 assert($e.tree != null);
                 $tree = $e.tree;                //ici
+                setLocation($tree, $e.start);
         }
 	);
 

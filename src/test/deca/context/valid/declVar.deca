@@ -1,12 +1,6 @@
-// Description:
-//    Programme minimaliste utilisant ConvFloat.
-//
-// Resultats:
-//    Rien
-//
-// Historique:
-//    cree le 01/01/2023
-
+// commentaire
 {
-        int x;
+   int x;
+   x=readInt();
+   println(0.5*(x*x));
 }

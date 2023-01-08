@@ -32,24 +32,30 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         if (typeLeft == compiler.environmentType.FLOAT) {
             if (typeRight == compiler.environmentType.INT) {
                 // Case where Float OP Int
+                this.setType(compiler.environmentType.FLOAT);
                 ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());
                 this.setRightOperand(newTreeNode);
+                newTreeNode.setType(compiler.environmentType.FLOAT);
                 return compiler.environmentType.FLOAT;
             }
             if (typeRight == compiler.environmentType.FLOAT) {
                 // Case where Float OP Float
+                this.setType(compiler.environmentType.FLOAT);
                 return compiler.environmentType.FLOAT;
             }
         }
         if (typeLeft == compiler.environmentType.INT) {
             if (typeRight == compiler.environmentType.INT) {
                 // Case where Int OP Int
+                this.setType(compiler.environmentType.INT);
                 return compiler.environmentType.INT;
             }
             if (typeRight == compiler.environmentType.FLOAT) {
                 // Case where Int OP Float
+                this.setType(compiler.environmentType.FLOAT);
                 ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());
                 this.setLeftOperand(newTreeNode);
+                newTreeNode.setType(compiler.environmentType.FLOAT);
                 return compiler.environmentType.FLOAT;
             }
         }

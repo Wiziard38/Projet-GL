@@ -22,9 +22,11 @@ public class UnaryMinus extends AbstractUnaryExpr {
         Type operandType = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
 
         if (operandType == compiler.environmentType.INT) {
+            this.setType(compiler.environmentType.INT);
             return compiler.environmentType.INT;
         }
         if (operandType == compiler.environmentType.FLOAT) {
+            this.setType(compiler.environmentType.FLOAT);
             return compiler.environmentType.FLOAT;
         }
 

@@ -176,6 +176,7 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("%s not declared in current environment", 
                     this.name.getName()), this.getLocation());
         }
+        this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name).getType();
     }
 
@@ -189,6 +190,7 @@ public class Identifier extends AbstractIdentifier {
         if (thisTypeDef == null) {
             throw new ContextualError("Type used to declare identifier not recognized", this.getLocation());
         }
+        this.setDefinition(compiler.environmentType.defOfType(this.getName()));
         return thisTypeDef.getType();
     }
     

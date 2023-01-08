@@ -1,0 +1,14 @@
+// test valide de la règle 3.29
+
+
+{
+    if (false) {
+        ;
+    }
+    else if (7==7.5) {
+        ;
+    }
+    else if ("toto" == 7) {
+        ;
+    }
+}

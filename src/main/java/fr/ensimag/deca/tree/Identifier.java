@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -14,6 +15,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -25,6 +27,7 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public class Identifier extends AbstractIdentifier {
+    private static final Logger LOG = Logger.getLogger(Identifier.class);
     
     @Override
     protected void checkDecoration() {
@@ -167,7 +170,13 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Validate.notNull(localEnv);
+
+        if (localEnv.get(this.name) == null) {
+            throw new ContextualError(String.format("%s not declared in current environment", 
+                    this.name.getName()), this.getLocation());
+        }
+        return localEnv.get(this.name).getType();
     }
 
     /**
@@ -176,7 +185,11 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
+        if (thisTypeDef == null) {
+            throw new ContextualError("Type used to declare identifier not recognized", this.getLocation());
+        }
+        return thisTypeDef.getType();
     }
     
     

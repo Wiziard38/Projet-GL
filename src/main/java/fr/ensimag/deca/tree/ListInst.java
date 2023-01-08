@@ -7,6 +7,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+
+import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 /**
@@ -30,6 +32,8 @@ public class ListInst extends TreeList<AbstractInst> {
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         LOG.debug("verify into listInst");
+        Validate.notNull(localEnv);
+        
         for (AbstractInst myInst : getList()) {
             myInst.verifyInst(compiler, localEnv, currentClass, returnType);
         }

@@ -44,6 +44,7 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
     private int n =1    ;
+    private int SP =0   ;
 
     public int getN(){
         return n;
@@ -53,6 +54,13 @@ public class DecacCompiler {
         this.n = n;
     }
 
+    public int getSP(){
+        return SP;
+    }
+
+    public void setSP(int SP){
+        this.SP = SP;
+    }
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;

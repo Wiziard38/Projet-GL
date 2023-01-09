@@ -1,17 +1,15 @@
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	LOAD #2, R2
-	LOAD #4, R3
-	LOAD #3, R4
-	MUL R4, R3
-	LOAD #2, R4
-	QUO R4, R3
-	ADD R3, R2
-	LOAD #5, R3
-	LOAD R2, R1
-	SUB R3, R1
+	LOAD #5, R1
 	WINT
-	WNL
+	LOAD #4, R1
+	WINT
+	LOAD #3, R1
+	WINT
+	LOAD #2, R1
+	WINT
+	LOAD #1, R1
+	WINT
 	HALT
 ; end main program

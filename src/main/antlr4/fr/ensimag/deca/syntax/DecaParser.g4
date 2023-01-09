@@ -213,15 +213,16 @@ assign_expr
                 if (! ($e.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
                 }
-                setLocation($tree, $e.start);
         } EQUALS e2 = assign_expr {
                 assert($e.tree != null);
                 assert($e2.tree != null);
                 $tree = new Assign((AbstractLValue) $e.tree, $e2.tree);          //ici
+                setLocation($tree, $e.start);
         }
 		| /* epsilon */ {
                 assert($e.tree != null);
                 $tree = $e.tree;                //ici
+                setLocation($tree, $e.start);
         }
 	);
 

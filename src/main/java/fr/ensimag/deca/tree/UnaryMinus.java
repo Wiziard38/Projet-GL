@@ -30,7 +30,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
             return compiler.environmentType.FLOAT;
         }
 
-        throw new ContextualError("Applying '-' not on a number", this.getLocation());
+        throw new ContextualError("Négation arithmétique sur un non-nombre", this.getLocation()); // Rule 3.37
     }
 
 

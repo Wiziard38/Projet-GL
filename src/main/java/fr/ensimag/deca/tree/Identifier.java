@@ -173,8 +173,8 @@ public class Identifier extends AbstractIdentifier {
         Validate.notNull(localEnv);
 
         if (localEnv.get(this.name) == null) {
-            throw new ContextualError(String.format("%s not declared in current environment", 
-                    this.name.getName()), this.getLocation());
+            throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement", 
+                    this.name.getName()), this.getLocation()); // Rule 0.1
         }
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name).getType();
@@ -188,8 +188,14 @@ public class Identifier extends AbstractIdentifier {
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
         if (thisTypeDef == null) {
-            throw new ContextualError("Type used to declare identifier not recognized", this.getLocation());
+            throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
+                    this.name.getName()), this.getLocation()); // Rule 0.2
         }
+        if (thisTypeDef.getType() == compiler.environmentType.VOID) {
+            throw new ContextualError("Déclaration de variable invalide : type void", 
+                    this.getLocation()); // Rule 3.17
+        }
+        
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
         return thisTypeDef.getType();
     }

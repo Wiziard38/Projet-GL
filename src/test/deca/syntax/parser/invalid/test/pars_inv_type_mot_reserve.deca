@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le type
+//
+// Resultats:
+//    Ligne 12 : Erreur (type a le nom d'un mot reservé)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+   false x = 1;
+}

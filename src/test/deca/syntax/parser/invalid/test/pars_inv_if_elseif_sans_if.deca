@@ -12,6 +12,6 @@
     x = 0;
     else if (x < 5){
         println("Hello");
-        x += 1;
+        x = x+ 1;
     }
 }

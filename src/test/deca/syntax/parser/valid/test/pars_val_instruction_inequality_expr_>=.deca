@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour les eq_neq_expr multiples.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    instruction_bidon >= instruction_bidon2;
+}

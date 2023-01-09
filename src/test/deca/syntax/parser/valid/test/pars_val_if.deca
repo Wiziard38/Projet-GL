@@ -1,9 +1,8 @@
 // Description:
-//    Programme minimaliste testant l'arbre d'affectation de l'instruction while.
+//    Programme minimaliste testant l'arbre d'affectation de l'instruction if.
 //
 // Resultats:
 //    3
-//    4
 //
 // Historique:
 //    cree le 01/01/2023
@@ -11,8 +10,7 @@
 
 {
     int x = 3;
-    while (x < 5 ){
+    if (x < 5 ){
         println(x);
-        x = x+1;
     }
 }

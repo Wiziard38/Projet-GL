@@ -1,0 +1,11 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour la déclaration de variable
+//
+// Resultats:
+//    Ligne 11 : Erreur (oubli })
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    int x = 5; 

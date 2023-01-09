@@ -2,17 +2,23 @@
 //    tests de programme incorrect syntaxiquement pour le if
 //
 // Resultats:
-//    Ligne 12 : Erreur (oubli condition)
+//    Ligne 20 : Erreur (deux else avec un seul if précédent)
 //    
 //
 // Historique:
 //    cree le 04/01/2023
 
 {
-    x = 0;
-    if {
+    x = 3;
+    if (x < 5){
+        println(x);
+    }
+    else {
         println("Hello");
-        x += 1;
+        x = x+ 1;
+    }
+    else {
+        println(x);
     }
     
 }

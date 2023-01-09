@@ -12,7 +12,7 @@
     x = 0;
     else {
         println("Hello");
-        x += 1;
+        x = x+ 1;
     }
     
 }

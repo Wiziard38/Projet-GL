@@ -218,6 +218,7 @@ assign_expr
                 assert($e.tree != null);
                 assert($e2.tree != null);
                 $tree = new Assign((AbstractLValue) $e.tree, $e2.tree);          //ici
+                setLocation($tree, $e.start);
         }
 		| /* epsilon */ {
                 assert($e.tree != null);

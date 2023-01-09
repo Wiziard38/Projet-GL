@@ -63,4 +63,8 @@ public class SymbolTable {
 
         private String name;
     }
+
+    public Map<String, Symbol> getTable() {
+        return this.map;
+    }
 }

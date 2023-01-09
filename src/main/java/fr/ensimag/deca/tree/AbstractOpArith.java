@@ -5,6 +5,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.EnvironmentType;
+
+import org.apache.log4j.Logger;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -13,6 +16,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
  * @date 01/01/2023
  */
 public abstract class AbstractOpArith extends AbstractBinaryExpr {
+    private static final Logger LOG = Logger.getLogger(AbstractBinaryExpr.class);
 
     public AbstractOpArith(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
@@ -21,6 +25,40 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        
+        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        
+        if (typeLeft == compiler.environmentType.FLOAT) {
+            if (typeRight == compiler.environmentType.INT) {
+                // Case where Float OP Int
+                this.setType(compiler.environmentType.FLOAT);
+                ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());
+                this.setRightOperand(newTreeNode);
+                newTreeNode.setType(compiler.environmentType.FLOAT);
+                return compiler.environmentType.FLOAT;
+            }
+            if (typeRight == compiler.environmentType.FLOAT) {
+                // Case where Float OP Float
+                this.setType(compiler.environmentType.FLOAT);
+                return compiler.environmentType.FLOAT;
+            }
+        }
+        if (typeLeft == compiler.environmentType.INT) {
+            if (typeRight == compiler.environmentType.INT) {
+                // Case where Int OP Int
+                this.setType(compiler.environmentType.INT);
+                return compiler.environmentType.INT;
+            }
+            if (typeRight == compiler.environmentType.FLOAT) {
+                // Case where Int OP Float
+                this.setType(compiler.environmentType.FLOAT);
+                ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());
+                this.setLeftOperand(newTreeNode);
+                newTreeNode.setType(compiler.environmentType.FLOAT);
+                return compiler.environmentType.FLOAT;
+            }
+        }
+        throw new ContextualError("Calcul arithmétique sur des non-nombres", this.getLocation()); // Rule 3.33
     }
 }

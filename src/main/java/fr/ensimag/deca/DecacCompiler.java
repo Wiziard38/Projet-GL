@@ -125,6 +125,11 @@ public class DecacCompiler {
     public final SymbolTable symbolTable = new SymbolTable();
     public final EnvironmentType environmentType = new EnvironmentType(this);
 
+    /**
+     * TODO
+     * @param name
+     * @return
+     */
     public Symbol createSymbol(String name) {
         return symbolTable.create(name);
     }

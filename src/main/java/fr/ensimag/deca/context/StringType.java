@@ -25,5 +25,4 @@ public class StringType extends Type {
         return otherType.isString();
     }
 
-
 }

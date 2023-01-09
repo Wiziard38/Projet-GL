@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
+import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -15,7 +18,6 @@ import org.apache.commons.lang.Validate;
  */
 public class DeclVar extends AbstractDeclVar {
 
-    
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
@@ -33,30 +35,45 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        
-        
-        /* 
-        if (localEnv.getLocalEnv().containsKey(this.varName.toString())) {
-            throw new ContextualError(String.format(
-                "Variable %s deja instanciée localement", this.varName), this.getLocation());
-        } */
-        //if (!compiler.symbolTable.contains(this.varName));
+        Validate.notNull(localEnv);
+
+        // On verifie que le type existe bien
+        Type initializationType = this.type.verifyType(compiler);
+        //this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
+
+        // On verifie que varName n'est pas deja declare localement
+        try {
+            this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
+            localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());
+        }
+        catch (Exception DoubleDefException) {
+            throw new ContextualError(String.format("Le nom de variable '%s' est déjà déclaré dans l'environnement local",
+                    this.varName.getName().getName()), this.getLocation()); // Rule 3.17
+        }
+
+
+        this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);
+
     }
 
-    
+
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        type.decompile(s);
+        s.print(" ");
+        varName.decompile(s);
+        s.print(" ");
+        initialization.decompile(s);
+        s.print(";");
     }
 
     @Override
-    protected
-    void iterChildren(TreeFunction f) {
+    protected void iterChildren(TreeFunction f) {
         type.iter(f);
         varName.iter(f);
         initialization.iter(f);
     }
-    
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);

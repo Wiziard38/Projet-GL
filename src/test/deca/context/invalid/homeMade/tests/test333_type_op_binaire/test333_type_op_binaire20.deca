@@ -1,0 +1,6 @@
+// test invalide de la règle 3.33
+
+
+{
+    boolean a = "toto" != true;
+}

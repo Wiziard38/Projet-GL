@@ -1,0 +1,6 @@
+// test valide de la règle 3.28
+
+
+{
+    float a = 7;
+}

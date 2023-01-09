@@ -1,0 +1,10 @@
+// test valide de la règle 0.1
+
+
+{
+    int a = 7;
+    float b = 0.5;
+    String c = "toto";
+
+    print(a, b, c);
+}

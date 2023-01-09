@@ -1,0 +1,6 @@
+// test invalide de la règle 3.33
+
+
+{
+    String a = 1 == 1;
+}

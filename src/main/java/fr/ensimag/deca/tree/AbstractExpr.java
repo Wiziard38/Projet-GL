@@ -7,9 +7,14 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -132,12 +137,20 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new WINT());
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        if(this.getType().sameType(compiler.environmentType.INT)){
+            compiler.setN(compiler.getN()+1);
+            IntLiteral intExpr = (IntLiteral)this;
+            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(compiler.getN())));
+        }
+        if(this.getType().sameType(compiler.environmentType.FLOAT)){
+            compiler.setN(compiler.getN()+1);
+            FloatLiteral intExpr = (FloatLiteral)this;
+            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(compiler.getN())));
+        }
     }
     
 

@@ -3,7 +3,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 /**
  * Binary expressions.
  *
@@ -64,6 +66,46 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         leftOperand.prettyPrint(s, prefix, false);
         rightOperand.prettyPrint(s, prefix, true);
+    }
+    
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler){
+        int nActualLeft = compiler.getN()+1;
+        this.getLeftOperand().codeGenInst(compiler);
+        int nActualRight = compiler.getN()+1;
+        this.getRightOperand().codeGenInst(compiler);
+        compiler.addInstruction(new LOAD(Register.getR(nActualLeft),Register.getR(1)));
+        
+        switch(getOperatorName()){
+            case "+":
+                compiler.addInstruction(new ADD(Register.getR(nActualRight),Register.getR(1)));
+                break;
+            case "-":
+                compiler.addInstruction(new SUB(Register.getR(nActualRight),Register.getR(1)));
+                break;
+            case "/":
+                if (getLeftOperand().getType().isFloat()){
+                    compiler.addInstruction(new DIV(Register.getR(nActualRight),Register.getR(1)));
+                }
+                else{
+                    compiler.addInstruction(new QUO(Register.getR(nActualRight),Register.getR(1)));
+                }
+                break;
+            case "%":
+                compiler.addInstruction(new REM(Register.getR(nActualRight),Register.getR(1)));
+                break;
+            case "*":
+                compiler.addInstruction(new MUL(Register.getR(nActualRight),Register.getR(1)));
+                break;
+        }
+
+        compiler.setN(nActualLeft-1);
+        if(getLeftOperand().getType().isInt()){
+            compiler.addInstruction(new WINT());
+        }
+        else{
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
 }

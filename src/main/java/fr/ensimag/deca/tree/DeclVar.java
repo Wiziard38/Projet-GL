@@ -11,7 +11,9 @@ import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;;;
 /**
  * @author gl39
  * @date 01/01/2023
@@ -29,6 +31,14 @@ public class DeclVar extends AbstractDeclVar {
         this.type = type;
         this.varName = varName;
         this.initialization = initialization;
+    }
+
+    protected void codeGenInst(DecacCompiler compiler){
+        int nAct = compiler.getN()+1;
+        Initialization initExpr = (Initialization)initialization;
+        initExpr.getExpression().codeGenInst(compiler);
+        compiler.addInstruction(new PUSH(Register.getR(nAct)));
+        
     }
 
     @Override

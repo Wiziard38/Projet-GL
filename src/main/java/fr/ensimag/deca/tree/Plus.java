@@ -18,11 +18,14 @@ public class Plus extends AbstractOpArith {
     public Plus(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
- 
+
     @Override
-    protected void codeGenPrint(DecacCompiler compiler){
-        // compiler.addInstruction(new LOAD(2, Register.getR(1)));
-        // compiler.addInstruction(new WINT());
+    protected void codeGenInst(DecacCompiler compiler){
+        int nActual = compiler.getN()+1;
+        this.getLeftOperand().codeGenInst(compiler);
+        this.getRightOperand().codeGenInst(compiler);
+        compiler.addInstruction(new ADD(Register.getR(compiler.getN()),Register.getR(nActual)));
+        compiler.setN(nActual);
     }
 
     @Override

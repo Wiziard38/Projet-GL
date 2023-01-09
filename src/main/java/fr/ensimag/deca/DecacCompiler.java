@@ -43,7 +43,7 @@ public class DecacCompiler {
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
-    private int n =0;
+    private int n =1    ;
 
     public int getN(){
         return n;
@@ -214,7 +214,7 @@ public class DecacCompiler {
         assert(prog.checkAllDecorations());
 
         addComment("start main program");
-        //prog.codeGenProgram(this);
+        prog.codeGenProgram(this);
         addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);

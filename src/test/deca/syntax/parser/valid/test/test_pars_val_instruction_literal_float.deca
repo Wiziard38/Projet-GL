@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour un literal.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    1e+036;
+}

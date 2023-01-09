@@ -99,13 +99,14 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 break;
         }
 
-        compiler.setN(nActualLeft-1);
-        if(getLeftOperand().getType().isInt()){
+        
+        if(this.getType().isInt()){
             compiler.addInstruction(new WINT());
         }
         else{
             compiler.addInstruction(new WFLOAT());
         }
+        compiler.setN(nActualLeft-1);
     }
 
 }

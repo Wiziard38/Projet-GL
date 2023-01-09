@@ -44,7 +44,7 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
     private int n =1    ;
-    private int SP =0   ;
+    private int SP =3   ;
 
     public int getN(){
         return n;

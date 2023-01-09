@@ -16,7 +16,7 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 import java.io.PrintStream;
@@ -41,10 +41,15 @@ public class Identifier extends AbstractIdentifier {
 
     protected void codeGenPrint(DecacCompiler compiler) {
             VariableDefinition defVar = this.getVariableDefinition();
-            compiler.addInstruction(new LEA(defVar.getOperand(), Register.getR(1)));
+            compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
             compiler.addInstruction(new WINT());
         }
-    
+
+    protected void codeGenInst(DecacCompiler compiler) {
+        VariableDefinition defVar = this.getVariableDefinition();
+        compiler.setN(compiler.getN()+1);
+        compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(compiler.getN())));
+    }
     @Override
     public Definition getDefinition() {
         return definition;

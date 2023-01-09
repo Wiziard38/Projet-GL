@@ -34,14 +34,14 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
-    protected void codeGenInst(DecacCompiler compiler){
-        System.out.println("DeclVar");
+    protected void codeGenVar(DecacCompiler compiler){
         int nAct = compiler.getN()+1;
         Initialization initExpr = (Initialization)initialization;
         initExpr.getExpression().codeGenInst(compiler);
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
-        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.SP));
-        compiler.addInstruction(new STORE(Register.getR(nAct),new RegisterOffset(compiler.getSP(), Register.SP)));
+        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.addInstruction(new STORE(Register.getR(nAct),new RegisterOffset(compiler.getSP(), Register.GB)));
+        compiler.setN(nAct-1);
         compiler.setSP(compiler.getSP()+1);
     }
 

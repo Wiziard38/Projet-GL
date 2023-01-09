@@ -22,13 +22,15 @@ public class UnaryMinus extends AbstractUnaryExpr {
         Type operandType = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
 
         if (operandType == compiler.environmentType.INT) {
+            this.setType(compiler.environmentType.INT);
             return compiler.environmentType.INT;
         }
         if (operandType == compiler.environmentType.FLOAT) {
+            this.setType(compiler.environmentType.FLOAT);
             return compiler.environmentType.FLOAT;
         }
 
-        throw new ContextualError("Applying '-' not on a number", this.getLocation());
+        throw new ContextualError("Négation arithmétique sur un non-nombre", this.getLocation()); // Rule 3.37
     }
 
 

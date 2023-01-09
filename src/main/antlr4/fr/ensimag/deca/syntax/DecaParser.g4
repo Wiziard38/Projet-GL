@@ -84,11 +84,12 @@ decl_var[AbstractIdentifier t]
 		/* condition: expression i must be a "LVALUE" */ 
                 if (! ($i.tree instanceof AbstractLValue)) {
                         throw new InvalidLValue(this, $ctx);
-                } 
+                }
         } (
 		EQUALS e = expr {
                         assert($e.tree != null);
                         init = new Initialization($e.tree);         //ici
+                        setLocation(init, $expr.start);             //ici
         }
 	)? {
                 $tree = new DeclVar($t, $ident.tree, init);         //ici

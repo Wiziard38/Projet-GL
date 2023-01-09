@@ -21,12 +21,12 @@ public class Modulo extends AbstractOpArith {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
 
-        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.INT) 
-                || (this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.INT)) {
+        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass) == compiler.environmentType.INT) 
+                && (this.getRightOperand().verifyExpr(compiler, localEnv, currentClass) == compiler.environmentType.INT)) {
+            this.setType(compiler.environmentType.INT);
             return compiler.environmentType.INT;
         }
-
-        throw new ContextualError("Trying modulo with non-INT types", this.getLocation());
+        throw new ContextualError("Tentative de modulo sur des non-entiers", this.getLocation()); // Rule 3.33
     }
 
 

@@ -39,14 +39,18 @@ public abstract class AbstractPrint extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-
+        Validate.notNull(localEnv);
+        
         for (AbstractExpr myExpr : this.arguments.getList()) {
-            myExpr.verifyExpr(compiler, localEnv, currentClass);
+            Type myExprType = myExpr.verifyExpr(compiler, localEnv, currentClass);
+            if (myExprType != compiler.environmentType.FLOAT 
+                    && myExprType != compiler.environmentType.INT
+                    && myExprType != compiler.environmentType.STRING) {
+                
+                throw new ContextualError(String.format("Print ne peut pas afficher une expression de type '%s'", 
+                        myExprType.toString()), myExpr.getLocation()); // Rule 3.31
+                }
         }
-
-        // setType
-
-        // throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override

@@ -27,10 +27,11 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         if ((typeLeft == compiler.environmentType.BOOLEAN) 
                 && (typeRight == compiler.environmentType.BOOLEAN)) {
             
+            this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }
 
-        throw new ContextualError("Boolean operation with non-booleans", this.getLocation());
+        throw new ContextualError("Comparaison logique sur des non-booleans", this.getLocation()); // Rule 3.33
     
     }
 

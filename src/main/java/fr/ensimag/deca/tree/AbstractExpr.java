@@ -82,7 +82,18 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass, 
             Type expectedType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
+        
+        if (expectedType == compiler.environmentType.FLOAT && exprType == compiler.environmentType.INT) {
+            ConvFloat newTreeNode = new ConvFloat(this);
+            newTreeNode.setType(compiler.environmentType.FLOAT);
+            return newTreeNode;
+        }
+        if (expectedType != exprType) {
+            throw new ContextualError(String.format("%s is not of type %s", 
+                this.toString(), expectedType.toString()), this.getLocation());
+        }
+        return this;
     }
     
     
@@ -90,6 +101,8 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
+        Validate.notNull(localEnv);
+
         this.verifyExpr(compiler, localEnv, currentClass);
     }
 
@@ -106,7 +119,7 @@ public abstract class AbstractExpr extends AbstractInst {
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         if (this.verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.BOOLEAN) {
-            throw new ContextualError("Condition not returning a boolean type", this.getLocation());
+            throw new ContextualError("La condition ne renvoie pas un boolean", this.getLocation()); // Rule 3.29
         }
     }
 

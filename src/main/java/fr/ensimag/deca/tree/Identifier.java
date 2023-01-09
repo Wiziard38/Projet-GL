@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -14,6 +15,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -25,6 +27,7 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public class Identifier extends AbstractIdentifier {
+    private static final Logger LOG = Logger.getLogger(Identifier.class);
     
     @Override
     protected void checkDecoration() {
@@ -167,7 +170,14 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Validate.notNull(localEnv);
+
+        if (localEnv.get(this.name) == null) {
+            throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement", 
+                    this.name.getName()), this.getLocation()); // Rule 0.1
+        }
+        this.setDefinition(localEnv.get(this.name));
+        return localEnv.get(this.name).getType();
     }
 
     /**
@@ -176,7 +186,18 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
+        if (thisTypeDef == null) {
+            throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
+                    this.name.getName()), this.getLocation()); // Rule 0.2
+        }
+        if (thisTypeDef.getType() == compiler.environmentType.VOID) {
+            throw new ContextualError("Déclaration de variable invalide : type void", 
+                    this.getLocation()); // Rule 3.17
+        }
+        
+        this.setDefinition(compiler.environmentType.defOfType(this.getName()));
+        return thisTypeDef.getType();
     }
     
     

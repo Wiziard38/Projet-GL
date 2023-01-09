@@ -35,7 +35,18 @@ public class Initialization extends AbstractInitialization {
     protected void verifyInitialization(DecacCompiler compiler, Type t,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Validate.notNull(t);
+
+        Type ExpressionType = this.expression.verifyExpr(compiler, localEnv, currentClass);
+
+        if (t == compiler.environmentType.FLOAT && ExpressionType == compiler.environmentType.INT) {
+            ConvFloat newTreeNode = new ConvFloat(this.expression);
+            newTreeNode.setType(compiler.environmentType.FLOAT);
+            this.setExpression(newTreeNode);
+        } else if (this.getExpression().verifyExpr(compiler, localEnv, currentClass) != t) {
+            throw new ContextualError(String.format("Cette expression devrait être de type '%s'", 
+                    t.toString()), this.getLocation()); // Rule 3.28
+        }
     }
 
     @Override

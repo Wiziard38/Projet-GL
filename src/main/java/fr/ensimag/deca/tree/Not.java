@@ -22,10 +22,11 @@ public class Not extends AbstractUnaryExpr {
             ClassDefinition currentClass) throws ContextualError {
                 
         if (this.getOperand().verifyExpr(compiler, localEnv, currentClass) == compiler.environmentType.BOOLEAN) {
+            this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }
 
-        throw new ContextualError("Applying 'not' on a non-boolean", this.getLocation());
+        throw new ContextualError(" Négation logique sur un non-boolean", this.getLocation()); // Rule 3.37
     }
 
 

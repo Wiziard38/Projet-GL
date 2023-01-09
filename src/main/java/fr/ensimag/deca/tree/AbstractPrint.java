@@ -43,9 +43,7 @@ public abstract class AbstractPrint extends AbstractInst {
         
         for (AbstractExpr myExpr : this.arguments.getList()) {
             Type myExprType = myExpr.verifyExpr(compiler, localEnv, currentClass);
-            if (myExprType != compiler.environmentType.FLOAT 
-                    && myExprType != compiler.environmentType.INT
-                    && myExprType != compiler.environmentType.STRING) {
+            if (!myExprType.isFloat() && !myExprType.isInt() && !myExprType.isString()) {
                 
                 throw new ContextualError(String.format("Print ne peut pas afficher une expression de type '%s'", 
                         myExprType.toString()), myExpr.getLocation()); // Rule 3.31

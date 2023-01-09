@@ -191,7 +191,7 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
                     this.name.getName()), this.getLocation()); // Rule 0.2
         }
-        if (thisTypeDef.getType() == compiler.environmentType.VOID) {
+        if (thisTypeDef.getType().isVoid()) {
             throw new ContextualError("Déclaration de variable invalide : type void", 
                     this.getLocation()); // Rule 3.17
         }

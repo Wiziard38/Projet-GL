@@ -25,8 +25,7 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         
     
-        if ((typeLeft == compiler.environmentType.BOOLEAN) 
-                && (typeRight == compiler.environmentType.BOOLEAN)) {
+        if (typeLeft.isBoolean() && typeRight.isBoolean()) {
             
             this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;

@@ -84,7 +84,7 @@ public abstract class AbstractExpr extends AbstractInst {
             throws ContextualError {
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
         
-        if (expectedType == compiler.environmentType.FLOAT && exprType == compiler.environmentType.INT) {
+        if (expectedType.isFloat() && exprType.isInt()) {
             ConvFloat newTreeNode = new ConvFloat(this);
             newTreeNode.setType(compiler.environmentType.FLOAT);
             return newTreeNode;
@@ -118,7 +118,7 @@ public abstract class AbstractExpr extends AbstractInst {
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        if (this.verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.BOOLEAN) {
+        if (!this.verifyExpr(compiler, localEnv, currentClass).isBoolean()) {
             throw new ContextualError("La condition ne renvoie pas un boolean", this.getLocation()); // Rule 3.29
         }
     }

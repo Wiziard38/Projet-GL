@@ -4,5 +4,8 @@
 {
     println(7);
     println(7.89);
+    println("toto");
+    print(7);
+    print(7.89);
     print("toto");
 }

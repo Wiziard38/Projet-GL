@@ -2,5 +2,5 @@
 
 
 {
-    String a = true && false;
+    float a = true == false;
 }

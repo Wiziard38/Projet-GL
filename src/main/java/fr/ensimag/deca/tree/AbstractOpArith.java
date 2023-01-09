@@ -59,6 +59,6 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 return compiler.environmentType.FLOAT;
             }
         }
-        throw new ContextualError("Arithmetic operation with non-numbers", this.getLocation());    
+        throw new ContextualError("Calcul arithmétique sur des non-nombres", this.getLocation()); // Rule 3.33
     }
 }

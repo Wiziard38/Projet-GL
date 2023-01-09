@@ -31,7 +31,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
             return compiler.environmentType.BOOLEAN;
         }
 
-        throw new ContextualError("Boolean operation with non-booleans", this.getLocation());
+        throw new ContextualError("Comparaison logique sur des non-booleans", this.getLocation()); // Rule 3.33
     
     }
 

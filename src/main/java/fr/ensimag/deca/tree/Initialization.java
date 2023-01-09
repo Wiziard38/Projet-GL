@@ -44,7 +44,8 @@ public class Initialization extends AbstractInitialization {
             newTreeNode.setType(compiler.environmentType.FLOAT);
             this.setExpression(newTreeNode);
         } else if (this.getExpression().verifyExpr(compiler, localEnv, currentClass) != t) {
-            throw new ContextualError("Initialization type not equal to variable type", this.getLocation());
+            throw new ContextualError(String.format("Cette expression devrait être de type '%s'", 
+                    t.toString()), this.getLocation()); // Rule 3.28
         }
     }
 

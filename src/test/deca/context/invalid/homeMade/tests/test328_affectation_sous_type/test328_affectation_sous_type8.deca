@@ -1,0 +1,5 @@
+// test invalide de la règle 3.28
+
+{
+    String a = true;
+}

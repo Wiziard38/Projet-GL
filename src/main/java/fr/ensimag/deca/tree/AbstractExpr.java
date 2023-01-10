@@ -154,17 +154,26 @@ public abstract class AbstractExpr extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        compiler.setN(compiler.getN()+1);
         if(this.getType().sameType(compiler.environmentType.INT)){
-            compiler.setN(compiler.getN()+1);
             IntLiteral intExpr = (IntLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(compiler.getN())));
         }
         if(this.getType().sameType(compiler.environmentType.FLOAT)){
-            compiler.setN(compiler.getN()+1);
             FloatLiteral intExpr = (FloatLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(compiler.getN())));
         }
+        if(this.getType().sameType(compiler.environmentType.BOOLEAN)){
+            BooleanLiteral intExpr = (BooleanLiteral) this;
+            if (intExpr.getValue()){
+                compiler.addInstruction(new LOAD(new ImmediateInteger(1),Register.getR(compiler.getN())));
+            }
+            else{
+                compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.getR(compiler.getN())));
+            }
+        }
     }
+
     
 
     @Override

@@ -8,7 +8,12 @@
 //    cree le 01/01/2023
 
 {
-        int x = 5;
-        int y = 2;
-        println(3*x+2);
+        if(true){
+                if(false){
+                        println("non");
+                }
+                else{
+                        println("oui");
+                }
+        }
 }

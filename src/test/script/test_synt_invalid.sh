@@ -12,11 +12,11 @@ input_dir="$script_dir/../deca/syntax/invalid"
 
 # exemple de définition d'une fonction
 test_synt_invalide () {
-    test_result = test_synt "$1" 2>&1
+    test_result=$(test_synt "$1" 2>&1)
     
-    if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:" then
+    if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
         echo "Echec attendu pour test_synt sur $1."
-    elif echo "$test_result" | grep -q -e "[Ee]rror" then
+    elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "Erreur non soulevée pour $1."
     else
         echo "Succes inattendu de test_synt sur $1."

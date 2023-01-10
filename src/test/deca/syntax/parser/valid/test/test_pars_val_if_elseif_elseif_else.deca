@@ -1,0 +1,25 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'affectation de l'instruction if.
+//
+// Resultats:
+//    3
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    int x = 3;
+    if (x < 5 ){
+        println(x);
+    }
+    else if (x == 5){
+        println("x == 5");
+    }
+    else if (x == 6){
+        println("x == 6");
+    }
+    else {
+        println("x > 6");
+    }
+}

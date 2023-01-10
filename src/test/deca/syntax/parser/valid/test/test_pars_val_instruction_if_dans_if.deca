@@ -1,0 +1,17 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour un literal.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    if (1 == 1){
+        if(2 == 2){
+            println("Hello");
+        }
+    }
+}

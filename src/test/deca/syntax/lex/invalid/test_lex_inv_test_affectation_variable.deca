@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant la règle d'affectation d'une variable.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    int i = 15;
+}

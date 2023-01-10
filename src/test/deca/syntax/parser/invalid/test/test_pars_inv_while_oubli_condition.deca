@@ -1,0 +1,15 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le while
+//
+// Resultats:
+//    Ligne 12 : Erreur (oubli condition)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    while {
+        println("Hello");
+    }
+}

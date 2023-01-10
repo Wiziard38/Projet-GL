@@ -10,6 +10,11 @@ script_dir=$(cd $(dirname $0) && pwd)
 # Obtenir le répertoire où sont les tests
 input_dir="$script_dir/../deca/syntax/invalid"
 
+# Obtenir le chemin absolu du répertoire du script
+script_dir=$(cd $(dirname $0) && pwd)
+# Définir le répertoire d'entrées
+input_dir="$script_dir/../deca/syntax/invalid/"
+
 # exemple de définition d'une fonction
 test_synt_invalide () {
     # $1 = premier argument.

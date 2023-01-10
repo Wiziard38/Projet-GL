@@ -1,0 +1,14 @@
+// Description:
+//    tests de programme incorrect lexicalement(littéral entier non codable comme entier signé positif sur 32 bits)
+//
+// Resultats:
+//    Ligne 12 : Erreur (entier non codable comme entier non signé 32 bit)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    int i = −2147483676;
+}
+

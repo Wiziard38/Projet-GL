@@ -1,0 +1,12 @@
+// Description:
+//    tests de programme incorrect lexicalement (int négatif)
+//
+// Resultats:
+//    ligne 10 : Erreur, chaine non conforme 
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    int i = -3;
+}
+

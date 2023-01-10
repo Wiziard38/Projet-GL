@@ -13,7 +13,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
  * @author Ensimag
  * @date 01/01/2023
  */
-public class ManualTestSynt {
+public class ManualTestDecompile {
     public static void main(String[] args) throws IOException {
         // Uncomment the following line to activate debug traces
         // unconditionally for test_synt
@@ -31,7 +31,7 @@ public class ManualTestSynt {
         if (prog == null) {
             System.exit(1);
         } else {
-            prog.prettyPrint(System.out);
+            prog.decompile(System.out);
         }
     }
 }

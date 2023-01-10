@@ -1,9 +1,8 @@
-// test valide de la règle 0.2
+// test valide de la règle 3.17
 
 
 {
-    int a = 7;
-    float b = 0.5;
-    String c = "toto";
-    boolean d = true;
+    int a;
+    float b;
+    boolean c;
 }

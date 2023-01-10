@@ -5,7 +5,6 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-
 /**
  *
  * @author gl39
@@ -21,8 +20,8 @@ public class Modulo extends AbstractOpArith {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
 
-        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass) == compiler.environmentType.INT) 
-                && (this.getRightOperand().verifyExpr(compiler, localEnv, currentClass) == compiler.environmentType.INT)) {
+        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass).isInt()) 
+                && (this.getRightOperand().verifyExpr(compiler, localEnv, currentClass).isInt())) {
             this.setType(compiler.environmentType.INT);
             return compiler.environmentType.INT;
         }

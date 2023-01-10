@@ -3,7 +3,9 @@
 
 {
     int a = 7;
+    int aa;
     float b = 0.5;
-    String c = "toto";
-    boolean d = true;
+    float bb;
+    boolean c = true;
+    boolean cc;
 }

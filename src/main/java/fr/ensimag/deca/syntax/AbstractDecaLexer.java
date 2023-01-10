@@ -75,7 +75,7 @@ public abstract class AbstractDecaLexer extends Lexer {
         int i = 0;
         try {
             while ((t = tokens.LT(++i)).getType() != Token.EOF) {
-                System.out.println(getVocabulary().getSymbolicName(t.getType()) + ": " + t);
+                System.out.println(getVocabulary().getSymbolicName(t.getType()));
             }
         } catch (ParseCancellationException e) {
             if (e.getCause() instanceof LocationException) {

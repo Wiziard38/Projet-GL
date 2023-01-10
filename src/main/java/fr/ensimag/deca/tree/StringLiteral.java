@@ -44,7 +44,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new WSTR(new ImmediateString(value)));
+        compiler.addInstruction(new WSTR(this.value.replaceAll("\"", "")));
     }
 
     @Override

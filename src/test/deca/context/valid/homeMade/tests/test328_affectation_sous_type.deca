@@ -2,5 +2,9 @@
 
 
 {
-    float a = 7;
+    int a = 1;
+    float b = 1.0;
+    boolean c = true;
+    boolean d = false;
+    float e = 1;
 }

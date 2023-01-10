@@ -21,7 +21,7 @@ public class Not extends AbstractUnaryExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
                 
-        if (this.getOperand().verifyExpr(compiler, localEnv, currentClass) == compiler.environmentType.BOOLEAN) {
+        if (this.getOperand().verifyExpr(compiler, localEnv, currentClass).isBoolean()) {
             this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }

@@ -23,5 +23,5 @@ test_synt_valide () {
 
 for cas_de_test in $(find $input_dir -name "*.deca")
 do
-    test_synt_invalide "$cas_de_test"
+    test_synt_valide "$cas_de_test"
 done

@@ -500,6 +500,7 @@ ident
 	returns[AbstractIdentifier tree]:
 	IDENT {
                 $tree = new Identifier(getDecacCompiler().createSymbol($IDENT.text));
+                assert($tree != null);
                 setLocation($tree, $IDENT);
         };
 

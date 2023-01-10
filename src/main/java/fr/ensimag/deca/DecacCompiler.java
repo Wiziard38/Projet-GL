@@ -165,7 +165,7 @@ public class DecacCompiler {
         String nameSource = this.source.getName();
         //destFile = nameSource.substring(0, nameSource.length()-5)+".ass";
         String newName = nameSource.substring(0, nameSource.length()-5)+".ass";
-        destFile = namePath.replaceAll(nameSource, "assembleur/" + newName);
+        destFile = namePath.replaceAll(nameSource, "/" + newName);
         //destFile = nameSource.replaceAll(this.source.getName(), "assembleur/"+this.getSource().getName().substring(0, nameSource.length()-5)+".ass");
         PrintStream err = System.err;
         PrintStream out = System.out;

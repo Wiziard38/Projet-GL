@@ -6,7 +6,13 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BNE;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -36,7 +42,19 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        Label labelCondition = new Label("ConditionWhile");
+        Label labelFin = new Label("FinWhile");
+
+        int nCondition = compiler.getN()+1;
+        compiler.addLabel(labelCondition);
+        this.getCondition().codeGenInst(compiler);
+        compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nCondition)));
+        compiler.addInstruction(new BNE(labelFin));
+        this.getBody().codeGenListInst(compiler);
+        compiler.addInstruction(new BRA(labelCondition));
+        compiler.addLabel(labelFin);
+
+
     }
 
     @Override

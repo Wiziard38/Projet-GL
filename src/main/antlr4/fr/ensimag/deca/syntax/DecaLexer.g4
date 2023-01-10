@@ -87,7 +87,7 @@ MULTI_LINE_STRING: '"' .*? '"';
 
 // Commentaires
 COMMENT:
-	'//' ~('\n' | '\r')* '\r'? '\n' {skip();}
+	'//' ~('\n' | '\r' )* '\r'? ('\n' | EOF) {skip();}
 	| '/*' .*? '*/' {skip();};
 
 // Includes

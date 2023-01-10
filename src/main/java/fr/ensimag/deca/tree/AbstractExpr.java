@@ -7,7 +7,16 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -84,7 +93,7 @@ public abstract class AbstractExpr extends AbstractInst {
             throws ContextualError {
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
         
-        if (expectedType == compiler.environmentType.FLOAT && exprType == compiler.environmentType.INT) {
+        if (expectedType.isFloat() && exprType.isInt()) {
             ConvFloat newTreeNode = new ConvFloat(this);
             newTreeNode.setType(compiler.environmentType.FLOAT);
             return newTreeNode;
@@ -118,7 +127,7 @@ public abstract class AbstractExpr extends AbstractInst {
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        if (this.verifyExpr(compiler, localEnv, currentClass) != compiler.environmentType.BOOLEAN) {
+        if (!this.verifyExpr(compiler, localEnv, currentClass).isBoolean()) {
             throw new ContextualError("La condition ne renvoie pas un boolean", this.getLocation()); // Rule 3.29
         }
     }
@@ -129,13 +138,42 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     protected void codeGenPrint(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        if(this.getType().sameType(compiler.environmentType.INT)){
+            compiler.setN(compiler.getN()+1);
+            IntLiteral intExpr = (IntLiteral)this;
+            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(1)));
+            compiler.addInstruction(new WINT());
+        }
+        if(this.getType().sameType(compiler.environmentType.FLOAT)){
+            compiler.setN(compiler.getN()+1);
+            FloatLiteral intExpr = (FloatLiteral)this;
+            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        compiler.setN(compiler.getN()+1);
+        if(this.getType().sameType(compiler.environmentType.INT)){
+            IntLiteral intExpr = (IntLiteral)this;
+            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(compiler.getN())));
+        }
+        if(this.getType().sameType(compiler.environmentType.FLOAT)){
+            FloatLiteral intExpr = (FloatLiteral)this;
+            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(compiler.getN())));
+        }
+        if(this.getType().sameType(compiler.environmentType.BOOLEAN)){
+            BooleanLiteral intExpr = (BooleanLiteral) this;
+            if (intExpr.getValue()){
+                compiler.addInstruction(new LOAD(new ImmediateInteger(1),Register.getR(compiler.getN())));
+            }
+            else{
+                compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.getR(compiler.getN())));
+            }
+        }
     }
+
     
 
     @Override

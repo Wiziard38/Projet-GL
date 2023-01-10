@@ -43,7 +43,24 @@ public class DecacCompiler {
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
+    private int n =1    ;
+    private int SP =3   ;
 
+    public int getN(){
+        return n;
+    }
+
+    public void setN(int n){
+        this.n = n;
+    }
+
+    public int getSP(){
+        return SP;
+    }
+
+    public void setSP(int SP){
+        this.SP = SP;
+    }
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
@@ -144,6 +161,12 @@ public class DecacCompiler {
         String destFile = null;
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
+        String namePath = this.source.getPath();
+        String nameSource = this.source.getName();
+        //destFile = nameSource.substring(0, nameSource.length()-5)+".ass";
+        String newName = nameSource.substring(0, nameSource.length()-5)+".ass";
+        destFile = namePath.replaceAll(nameSource, "/" + newName);
+        //destFile = nameSource.replaceAll(this.source.getName(), "assembleur/"+this.getSource().getName().substring(0, nameSource.length()-5)+".ass");
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);

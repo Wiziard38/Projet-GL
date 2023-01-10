@@ -8,5 +8,12 @@
 //    cree le 01/01/2023
 
 {
-        println("Hello");
+        if(true){
+                if(false){
+                        println("non");
+                }
+                else{
+                        println("oui");
+                }
+        }
 }

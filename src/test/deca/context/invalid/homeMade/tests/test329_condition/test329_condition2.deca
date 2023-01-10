@@ -1,0 +1,8 @@
+// test invalide de la règle 3.29
+
+
+{
+    if (9 % 3) {
+        ;
+    }
+}

@@ -20,8 +20,28 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
 
+        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        
+        if ((typeLeft == compiler.environmentType.FLOAT || typeLeft == compiler.environmentType.INT) 
+                && (typeRight == compiler.environmentType.FLOAT || typeRight == compiler.environmentType.INT)) {
+
+            this.setType(compiler.environmentType.BOOLEAN);
+            return compiler.environmentType.BOOLEAN;
+        }
+
+        // Code déplacé dans AbstractOpExactCmp.java
+        // if (this.getClass() == Equals.class || this.getClass() == NotEquals.class) {        
+        //     if ((typeLeft == compiler.environmentType.BOOLEAN) 
+        //             && (typeRight == compiler.environmentType.BOOLEAN)) {
+                
+        //         this.setType(compiler.environmentType.BOOLEAN);
+        //         return compiler.environmentType.BOOLEAN;
+        //     }
+        // }
+
+        throw new ContextualError("Comparaison arithmétique sur des non-nombres", this.getLocation()); // Rule 3.33
+    }
 
 }

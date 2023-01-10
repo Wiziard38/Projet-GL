@@ -1,0 +1,5 @@
+// test invalide de la règle 3.37
+
+{
+    String a = -7.5;
+}

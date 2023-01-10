@@ -2,9 +2,16 @@
 
 
 {
-    int a = 7;
-    float b = 0.5;
-    String c = "toto";
+    int a, b, c;
+    int d;
+    int e, f;
+    int g = 1;
 
-    print(a, b, c);
+    a;
+    b;
+    c;
+    d;
+    e;
+    f;
+    g;
 }

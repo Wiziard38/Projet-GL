@@ -2,5 +2,6 @@
 
 
 {
-    println(int a = 7;);
+    boolean a;
+    println(a);
 }

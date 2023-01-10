@@ -21,11 +21,11 @@ public class UnaryMinus extends AbstractUnaryExpr {
             ClassDefinition currentClass) throws ContextualError {
         Type operandType = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
 
-        if (operandType == compiler.environmentType.INT) {
+        if (operandType.isInt()) {
             this.setType(compiler.environmentType.INT);
             return compiler.environmentType.INT;
         }
-        if (operandType == compiler.environmentType.FLOAT) {
+        if (operandType.isFloat()) {
             this.setType(compiler.environmentType.FLOAT);
             return compiler.environmentType.FLOAT;
         }

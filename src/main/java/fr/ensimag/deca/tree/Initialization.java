@@ -37,9 +37,9 @@ public class Initialization extends AbstractInitialization {
             throws ContextualError {
         Validate.notNull(t);
 
-        Type ExpressionType = this.expression.verifyExpr(compiler, localEnv, currentClass);
+        Type initializationType = this.expression.verifyExpr(compiler, localEnv, currentClass);
 
-        if (t == compiler.environmentType.FLOAT && ExpressionType == compiler.environmentType.INT) {
+        if (t.isFloat() && initializationType.isInt()) {
             ConvFloat newTreeNode = new ConvFloat(this.expression);
             newTreeNode.setType(compiler.environmentType.FLOAT);
             this.setExpression(newTreeNode);

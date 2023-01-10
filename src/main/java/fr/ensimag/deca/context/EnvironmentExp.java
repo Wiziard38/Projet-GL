@@ -42,7 +42,7 @@ public class EnvironmentExp {
     public ExpDefinition get(Symbol key) {
         if (this.currentEnvironmentExp.containsKey(key)) {
             return this.currentEnvironmentExp.get(key);
-        } else if (this.parentEnvironment != null) {
+        } else if (this.parentEnvironment == null) {
             return null;
         } else {
             return this.parentEnvironment.get(key);

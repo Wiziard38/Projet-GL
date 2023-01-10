@@ -27,6 +27,11 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
             s.println();
         }
     }
+    public void codeGenListVar(DecacCompiler compiler) {
+        for (AbstractDeclVar i : getList()) {
+            i.codeGenVar(compiler);
+        }
+    }
 
     /**
      * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3

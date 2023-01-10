@@ -15,6 +15,9 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -36,6 +39,17 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
+    protected void codeGenPrint(DecacCompiler compiler) {
+            VariableDefinition defVar = this.getVariableDefinition();
+            compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
+            compiler.addInstruction(new WINT());
+        }
+
+    protected void codeGenInst(DecacCompiler compiler) {
+        VariableDefinition defVar = this.getVariableDefinition();
+        compiler.setN(compiler.getN()+1);
+        compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(compiler.getN())));
+    }
     @Override
     public Definition getDefinition() {
         return definition;
@@ -187,11 +201,13 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
+        LOG.debug(this.getName());
+        LOG.debug(thisTypeDef);
         if (thisTypeDef == null) {
             throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
                     this.name.getName()), this.getLocation()); // Rule 0.2
         }
-        if (thisTypeDef.getType() == compiler.environmentType.VOID) {
+        if (thisTypeDef.getType().isVoid()) {
             throw new ContextualError("Déclaration de variable invalide : type void", 
                     this.getLocation()); // Rule 3.17
         }

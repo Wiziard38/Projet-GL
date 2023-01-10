@@ -1,0 +1,15 @@
+`> [11, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [11, 0] Main
+      +> ListDeclVar [List with 2 elements]
+      |  []> [12, 8] DeclVar
+      |  ||  +> [12, 4] Identifier (int)
+      |  ||  +> [12, 8] Identifier (x)
+      |  ||  `> Initialization
+      |  ||     `> [12, 12] Int (15)
+      |  []> [12, 16] DeclVar
+      |      +> [12, 4] Identifier (int)
+      |      +> [12, 16] Identifier (i)
+      |      `> Initialization
+      |         `> [12, 20] Int (3)
+      `> ListInst [List with 0 elements]

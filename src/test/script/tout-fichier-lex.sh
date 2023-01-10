@@ -16,13 +16,12 @@ echo ""
 echo "---------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/valid/*.deca
+for fichier in ./src/test/deca/syntax/lexer/valid/*.deca
 do
     echo "$fichier"
     nom=${fichier##*/}
     export nom
     test_lex "$fichier" 2>&1 > actual
-    cat actual
     echo ""
     if diff -w actual "./src/test/deca/syntax/lexer/valid/resultat/${nom%.deca}_resultat.txt"
     then
@@ -42,7 +41,7 @@ echo "Début des tests invalids"
 echo "--------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/invalid/*.deca
+for fichier in ./src/test/deca/syntax/lexer/invalid/*.deca
 do
     echo "$fichier"
     nom=${fichier##*/}

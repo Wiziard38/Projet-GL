@@ -1,0 +1,12 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les eq_neq_expr
+//
+// Resultats:
+//    Ligne 11 : Erreur ( oubli expr1)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    == expression_bidon;
+}

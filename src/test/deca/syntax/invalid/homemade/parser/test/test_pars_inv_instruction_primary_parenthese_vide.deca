@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le if
+//
+// Resultats:
+//    Ligne 13 : Erreur (parenthèse vide)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    ();
+}

@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant le retour à la ligne dans un string.
+//
+// Resultats:
+//    je
+//     suis
+//
+// Historique:
+//    cree le 01/01/2023
+
+{
+        println("je \n suis");
+}

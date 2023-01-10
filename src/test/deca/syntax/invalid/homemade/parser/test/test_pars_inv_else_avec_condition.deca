@@ -1,0 +1,23 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le if
+//
+// Resultats:
+//    Ligne 12 : Erreur (else avec condition)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    
+    x = 0;
+    if (x<5) {
+        println("Hello");
+        x = x+ 1;
+    }
+    else (x = 5){
+        println("Hello");
+        x = x+ 1;
+    }
+    
+}

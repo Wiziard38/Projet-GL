@@ -53,31 +53,32 @@ public class DeclVar extends AbstractDeclVar {
 
         // On verifie que le type existe bien
         Type initializationType = this.type.verifyType(compiler);
-        //this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
+        // this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
 
         // On verifie que varName n'est pas deja declare localement
         try {
             this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
             localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());
+        } catch (Exception DoubleDefException) {
+            throw new ContextualError(
+                    String.format("Le nom de variable '%s' est déjà déclaré dans l'environnement local",
+                            this.varName.getName().getName()),
+                    this.getLocation()); // Rule 3.17
         }
-        catch (Exception DoubleDefException) {
-            throw new ContextualError(String.format("Le nom de variable '%s' est déjà déclaré dans l'environnement local",
-                    this.varName.getName().getName()), this.getLocation()); // Rule 3.17
-        }
-
 
         this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);
 
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
         type.decompile(s);
         s.print(" ");
         varName.decompile(s);
-        s.print(" ");
-        initialization.decompile(s);
+        if (initialization instanceof Initialization) {
+            s.print(" = ");
+            initialization.decompile(s);
+        }
         s.print(";");
     }
 

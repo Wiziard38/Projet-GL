@@ -1,0 +1,11 @@
+// Description:
+//    tests de programme incorrect lexicalement (instanceof)
+//
+// Resultats:
+//    ligne 10 : Erreur espace 
+// Historique:
+//    cree le 01/01/2023
+
+{
+    prin tln("hello")
+}

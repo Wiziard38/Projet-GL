@@ -9,6 +9,11 @@ cd "$(dirname "$0")"/../../.. || exit 1
 
 PATH=./src/test/script/launchers:"$PATH"
 
+# Obtenir le chemin absolu du répertoire du script
+script_dir=$(cd $(dirname $0) && pwd)
+# Définir le répertoire d'entrées
+input_dir="$script_dir/../deca/syntax/invalid/"
+
 # exemple de définition d'une fonction
 test_synt_invalide () {
     # $1 = premier argument.
@@ -20,7 +25,7 @@ test_synt_invalide () {
     fi
 }    
 
-for cas_de_test in src/test/deca/syntax/invalid/provided/*.deca
+for cas_de_test in $(find $input_dir -name "*.deca")
 do
     test_synt_invalide "$cas_de_test"
 done

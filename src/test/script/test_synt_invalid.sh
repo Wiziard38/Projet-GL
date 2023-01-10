@@ -1,13 +1,14 @@
 #! /bin/sh
 
-# Auteur : gl39
-# Version initiale : 01/01/2023
+# Script pour tester tous les test de syntaxes qui sont invalides
 
 # On lance test_synt sur les tests invalides et on vérifie qu'ils sont bien invalides
 
-cd "$(dirname "$0")"/../../.. || exit 1
+# Obtenir le chemin absolu du répertoire du script
+script_dir=$(cd $(dirname $0) && pwd)
 
-PATH=./src/test/script/launchers:"$PATH"
+# Obtenir le répertoire où sont les tests
+input_dir="$script_dir/../deca/syntax/invalid"
 
 # Obtenir le chemin absolu du répertoire du script
 script_dir=$(cd $(dirname $0) && pwd)

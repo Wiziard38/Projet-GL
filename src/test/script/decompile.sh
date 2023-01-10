@@ -41,7 +41,7 @@ do
 
     # En cas de différences, afficher un message
     if [ $? -ne 0 ]; then
-        echo "Les fichiers $output_file1 et $output_file2 sont différents"
+        echo "Pour $input_file, les fichiers sont différents"
 
         # Supprime les fichiers générés si l'option -da est activée
         if [ "$2" = "-da" ]; then
@@ -50,7 +50,7 @@ do
         fi
 
     else
-        echo "Les fichiers $output_file1 et $output_file2 sont identiques"
+        echo "Pour $input_file, les fichiers sont identiques"
 
         # Supprime les fichiers générés si l'option -d ou -da est activée
         if [ "$2" = "-d" ] || [ "$2" = "-da" ];  then

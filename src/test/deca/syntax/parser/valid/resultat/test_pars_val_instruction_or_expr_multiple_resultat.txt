@@ -1,0 +1,10 @@
+`> [11, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [11, 0] Main
+      +> ListDeclVar [List with 0 elements]
+      `> ListInst [List with 1 elements]
+         []> [12, 4] Or
+             +> [12, 4] Or
+             |  +> [12, 4] Identifier (instruction_bidon)
+             |  `> [12, 24] Identifier (instruction_bidon2)
+             `> [12, 45] Identifier (instruction_bidon3)

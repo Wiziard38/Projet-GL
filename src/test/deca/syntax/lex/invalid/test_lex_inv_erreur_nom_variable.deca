@@ -1,0 +1,11 @@
+// Description:
+//    tests de programme incorrect syntaxiquement (nom de variable)
+//
+// Resultats:
+//    ligne 10 : Erreur nom variable 
+// Historique:
+//    cree le 01/01/2023
+
+{
+    int 8av = 14;
+}

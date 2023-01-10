@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'affectation de l'instruction type (nom commençant par un _).
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    _int x = 3;
+}

@@ -1,0 +1,17 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le while
+//
+// Resultats:
+//    Ligne 12 : Erreur (oubli })
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    int x = 0;
+    while (x < 5){
+        println("Hello");
+        x = x + 1;
+    
+}

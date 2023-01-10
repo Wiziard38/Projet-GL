@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le printlnx
+//
+// Resultats:
+//    Ligne 12 : Erreur (oubli ;)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    printlnx('Hello')
+}

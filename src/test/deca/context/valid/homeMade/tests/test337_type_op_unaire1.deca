@@ -4,11 +4,10 @@
 {
     int i;
     float f;
-
-    i = -7;
-    f = -7.5;
-
     boolean b;
+
+    i = - 7;
+    f = - 7.5;
 
     b = !true;
 }

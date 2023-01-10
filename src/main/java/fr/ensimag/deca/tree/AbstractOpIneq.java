@@ -20,7 +20,7 @@ public abstract class AbstractOpIneq extends AbstractOpCmp {
         this.getLeftOperand().codeGenInst(compiler);
         int nActualRight = compiler.getN()+1;
         this.getRightOperand().codeGenInst(compiler);
-        compiler.addInstruction(new CMP(Register.getR(nActualLeft), Register.getR(nActualRight)));
+        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
         switch(this.getOperatorName()){
             case ">":
                 compiler.addInstruction(new SGT(Register.getR(nActualLeft)));

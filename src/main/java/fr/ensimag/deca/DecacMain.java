@@ -17,6 +17,7 @@ public class DecacMain {
         LOG.info("Decac compiler started");
         boolean error = false;
         final CompilerOptions options = new CompilerOptions();
+        
         try {
             options.parseArgs(args);
         } catch (CLIException e) {
@@ -25,13 +26,17 @@ public class DecacMain {
             options.displayUsage();
             System.exit(1);
         }
+        
         if (options.getPrintBanner()) {
             System.out.println("GRoupe 39 en place!");
             System.exit(0);
         }
+        
         if (options.getSourceFiles().isEmpty()) {
-            throw new UnsupportedOperationException("decac without argument not yet implemented");
+            options.displayUsage();
+            System.exit(1);
         }
+        
         if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
             // compiler, et lancer l'exécution des méthodes compile() de chaque
@@ -46,6 +51,7 @@ public class DecacMain {
                 }
             }
         }
+        
         System.exit(error ? 1 : 0);
     }
 }

@@ -8,7 +8,7 @@
 script_dir=$(cd $(dirname $0) && pwd)
 
 # Obtenir le répertoire où sont les tests
-input_dir="$script_dir/../deca/syntax/parser/valid"
+input_dir="$script_dir/../deca/syntax/valid"
 
 # exemple de définition d'une fonction
 test_synt_valide () {

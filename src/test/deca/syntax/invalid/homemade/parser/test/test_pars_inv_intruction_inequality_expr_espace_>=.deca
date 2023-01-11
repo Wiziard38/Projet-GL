@@ -1,0 +1,12 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les inequality_expr
+//
+// Resultats:
+//    Ligne 11 : Erreur (espace entre ">=")
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    expression_bidon1 > = expression_bidon2;
+}

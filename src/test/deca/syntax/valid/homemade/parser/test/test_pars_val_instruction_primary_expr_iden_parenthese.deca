@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour une unary_expr.
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    instruction_bidon(iden);
+}

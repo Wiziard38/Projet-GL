@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le type
+//
+// Resultats:
+//    Ligne 12 : Erreur (nom type commençant par un chiffre)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    8int x = 1;
+}

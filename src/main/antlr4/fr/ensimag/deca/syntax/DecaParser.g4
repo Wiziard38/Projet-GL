@@ -344,7 +344,7 @@ mult_expr
                 assert($e1.tree != null);                                         
                 assert($e2.tree != null);
                 $tree = new Multiply($e1.tree, $e2.tree);
-                setLocation($tree, $MULT);
+                setLocation($tree, $TIMES);
         }
 	| e1 = mult_expr SLASH e2 = unary_expr {
                 assert($e1.tree != null);                                         

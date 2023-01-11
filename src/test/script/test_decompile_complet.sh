@@ -5,7 +5,6 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-ON_DELETE=True
 # On prend tous les programmes deca valides en entrée se trouvant dans le répertoire donné en argument
 # On fait l'arbre, puis on applique decompile à l'arbre
 # On refait l'étape au-dessus avec le programme généré par decompile
@@ -65,7 +64,7 @@ test_decompile_valide () {
         fi
 
     fi
-    #rm $output_file1 $output_file2
+    rm $output_file1 $output_file2
 }    
 
 echo "--------------------------"

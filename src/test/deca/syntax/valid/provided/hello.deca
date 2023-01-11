@@ -6,7 +6,18 @@
 //
 // Historique:
 //    cree le 01/01/2023
+{
+    if(true){
+    println("if1 ok");
+    }
+    if(true){
+        println("if2 ok");
+    }
+    if(true){
+        println("if3 ok");
+    }
+    if(true){
+        println("if4 ok");
+    }
+}
 
-
-/* wetewt */  print("test");
-// tecewcew

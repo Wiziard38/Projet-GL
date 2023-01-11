@@ -26,8 +26,8 @@ public class And extends AbstractOpBool {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler){
-        Label labelOneFalse = new Label("OneFalse");
-        Label labelFin = new Label("FinCompAnd");
+        Label labelOneFalse = new Label("OneFalse" + this.getLocation().getLine());
+        Label labelFin = new Label("FinCompAnd" + this.getLocation().getLine());
 
         int nActualLeft = compiler.getN()+1;
         this.getLeftOperand().codeGenInst(compiler);

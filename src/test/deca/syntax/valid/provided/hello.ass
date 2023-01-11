@@ -1,0 +1,41 @@
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #1, R2
+	CMP #0, R2
+	BLE Else1010
+If10:
+	WSTR "if1 ok"
+	WNL
+	BRA Fin10
+Else1010:
+Fin10:
+	LOAD #1, R3
+	CMP #0, R3
+	BLE Else1313
+If13:
+	WSTR "if2 ok"
+	WNL
+	BRA Fin13
+Else1313:
+Fin13:
+	LOAD #1, R4
+	CMP #0, R4
+	BLE Else1616
+If16:
+	WSTR "if3 ok"
+	WNL
+	BRA Fin16
+Else1616:
+Fin16:
+	LOAD #1, R5
+	CMP #0, R5
+	BLE Else1919
+If19:
+	WSTR "if4 ok"
+	WNL
+	BRA Fin19
+Else1919:
+Fin19:
+	HALT
+; end main program

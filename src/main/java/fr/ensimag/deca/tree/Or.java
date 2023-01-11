@@ -20,8 +20,8 @@ public class Or extends AbstractOpBool {
     }
 
     protected void codeGenInst(DecacCompiler compiler){
-        Label labelOneTrue = new Label("OneTrue");
-        Label labelFin = new Label("FinCompOr");
+        Label labelOneTrue = new Label("OneTrue" + this.getLocation().getLine());
+        Label labelFin = new Label("FinCompOr" + this.getLocation().getLine());
 
         int nActualLeft = compiler.getN()+1;
         this.getLeftOperand().codeGenInst(compiler);

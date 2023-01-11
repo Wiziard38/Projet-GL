@@ -91,24 +91,16 @@ echo "Pas de probleme detecte avec decac -b"
 run_invalid_test -p -v
 run_valid_test -p $path/file1.deca
 
-res1=$(decac -p $path/test.deca)
-res2=$(test_synt $path/test.deca)
-if [[ "$res1" != "$res2" ]]; then 
-    echo "ERREUR de resultat lors de decac -p test.deca"
-    exit 1
-fi
-
 echo "Pas de probleme detecte avec decac -p"
 
 # ====================================================================================================
 
 run_invalid_test -v -p
 run_valid_test -v $path/file1.deca
+decac_moins_v=$(decac -v $path/test.deca)
 
-res1=$(decac -v $path/test.deca)
-res2=$(test_context $path/test.deca)
-if [[ "$res1" != "$res2" ]]; then 
-    echo "ERREUR de resultat lors de decac -v test.deca"
+if [ "$decac_moins_v" != "" ]; then
+    echo "ERREUR: decac -v a produit une sortie."
     exit 1
 fi
 

@@ -124,7 +124,18 @@ public class CompilerOptions {
                     if (!arg.matches("(.)*.deca")) {
                         throw new CLIException("Filemane must end in '.deca'");
                     }
-                    sourceFiles.add(new File(arg));
+                    // On verifier que le fichier n'est pas deja dans la liste
+                    File newFile = new File(arg);
+                    boolean alreadyExists = false;
+                    for (File file : sourceFiles) {
+                        if (file.getAbsolutePath() == newFile.getAbsolutePath()) {
+                            alreadyExists = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyExists) {
+                        sourceFiles.add(new File(arg));
+                    }
             }
             index++;
         }
@@ -151,7 +162,6 @@ public class CompilerOptions {
             logger.info("Java assertions disabled");
         }
 
-        //throw new UnsupportedOperationException("not yet implemented");
     }
 
     protected void displayUsage() {

@@ -18,7 +18,7 @@ test_context_invalide () {
     test_result=$(test_context "$1" 2>&1)
     
     if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
-        echo "Echec attendu pour test_context sur $1."
+        # echo "Echec attendu pour test_context sur $1."
         total_valid=$((total_valid+1))
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "Erreur non soulevée pour $1."

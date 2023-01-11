@@ -54,7 +54,7 @@ do
         fi
 
     else
-        echo "Pour $input_file, les fichiers sont identiques"
+        # echo "Pour $input_file, les fichiers sont identiques"
         total_valid=$((total_valid+1))
 
         # Supprime les fichiers générés si l'option -d ou -da est activée

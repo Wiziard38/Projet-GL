@@ -30,7 +30,7 @@ test_code_valide () {
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "Erreur non soulevée pour $1."
     else
-        echo "Le test $1 a fonctionné."
+        # echo "Le test $1 a fonctionné."
         total_valid=$((total_valid+1))
     fi
 }  

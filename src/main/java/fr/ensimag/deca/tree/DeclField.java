@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ensimag.deca.tools.IndentPrintStream;
+
 /*
  * Declaration of a field
  */
@@ -22,6 +24,23 @@ public class DeclField extends AbstractDeclField {
         this.type = type;
         this.name = varName;
         this.initialization = initialization;
+    }
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+        if (visibility == Visibility.PROTECTED) {
+            s.print("protected ");
+        } else {
+            s.print("public ");
+        }
+        type.decompile(s);
+        s.print(" ");
+        name.decompile(s);
+        if (initialization instanceof Initialization) {
+            s.print(" = ");
+            initialization.decompile(s);
+        }
+        s.print(";");
     }
 
 }

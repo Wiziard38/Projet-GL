@@ -7,13 +7,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Parameters declaration
  */
-public class AbstractDeclParam extends Tree {
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
-    }
+public abstract class AbstractDeclParam extends Tree {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {

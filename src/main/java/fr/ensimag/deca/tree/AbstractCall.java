@@ -14,7 +14,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Call of a method, a constructor, or a field via selection
  */
-public class AbstractCall extends AbstractExpr {
+public abstract class AbstractCall extends AbstractExpr {
 
     private AbstractIdentifier name;
 
@@ -23,17 +23,15 @@ public class AbstractCall extends AbstractExpr {
         this.name = name;
     }
 
+    public AbstractIdentifier getName() {
+        return name;
+    }
+
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

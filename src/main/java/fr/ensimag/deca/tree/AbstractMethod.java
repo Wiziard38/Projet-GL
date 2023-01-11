@@ -9,7 +9,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Method declaration
  */
-public class AbstractMethod extends Tree {
+public abstract class AbstractMethod extends Tree {
 
     private AbstractIdentifier name;
     private AbstractIdentifier returnType;
@@ -21,10 +21,13 @@ public class AbstractMethod extends Tree {
         returnType = type;
     }
 
+    abstract public void decompileBody(IndentPrintStream s);
+
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
+        returnType.decompile(s);
+        name.decompile(s);
+        decompileBody(s);
     }
 
     @Override

@@ -1,15 +1,10 @@
 ; start main program
 ; Main program
-	LOAD #1, R2
+	RFLOAT
+	LOAD R1, R2
 	STORE R2, 3(GB)
-	LOAD #2, R2
-	STORE R2, 4(GB)
-	LOAD #3, R2
-	STORE R2, 5(GB)
-	LOAD #4, R2
-	STORE R2, 6(GB)
-	LOAD #5, R2
-	STORE R2, 7(GB)
 ; Beginning of main instructions:
+	LOAD 3(GB), R1
+	WFLOAT
 	HALT
 ; end main program

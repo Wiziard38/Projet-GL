@@ -17,6 +17,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 import java.io.PrintStream;
@@ -42,7 +43,12 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
             VariableDefinition defVar = this.getVariableDefinition();
             compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
-            compiler.addInstruction(new WINT());
+            if (this.getType().isInt()) {
+                compiler.addInstruction(new WINT());
+            }
+            else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
 
     protected void codeGenInst(DecacCompiler compiler) {

@@ -9,10 +9,6 @@
 
 
 {
-    if(false || false || false || false || false || false || false || false || false || false){
-        print("error");
-    }
-    else{
-        print("ouuui");
-    }
+    float x = readFloat();
+    print(x);
 }

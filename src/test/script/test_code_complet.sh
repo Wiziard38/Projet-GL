@@ -17,6 +17,10 @@ base_dir=$1
 # Obtenir le chemin absolu du répertoire du script
 script_dir=$(cd $(dirname $0) && pwd)
 
+# Variables pour connaitre le nombre de tests valides
+total_test=0
+total_valid=0
+
 # Fonction pour comparer les sorties des tests
 test_code_valide () {
     test_result=$(test_context "$1" 2>&1)
@@ -27,6 +31,7 @@ test_code_valide () {
         echo "Erreur non soulevée pour $1."
     else
         echo "Le test $1 a fonctionné."
+        total_valid=$((total_valid+1))
     fi
 }  
 
@@ -34,4 +39,9 @@ test_code_valide () {
 for input_file in $(find $base_dir -name "*.deca")
 do
     test_code_valide $input_file
+    total_test=$((total_test+1))
 done
+
+echo "--------------------------------------"
+echo "Tests passés: $total_valid / $total_test."
+echo "--------------------------------------"

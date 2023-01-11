@@ -13,7 +13,7 @@ script_dir=$(cd $(dirname $0) && pwd)
 input_dir="$script_dir/../deca/syntax/invalid"
 
 # Variables pour connaitre le nombre de tests valides
-total_test=($(find $input_dir -type f -name "*.deca" | wc -l))
+total_test=($(find $input_dir -type f -name "*.deca" ! -path "*lexer*" | wc -l))
 total_valid=0
 
 # exemple de définition d'une fonction

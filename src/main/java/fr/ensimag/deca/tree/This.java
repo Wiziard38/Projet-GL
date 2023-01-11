@@ -9,6 +9,9 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * This keyword
+ */
 public class This extends AbstractExpr {
 
     @Override

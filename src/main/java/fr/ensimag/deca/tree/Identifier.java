@@ -251,4 +251,9 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
+    @Override
+    public Type getType() {
+        return this.getDefinition().getType();
+    }
+
 }

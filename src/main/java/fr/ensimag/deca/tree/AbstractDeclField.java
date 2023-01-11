@@ -4,6 +4,9 @@ import java.io.PrintStream;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * Field declaration
+ */
 public class AbstractDeclField extends Tree {
 
     @Override

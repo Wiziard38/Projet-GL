@@ -4,6 +4,9 @@ import java.io.PrintStream;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * Parameters declaration
+ */
 public class AbstractDeclParam extends Tree {
 
     @Override

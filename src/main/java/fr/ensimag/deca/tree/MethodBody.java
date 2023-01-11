@@ -2,6 +2,9 @@ package fr.ensimag.deca.tree;
 
 import org.apache.commons.lang.Validate;
 
+/*
+ * Method body when the body is traditional deca
+ */
 public class MethodBody extends AbstractMethod {
 
     private ListDeclParam parameters = new ListDeclParam();

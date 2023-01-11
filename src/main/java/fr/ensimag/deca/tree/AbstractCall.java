@@ -11,6 +11,9 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * Call of a method, a constructor, or a field via selection
+ */
 public class AbstractCall extends AbstractExpr {
 
     private AbstractIdentifier name;

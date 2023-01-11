@@ -2,6 +2,9 @@ package fr.ensimag.deca.tree;
 
 import org.apache.commons.lang.Validate;
 
+/*
+ * Declaration of a parameter
+ */
 public class DeclParam extends AbstractDeclParam {
 
     private AbstractIdentifier type;

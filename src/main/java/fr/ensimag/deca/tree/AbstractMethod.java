@@ -6,6 +6,9 @@ import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * Method declaration
+ */
 public class AbstractMethod extends Tree {
 
     private AbstractIdentifier name;

@@ -2,6 +2,9 @@ package fr.ensimag.deca.tree;
 
 import org.apache.commons.lang.Validate;
 
+/*
+ * Call of a method function
+ */
 public class MethodCall extends AbstractCall {
 
     private AbstractExpr expr;

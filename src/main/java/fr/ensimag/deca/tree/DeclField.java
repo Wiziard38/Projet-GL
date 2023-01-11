@@ -2,6 +2,9 @@ package fr.ensimag.deca.tree;
 
 import org.apache.commons.lang.Validate;
 
+/*
+ * Declaration of a field
+ */
 public class DeclField extends AbstractDeclField {
 
     private Visibility visibility;

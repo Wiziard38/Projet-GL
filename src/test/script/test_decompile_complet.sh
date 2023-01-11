@@ -25,6 +25,10 @@ if [ ! -d $output_dir ]; then
     mkdir -p $output_dir
 fi
 
+# Variables pour connaitre le nombre de tests valides
+total_test=0
+total_valid=0
+
 # Recherche de tous les fichiers .deca dans le répertoire de base et ses sous-répertoires
 for input_file in $(find $base_dir -name "*.deca")
 do
@@ -50,7 +54,8 @@ do
         fi
 
     else
-        echo "Pour $input_file, les fichiers sont identiques"
+        # echo "Pour $input_file, les fichiers sont identiques"
+        total_valid=$((total_valid+1))
 
         # Supprime les fichiers générés si l'option -d ou -da est activée
         if [ "$2" = "-d" ] || [ "$2" = "-da" ];  then
@@ -58,4 +63,10 @@ do
             rm $output_file2
         fi
     fi
+    total_test=$((total_test+1))
 done
+
+echo ""
+echo "--------------------------------------"
+echo "Tests passés: $total_valid / $total_test."
+echo "--------------------------------------"

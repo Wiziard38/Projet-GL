@@ -387,7 +387,7 @@ select_expr
 	| e1 = select_expr DOT i = ident {
                 assert($e1.tree != null);
                 assert($i.tree != null);
-                $tree = $e.tree;                //ici pas supporté
+                $tree = $e.tree;
                 setLocation($tree, $DOT);
         } (
 		o = OPARENT args = list_expr CPARENT {          // ici => MethodCall
@@ -396,7 +396,7 @@ select_expr
                 // $tree = $args.tree;             //ici ??
                 setLocation($tree, $o);
         }
-		| /* epsilon */ {               //ici => FieldCall
+		| /* epsilon */ {               //ici => Selection
                 // we matched "e.i"
         }
 	);
@@ -524,13 +524,15 @@ class_decl:
 
 class_extension
 	returns[AbstractIdentifier tree]:
-	EXTENDS ident {                 //ici => ClassExtension(superClass)
+	EXTENDS ident {
+                $tree = $ident.tree;
         }
 	| /* epsilon */ {
+                // $tree = getDecacCompiler().getEnvironmentType()
         };
 
 class_body: (
-		m = decl_method {               //ici => DeclMethod
+		m = decl_method {               //ici => DeclMethod(ListInst)
         }
 		| decl_field_set //ici passer ListDeclField en param
 	)*;
@@ -554,7 +556,7 @@ decl_field:
 	)? {
         };
 
-decl_method //ici Mathis choisit
+decl_method //ici 2 classes: MethodAsmBody et MethodBody
 	@init {
 }:
 	type ident OPARENT params = list_params CPARENT (

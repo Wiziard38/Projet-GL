@@ -21,6 +21,7 @@ public class DecacMain {
         try {
             options.parseArgs(args);
         } catch (CLIException e) {
+            System.out.println(args[0]);
             System.err.println("Error during option parsing:\n"
                     + e.getMessage());
             options.displayUsage();
@@ -34,6 +35,9 @@ public class DecacMain {
         
         if (options.getSourceFiles().isEmpty()) {
             options.displayUsage();
+            if (args.length == 0) {
+                System.exit(0);
+            }
             System.exit(1);
         }
         

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public abstract class AbstractOpArith extends AbstractBinaryExpr {
-    private static final Logger LOG = Logger.getLogger(AbstractBinaryExpr.class);
+    private static final Logger LOG = Logger.getLogger(AbstractOpArith.class);
 
     public AbstractOpArith(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
@@ -60,5 +61,16 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             }
         }
         throw new ContextualError("Calcul arithmétique sur des non-nombres", this.getLocation()); // Rule 3.33
+    }
+
+    @Override
+    protected void checkDecoration() {
+        super.checkDecoration();
+        if (!this.getLeftOperand().getType().isFloat() && !this.getLeftOperand().getType().isInt()) {
+            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type int or float");
+        }
+        if (!this.getType().isFloat() && !this.getType().isInt()) {
+            throw new DecacInternalError("OpArith " + this.toString() + " is not of Type int or float");
+        }
     }
 }

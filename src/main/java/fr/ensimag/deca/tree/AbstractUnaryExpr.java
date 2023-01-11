@@ -7,11 +7,12 @@ import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.OPP;
-import fr.ensimag.ima.pseudocode.instructions.SEQ;
 import fr.ensimag.ima.pseudocode.instructions.SNE;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+
+import org.apache.log4j.Logger;
 
 /**
  * Unary expression.
@@ -20,6 +21,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public abstract class AbstractUnaryExpr extends AbstractExpr {
+    private static final Logger LOG = Logger.getLogger(AbstractBinaryExpr.class);
 
     public AbstractExpr getOperand() {
         return operand;

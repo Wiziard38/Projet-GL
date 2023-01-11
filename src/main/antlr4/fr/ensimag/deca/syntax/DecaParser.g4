@@ -252,7 +252,7 @@ and_expr
                 assert($e1.tree != null);                         
                 assert($e2.tree != null);
                 $tree = new And($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $AND);
         };
 
 eq_neq_expr
@@ -266,13 +266,13 @@ eq_neq_expr
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new Equals($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $EQEQ);
         }
 	| e1 = eq_neq_expr NEQ e2 = inequality_expr {
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new NotEquals($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $NEQ);
         };
 
 inequality_expr
@@ -286,31 +286,31 @@ inequality_expr
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new LowerOrEqual($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $LEQ);
         }
 	| e1 = inequality_expr GEQ e2 = sum_expr {
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new GreaterOrEqual($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $GEQ);
         }
 	| e1 = inequality_expr GT e2 = sum_expr {
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new Greater($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $GT);
         }
 	| e1 = inequality_expr LT e2 = sum_expr {
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new Lower($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $LT);
         }
 	| e1 = inequality_expr INSTANCEOF type {
                 assert($e1.tree != null);
                 assert($type.tree != null);
                 // $tree = new Instanceof($e1.tree, $e2.tree);         //ici pas supporté
-                setLocation($tree, $e1.start);
+                setLocation($tree, $INSTANCEOF);
         };
 
 sum_expr
@@ -324,13 +324,13 @@ sum_expr
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new Plus($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $PLUS);
         }
 	| e1 = sum_expr MINUS e2 = mult_expr {
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new Minus($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $MINUS);
         };
 
 mult_expr
@@ -344,19 +344,19 @@ mult_expr
                 assert($e1.tree != null);                                         
                 assert($e2.tree != null);
                 $tree = new Multiply($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $MULT);
         }
 	| e1 = mult_expr SLASH e2 = unary_expr {
                 assert($e1.tree != null);                                         
                 assert($e2.tree != null);
                 $tree = new Divide($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $SLASH);
         }
 	| e1 = mult_expr PERCENT e2 = unary_expr {
                 assert($e1.tree != null);                                                                          
                 assert($e2.tree != null);
                 $tree = new Modulo($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $PERCENT);
         };
 
 unary_expr
@@ -388,15 +388,15 @@ select_expr
                 assert($e1.tree != null);
                 assert($i.tree != null);
                 $tree = $e.tree;                //ici pas supporté
-                setLocation($tree, $e1.start);
+                setLocation($tree, $DOT);
         } (
-		o = OPARENT args = list_expr CPARENT {
+		o = OPARENT args = list_expr CPARENT {          // ici => MethodCall
                 // we matched "e1.i(args)"
                 assert($args.tree != null);
                 // $tree = $args.tree;             //ici ??
                 setLocation($tree, $o);
         }
-		| /* epsilon */ {
+		| /* epsilon */ {               //ici => FieldCall
                 // we matched "e.i"
         }
 	);
@@ -411,7 +411,7 @@ primary_expr
 	| m = ident OPARENT args = list_expr CPARENT {
                 assert($args.tree != null);
                 assert($m.tree != null);
-                                                                //ici pas fait
+                                                                //ici pas fait => MethodCall
                 setLocation($tree, $ident.start);
         }
 	| OPARENT expr CPARENT {
@@ -489,10 +489,10 @@ literal
                 $tree = new BooleanLiteral(false);
                 setLocation($tree, $FALSE);
         }
-	| THIS {                                        //ici pas supporté
+	| THIS {                                        //ici => This
                 setLocation($tree, $THIS);
         }
-	| NULL {                                        //ici pas supporté
+	| NULL {                                        //ici => Null
                 setLocation($tree, $NULL);
         };
 
@@ -518,23 +518,25 @@ list_classes
 
 class_decl:
 	CLASS name = ident superclass = class_extension OBRACE class_body CBRACE {
-                
+                              //ici => DeclClass(name, extension, ListDeclField, ListDeclMethod)
+                              // => passer les listes en argument de class_body
         };
 
 class_extension
 	returns[AbstractIdentifier tree]:
-	EXTENDS ident {
+	EXTENDS ident {                 //ici => ClassExtension(superClass)
         }
 	| /* epsilon */ {
         };
 
 class_body: (
-		m = decl_method {
+		m = decl_method {               //ici => DeclMethod
         }
-		| decl_field_set
+		| decl_field_set //ici passer ListDeclField en param
 	)*;
 
-decl_field_set: v = visibility t = type list_decl_field SEMI;
+decl_field_set:
+	v = visibility t = type list_decl_field SEMI; //ici passer ListDeclField, Visi et type en param
 
 visibility:
 	/* epsilon */ {
@@ -545,14 +547,14 @@ visibility:
 list_decl_field: dv1 = decl_field (COMMA dv2 = decl_field)*;
 
 decl_field:
-	i = ident {
+	i = ident {    //ici add DeclField à la liste
         } (
 		EQUALS e = expr {
         }
 	)? {
         };
 
-decl_method
+decl_method //ici Mathis choisit
 	@init {
 }:
 	type ident OPARENT params = list_params CPARENT (
@@ -564,7 +566,7 @@ decl_method
         };
 
 list_params: (
-		p1 = param {
+		p1 = param {            //ici add res de param
         } (
 			COMMA p2 = param {
         }
@@ -582,6 +584,6 @@ multi_line_string
                 $location = tokenLocation($s);
         };
 
-param:
+param: //ici DeclParam ou DeclVar
 	type ident {
         };

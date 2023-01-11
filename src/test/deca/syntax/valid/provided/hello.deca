@@ -6,18 +6,13 @@
 //
 // Historique:
 //    cree le 01/01/2023
+
+
 {
-    if(true){
-    println("if1 ok");
+    if(false || false || false || false || false || false || false || false || false || false){
+        print("error");
     }
-    if(true){
-        println("if2 ok");
-    }
-    if(true){
-        println("if3 ok");
-    }
-    if(true){
-        println("if4 ok");
+    else{
+        print("ouuui");
     }
 }
-

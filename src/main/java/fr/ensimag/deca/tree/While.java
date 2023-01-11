@@ -42,8 +42,8 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        Label labelCondition = new Label("ConditionWhile" + this.getLocation().getLine());
-        Label labelFin = new Label("FinWhile" + this.getLocation().getLine());
+        Label labelCondition = new Label("ConditionWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelFin = new Label("FinWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
 
         int nCondition = compiler.getN()+1;
         compiler.addLabel(labelCondition);

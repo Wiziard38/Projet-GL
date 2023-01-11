@@ -54,9 +54,9 @@ public class IfThenElse extends AbstractInst {
         int nActual = compiler.getN() +1;
         condition.codeGenInst(compiler);
         compiler.addInstruction(new CMP(new ImmediateInteger(0), Register.getR(nActual)));
-        Label labelIf = new Label("If" + this.getLocation().getLine());
-        Label labelElse = new Label("Else"+this.getLocation().getLine() + this.getLocation().getLine());
-        Label labelFin = new Label("Fin" + this.getLocation().getLine());
+        Label labelIf = new Label("If" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelElse = new Label("Else"+this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelFin = new Label("Fin" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         compiler.addInstruction(new BLE(labelElse));
         compiler.addLabel(labelIf);
         thenBranch.codeGenListInst(compiler);

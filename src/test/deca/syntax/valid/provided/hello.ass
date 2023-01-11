@@ -1,41 +1,95 @@
 ; start main program
 ; Main program
 ; Beginning of main instructions:
+	LOAD #0, R2
+	CMP #1, R2
+	BEQ OneTrue1213
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1213
+	BRA FinCompOr1213
+OneTrue1213:
 	LOAD #1, R2
+FinCompOr1213:
+	CMP #1, R2
+	BEQ OneTrue1222
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1222
+	BRA FinCompOr1222
+OneTrue1222:
+	LOAD #1, R2
+FinCompOr1222:
+	CMP #1, R2
+	BEQ OneTrue1231
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1231
+	BRA FinCompOr1231
+OneTrue1231:
+	LOAD #1, R2
+FinCompOr1231:
+	CMP #1, R2
+	BEQ OneTrue1240
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1240
+	BRA FinCompOr1240
+OneTrue1240:
+	LOAD #1, R2
+FinCompOr1240:
+	CMP #1, R2
+	BEQ OneTrue1249
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1249
+	BRA FinCompOr1249
+OneTrue1249:
+	LOAD #1, R2
+FinCompOr1249:
+	CMP #1, R2
+	BEQ OneTrue1258
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1258
+	BRA FinCompOr1258
+OneTrue1258:
+	LOAD #1, R2
+FinCompOr1258:
+	CMP #1, R2
+	BEQ OneTrue1267
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1267
+	BRA FinCompOr1267
+OneTrue1267:
+	LOAD #1, R2
+FinCompOr1267:
+	CMP #1, R2
+	BEQ OneTrue1276
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue1276
+	BRA FinCompOr1276
+OneTrue1276:
+	LOAD #1, R2
+FinCompOr1276:
+	CMP #1, R2
+	BEQ OneTrue127
+	LOAD #0, R3
+	CMP #1, R3
+	BEQ OneTrue127
+	BRA FinCompOr127
+OneTrue127:
+	LOAD #1, R2
+FinCompOr127:
 	CMP #0, R2
-	BLE Else1010
-If10:
-	WSTR "if1 ok"
-	WNL
-	BRA Fin10
-Else1010:
-Fin10:
-	LOAD #1, R3
-	CMP #0, R3
-	BLE Else1313
-If13:
-	WSTR "if2 ok"
-	WNL
-	BRA Fin13
-Else1313:
-Fin13:
-	LOAD #1, R4
-	CMP #0, R4
-	BLE Else1616
-If16:
-	WSTR "if3 ok"
-	WNL
-	BRA Fin16
-Else1616:
-Fin16:
-	LOAD #1, R5
-	CMP #0, R5
-	BLE Else1919
-If19:
-	WSTR "if4 ok"
-	WNL
-	BRA Fin19
-Else1919:
-Fin19:
+	BLE Else124
+If124:
+	WSTR "error"
+	BRA Fin124
+Else124:
+	WSTR "ouuui"
+Fin124:
 	HALT
 ; end main program

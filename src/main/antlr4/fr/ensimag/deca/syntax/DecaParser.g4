@@ -238,7 +238,7 @@ or_expr
                 assert($e1.tree != null);
                 assert($e2.tree != null);
                 $tree = new Or($e1.tree, $e2.tree);
-                setLocation($tree, $e1.start);
+                setLocation($tree, $OR);
        };
 
 and_expr

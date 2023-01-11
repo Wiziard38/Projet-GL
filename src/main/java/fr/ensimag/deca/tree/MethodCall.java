@@ -6,9 +6,9 @@ public class MethodCall extends AbstractCall {
 
     private AbstractExpr expr;
     private AbstractIdentifier method;
-    private ListDeclParam arguments = new ListDeclParam();
+    private ListExpr arguments = new ListExpr();
 
-    public MethodCall(AbstractExpr e, AbstractIdentifier name, ListDeclParam args) {
+    public MethodCall(AbstractExpr e, AbstractIdentifier name, ListExpr args) {
         Validate.notNull(e);
         Validate.notNull(name);
         Validate.notNull(args);

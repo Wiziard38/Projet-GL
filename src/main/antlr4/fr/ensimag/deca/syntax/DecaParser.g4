@@ -547,23 +547,23 @@ class_body
 	(
 		m = decl_method {
                         assert($m.tree != null);
-                        $fields.add($m.tree);
+                        $methods.add($m.tree);
         }
-		| decl_field_set[fields]
+		| decl_field_set[$fields]
 	)*;
 
 decl_field_set[ListDeclField l]:
 	v = visibility t = type list_decl_field[$l, $v.tree, $t.tree] SEMI;
 
-visibility
+visibility // ici jsp comment faire
 	returns[Visibility tree]:
 	/* epsilon */ {
-                $tree = PUBLIC;
-                // setLocation($tree, ) ici comment mettre la loc?
+                // $tree = PUBLIC;
+                // setLocation($tree, )
         }
 	| PROTECTED {
-                $tree = PROTECTED;
-                setLocation($tree, $PROTECTED);
+                // $tree = PROTECTED;
+                // setLocation($tree, $PROTECTED);
         };
 
 list_decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]:
@@ -573,7 +573,7 @@ list_decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]:
 
 decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
 	@init {
-                init = new NoInitialization()
+                AbstractInitialization init = new NoInitialization();
         }:
 	i = ident {
                 assert($i.tree != null);

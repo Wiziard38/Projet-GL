@@ -14,13 +14,10 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 public class AbstractCall extends AbstractExpr {
 
     private AbstractIdentifier name;
-    private ListExpr arguments = new ListExpr();
 
-    public AbstractCall(AbstractIdentifier name, ListExpr args) {
+    public AbstractCall(AbstractIdentifier name) {
         Validate.notNull(name);
-        Validate.notNull(args);
         this.name = name;
-        arguments = args;
     }
 
     @Override

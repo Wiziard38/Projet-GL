@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -30,4 +31,13 @@ public class ConvFloat extends AbstractUnaryExpr {
         return "/* conv float */";
     }
 
+    protected void checkDecoration() {
+        super.checkDecoration();
+        if (!this.getOperand().getType().isInt()) {
+            throw new DecacInternalError("ConvFloat operand is not of Type int");
+        }
+        if (!this.getType().isFloat()) {
+            throw new DecacInternalError("ConvFloat is not of Type Float");
+        }
+    }
 }

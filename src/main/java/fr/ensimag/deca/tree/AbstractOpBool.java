@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -32,6 +33,17 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
 
         throw new ContextualError("Comparaison logique sur des non-booleans", this.getLocation()); // Rule 3.33
     
+    }
+
+    @Override
+    protected void checkDecoration() {
+        super.checkDecoration();
+        if (!this.getLeftOperand().getType().isBoolean()) {
+            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type boolean");
+        }
+        if (!this.getType().isBoolean()) {
+            throw new DecacInternalError("OpBool " + this.toString() + " is not of Type boolean");
+        }
     }
 
 }

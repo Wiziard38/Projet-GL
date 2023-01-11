@@ -1,12 +1,17 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+
+import org.apache.log4j.Logger;
+
 /**
  * Binary expressions.
  *
@@ -14,6 +19,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
  * @date 01/01/2023
  */
 public abstract class AbstractBinaryExpr extends AbstractExpr {
+    private static final Logger LOG = Logger.getLogger(AbstractBinaryExpr.class);
 
     public AbstractExpr getLeftOperand() {
         return leftOperand;
@@ -76,7 +82,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         int nActualRight = compiler.getN()+1;
         this.getRightOperand().codeGenInst(compiler);
         
-        switch(getOperatorName()){
+        switch (getOperatorName()) {
             case "+":
                 compiler.addInstruction(new ADD(Register.getR(nActualRight),Register.getR(nActualLeft)));
                 break;
@@ -122,4 +128,22 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         compiler.setN(nActualLeft-1);
     }
 
+    @Override
+    protected void checkDecoration() {
+        super.checkDecoration();
+        LOG.debug(this.getLeftOperand().getType());
+        LOG.debug(this.getLeftOperand().getLocation());
+        LOG.debug(this.getRightOperand().getType());
+        
+        Type leftType, rightType;
+        if (this.getLeftOperand().getClass().equals(Identifier.class)) {
+            leftType = ((AbstractIdentifier) this.getLeftOperand()).getDefinition().getType();
+        } else {
+            leftType = this.getLeftOperand().getType();
+        }
+        if (!this.getLeftOperand().getType().sameType(this.getRightOperand().getType())) {
+            throw new DecacInternalError("Both operand of " + this.toString() + " have a different Type");
+        }
+        
+    }
 }

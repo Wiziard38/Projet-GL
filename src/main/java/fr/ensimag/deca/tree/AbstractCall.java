@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -10,6 +12,16 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 public class AbstractCall extends AbstractExpr {
+
+    private AbstractIdentifier name;
+    private ListExpr arguments = new ListExpr();
+
+    public AbstractCall(AbstractIdentifier name, ListExpr args) {
+        Validate.notNull(name);
+        Validate.notNull(args);
+        this.name = name;
+        arguments = args;
+    }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)

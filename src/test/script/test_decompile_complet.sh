@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Script pour tester la méthode decompile
-
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 # On prend tous les programmes deca valides en entrée se trouvant dans le répertoire donné en argument
 # On fait l'arbre, puis on applique decompile à l'arbre
 # On refait l'étape au-dessus avec le programme généré par decompile
@@ -26,7 +28,7 @@ if [ ! -d $output_dir ]; then
 fi
 
 # Variables pour connaitre le nombre de tests valides
-total_test=0
+total_test=($(find $base_dir -type f -name "*.deca" | wc -l))
 total_valid=0
 
 # Recherche de tous les fichiers .deca dans le répertoire de base et ses sous-répertoires
@@ -52,6 +54,7 @@ do
             rm $output_file1
             rm $output_file2
         fi
+        exit 1
 
     else
         # echo "Pour $input_file, les fichiers sont identiques"
@@ -63,7 +66,6 @@ do
             rm $output_file2
         fi
     fi
-    total_test=$((total_test+1))
 done
 
 echo ""

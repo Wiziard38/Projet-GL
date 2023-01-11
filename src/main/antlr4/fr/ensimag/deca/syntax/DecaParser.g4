@@ -390,13 +390,13 @@ select_expr
                 $tree = $e.tree;                //ici pas supporté
                 setLocation($tree, $e1.start);
         } (
-		o = OPARENT args = list_expr CPARENT {
+		o = OPARENT args = list_expr CPARENT {          // ici => MethodCall
                 // we matched "e1.i(args)"
                 assert($args.tree != null);
                 // $tree = $args.tree;             //ici ??
                 setLocation($tree, $o);
         }
-		| /* epsilon */ {
+		| /* epsilon */ {               //ici => FieldCall
                 // we matched "e.i"
         }
 	);
@@ -411,7 +411,7 @@ primary_expr
 	| m = ident OPARENT args = list_expr CPARENT {
                 assert($args.tree != null);
                 assert($m.tree != null);
-                                                                //ici pas fait
+                                                                //ici pas fait => MethodCall
                 setLocation($tree, $ident.start);
         }
 	| OPARENT expr CPARENT {
@@ -489,10 +489,10 @@ literal
                 $tree = new BooleanLiteral(false);
                 setLocation($tree, $FALSE);
         }
-	| THIS {                                        //ici pas supporté
+	| THIS {                                        //ici => This
                 setLocation($tree, $THIS);
         }
-	| NULL {                                        //ici pas supporté
+	| NULL {                                        //ici => Null
                 setLocation($tree, $NULL);
         };
 
@@ -518,23 +518,25 @@ list_classes
 
 class_decl:
 	CLASS name = ident superclass = class_extension OBRACE class_body CBRACE {
-                
+                              //ici => DeclClass(name, extension, ListDeclField, ListDeclMethod)
+                              // => passer les listes en argument de class_body
         };
 
 class_extension
 	returns[AbstractIdentifier tree]:
-	EXTENDS ident {
+	EXTENDS ident {                 //ici => ClassExtension(superClass)
         }
 	| /* epsilon */ {
         };
 
 class_body: (
-		m = decl_method {
+		m = decl_method {               //ici => DeclMethod
         }
-		| decl_field_set
+		| decl_field_set //ici passer ListDeclField en param
 	)*;
 
-decl_field_set: v = visibility t = type list_decl_field SEMI;
+decl_field_set:
+	v = visibility t = type list_decl_field SEMI; //ici passer ListDeclField, Visi et type en param
 
 visibility:
 	/* epsilon */ {
@@ -545,14 +547,14 @@ visibility:
 list_decl_field: dv1 = decl_field (COMMA dv2 = decl_field)*;
 
 decl_field:
-	i = ident {
+	i = ident {    //ici add DeclField à la liste
         } (
 		EQUALS e = expr {
         }
 	)? {
         };
 
-decl_method
+decl_method //ici Mathis choisit
 	@init {
 }:
 	type ident OPARENT params = list_params CPARENT (
@@ -564,7 +566,7 @@ decl_method
         };
 
 list_params: (
-		p1 = param {
+		p1 = param {            //ici add res de param
         } (
 			COMMA p2 = param {
         }
@@ -582,6 +584,6 @@ multi_line_string
                 $location = tokenLocation($s);
         };
 
-param:
+param: //ici DeclParam ou DeclVar
 	type ident {
         };

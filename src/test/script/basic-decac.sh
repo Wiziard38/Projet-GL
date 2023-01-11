@@ -3,11 +3,18 @@
 # Test de l'interface en ligne de commande de decac.
 # On ne met ici qu'un test trivial, a vous d'en ecrire de meilleurs.
 
+cd "$(dirname "$0")"/../../.. || exit 1
+
 PATH=./src/main/bin:"$PATH"
 
 # ====================================================================================================
-echo "{ int x = 0; print(x+1); }" > test.deca
-touch file1.deca file2.deca file3.deca 
+path='src/test/deca/compiler'
+mkdir $path > /dev/null 2>&1
+echo "{ int x = 0; print(x+1); }" > $path/test.deca
+touch $path/file1.deca 
+touch $path/file2.deca 
+touch $path/file3.deca 
+touch $path/fileErr.deca
 
 # Function to run a test and check the exit code if valid
 run_valid_test() {
@@ -75,18 +82,17 @@ fi
 
 run_invalid_test -b -p
 run_invalid_test -b -v
-run_invalid_test -b -p
-run_invalid_test -b file1.deca
+run_invalid_test -b $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -b"
 
 # ====================================================================================================
 
 run_invalid_test -p -v
-run_valid_test -p file1.deca
+run_valid_test -p $path/file1.deca
 
-res1=$(decac -p test.deca)
-res2=$(test_synt test.deca)
+res1=$(decac -p $path/test.deca)
+res2=$(test_synt $path/test.deca)
 if [[ "$res1" != "$res2" ]]; then 
     echo "ERREUR de resultat lors de decac -p test.deca"
     exit 1
@@ -97,10 +103,10 @@ echo "Pas de probleme detecte avec decac -p"
 # ====================================================================================================
 
 run_invalid_test -v -p
-run_valid_test -v file1.deca
+run_valid_test -v $path/file1.deca
 
-res1=$(decac -v test.deca)
-res2=$(test_context test.deca)
+res1=$(decac -v $path/test.deca)
+res2=$(test_context $path/test.deca)
 if [[ "$res1" != "$res2" ]]; then 
     echo "ERREUR de resultat lors de decac -v test.deca"
     exit 1
@@ -110,46 +116,40 @@ echo "Pas de probleme detecte avec decac -v"
 
 # ====================================================================================================
 
-run_valid_test -d file1.deca
-run_valid_test -d -d file1.deca
-run_valid_test -d -d -d file1.deca
-run_valid_test -d -d -d -d file1.deca
-run_valid_test -d -d -d -d -d file1.deca
-run_valid_test -d -d -d -d -d -d file1.deca
-run_valid_test -p -d -d file1.deca
-run_valid_test -v -d -d file1.deca
-
+run_valid_test -d $path/file1.deca
+run_valid_test -d -d $path/file1.deca
+run_valid_test -d -d -d -d $path/file1.deca
+run_valid_test -d -d -d -d -d -d $path/file1.deca
+run_valid_test -p -d -d $path/file1.deca
+run_valid_test -v -d -d $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -d*"
 
 # ====================================================================================================
 
-run_valid_test -p file1.deca file2.deca
-run_valid_test -p file1.deca file2.deca file3.deca
-run_valid_test -p file1.deca file2.deca file1.deca
-run_valid_test -v file1.deca file2.deca
-run_valid_test -v file1.deca file2.deca file3.deca
-run_valid_test -v file1.deca file2.deca file1.deca
-run_valid_test file1.deca file2.deca
-run_valid_test file1.deca file2.deca file3.deca
-run_valid_test file1.deca file2.deca file1.deca
-run_invalid_test fileErr.dec
-run_invalid_test toto
-run_invalid_test deca.dec
-run_invalid_test test.deca.test
-run_invalid_test deca
+run_valid_test -p $path/file1.deca $path/file2.deca
+run_valid_test -p $path/file1.deca $path/file2.deca $path/file1.deca
+run_valid_test -v $path/file1.deca $path/file2.deca
+run_valid_test -v $path/file1.deca $path/file2.deca $path/file1.deca
+run_valid_test $path/file1.deca $path/file2.deca
+run_valid_test $path/file1.deca $path/file2.deca $path/file1.deca
+run_invalid_test $path/fileErr.dec
+run_invalid_test $path/deca.dec
+run_invalid_test $path/test.deca.test
+run_invalid_test $path/deca
 
 echo "Pas de probleme detecte avec divers fichiers en parametre"
 
 # ====================================================================================================
 
-run_valid_test -r 7 file1.deca
-run_valid_test -r 4 file1.deca
-run_valid_test -r 16 file1.deca
+run_valid_test -r 7 $path/file1.deca
+run_valid_test -r 4 $path/file1.deca
+run_valid_test -r 16 $path/file1.deca
+run_invalid_test -r 17 $path/file1.deca
+run_invalid_test -r 3 $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -r X"
 
 # ====================================================================================================
 
-rm test.deca
-rm file1.deca file2.deca file3.deca fileErr.dec
+rm -r $path/

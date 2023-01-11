@@ -44,12 +44,11 @@ test_decompile_valide () {
     res_inter=$(cat $output_err)
 
     if [ ! "$res_inter" = "" ]; then
-        echo -e "\n${RED}Ce fichier ne peut etre parsé correctement. $filename.${NC}"
+        echo -e "${RED}Ce fichier ne peut etre parsé correctement. $filename.${NC}"
         exit 1
     else
             
-        res_inter=$(test_decompile $output_file1 > $output_file2)
-        echo $res_inter
+        $(test_decompile $output_file1 > $output_file2)
         test_result=$(diff -u <(sort $output_file1) <(sort $output_file2))
         
         if echo "$test_result" | grep -q -e "$filename:[0-9][0-9]*:"; then
@@ -64,17 +63,17 @@ test_decompile_valide () {
         fi
 
     fi
-    rm $output_file1 $output_file2
+    rm $output_file1 $output_file2 $output_err
 }    
 
 echo "--------------------------"
-echo -en "\rPASSED: $total_valid       TOTAL: $total_test"
+echo -e "\rPASSED: $total_valid       TOTAL: $total_test"
 
 for cas_de_test in $(find $base_dir -type f -name "*.deca" ! -path "*lexer*")
 do
     test_decompile_valide "$cas_de_test"
     printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}      TOTAL: $total_test"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}      TOTAL: $total_test"
 done
 
 echo "--------------------------"

@@ -220,7 +220,7 @@ public class DecacCompiler {
         
         // arret si option -p
         if (this.getCompilerOptions().getParsing()) {
-            prog.prettyPrint(System.out);
+            prog.decompile(System.out);
             return false;
         }
         
@@ -229,7 +229,6 @@ public class DecacCompiler {
         assert(prog.checkAllDecorations());
 
         if (this.getCompilerOptions().getVerification()) {
-            prog.prettyPrint(System.out);
             return false;
         }
 

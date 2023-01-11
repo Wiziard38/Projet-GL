@@ -5,6 +5,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.SEQ;
@@ -68,4 +69,15 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         return returnType;
     }
 
+    @Override
+    protected void checkDecoration() {
+        super.checkDecoration();
+        if (!this.getLeftOperand().getType().isFloat() && !this.getLeftOperand().getType().isInt()
+                && !this.getLeftOperand().getType().isBoolean()) {
+            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type int or float or boolean");
+        }
+        if (!this.getType().isBoolean()) {
+            throw new DecacInternalError("OpCmp " + this.toString() + " is not of Type boolean");
+        }
+    }
 }

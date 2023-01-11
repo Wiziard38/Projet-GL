@@ -167,8 +167,9 @@ public class CompilerOptions {
     protected void displayUsage() {
         String usage = String.join(
             System.getProperty("line.separator"),
-            "usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] [-w] <fichier deca>...]",
+            "usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] <fichier deca>...]",
             "             | [-b]");
+        //TODO add -w option ?
         System.out.println(usage);
 
         String options = String.join(

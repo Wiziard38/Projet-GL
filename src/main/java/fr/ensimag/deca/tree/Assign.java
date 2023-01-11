@@ -33,7 +33,8 @@ public class Assign extends AbstractBinaryExpr {
         Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         
-        this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType);
+        // On set si jamais il y a un CovnFloat a appliquer
+        this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));
 
         this.setType(requestedType);
         return requestedType;

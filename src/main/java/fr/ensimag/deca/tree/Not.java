@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -33,5 +34,15 @@ public class Not extends AbstractUnaryExpr {
     @Override
     protected String getOperatorName() {
         return "!";
+    }
+
+    protected void checkDecoration() {
+        super.checkDecoration();
+        if (!this.getOperand().getType().isBoolean()) {
+            throw new DecacInternalError("Not operand is not of Type boolean");
+        }
+        if (!this.getType().isBoolean()) {
+            throw new DecacInternalError("Not is not of Type boolean");
+        }
     }
 }

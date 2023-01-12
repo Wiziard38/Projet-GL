@@ -1,0 +1,5 @@
+// test invalide de la règle 2.5
+
+class A  {
+    void val;
+}

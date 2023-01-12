@@ -9,13 +9,12 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Method body when the body is assembler lines of code
  */
-public class MethodAsmBody extends AbstractMethod {
+public class MethodAsmBody extends AbstractMethodBody {
 
     private String textAsm;
     private Location location;
 
-    public MethodAsmBody(AbstractIdentifier method, AbstractIdentifier type, String txt, Location loc) {
-        super(method, type);
+    public MethodAsmBody(String txt, Location loc) {
         Validate.notNull(loc);
         Validate.notNull(txt);
         textAsm = txt;
@@ -23,7 +22,7 @@ public class MethodAsmBody extends AbstractMethod {
     }
 
     @Override
-    public void decompileBody(IndentPrintStream s) {
+    public void decompile(IndentPrintStream s) {
         s.println(" asm(");
         s.indent();
         s.println(textAsm);
@@ -31,12 +30,13 @@ public class MethodAsmBody extends AbstractMethod {
     }
 
     @Override
-    protected void prettyPrintMethodBody(PrintStream s, String prefix) {
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
         s.println(prefix + "+> " + location + " Assembler (" + textAsm + ")");
+
     }
 
     @Override
-    protected void iterMethodBody(TreeFunction f) {
+    protected void iterChildren(TreeFunction f) {
         // nothing to do here
     }
 

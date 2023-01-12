@@ -596,6 +596,7 @@ decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
 decl_method
 	returns[AbstractMethod tree]
 	@init {
+                AbstractMethodBody body;
 }:
 	type ident OPARENT params = list_params CPARENT (
 		block {
@@ -604,8 +605,8 @@ decl_method
                         assert($params.tree != null);
                         assert($block.decls != null);
                         assert($block.insts != null);
-                        $tree = new MethodBody($ident.tree, $type.tree, $params.tree, $block.decls, $block.insts);
-                        setLocation($tree, $type.start);
+                        body = new MethodBody($block.decls, $block.insts);
+                        setLocation(body, $block.start);
         }
 		| ASM OPARENT code = multi_line_string CPARENT SEMI {
                         assert($type.tree != null);
@@ -613,10 +614,12 @@ decl_method
                         assert($params.tree != null);
                         assert($code.text != null);
                         assert($code.location != null);
-                        $tree = new MethodAsmBody($ident.tree, $type.tree, $code.text, $code.location);
-                        setLocation($tree, $type.start);
+                        body = new MethodAsmBody($code.text, $code.location);
+                        setLocation(body, $ASM);
         }
 	) {
+                $tree = new DeclMethod($ident.tree, $type.tree, $params.tree, body);
+                setLocation($tree, $type.start);
         };
 
 list_params

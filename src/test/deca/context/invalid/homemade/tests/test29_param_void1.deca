@@ -1,0 +1,6 @@
+// test invalide de la règle 2.9
+
+
+class A{
+    int val(void x){};
+}

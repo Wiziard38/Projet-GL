@@ -8,5 +8,5 @@
 //    cree le 01/01/2023
 
 class iden {
-    int iden (type iden), asm ("premier test");
+    int iden (type iden) asm ("premier test");
 }

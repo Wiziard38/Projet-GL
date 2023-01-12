@@ -32,7 +32,7 @@ public class MethodAsmBody extends AbstractMethod {
 
     @Override
     protected void prettyPrintMethodBody(PrintStream s, String prefix) {
-        s.print(location + " Assembler (" + textAsm + ")");
+        s.println(prefix + "+> " + location + " Assembler (" + textAsm + ")");
     }
 
     @Override

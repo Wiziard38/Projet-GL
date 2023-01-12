@@ -8,6 +8,6 @@
 //    cree le 01/01/2023
 
 class iden {
-    int iden (type1 iden2), 
-    float x = 8 ; expr; ;
+    int iden (type1 iden2){
+    float x = 8 ; expr; ;}
 }

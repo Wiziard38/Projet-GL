@@ -42,7 +42,6 @@ public class MethodBody extends AbstractMethod {
 
     @Override
     protected void prettyPrintMethodBody(PrintStream s, String prefix) {
-        s.println(prefix + "Java");
         parameters.prettyPrint(s, prefix, false);
         variables.prettyPrint(s, prefix, false);
         instructions.prettyPrint(s, prefix, false);

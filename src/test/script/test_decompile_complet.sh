@@ -29,7 +29,7 @@ if [ ! -d $output_dir ]; then
 fi
 
 # Variables pour connaitre le nombre de tests valides
-total_test=($(find $base_dir -type f -name "*.deca" ! -path "*lexer*" | wc -l))
+total_test=$(find $base_dir -type f -name "*.deca" ! -path "*lexer*" | wc -l)
 total_valid=0
 
 

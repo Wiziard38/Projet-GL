@@ -527,6 +527,7 @@ class_decl
                 assert($superclass.tree != null);
                 assert($class_body.fields != null);
                 assert($class_body.methods != null);
+                setLocation($superclass.tree, $superclass.start);
                 $tree = new DeclClass($name.tree, $superclass.tree, $class_body.fields, $class_body.methods);
                 setLocation($tree, $CLASS);
         };
@@ -536,10 +537,9 @@ class_extension
 	EXTENDS ident {
                 assert($ident.tree != null);
                 $tree = $ident.tree;
-                setLocation($tree, $EXTENDS);
         }
 	| /* epsilon */ {
-                // $tree = getDecacCompiler().getEnvironmentType()    ici jsp voir avec Mathis
+                $tree = new Identifier(getDecacCompiler().createSymbol("Object"));
         };
 
 class_body
@@ -563,11 +563,9 @@ visibility // ici jsp comment faire
 	returns[Visibility tree]:
 	/* epsilon */ {
                 $tree = Visibility.PUBLIC;
-                // setLocation($tree, );
         }
 	| PROTECTED {
                 $tree = Visibility.PROTECTED;
-                // setLocation($tree, $PROTECTED);
         };
 
 list_decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]:
@@ -591,7 +589,7 @@ decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
                 assert($v != null);
                 assert($t != null);
                 tree = new DeclField($v, $t, $i.tree, init);
-                setLocation(tree, $i.start);            //ici peut etre plus précis
+                setLocation(tree, $i.start);
                 $l.add(tree);
         };
 

@@ -6,7 +6,7 @@ import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-public abstract class DeclMethod extends AbstractMethod {
+public class DeclMethod extends AbstractMethod {
 
     private AbstractIdentifier name;
     private AbstractIdentifier returnType;
@@ -25,25 +25,19 @@ public abstract class DeclMethod extends AbstractMethod {
         this.body = body;
     }
 
-    abstract public void decompileBody(IndentPrintStream s);
-
     @Override
     public void decompile(IndentPrintStream s) {
         returnType.decompile(s);
         name.decompile(s);
-        decompileBody(s);
+        body.decompile(s);
     }
-
-    abstract protected void prettyPrintMethodBody(PrintStream s, String prefix);
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         returnType.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
-        prettyPrintMethodBody(s, prefix);
+        body.prettyPrint(s, prefix, false);
     }
-
-    abstract protected void iterMethodBody(TreeFunction f);
 
     @Override
     protected void iterChildren(TreeFunction f) {

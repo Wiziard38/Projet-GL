@@ -1,0 +1,12 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour une class, decl field 
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+class iden {
+    protected int iden = 8, iden2;
+} 

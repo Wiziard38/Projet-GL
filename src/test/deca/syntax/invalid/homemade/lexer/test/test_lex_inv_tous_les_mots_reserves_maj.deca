@@ -1,0 +1,29 @@
+// Description:
+//    Programme minimaliste testant la reconnaissance de tous les mots réservés
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+Asm 
+Class 
+Extends 
+Else 
+False 
+If
+Instanceof 
+New 
+Null 
+ReadInt 
+ReadFloat 
+Print
+Println 
+Printlnx 
+Printx 
+Protected 
+Return 
+This
+True 
+While

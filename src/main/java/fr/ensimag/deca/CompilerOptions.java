@@ -36,6 +36,10 @@ public class CompilerOptions {
         return verification;
     }
 
+    public boolean geCompileInARM() {
+        return compileInARM;
+    }
+
     public boolean getParsing() {
         return parsing;
     }
@@ -54,6 +58,7 @@ public class CompilerOptions {
 
     private int debug = 0;
     private boolean parallel = false;
+    private boolean compileInARM = false;
     private boolean parsing = false;
     private boolean verification = false;
     private boolean check = false;
@@ -78,22 +83,28 @@ public class CompilerOptions {
                 
                 case "-p": // parse
                     this.parsing = true;
-                    if (this.verification) {
-                        throw new CLIException("Cannot use options '-p' and '-v' together");
+                    if (this.verification || this.compileInARM) {
+                        throw new CLIException("Cannot use options '-p' and '-v' and '-arm' together");
                     }
                     break;
 
                 case "-v": // verification
                     this.verification = true;
-                    if (this.parsing) {
-                        throw new CLIException("Cannot use options '-p' and '-v' together");
+                    if (this.parsing || this.compileInARM) {
+                        throw new CLIException("Cannot use options '-p' and '-v' and '-arm' together");
                     }
                     break;
 
                 case "-n": // no check
                     this.check = true;
                     break;
-
+                
+                case "-arm": // ARM
+                    this.compileInARM = true;
+                    if (this.parsing || this.verification) {
+                        throw new CLIException("Cannot use options '-p' and '-v' and '-arm' together");
+                    }
+                    break;
  
                 case "-d": // debug
                     this.debug += 1;
@@ -167,7 +178,7 @@ public class CompilerOptions {
     protected void displayUsage() {
         String usage = String.join(
             System.getProperty("line.separator"),
-            "usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] <fichier deca>...]",
+            "usage: decac [[-p | -v | -arm] [-n] [-r X] [-d]* [-P] <fichier deca>...]",
             "             | [-b]");
         //TODO add -w option ?
         System.out.println(usage);
@@ -190,6 +201,8 @@ public class CompilerOptions {
             "                     pour avoir plus de traces.",
             " -P (parallel)     : s'il y a plusieurs fichiers sources, lance la compilation",
             "                     des fichiers en parallèle (pour accélérer la compilation)",
+            " -arm (ARM)        : génère du code assembleur qui sera executable sur un", 
+            "                     processeur ARM-v6",
             System.getProperty("line.separator"));
 
         System.out.println(options);   

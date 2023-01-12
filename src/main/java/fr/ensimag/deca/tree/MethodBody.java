@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -36,6 +38,21 @@ public class MethodBody extends AbstractMethod {
         instructions.decompile(s);
         s.println();
         s.println("}");
+    }
+
+    @Override
+    protected void prettyPrintMethodBody(PrintStream s, String prefix) {
+        s.println(prefix + "Java");
+        parameters.prettyPrint(s, prefix, false);
+        variables.prettyPrint(s, prefix, false);
+        instructions.prettyPrint(s, prefix, false);
+    }
+
+    @Override
+    protected void iterMethodBody(TreeFunction f) {
+        parameters.iter(f);
+        variables.iter(f);
+        instructions.iter(f);
     }
 
 }

@@ -150,7 +150,7 @@ inst
         }
 	| RETURN expr SEMI {
                 assert($expr.tree != null);
-                $tree = $expr.tree;
+                $tree = new Return($expr.tree);
                 setLocation($tree, $RETURN);
         };
 
@@ -578,6 +578,7 @@ list_decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]:
 decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
 	@init {
                 AbstractInitialization init = new NoInitialization();
+                DeclField tree = null;
         }:
 	i = ident {
                 assert($i.tree != null);
@@ -589,7 +590,9 @@ decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
 	)? {
                 assert($v != null);
                 assert($t != null);
-                $l.add(new DeclField($v, $t, $i.tree, init));
+                tree = new DeclField($v, $t, $i.tree, init);
+                setLocation(tree, $i.start);            //ici peut etre plus précis
+                $l.add(tree);
         };
 
 decl_method

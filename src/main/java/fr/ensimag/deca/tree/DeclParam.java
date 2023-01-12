@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -24,6 +26,18 @@ public class DeclParam extends AbstractDeclParam {
         type.decompile(s);
         s.print(" ");
         name.decompile(s);
+    }
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        type.prettyPrint(s, prefix, false);
+        name.prettyPrint(s, prefix, false);
+    }
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        type.iter(f);
+        name.iter(f);
     }
 
 }

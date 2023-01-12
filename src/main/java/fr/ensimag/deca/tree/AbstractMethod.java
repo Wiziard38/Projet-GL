@@ -30,16 +30,21 @@ public abstract class AbstractMethod extends Tree {
         decompileBody(s);
     }
 
+    abstract protected void prettyPrintMethodBody(PrintStream s, String prefix);
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
+        returnType.prettyPrint(s, prefix, false);
+        name.prettyPrint(s, prefix, false);
+        prettyPrintMethodBody(s, prefix);
     }
+
+    abstract protected void iterMethodBody(TreeFunction f);
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        returnType.iter(f);
+        name.iter(f);
     }
 
 }

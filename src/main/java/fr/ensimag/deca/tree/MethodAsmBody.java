@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -26,6 +28,16 @@ public class MethodAsmBody extends AbstractMethod {
         s.indent();
         s.println(textAsm);
         s.print(");");
+    }
+
+    @Override
+    protected void prettyPrintMethodBody(PrintStream s, String prefix) {
+        s.print(location + " Assembler (" + textAsm + ")");
+    }
+
+    @Override
+    protected void iterMethodBody(TreeFunction f) {
+        // nothing to do here
     }
 
 }

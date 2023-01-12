@@ -18,8 +18,8 @@ public class DeclClass extends AbstractDeclClass {
 
     private AbstractIdentifier name;
     private AbstractIdentifier superclass;
-    private ListDeclField fields = new ListDeclField();
-    private ListDeclMethod methods = new ListDeclMethod();
+    private ListDeclField fields;
+    private ListDeclMethod methods;
 
     public DeclClass(AbstractIdentifier nom, AbstractIdentifier mother, ListDeclField params,
             ListDeclMethod functions) {

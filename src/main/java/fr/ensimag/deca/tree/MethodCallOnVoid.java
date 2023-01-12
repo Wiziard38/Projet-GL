@@ -9,7 +9,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  */
 public class MethodCallOnVoid extends AbstractCall {
 
-    private ListExpr args = new ListExpr();
+    private ListExpr args;
 
     public MethodCallOnVoid(AbstractIdentifier name, ListExpr args) {
         super(name);

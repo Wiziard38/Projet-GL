@@ -9,9 +9,9 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  */
 public class MethodBody extends AbstractMethod {
 
-    private ListDeclParam parameters = new ListDeclParam();
-    private ListDeclVar variables = new ListDeclVar();
-    private ListInst instructions = new ListInst();
+    private ListDeclParam parameters;
+    private ListDeclVar variables;
+    private ListInst instructions;
 
     public MethodBody(AbstractIdentifier method, AbstractIdentifier type, ListDeclParam params, ListDeclVar var,
             ListInst inst) {

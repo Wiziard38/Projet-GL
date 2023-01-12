@@ -9,7 +9,11 @@
 
 class iden {
     int iden (type1 iden3, type2 iden2){
+<<<<<<< HEAD
         float x = 8 ; expr;
     }
     
+=======
+    float x = 8 ; expr; ;}
+>>>>>>> fc628b9cd931176fae0a297f441f64a5ebb2e12a
 }

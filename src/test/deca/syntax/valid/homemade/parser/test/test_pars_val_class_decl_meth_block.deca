@@ -9,7 +9,6 @@
 
 class iden {
     int iden (type1 iden2){
-        float x = 8 ; expr; 
-    } 
+        float x = 8 ; expr; ;} 
     
 }

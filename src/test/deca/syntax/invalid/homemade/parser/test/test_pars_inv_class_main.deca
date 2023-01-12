@@ -1,0 +1,22 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour la règle class main
+//
+// Resultats:
+//    Ligne 20 : Erreur impossible de déclarer une classe après le main
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class iden1{
+
+}
+
+
+{
+    int x = 8;
+}
+
+class iden2{
+    
+}

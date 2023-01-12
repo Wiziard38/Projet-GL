@@ -17,21 +17,32 @@ public class DecacMain {
         LOG.info("Decac compiler started");
         boolean error = false;
         final CompilerOptions options = new CompilerOptions();
+        
         try {
             options.parseArgs(args);
         } catch (CLIException e) {
+            System.out.println(args[0]);
             System.err.println("Error during option parsing:\n"
                     + e.getMessage());
             options.displayUsage();
             System.exit(1);
         }
+        
         if (options.getPrintBanner()) {
-            System.out.println("GRoupe 39 en place!");
+            System.out.println("\033[1;32m============================================");
+            System.out.println("GL8:gr39: Compilateur Decac de l'equipe 39 !");
+            System.out.println("============================================ \u001B[0m");
             System.exit(0);
         }
+        
         if (options.getSourceFiles().isEmpty()) {
-            throw new UnsupportedOperationException("decac without argument not yet implemented");
+            options.displayUsage();
+            if (args.length == 0) {
+                System.exit(0);
+            }
+            System.exit(1);
         }
+        
         if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
             // compiler, et lancer l'exécution des méthodes compile() de chaque
@@ -46,6 +57,7 @@ public class DecacMain {
                 }
             }
         }
+        
         System.exit(error ? 1 : 0);
     }
 }

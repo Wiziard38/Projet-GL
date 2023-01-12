@@ -170,6 +170,7 @@ public class DecacCompiler {
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
+        
         try {
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
@@ -216,10 +217,20 @@ public class DecacCompiler {
             return true;
         }
         assert(prog.checkAllLocations());
-
-
+        
+        // arret si option -p
+        if (this.getCompilerOptions().getParsing()) {
+            prog.decompile(System.out);
+            return false;
+        }
+        
+        // arret si option -v
         prog.verifyProgram(this);
         assert(prog.checkAllDecorations());
+
+        if (this.getCompilerOptions().getVerification()) {
+            return false;
+        }
 
         addComment("start main program");
         prog.codeGenProgram(this);

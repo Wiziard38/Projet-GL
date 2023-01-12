@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 11 : Erreur (2 iden avant extends)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class iden1 iden2 extends iden3{
+
+}

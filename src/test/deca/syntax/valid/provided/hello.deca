@@ -8,5 +8,11 @@
 //    cree le 01/01/2023
 
 
-/* wetewt */  print("test");
-// tecewcew
+{
+    if(false || false || false || false || false || false || false || false || false || false){
+        print("error");
+    }
+    else{
+        print("ouuui");
+    }
+}

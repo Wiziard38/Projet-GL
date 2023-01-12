@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 12 : Erreur (expected asm)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class iden1 extends iden3{
+    int iden (gloat iden) Asm ("string");
+}

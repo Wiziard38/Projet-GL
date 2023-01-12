@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -40,7 +41,21 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+
+        if (compiler.environmentType.defOfType(this.superclass.getName()) == null) {
+            throw new ContextualError(String.format("Super class '%s' doesn't exists", this.superclass), this.getLocation());
+        }
+
+        if (compiler.environmentType.defOfClass(this.superclass.getName()) == null) {
+            throw new ContextualError(String.format("Super class '%s' is not a class", this.superclass), this.getLocation());
+        }
+
+        try {
+            compiler.environmentType.addNewClass(compiler, this.name.getName(), 
+                    this.getLocation(), compiler.environmentType.defOfClass(this.superclass.getName()));
+        } catch (EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError(String.format("Class '%s' already exists", this.name), this.getLocation());
+        }
     }
 
     @Override

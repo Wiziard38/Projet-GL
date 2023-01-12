@@ -543,7 +543,11 @@ class_extension
         };
 
 class_body
-	returns[ListDeclField fields, ListDeclMethod methods]:
+	returns[ListDeclField fields, ListDeclMethod methods]
+	@init { 
+                $fields = new ListDeclField();
+                $methods = new ListDeclMethod();
+        }:
 	(
 		m = decl_method {
                         assert($m.tree != null);
@@ -558,11 +562,11 @@ decl_field_set[ListDeclField l]:
 visibility // ici jsp comment faire
 	returns[Visibility tree]:
 	/* epsilon */ {
-                // $tree = PUBLIC;
-                // setLocation($tree, )
+                $tree = Visibility.PUBLIC;
+                // setLocation($tree, );
         }
 	| PROTECTED {
-                // $tree = PROTECTED;
+                $tree = Visibility.PROTECTED;
                 // setLocation($tree, $PROTECTED);
         };
 

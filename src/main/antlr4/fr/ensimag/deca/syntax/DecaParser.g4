@@ -594,7 +594,7 @@ decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
         };
 
 decl_method
-	returns[AbstractMethod tree]
+	returns[AbstractDeclMethod tree]
 	@init {
                 AbstractMethodBody body;
 }:

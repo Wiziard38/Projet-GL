@@ -9,10 +9,13 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO: à améliorer vu qu'il ya une virgule en trop à la fin
+        int count = getList().size();
         for (AbstractDeclParam p : getList()) {
             p.decompile(s);
-            s.print(", ");
+            if (count != 1) {
+                s.print(", ");
+            }
+            count--;
         }
     }
 

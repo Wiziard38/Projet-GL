@@ -9,6 +9,9 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * Null keyword
+ */
 public class Null extends AbstractExpr {
 
     @Override
@@ -20,8 +23,7 @@ public class Null extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
+        s.print("null");
     }
 
     @Override

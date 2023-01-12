@@ -4,24 +4,9 @@ import java.io.PrintStream;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-public class AbstractDeclParam extends Tree {
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
-    }
+/*
+ * Parameters declaration
+ */
+public abstract class AbstractDeclParam extends Tree {
 
 }

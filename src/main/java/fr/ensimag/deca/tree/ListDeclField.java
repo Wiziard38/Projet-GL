@@ -4,12 +4,17 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * List of fields' declaration
+ */
 public class ListDeclField extends TreeList<AbstractDeclField> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
+        for (AbstractDeclField c : getList()) {
+            c.decompile(s);
+            s.println();
+        }
     }
 
     /**

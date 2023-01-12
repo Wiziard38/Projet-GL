@@ -1,0 +1,8 @@
+// test invalide de la règle 2.7
+
+class B{
+    float val(int x){};
+}
+class A extends B {
+    int val(int x){};
+}

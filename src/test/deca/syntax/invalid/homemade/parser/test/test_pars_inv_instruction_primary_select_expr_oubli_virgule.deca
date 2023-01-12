@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour le select_expr
+//
+// Resultats:
+//    Ligne 12 : Erreur oubli ","
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+{
+    iden.iden1 (iden iden);
+}

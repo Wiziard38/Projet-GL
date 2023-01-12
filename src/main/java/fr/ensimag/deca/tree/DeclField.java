@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -8,6 +10,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
+import fr.ensimag.deca.tools.IndentPrintStream;
 
 public class DeclField extends AbstractDeclField {
 
@@ -47,4 +50,39 @@ public class DeclField extends AbstractDeclField {
         }
         currentClassDef.incNumberOfFields();
     }
+    @Override
+    public void decompile(IndentPrintStream s) {
+        if (visibility == Visibility.PROTECTED) {
+            s.print("protected ");
+        } else {
+            s.print("public ");
+        }
+        type.decompile(s);
+        s.print(" ");
+        name.decompile(s);
+        if (initialization instanceof Initialization) {
+            s.print(" = ");
+            initialization.decompile(s);
+        }
+        s.print(";");
+    }
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        if (visibility == Visibility.PROTECTED) {
+            s.println(prefix + "PROTECTED");
+        } else {
+            s.println(prefix + "PUBLIC");
+        }
+        type.prettyPrint(s, prefix, false);
+        name.prettyPrint(s, prefix, false);
+        initialization.prettyPrint(s, prefix, false);
+    }
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

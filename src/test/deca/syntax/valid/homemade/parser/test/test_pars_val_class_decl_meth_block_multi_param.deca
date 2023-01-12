@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour une class, decl methode block
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+class iden {
+    int iden (type1 iden3, type2 iden2){
+    float x = 8 ; expr; ;}
+}

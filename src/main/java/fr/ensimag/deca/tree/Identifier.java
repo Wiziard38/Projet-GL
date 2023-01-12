@@ -202,14 +202,13 @@ public class Identifier extends AbstractIdentifier {
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
         LOG.debug(this.getName());
-        LOG.debug(thisTypeDef);
         if (thisTypeDef == null) {
             throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
                     this.name.getName()), this.getLocation()); // Rule 0.2
         }
         if (thisTypeDef.getType().isVoid()) {
-            throw new ContextualError("Déclaration de variable invalide : type void", 
-                    this.getLocation()); // Rule 3.17
+            throw new ContextualError("Déclaration pour un type void impossible", 
+                    this.getLocation()); // Rule 3.17 // Rule 2.5
         }
         
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));

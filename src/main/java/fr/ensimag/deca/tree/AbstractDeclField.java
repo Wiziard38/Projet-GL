@@ -2,9 +2,11 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-public class AbstractDeclField extends Tree {
+public abstract class AbstractDeclField extends Tree {
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -24,4 +26,9 @@ public class AbstractDeclField extends Tree {
 
     }
 
+    /**
+     * TODO
+     */    
+    public abstract void verifyEnvField(DecacCompiler compiler, AbstractIdentifier currentClass, 
+            AbstractIdentifier superClass) throws ContextualError;
 }

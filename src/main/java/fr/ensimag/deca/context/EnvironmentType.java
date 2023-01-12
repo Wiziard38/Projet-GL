@@ -20,7 +20,6 @@ public class EnvironmentType {
     public EnvironmentType(DecacCompiler compiler) {
         
         envTypes = new HashMap<Symbol, TypeDefinition>();
-        envClass = new HashMap<Symbol, ClassDefinition>();
         
         Symbol intSymb = compiler.createSymbol("int");
         INT = new IntType(intSymb);
@@ -45,7 +44,7 @@ public class EnvironmentType {
         // Init object class
         Symbol objectSymb = compiler.createSymbol("Object");
         OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);
-        envClass.put(objectSymb, OBJECT.getDefinition());
+        envTypes.put(objectSymb, OBJECT.getDefinition());
 
         // Init equals method
         Symbol equalsMethod = compiler.createSymbol("equals");
@@ -61,7 +60,6 @@ public class EnvironmentType {
     }
 
     private final Map<Symbol, TypeDefinition> envTypes;
-    private final Map<Symbol, ClassDefinition> envClass;
 
     /**
      * TODO
@@ -72,14 +70,6 @@ public class EnvironmentType {
         return envTypes.get(s);
     }
 
-    /**
-     * TODO
-     * @param s
-     * @return
-     */
-    public ClassDefinition defOfClass(Symbol s) {
-        return envClass.get(s);
-    }
 
     public final VoidType    VOID;
     public final IntType     INT;
@@ -103,9 +93,9 @@ public class EnvironmentType {
             throw new DoubleDefException();
         }
 
-        ClassType classTyoe = new ClassType(className, classLocation, superClass);
+        ClassType classType = new ClassType(className, classLocation, superClass);
         
-        envClass.put(className, classTyoe.getDefinition());
+        envTypes.put(className, classType.getDefinition());
     }
 
 }

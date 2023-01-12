@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
@@ -19,8 +20,8 @@ public class DeclClass extends AbstractDeclClass {
 
     private AbstractIdentifier name;
     private AbstractIdentifier superclass;
-    private ListDeclField fields = new ListDeclField();
-    private ListDeclMethod methods = new ListDeclMethod();
+    private ListDeclField fields;
+    private ListDeclMethod methods;
 
     public DeclClass(AbstractIdentifier nom, AbstractIdentifier mother, ListDeclField params,
             ListDeclMethod functions) {
@@ -43,25 +44,32 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
 
         if (compiler.environmentType.defOfType(this.superclass.getName()) == null) {
-            throw new ContextualError(String.format("Super class '%s' doesn't exists", this.superclass), this.getLocation());
+            throw new ContextualError(String.format("La super classe '%s' n'existe pas",
+                    this.superclass), this.getLocation()); // Rule 1.3
         }
 
-        if (compiler.environmentType.defOfClass(this.superclass.getName()) == null) {
-            throw new ContextualError(String.format("Super class '%s' is not a class", this.superclass), this.getLocation());
+        if (!compiler.environmentType.defOfType(this.superclass.getName()).isClass()) {
+            throw new ContextualError(String.format("'%s' n'est pas une class",
+                    this.superclass), this.getLocation()); // Rule 1.3
         }
 
+        ClassDefinition superDef = (ClassDefinition) (compiler.environmentType.
+                defOfType(this.superclass.getName()));
         try {
             compiler.environmentType.addNewClass(compiler, this.name.getName(), 
-                    this.getLocation(), compiler.environmentType.defOfClass(this.superclass.getName()));
+                    this.getLocation(), superDef);
         } catch (EnvironmentExp.DoubleDefException e) {
-            throw new ContextualError(String.format("Class '%s' already exists", this.name), this.getLocation());
+            throw new ContextualError(String.format("Le nom '%s' est deja un nom de class ou type",
+                    this.name), this.getLocation()); // Rule 1.3
         }
     }
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        
+        this.fields.verifyListDeclField(compiler, this.name, this.superclass);
+        this.methods.verifyListDeclMethod(compiler, this.name, this.superclass);
     }
 
     @Override

@@ -7,11 +7,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * List of methods' declaration
  */
-public class ListDeclMethod extends TreeList<AbstractMethod> {
+public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        for (AbstractMethod m : getList()) {
+        for (AbstractDeclMethod m : getList()) {
             m.decompile(s);
             s.println();
             s.println();
@@ -24,7 +24,7 @@ public class ListDeclMethod extends TreeList<AbstractMethod> {
     public void verifyListDeclMethod(DecacCompiler compiler, AbstractIdentifier currentClass, 
             AbstractIdentifier superClass) throws ContextualError {
         
-        for (AbstractMethod myMethod : this.getList()) {
+        for (AbstractDeclMethod myMethod : this.getList()) {
             myMethod.verifyEnvMethod(compiler, currentClass, superClass);
             //myMethod.verifyEnv(compiler, currentClass);
         }

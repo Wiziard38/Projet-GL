@@ -29,7 +29,9 @@ public class DecacMain {
         }
         
         if (options.getPrintBanner()) {
-            System.out.println("GRoupe 39 en place!");
+            System.out.println("\033[1;32m============================================");
+            System.out.println("GL8:gr39: Compilateur Decac de l'equipe 39 !");
+            System.out.println("============================================ \u001B[0m");
             System.exit(0);
         }
         

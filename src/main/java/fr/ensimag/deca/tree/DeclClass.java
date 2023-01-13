@@ -79,12 +79,13 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         
-        this.fields.verifyListDeclField(compiler, this.name, this.superclass);
+        this.fields.verifyListDeclFieldMembers(compiler, this.name, this.superclass);
         this.methods.verifyListDeclMethod(compiler, this.name, this.superclass);
     }
 
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+        // this.fields.verifyListDeclFieldBody
         throw new UnsupportedOperationException("not yet implemented");
     }
 

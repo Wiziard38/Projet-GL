@@ -14,7 +14,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Instanceof keyword
  */
-public class Instanceof extends AbstractInst {
+public class Instanceof extends AbstractExpr {
 
     private AbstractIdentifier type;
     private AbstractExpr expr;
@@ -27,19 +27,6 @@ public class Instanceof extends AbstractInst {
     }
 
     @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,
-            Type returnType) throws ContextualError {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void decompile(IndentPrintStream s) {
         expr.decompile(s);
         s.print(" instanceof ");
@@ -48,7 +35,6 @@ public class Instanceof extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        s.println(prefix + "Instanceof");
         type.prettyPrint(s, prefix, false);
         expr.prettyPrint(s, prefix, false);
     }
@@ -57,6 +43,13 @@ public class Instanceof extends AbstractInst {
     protected void iterChildren(TreeFunction f) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

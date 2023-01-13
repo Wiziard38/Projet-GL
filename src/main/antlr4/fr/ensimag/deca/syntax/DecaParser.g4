@@ -436,7 +436,7 @@ primary_expr
                 assert($type.tree != null);
                 assert($expr.tree != null);
                 $tree = new Cast($type.tree, $expr.tree);
-                setLocation($tree, $OPARENT);
+                setLocation($tree, $cast);
         }
 	| literal {
                 assert($literal.tree != null);

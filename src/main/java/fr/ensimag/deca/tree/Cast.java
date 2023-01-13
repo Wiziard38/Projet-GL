@@ -11,7 +11,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-public class Cast extends AbstractInst {
+public class Cast extends AbstractExpr {
 
     private AbstractIdentifier type;
     private AbstractExpr expr;
@@ -24,19 +24,6 @@ public class Cast extends AbstractInst {
     }
 
     @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,
-            Type returnType) throws ContextualError {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void decompile(IndentPrintStream s) {
         s.print("(");
         type.decompile(s);
@@ -46,7 +33,6 @@ public class Cast extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        s.println(prefix + "Cast");
         type.prettyPrint(s, prefix, false);
         expr.prettyPrint(s, prefix, false);
     }
@@ -55,6 +41,13 @@ public class Cast extends AbstractInst {
     protected void iterChildren(TreeFunction f) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Script pour tester la méthode decompile
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 # On prend tous les programmes deca valides en entrée se trouvant dans le répertoire donné en argument
 # On fait l'arbre, puis on applique decompile à l'arbre
@@ -11,11 +14,11 @@
 # -d : delete -> supprime les fichiers textes générés s'ils sont identiques
 # -da : delete all -> supprime tous les fichiers textes générés, qu'ils soient identiques ou pas
 
-# Nom du répertoire de recherche des programmes .deca
-base_dir=$1
-
 # Obtenir le chemin absolu du répertoire du script
 script_dir=$(cd $(dirname $0) && pwd)
+
+# Nom du répertoire de recherche des programmes .deca
+base_dir="$script_dir/../deca/syntax/valid"
 
 # Définir le répertoire de sortie
 output_dir="$script_dir/../../../target/test-decompile"
@@ -26,47 +29,51 @@ if [ ! -d $output_dir ]; then
 fi
 
 # Variables pour connaitre le nombre de tests valides
-total_test=0
+total_test=($(find $base_dir -type f -name "*.deca" ! -path "*lexer*" | wc -l))
 total_valid=0
 
-# Recherche de tous les fichiers .deca dans le répertoire de base et ses sous-répertoires
-for input_file in $(find $base_dir -name "*.deca")
-do
 
-    # création des 2 fichiers de sortie de decompile()
-    output_file1="$output_dir/output1_$(basename $input_file)"
-    output_file2="$output_dir/output2_$(basename $input_file)"
+test_decompile_valide () {
+    filename="$1"
+    output_file1="$output_dir/output1_$(basename $filename)"
+    output_file2="$output_dir/output2_$(basename $filename)"
+    output_err="$output_dir/outputErr_$(basename $filename)"
 
-    test_decompile < $input_file > $output_file1
-    test_decompile < $output_file1 > $output_file2
+    
+    $(test_decompile $filename > $output_file1 2>$output_err)
+    res_inter=$(cat $output_err)
 
-    # Comparaison des fichiers
-    diff -u <(sort $output_file1) <(sort $output_file2)
-
-    # En cas de différences, afficher un message
-    if [ $? -ne 0 ]; then
-        echo "Pour $input_file, les fichiers sont différents"
-
-        # Supprime les fichiers générés si l'option -da est activée
-        if [ "$2" = "-da" ]; then
-            rm $output_file1
-            rm $output_file2
-        fi
-
+    if [ ! "$res_inter" = "" ]; then
+        echo -e "${RED}Ce fichier ne peut etre parsé correctement. $filename.${NC}"
+        exit 1
     else
-        # echo "Pour $input_file, les fichiers sont identiques"
-        total_valid=$((total_valid+1))
-
-        # Supprime les fichiers générés si l'option -d ou -da est activée
-        if [ "$2" = "-d" ] || [ "$2" = "-da" ];  then
-            rm $output_file1
-            rm $output_file2
+            
+        $(test_decompile $output_file1 > $output_file2)
+        test_result=$(diff -u <(sort $output_file1) <(sort $output_file2))
+        
+        if echo "$test_result" | grep -q -e "$filename:[0-9][0-9]*:"; then
+            echo -e "${RED}Echec inattendu pour test_context sur $filename.${NC}"
+            exit 1
+        elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
+            echo -e "${RED}Erreur non soulevée pour $filename.${NC}"
+            exit 1
+        else
+            # echo "Succes attendu de test_context sur $1."
+            total_valid=$((total_valid+1))
         fi
+
     fi
-    total_test=$((total_test+1))
+    rm $output_file1 $output_file2 $output_err
+}    
+
+echo "--------------------------"
+echo -e "\rPASSED: $total_valid       TOTAL: $total_test"
+
+for cas_de_test in $(find $base_dir -type f -name "*.deca" ! -path "*lexer*")
+do
+    test_decompile_valide "$cas_de_test"
+    printf "\033[1A"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}      TOTAL: $total_test"
 done
 
-echo ""
-echo "--------------------------------------"
-echo "Tests passés: $total_valid / $total_test."
-echo "--------------------------------------"
+echo "--------------------------"

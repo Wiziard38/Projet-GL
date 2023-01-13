@@ -89,6 +89,8 @@ echo "Pas de probleme detecte avec decac -b"
 # ====================================================================================================
 
 run_invalid_test -p -v
+run_invalid_test -p -v -arm
+run_invalid_test -p -arm
 run_valid_test -p $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -p"
@@ -96,6 +98,8 @@ echo "Pas de probleme detecte avec decac -p"
 # ====================================================================================================
 
 run_invalid_test -v -p
+run_invalid_test -v -p -arm
+run_invalid_test -v -arm
 run_valid_test -v $path/file1.deca
 decac_moins_v=$(decac -v $path/test.deca)
 
@@ -141,6 +145,15 @@ run_invalid_test -r 17 $path/file1.deca
 run_invalid_test -r 3 $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -r X"
+
+# ====================================================================================================
+
+run_invalid_test -arm -p
+run_invalid_test -arm -p -v
+run_invalid_test -arm -v
+run_valid_test -arm $path/file1.deca
+
+echo "Pas de probleme detecte avec decac -arm"
 
 # ====================================================================================================
 

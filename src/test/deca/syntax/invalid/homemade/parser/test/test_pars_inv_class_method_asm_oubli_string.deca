@@ -2,12 +2,12 @@
 //    tests de programme incorrect syntaxiquement pour les class
 //
 // Resultats:
-//    Ligne 12 : Erreur (only one expr after "=")
+//    Ligne 12 : Erreur (missing string)
 //    
 //
 // Historique:
 //    cree le 04/01/2023
 
 class iden1 extends iden3{
-    asm ;
+    int iden (gloat iden) asm ();
 }

@@ -1,0 +1,13 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour un cast
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+{
+    (int) (expr_bidon1 || expr_bidon2);
+}

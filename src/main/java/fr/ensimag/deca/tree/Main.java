@@ -5,6 +5,13 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.HALT;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 import static org.mockito.ArgumentMatchers.nullable;
 
@@ -50,6 +57,22 @@ public class Main extends AbstractMain {
         this.declVariables.codeGenListVar(compiler);
         compiler.addComment("Beginning of main instructions:");
         insts.codeGenListInst(compiler);
+        compiler.addInstruction(new HALT());
+        compiler.addComment("End of the main program");
+        compiler.addLabel(compiler.getErreurPile());
+        compiler.addInstruction(new WSTR("Erreur de débordement de pile dans le programme"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+        compiler.addLabel(compiler.getErreurOverflow() );
+        compiler.addInstruction(new WSTR("Erreur 'overflow' pendant une opération arithmétique"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+        compiler.addLabel(compiler.getErreurinOut() );
+        compiler.addInstruction(new WSTR("Erreur lorsd d'une entrée/sortie"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+        compiler.addInstructionFirst(new BOV(compiler.getErreurPile()));
+        compiler.addInstructionFirst(new TSTO(compiler.getD()));
     }
 
     @Override

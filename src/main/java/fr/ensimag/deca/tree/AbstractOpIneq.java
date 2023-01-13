@@ -15,30 +15,6 @@ import fr.ensimag.ima.pseudocode.instructions.SLT;
  * @date 01/01/2023
  */
 public abstract class AbstractOpIneq extends AbstractOpCmp {
-    @Override
-    protected void codeGenInst(DecacCompiler compiler){
-        int nActualLeft = compiler.getN()+1;
-        this.getLeftOperand().codeGenInst(compiler);
-        int nActualRight = compiler.getN()+1;
-        this.getRightOperand().codeGenInst(compiler);
-        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
-        switch(this.getOperatorName()){
-            case ">":
-                compiler.addInstruction(new SGT(Register.getR(nActualLeft)));
-                break;
-            case ">=":
-                compiler.addInstruction(new SGE(Register.getR(nActualLeft)));
-                break;
-            case "<":
-                compiler.addInstruction(new SLT(Register.getR(nActualLeft)));
-                break;
-            case "<=":
-                compiler.addInstruction(new SLE(Register.getR(nActualLeft)));
-                break;
-        }
-        
-        compiler.setN(nActualLeft);
-    }
 
     public AbstractOpIneq(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);

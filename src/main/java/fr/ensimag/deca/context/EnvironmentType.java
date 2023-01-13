@@ -5,6 +5,8 @@ import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -41,22 +43,28 @@ public class EnvironmentType {
         STRING = new StringType(stringSymb);
         // not added to envTypes, it's not visible for the user.
         
-        // Init object class
+        // Creating the super class
+        Symbol superSymb = compiler.createSymbol("0");
+        ClassType superClass = new ClassType(superSymb, null, null);
+
+        // Init the Object class
         Symbol objectSymb = compiler.createSymbol("Object");
-        OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);
+        OBJECT = new ClassType(objectSymb, Location.BUILTIN, superClass.getDefinition());
         envTypes.put(objectSymb, OBJECT.getDefinition());
 
-        // Init equals method
+        // Init the equals method
         Symbol equalsMethod = compiler.createSymbol("equals");
         Signature equalsSignature = new Signature();
         equalsSignature.add(OBJECT);
-        ExpDefinition equalsDef = new MethodDefinition(OBJECT, Location.BUILTIN, equalsSignature, 0);
+        MethodDefinition equalsDef = new MethodDefinition(BOOLEAN, Location.BUILTIN, equalsSignature, 1);
+
+        // Add the method to Object environment
         try {
             OBJECT.getDefinition().getMembers().declare(equalsMethod, equalsDef);
-            OBJECT.getDefinition().incNumberOfMethods();
         } catch (EnvironmentExp.DoubleDefException e) {
-            throw new InternalError("Big proble, equals method should not return DoubleDefException!");
+            throw new DecacInternalError("Should not happend, contact developpers please.");
         }
+        OBJECT.getDefinition().incNumberOfMethods();
     }
 
     private final Map<Symbol, TypeDefinition> envTypes;

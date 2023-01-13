@@ -2,7 +2,6 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -199,16 +198,16 @@ public class Identifier extends AbstractIdentifier {
      * @param compiler contains "env_types" attribute
      */
     @Override
-    public Type verifyType(DecacCompiler compiler) throws ContextualError {
+    public Type verifyType(DecacCompiler compiler, boolean checkVoid, String message) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
         LOG.debug(this.getName());
         if (thisTypeDef == null) {
             throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
                     this.name.getName()), this.getLocation()); // Rule 0.2
         }
-        if (thisTypeDef.getType().isVoid()) {
-            throw new ContextualError("Déclaration pour un type void impossible", 
-                    this.getLocation()); // Rule 3.17 // Rule 2.5
+        if (checkVoid && thisTypeDef.getType().isVoid()) {
+            throw new ContextualError(String.format("Le type void ne peut etre affecté pour %s",
+                    message), this.getLocation()); // Rule 3.17 // Rule 2.5 // Rule 2.9
         }
         
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
@@ -255,4 +254,8 @@ public class Identifier extends AbstractIdentifier {
         return this.getDefinition().getType();
     }
 
+    @Override
+    public String toString() {
+        return this.getName().toString();
+    }
 }

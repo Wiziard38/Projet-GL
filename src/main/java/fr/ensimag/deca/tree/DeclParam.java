@@ -4,6 +4,10 @@ import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.Signature;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /*
@@ -39,5 +43,11 @@ public class DeclParam extends AbstractDeclParam {
         type.iter(f);
         name.iter(f);
     }
+
+    @Override
+    public Type verifyParam(DecacCompiler compiler) throws ContextualError {
+        return this.type.verifyType(compiler, true, "un parametre");
+    }
+
 
 }

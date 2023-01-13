@@ -70,7 +70,7 @@ public class DeclClass extends AbstractDeclClass {
             compiler.environmentType.addNewClass(compiler, this.name.getName(), 
                     this.getLocation(), superDef);
         } catch (EnvironmentExp.DoubleDefException e) {
-            throw new ContextualError(String.format("Le nom '%s' est deja un nom de class ou type",
+            throw new ContextualError(String.format("Le nom '%s' est deja un nom de class",
                     this.name), this.getLocation()); // Rule 1.3
         }
     }

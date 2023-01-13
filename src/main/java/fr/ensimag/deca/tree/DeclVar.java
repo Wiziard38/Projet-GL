@@ -52,7 +52,7 @@ public class DeclVar extends AbstractDeclVar {
         Validate.notNull(localEnv);
 
         // On verifie que le type existe bien
-        Type initializationType = this.type.verifyType(compiler);
+        Type initializationType = this.type.verifyType(compiler, true, "une variable");
         // this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
 
         // On verifie que varName n'est pas deja declare localement

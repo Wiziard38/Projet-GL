@@ -36,11 +36,11 @@ public class DeclField extends AbstractDeclField {
     public void verifyEnvField(DecacCompiler compiler, AbstractIdentifier currentClass,
             AbstractIdentifier superClass) throws ContextualError {
 
-        Type fieldType = this.type.verifyType(compiler);
+        Type fieldType = this.type.verifyType(compiler, true, "un champ");
         ClassDefinition currentClassDef = (ClassDefinition) (compiler.environmentType.
                 defOfType(currentClass.getName()));
         FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
-                currentClassDef, currentClassDef.getNumberOfFields());
+                currentClassDef, currentClassDef.getNumberOfFields() + 1);
 
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);
@@ -50,6 +50,8 @@ public class DeclField extends AbstractDeclField {
         }
         currentClassDef.incNumberOfFields();
     }
+
+
     @Override
     public void decompile(IndentPrintStream s) {
         if (visibility == Visibility.PROTECTED) {

@@ -9,9 +9,13 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.AbstractLine;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,8 +47,34 @@ public class DecacCompiler {
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
-    private int n =1    ;
-    private int SP =3   ;
+    private int n = 1;
+    private int SP = 0;
+    private int d = 0;
+    private Label erreurPile = new Label("ErreurPile");
+
+    public Label getErreurPile(){
+        return erreurPile;
+    }
+
+    private Label erreurOverflow = new Label("overflof_error");
+
+    public Label getErreurOverflow(){
+        return erreurOverflow;
+    }
+
+    private Label erreurInOut = new Label("io_error");
+
+    public Label getErreurinOut(){
+        return erreurInOut;
+    }
+    
+    public int getD(){
+        return d;
+    }
+
+    public void setD(int d){
+        this.d = d;
+    }
 
     public int getN(){
         return n;
@@ -61,6 +91,7 @@ public class DecacCompiler {
     public void setSP(int SP){
         this.SP = SP;
     }
+    
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
@@ -113,6 +144,9 @@ public class DecacCompiler {
         program.addInstruction(instruction);
     }
 
+    public void addInstructionFirst(Instruction instruction) {
+        program.addFirst(instruction);
+    }
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction,

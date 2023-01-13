@@ -63,7 +63,7 @@ public class CompilerOptions {
     private boolean verification = false;
     private boolean check = false;
     private boolean printBanner = false;
-    private int numberRegisters = 0;
+    private int numberRegisters = 16;
     private List<File> sourceFiles = new ArrayList<File>();
 
     

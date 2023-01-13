@@ -1,0 +1,12 @@
+// test valide de la règle 2.7
+
+class B {
+    int value(float x){}
+    void print(){}
+    String name(int ent, int virg){}
+}
+class A extends B{
+    int value(float x){}
+    void print(){}
+    String name(int ent, int virg){}
+}

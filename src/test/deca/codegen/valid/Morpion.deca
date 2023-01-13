@@ -111,11 +111,11 @@
         println("---------");
         println(bottomLeft, "|", bottomMid, "|", bottomRight);
 
-        if ((topLeft == topMid == topRight != 0)
-        || (centerLeft == centerMid == centerRight != 0)
-        || (bottomLeft == bottomMid == bottomRight != 0)
-        || (topLeft == centerMid == bottomRight != 0)
-        || (topRight == centerMid == bottomLeft != 0)) {
+        if ((topLeft == topMid && topMid == topRight && topRight != 0)
+        || (centerLeft == centerMid && centerMid == centerRight && centerRight != 0)
+        || (bottomLeft == bottomMid && bottomMid == bottomRight && bottomRight != 0)
+        || (topLeft == centerMid && centerMid == bottomRight && bottomRight != 0)
+        || (topRight == centerMid && centerMid == bottomLeft && bottomLeft != 0)) {
             if (tour % 2 == 0) {
                 println("Félicitation joueur 2! Vous avez gagné");
             }

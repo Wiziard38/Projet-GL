@@ -173,6 +173,7 @@ if_then_else
                         
                         elsif_else_branch  = new ListInst();
                         elsif_branch = new IfThenElse($elsif_cond.tree, $elsif_li.tree, elsif_else_branch);
+                        setLocation(elsif_branch, $elsif);
                         else_branch.add(elsif_branch);
                         else_branch = elsif_else_branch;
         }

@@ -12,8 +12,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.ADD;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 /**
  * @author gl39
@@ -35,14 +38,13 @@ public class DeclVar extends AbstractDeclVar {
     }
 
     protected void codeGenVar(DecacCompiler compiler){
+        compiler.setD(compiler.getD() + 1);
+        compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));
         int nAct = compiler.getN()+1;
-        Initialization initExpr = (Initialization)initialization;
-        initExpr.getExpression().codeGenInst(compiler);
+        initialization.codeGenInst(compiler);
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
-        compiler.addInstruction(new STORE(Register.getR(nAct),new RegisterOffset(compiler.getSP(), Register.GB)));
         compiler.setN(nAct-1);
-        compiler.setSP(compiler.getSP()+1);
     }
 
     @Override

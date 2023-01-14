@@ -8,6 +8,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
@@ -58,11 +59,9 @@ public class DeclMethod extends AbstractDeclMethod {
         name.iter(f);
     }
 
-    public void verifyEnvMethod(DecacCompiler compiler, AbstractIdentifier currentClass, 
+    public void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef, 
             AbstractIdentifier superClass) throws ContextualError {
                 
-        ClassDefinition currentClassDef = (ClassDefinition) (compiler.environmentType.
-                defOfType(currentClass.getName()));
         ClassDefinition superClassDef = (ClassDefinition) (compiler.environmentType.
                 defOfType(superClass.getName()));
         String errorDef = String.format("'%s' est deja défini dans l'environnment", this.name);
@@ -112,9 +111,18 @@ public class DeclMethod extends AbstractDeclMethod {
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);
         } catch (DoubleDefException e) {
-            throw new DecacInternalError("Should not happend, contact developpers please.");
+            throw new DecacInternalError("Should not happen, contact developpers please.");
         }
 
     }
 
+    @Override
+    public void verifyBodyMethod(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError {
+
+        EnvironmentExp localEnv = new EnvironmentExp(currentClassDef.getMembers());
+        this.parameters.verifyEnvParams(compiler, localEnv);
+        Type returnTypeNonVoid = this.returnType.verifyType(compiler, true, "un return de méthode"); // Rule 3.24
+        this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
+    }
 }

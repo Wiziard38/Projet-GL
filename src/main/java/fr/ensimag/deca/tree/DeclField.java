@@ -33,12 +33,11 @@ public class DeclField extends AbstractDeclField {
 
 
     @Override
-    public void verifyEnvField(DecacCompiler compiler, AbstractIdentifier currentClass,
+    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
-        ClassDefinition currentClassDef = (ClassDefinition) (compiler.environmentType.
-                defOfType(currentClass.getName()));
+        
         FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
                 currentClassDef, currentClassDef.getNumberOfFields() + 1);
 
@@ -49,6 +48,18 @@ public class DeclField extends AbstractDeclField {
                     this.name), this.getLocation()); // Rule 2.4
         }
         currentClassDef.incNumberOfFields();
+    }
+
+
+    @Override
+    public void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError {
+    
+        FieldDefinition thisDef = currentClassDef.getMembers().get(this.name.getName()).asFieldDefinition(
+            "Should not happen, contact developpers please.", this.getLocation());
+
+        this.initialization.verifyInitialization(compiler, thisDef.getType(), 
+                currentClassDef.getMembers(), currentClassDef);
     }
 
 

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
@@ -21,13 +22,29 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
     /**
      * TODO
      */    
-    public void verifyListDeclMethod(DecacCompiler compiler, AbstractIdentifier currentClass, 
+    public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef, 
             AbstractIdentifier superClass) throws ContextualError {
         
         for (AbstractDeclMethod myMethod : this.getList()) {
-            myMethod.verifyEnvMethod(compiler, currentClass, superClass);
-            //myMethod.verifyEnv(compiler, currentClass);
+            myMethod.verifyEnvMethod(compiler, currentClassDef, superClass);
         }
     }
+
+    /**
+     * TODO
+     * @param compiler
+     * @param currentClass
+     * @param superClass
+     * @throws ContextualError
+     */
+    public void verifyListDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError {
+        
+        for (AbstractDeclMethod myMethod : this.getList()) {
+            myMethod.verifyBodyMethod(compiler, currentClassDef);
+        }
+    }
+
+
 
 }

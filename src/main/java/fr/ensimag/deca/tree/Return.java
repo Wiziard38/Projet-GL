@@ -24,10 +24,10 @@ public class Return extends AbstractInst {
     }
 
     @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,
-            Type returnType) throws ContextualError {
-        // TODO Auto-generated method stub
-
+    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass, Type returnType) throws ContextualError {
+        // Already verified non void for return type
+        this.expr.verifyRValue(compiler, localEnv, currentClass, returnType);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 
 /**
@@ -15,7 +16,18 @@ public abstract class AbstractDeclMethod extends Tree {
      * @param superClass
      * @throws ContextualError
      */
-    public abstract void verifyEnvMethod(DecacCompiler compiler, AbstractIdentifier currentClass, 
+    public abstract void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef, 
             AbstractIdentifier superClass) throws ContextualError;
-            
+          
+    
+    /**
+     * TODO
+     * @param compiler
+     * @param currentClass
+     * @param superClass
+     * @throws ContextualError
+     */
+    public abstract void verifyBodyMethod(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError;
+
 }

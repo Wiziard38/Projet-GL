@@ -43,13 +43,9 @@ public class EnvironmentType {
         STRING = new StringType(stringSymb);
         // not added to envTypes, it's not visible for the user.
         
-        // Creating the super class
-        Symbol superSymb = compiler.createSymbol("0");
-        ClassType superClass = new ClassType(superSymb, null, null);
-
         // Init the Object class
         Symbol objectSymb = compiler.createSymbol("Object");
-        OBJECT = new ClassType(objectSymb, Location.BUILTIN, superClass.getDefinition());
+        OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);
         envTypes.put(objectSymb, OBJECT.getDefinition());
 
         // Init the equals method
@@ -62,7 +58,7 @@ public class EnvironmentType {
         try {
             OBJECT.getDefinition().getMembers().declare(equalsMethod, equalsDef);
         } catch (EnvironmentExp.DoubleDefException e) {
-            throw new DecacInternalError("Should not happend, contact developpers please.");
+            throw new DecacInternalError("Should not happen, contact developpers please.");
         }
         OBJECT.getDefinition().incNumberOfMethods();
     }
@@ -104,6 +100,19 @@ public class EnvironmentType {
         ClassType classType = new ClassType(className, classLocation, superClass);
         
         envTypes.put(className, classType.getDefinition());
+    }
+
+    /**
+     * TODO
+     * @param className
+     * @return
+     */
+    public ClassDefinition getClass(Symbol className) {
+        TypeDefinition def = this.defOfType(className);
+        if (def == null || !def.isClass()) {
+            throw new DecacInternalError("Should not happen, contact developpers please.");
+        }
+        return (ClassDefinition) def;
     }
 
 }

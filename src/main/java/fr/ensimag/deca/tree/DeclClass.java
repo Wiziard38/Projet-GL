@@ -66,6 +66,7 @@ public class DeclClass extends AbstractDeclClass {
 
         ClassDefinition superDef = (ClassDefinition) (compiler.environmentType.
                 defOfType(this.superclass.getName()));
+
         try {
             compiler.environmentType.addNewClass(compiler, this.name.getName(), 
                     this.getLocation(), superDef);
@@ -79,14 +80,20 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         
-        this.fields.verifyListDeclFieldMembers(compiler, this.name, this.superclass);
-        this.methods.verifyListDeclMethod(compiler, this.name, this.superclass);
+        ClassDefinition currentClassDef = (ClassDefinition) (compiler.environmentType.
+                defOfType(this.name.getName()));
+
+        this.fields.verifyListDeclFieldMembers(compiler, currentClassDef, this.superclass);
+        this.methods.verifyListDeclMethodMembers(compiler, currentClassDef, this.superclass);
     }
 
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        // this.fields.verifyListDeclFieldBody
-        throw new UnsupportedOperationException("not yet implemented");
+
+        ClassDefinition currentClassDef = compiler.environmentType.getClass(this.name.getName());
+
+        this.fields.verifyListDeclFieldBody(compiler, currentClassDef);
+        this.methods.verifyListDeclMethodBody(compiler, currentClassDef);
     }
 
     @Override

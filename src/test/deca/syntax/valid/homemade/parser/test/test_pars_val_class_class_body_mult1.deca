@@ -1,0 +1,16 @@
+// Description:
+//    Programme minimaliste testant la regle class body
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+class iden {
+    
+    protected int x = 8;
+    int iden4 (type3 iden5) asm ("string");
+
+    float y;
+}

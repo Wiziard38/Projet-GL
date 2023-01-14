@@ -1,0 +1,16 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 11 : Erreur (oubli extends)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class iden2{
+    
+}
+class iden1 iden2{
+
+}

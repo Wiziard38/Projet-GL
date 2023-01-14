@@ -1,0 +1,26 @@
+// Description:
+//    Programme minimaliste testant l'arbre d'instruction pour une class multiple et main
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+class iden {
+    
+}
+
+
+class b{
+
+}
+
+class a extends b{
+    
+}
+
+
+{
+    main_non_vide;
+}

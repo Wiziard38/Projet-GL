@@ -8,5 +8,5 @@
 //    cree le 01/01/2023
 
 class iden {
-    int iden = 564, iden2;
+    int iden1 = 564, iden2;
 }

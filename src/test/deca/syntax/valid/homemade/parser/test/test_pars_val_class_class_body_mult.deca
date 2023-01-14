@@ -1,5 +1,5 @@
 // Description:
-//    Programme minimaliste testant l'arbre d'instruction pour une class, decl methode block
+//    Programme minimaliste testant la regle class body
 //
 // Resultats:
 //    
@@ -11,5 +11,6 @@ class iden {
     int iden1 (type1 iden3, type2 iden2){
         float x = 8 ; expr;
     }
-    
+    protected int x = 8;
+    int iden4 (type3 iden5) asm ("string");
 }

@@ -8,6 +8,6 @@
 // Historique:
 //    cree le 04/01/2023
 
-class iden1 extends iden3{
+class iden3{
     protected int x = 3 456;
 }

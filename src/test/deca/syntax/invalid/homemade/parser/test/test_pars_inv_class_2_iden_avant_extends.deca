@@ -8,6 +8,10 @@
 // Historique:
 //    cree le 04/01/2023
 
+class iden3{
+
+}
+
 class iden1 iden2 extends iden3{
 
 }

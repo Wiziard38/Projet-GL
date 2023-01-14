@@ -8,4 +8,8 @@
 // Historique:
 //    cree le 04/01/2023
 
+class b{
+
+}
+
 class a extends b

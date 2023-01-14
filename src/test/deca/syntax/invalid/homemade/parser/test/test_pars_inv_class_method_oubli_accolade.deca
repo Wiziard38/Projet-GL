@@ -8,7 +8,7 @@
 // Historique:
 //    cree le 04/01/2023
 
-class iden1 extends iden3{
+class iden3{
     int x (float iden) 
     type var; instr;
 }

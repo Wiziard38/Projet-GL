@@ -13,5 +13,5 @@ class B{
 }
 
 class A extends B {
-int z = 1;
+    int z = 1;
 }

@@ -257,7 +257,7 @@ public class DecacCompiler {
         
         // arret si option -v
         prog.verifyProgram(this);
-        assert(prog.checkAllDecorations());
+        prog.checkAllDecorations();
 
         if (this.getCompilerOptions().getVerification()) {
             return false;

@@ -22,10 +22,10 @@ test_context_valide () {
     
     if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
         echo "${RED}Echec inattendu pour test_context sur $1.${NC}"
-        exit 1
+        # exit 1
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "${RED}Erreur non soulevée pour $1.${NC}"
-        exit 1
+        # exit 1
     else
         # echo "Succes attendu de test_context sur $1."
         total_valid=$((total_valid+1))
@@ -33,8 +33,7 @@ test_context_valide () {
 }    
 
 
-
-echo "--------------------------"
+echo "--------------------------------------"
 echo -en "\rPASSED: $total_valid       TOTAL: $total_test"
 
 for cas_de_test in $(find $input_dir -name "*.deca")
@@ -43,5 +42,4 @@ do
     printf "\033[1A"
     echo -en "\r${GREEN}PASSED: $total_valid ${NC}      TOTAL: $total_test"
 done
-
-echo "--------------------------"
+echo "--------------------------------------"

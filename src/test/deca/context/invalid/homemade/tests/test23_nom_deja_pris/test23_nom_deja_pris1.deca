@@ -1,6 +1,6 @@
 // test invalide de la règle 2.3
 
-class A extends B {
+class A {
     int val;
-    int val(){};
+    int val(){}
 }

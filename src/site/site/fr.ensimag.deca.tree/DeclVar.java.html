@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeclVar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">DeclVar.java</span></div><h1>DeclVar.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+/**
+ * @author gl39
+ * @date 01/01/2023
+ */
+public class DeclVar extends AbstractDeclVar {
+
+    final private AbstractIdentifier type;
+    final private AbstractIdentifier varName;
+    final private AbstractInitialization initialization;
+
+<span class="fc" id="L26">    public DeclVar(AbstractIdentifier type, AbstractIdentifier varName, AbstractInitialization initialization) {</span>
+<span class="fc" id="L27">        Validate.notNull(type);</span>
+<span class="fc" id="L28">        Validate.notNull(varName);</span>
+<span class="fc" id="L29">        Validate.notNull(initialization);</span>
+<span class="fc" id="L30">        this.type = type;</span>
+<span class="fc" id="L31">        this.varName = varName;</span>
+<span class="fc" id="L32">        this.initialization = initialization;</span>
+<span class="fc" id="L33">    }</span>
+
+    protected void codeGenVar(DecacCompiler compiler){
+<span class="nc" id="L36">        compiler.setD(compiler.getD() + 1);</span>
+<span class="nc" id="L37">        compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));</span>
+<span class="nc" id="L38">        int nAct = compiler.getN()+1;</span>
+<span class="nc" id="L39">        initialization.codeGenInst(compiler);</span>
+<span class="nc" id="L40">        compiler.setSP(compiler.getSP() + 1);</span>
+<span class="nc" id="L41">        VariableDefinition varDef = (VariableDefinition) varName.getDefinition();</span>
+<span class="nc" id="L42">        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));</span>
+<span class="nc" id="L43">        compiler.setN(nAct - 1);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    protected void verifyDeclVar(DecacCompiler compiler,
+            EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+<span class="fc" id="L50">        Validate.notNull(localEnv);</span>
+
+        // On verifie que le type existe bien
+<span class="fc" id="L53">        Type initializationType = this.type.verifyType(compiler, true, &quot;une variable&quot;);</span>
+        // this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
+
+        // On verifie que varName n'est pas deja declare localement
+        try {
+<span class="fc" id="L58">            this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));</span>
+<span class="fc" id="L59">            localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());</span>
+<span class="fc" id="L60">        } catch (Exception DoubleDefException) {</span>
+<span class="fc" id="L61">            throw new ContextualError(</span>
+<span class="fc" id="L62">                    String.format(&quot;Le nom de variable '%s' est déjà déclaré dans l'environnement local&quot;,</span>
+<span class="fc" id="L63">                            this.varName.getName().getName()),</span>
+<span class="fc" id="L64">                    this.getLocation()); // Rule 3.17</span>
+<span class="fc" id="L65">        }</span>
+
+<span class="fc" id="L67">        this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);</span>
+
+<span class="fc" id="L69">    }</span>
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+<span class="fc" id="L73">        type.decompile(s);</span>
+<span class="fc" id="L74">        s.print(&quot; &quot;);</span>
+<span class="fc" id="L75">        varName.decompile(s);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (initialization instanceof Initialization) {</span>
+<span class="fc" id="L77">            s.print(&quot; = &quot;);</span>
+<span class="fc" id="L78">            initialization.decompile(s);</span>
+        }
+<span class="fc" id="L80">        s.print(&quot;;&quot;);</span>
+<span class="fc" id="L81">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+<span class="fc" id="L85">        type.iter(f);</span>
+<span class="fc" id="L86">        varName.iter(f);</span>
+<span class="fc" id="L87">        initialization.iter(f);</span>
+<span class="fc" id="L88">    }</span>
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+<span class="fc" id="L92">        type.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L93">        varName.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L94">        initialization.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L95">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

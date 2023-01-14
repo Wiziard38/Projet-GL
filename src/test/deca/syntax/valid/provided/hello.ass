@@ -1,15 +1,28 @@
+	TSTO #1
+	BOV ErreurPile
 ; start main program
 ; Main program
-	LOAD #1, R2
-	STORE R2, 3(GB)
-	LOAD #2, R2
-	STORE R2, 4(GB)
-	LOAD #3, R2
-	STORE R2, 5(GB)
-	LOAD #4, R2
-	STORE R2, 6(GB)
-	LOAD #5, R2
-	STORE R2, 7(GB)
+	ADDSP #1
+	RFLOAT
+	LOAD R1, R2
+	BOV io_error
+	STORE R1, 1(GB)
 ; Beginning of main instructions:
+	LOAD 1(GB), R1
+	WFLOAT
+	HALT
+; End of the main program
+ErreurPile:
+	WSTR "Erreur de débordement de pile dans le programme"
+	WNL
+	ERROR
+overflof_error:
+	WSTR "Erreur 'overflow' pendant une opération arithmétique"
+	WNL
+	ERROR
+io_error:
+	WSTR "Erreur lorsd d'une entrée/sortie"
+	WNL
+	ERROR
 	HALT
 ; end main program

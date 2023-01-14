@@ -173,6 +173,7 @@ if_then_else
                         
                         elsif_else_branch  = new ListInst();
                         elsif_branch = new IfThenElse($elsif_cond.tree, $elsif_li.tree, elsif_else_branch);
+                        setLocation(elsif_branch, $elsif);
                         else_branch.add(elsif_branch);
                         else_branch = elsif_else_branch;
         }
@@ -309,7 +310,7 @@ inequality_expr
 	| e1 = inequality_expr INSTANCEOF type {
                 assert($e1.tree != null);
                 assert($type.tree != null);
-                // $tree = new Instanceof($e1.tree, $e2.tree);         //ici pas supporté
+                $tree = new Instanceof($type.tree, $e1.tree);
                 setLocation($tree, $INSTANCEOF);
         };
 
@@ -411,7 +412,7 @@ primary_expr
 	| m = ident OPARENT args = list_expr CPARENT {
                 assert($args.tree != null);
                 assert($m.tree != null);
-                $tree = new MethodCallOnVoid($m.tree, $args.tree);    //ici wtf
+                $tree = new MethodCallOnVoid($m.tree, $args.tree);
                 setLocation($tree, $ident.start);
         }
 	| OPARENT expr CPARENT {
@@ -434,8 +435,9 @@ primary_expr
         }
 	| cast = OPARENT type CPARENT OPARENT expr CPARENT {
                 assert($type.tree != null);
-                assert($expr.tree != null);                     //ici pas supporté
-                setLocation($tree, $OPARENT);
+                assert($expr.tree != null);
+                $tree = new Cast($type.tree, $expr.tree);
+                setLocation($tree, $cast);
         }
 	| literal {
                 assert($literal.tree != null);
@@ -559,7 +561,7 @@ class_body
 decl_field_set[ListDeclField l]:
 	v = visibility t = type list_decl_field[$l, $v.tree, $t.tree] SEMI;
 
-visibility // ici jsp comment faire
+visibility
 	returns[Visibility tree]:
 	/* epsilon */ {
                 $tree = Visibility.PUBLIC;

@@ -50,9 +50,11 @@ public class While extends AbstractInst {
         this.getCondition().codeGenInst(compiler);
         compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nCondition)));
         compiler.addInstruction(new BNE(labelFin));
+        compiler.setN(nCondition - 1);
         this.getBody().codeGenListInst(compiler);
         compiler.addInstruction(new BRA(labelCondition));
         compiler.addLabel(labelFin);
+        compiler.setN(nCondition - 1);
 
 
     }

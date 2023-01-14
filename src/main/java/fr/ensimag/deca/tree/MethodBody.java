@@ -27,7 +27,6 @@ public class MethodBody extends AbstractMethodBody {
         s.indent();
         variables.decompile(s);
         s.println();
-        s.println();
         instructions.decompile(s);
         s.println();
         s.println("}");

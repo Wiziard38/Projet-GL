@@ -28,7 +28,9 @@ public class DeclMethod extends AbstractMethod {
     @Override
     public void decompile(IndentPrintStream s) {
         returnType.decompile(s);
+        s.print(" ");
         name.decompile(s);
+        s.print(" ");
         body.decompile(s);
     }
 

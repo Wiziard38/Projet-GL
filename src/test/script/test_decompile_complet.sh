@@ -63,7 +63,7 @@ test_decompile_valide () {
         fi
 
     fi
-    rm $output_file1 $output_file2 $output_err
+    # rm $output_file1 $output_file2 $output_err
 }    
 
 echo "--------------------------"

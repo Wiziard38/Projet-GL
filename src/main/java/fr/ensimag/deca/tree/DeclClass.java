@@ -38,7 +38,7 @@ public class DeclClass extends AbstractDeclClass {
     public void decompile(IndentPrintStream s) {
         s.print("class ");
         name.decompile(s);
-        s.print("extends ");
+        s.print(" extends ");
         superclass.decompile(s);
         s.println(" {");
         s.indent();
@@ -54,15 +54,17 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
 
         if (compiler.environmentType.defOfType(this.superclass.getName()) == null) {
-            throw new ContextualError(String.format("Super class '%s' doesn't exists", this.superclass), this.getLocation());
+            throw new ContextualError(String.format("Super class '%s' doesn't exists", this.superclass),
+                    this.getLocation());
         }
 
         if (compiler.environmentType.defOfClass(this.superclass.getName()) == null) {
-            throw new ContextualError(String.format("Super class '%s' is not a class", this.superclass), this.getLocation());
+            throw new ContextualError(String.format("Super class '%s' is not a class", this.superclass),
+                    this.getLocation());
         }
 
         try {
-            compiler.environmentType.addNewClass(compiler, this.name.getName(), 
+            compiler.environmentType.addNewClass(compiler, this.name.getName(),
                     this.getLocation(), compiler.environmentType.defOfClass(this.superclass.getName()));
         } catch (EnvironmentExp.DoubleDefException e) {
             throw new ContextualError(String.format("Class '%s' already exists", this.name), this.getLocation());

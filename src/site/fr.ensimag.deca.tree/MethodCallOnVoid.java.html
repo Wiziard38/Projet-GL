@@ -2,6 +2,11 @@
 
 import org.apache.commons.lang.Validate;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /*
@@ -12,25 +17,33 @@ public class MethodCallOnVoid extends AbstractCall {
     private ListExpr args;
 
     public MethodCallOnVoid(AbstractIdentifier name, ListExpr args) {
-<span class="nc" id="L15">        super(name);</span>
-<span class="nc" id="L16">        Validate.notNull(args);</span>
-<span class="nc" id="L17">        this.args = args;</span>
-<span class="nc" id="L18">    }</span>
+<span class="fc" id="L20">        super(name);</span>
+<span class="fc" id="L21">        Validate.notNull(args);</span>
+<span class="fc" id="L22">        this.args = args;</span>
+<span class="fc" id="L23">    }</span>
 
     public ListExpr getArgs() {
-<span class="nc" id="L21">        return args;</span>
+<span class="fc" id="L26">        return args;</span>
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L26">        getName().decompile(s);</span>
-<span class="nc" id="L27">        s.print(&quot;(&quot;);</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">        for (AbstractExpr e : getArgs().getList()) {</span>
-<span class="nc" id="L29">            e.decompile(s);</span>
-<span class="nc" id="L30">            s.print(&quot; &quot;);</span>
-<span class="nc" id="L31">        }</span>
-<span class="nc" id="L32">        s.print(&quot;)&quot;);</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L31">        getName().decompile(s);</span>
+<span class="fc" id="L32">        s.print(&quot;(&quot;);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (AbstractExpr e : getArgs().getList()) {</span>
+<span class="fc" id="L34">            e.decompile(s);</span>
+<span class="fc" id="L35">            s.print(&quot; &quot;);</span>
+<span class="fc" id="L36">        }</span>
+<span class="fc" id="L37">        s.print(&quot;)&quot;);</span>
+<span class="fc" id="L38">    }</span>
 
+
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+        
+<span class="nc" id="L45">        return super.verifyExprMessage(compiler, localEnv, currentClass, </span>
+                &quot;La sélection doit se faire sur une class&quot;); // Rule 3.65 // Rule 3.66
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

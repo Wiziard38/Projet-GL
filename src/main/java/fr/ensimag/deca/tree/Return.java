@@ -23,11 +23,18 @@ public class Return extends AbstractInst {
         expr = e;
     }
 
-    @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,
-            Type returnType) throws ContextualError {
-        // TODO Auto-generated method stub
+    public void setExpression(AbstractExpr expression) {
+        Validate.notNull(expression);
+        this.expr = expression;
+    }
 
+    @Override
+    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass, Type returnType) throws ContextualError {
+        // Already verified non void for return type
+
+        // On set si jamais y'a un ConvFloat a ajouter
+        this.setExpression(this.expr.verifyRValue(compiler, localEnv, currentClass, returnType));
     }
 
     @Override

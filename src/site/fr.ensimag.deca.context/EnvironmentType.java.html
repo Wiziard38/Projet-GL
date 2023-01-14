@@ -5,6 +5,8 @@ import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -17,51 +19,51 @@ import fr.ensimag.deca.tree.Location;
  * @date 01/01/2023
  */
 public class EnvironmentType {
-<span class="fc" id="L20">    public EnvironmentType(DecacCompiler compiler) {</span>
+<span class="fc" id="L22">    public EnvironmentType(DecacCompiler compiler) {</span>
         
-<span class="fc" id="L22">        envTypes = new HashMap&lt;Symbol, TypeDefinition&gt;();</span>
-<span class="fc" id="L23">        envClass = new HashMap&lt;Symbol, ClassDefinition&gt;();</span>
+<span class="fc" id="L24">        envTypes = new HashMap&lt;Symbol, TypeDefinition&gt;();</span>
         
-<span class="fc" id="L25">        Symbol intSymb = compiler.createSymbol(&quot;int&quot;);</span>
-<span class="fc" id="L26">        INT = new IntType(intSymb);</span>
-<span class="fc" id="L27">        envTypes.put(intSymb, new TypeDefinition(INT, Location.BUILTIN));</span>
+<span class="fc" id="L26">        Symbol intSymb = compiler.createSymbol(&quot;int&quot;);</span>
+<span class="fc" id="L27">        INT = new IntType(intSymb);</span>
+<span class="fc" id="L28">        envTypes.put(intSymb, new TypeDefinition(INT, Location.BUILTIN));</span>
 
-<span class="fc" id="L29">        Symbol floatSymb = compiler.createSymbol(&quot;float&quot;);</span>
-<span class="fc" id="L30">        FLOAT = new FloatType(floatSymb);</span>
-<span class="fc" id="L31">        envTypes.put(floatSymb, new TypeDefinition(FLOAT, Location.BUILTIN));</span>
+<span class="fc" id="L30">        Symbol floatSymb = compiler.createSymbol(&quot;float&quot;);</span>
+<span class="fc" id="L31">        FLOAT = new FloatType(floatSymb);</span>
+<span class="fc" id="L32">        envTypes.put(floatSymb, new TypeDefinition(FLOAT, Location.BUILTIN));</span>
 
-<span class="fc" id="L33">        Symbol voidSymb = compiler.createSymbol(&quot;void&quot;);</span>
-<span class="fc" id="L34">        VOID = new VoidType(voidSymb);</span>
-<span class="fc" id="L35">        envTypes.put(voidSymb, new TypeDefinition(VOID, Location.BUILTIN));</span>
+<span class="fc" id="L34">        Symbol voidSymb = compiler.createSymbol(&quot;void&quot;);</span>
+<span class="fc" id="L35">        VOID = new VoidType(voidSymb);</span>
+<span class="fc" id="L36">        envTypes.put(voidSymb, new TypeDefinition(VOID, Location.BUILTIN));</span>
 
-<span class="fc" id="L37">        Symbol booleanSymb = compiler.createSymbol(&quot;boolean&quot;);</span>
-<span class="fc" id="L38">        BOOLEAN = new BooleanType(booleanSymb);</span>
-<span class="fc" id="L39">        envTypes.put(booleanSymb, new TypeDefinition(BOOLEAN, Location.BUILTIN));</span>
+<span class="fc" id="L38">        Symbol booleanSymb = compiler.createSymbol(&quot;boolean&quot;);</span>
+<span class="fc" id="L39">        BOOLEAN = new BooleanType(booleanSymb);</span>
+<span class="fc" id="L40">        envTypes.put(booleanSymb, new TypeDefinition(BOOLEAN, Location.BUILTIN));</span>
 
-<span class="fc" id="L41">        Symbol stringSymb = compiler.createSymbol(&quot;string&quot;);</span>
-<span class="fc" id="L42">        STRING = new StringType(stringSymb);</span>
+<span class="fc" id="L42">        Symbol stringSymb = compiler.createSymbol(&quot;string&quot;);</span>
+<span class="fc" id="L43">        STRING = new StringType(stringSymb);</span>
         // not added to envTypes, it's not visible for the user.
         
-        // Init object class
-<span class="fc" id="L46">        Symbol objectSymb = compiler.createSymbol(&quot;Object&quot;);</span>
-<span class="fc" id="L47">        OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);</span>
-<span class="fc" id="L48">        envClass.put(objectSymb, OBJECT.getDefinition());</span>
+        // Init the Object class
+<span class="fc" id="L47">        Symbol objectSymb = compiler.createSymbol(&quot;Object&quot;);</span>
+<span class="fc" id="L48">        OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);</span>
+<span class="fc" id="L49">        envTypes.put(objectSymb, OBJECT.getDefinition());</span>
 
-        // Init equals method
-<span class="fc" id="L51">        Symbol equalsMethod = compiler.createSymbol(&quot;equals&quot;);</span>
-<span class="fc" id="L52">        Signature equalsSignature = new Signature();</span>
-<span class="fc" id="L53">        equalsSignature.add(OBJECT);</span>
-<span class="fc" id="L54">        ExpDefinition equalsDef = new MethodDefinition(OBJECT, Location.BUILTIN, equalsSignature, 0);</span>
+        // Init the equals method
+<span class="fc" id="L52">        Symbol equalsMethod = compiler.createSymbol(&quot;equals&quot;);</span>
+<span class="fc" id="L53">        Signature equalsSignature = new Signature();</span>
+<span class="fc" id="L54">        equalsSignature.add(OBJECT);</span>
+<span class="fc" id="L55">        MethodDefinition equalsDef = new MethodDefinition(BOOLEAN, Location.BUILTIN, equalsSignature, 1);</span>
+
+        // Add the method to Object environment
         try {
-<span class="fc" id="L56">            OBJECT.getDefinition().getMembers().declare(equalsMethod, equalsDef);</span>
-<span class="fc" id="L57">            OBJECT.getDefinition().incNumberOfMethods();</span>
-<span class="nc" id="L58">        } catch (EnvironmentExp.DoubleDefException e) {</span>
-<span class="nc" id="L59">            throw new InternalError(&quot;Big proble, equals method should not return DoubleDefException!&quot;);</span>
-<span class="fc" id="L60">        }</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L59">            OBJECT.getDefinition().getMembers().declare(equalsMethod, equalsDef);</span>
+<span class="nc" id="L60">        } catch (EnvironmentExp.DoubleDefException e) {</span>
+<span class="nc" id="L61">            throw new DecacInternalError(&quot;Should not happen, contact developpers please.&quot;);</span>
+<span class="fc" id="L62">        }</span>
+<span class="fc" id="L63">        OBJECT.getDefinition().incNumberOfMethods();</span>
+<span class="fc" id="L64">    }</span>
 
     private final Map&lt;Symbol, TypeDefinition&gt; envTypes;
-    private final Map&lt;Symbol, ClassDefinition&gt; envClass;
 
     /**
      * TODO
@@ -69,17 +71,9 @@ public class EnvironmentType {
      * @return
      */
     public TypeDefinition defOfType(Symbol s) {
-<span class="fc" id="L72">        return envTypes.get(s);</span>
+<span class="fc" id="L74">        return envTypes.get(s);</span>
     }
 
-    /**
-     * TODO
-     * @param s
-     * @return
-     */
-    public ClassDefinition defOfClass(Symbol s) {
-<span class="nc" id="L81">        return envClass.get(s);</span>
-    }
 
     public final VoidType    VOID;
     public final IntType     INT;
@@ -99,14 +93,27 @@ public class EnvironmentType {
     public void addNewClass(DecacCompiler compiler, Symbol className, Location classLocation, 
             ClassDefinition superClass) throws DoubleDefException {
         
-<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (envTypes.containsKey(className)) {</span>
-<span class="nc" id="L103">            throw new DoubleDefException();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (envTypes.containsKey(className)) {</span>
+<span class="fc" id="L97">            throw new DoubleDefException();</span>
         }
 
-<span class="nc" id="L106">        ClassType classTyoe = new ClassType(className, classLocation, superClass);</span>
+<span class="fc" id="L100">        ClassType classType = new ClassType(className, classLocation, superClass);</span>
         
-<span class="nc" id="L108">        envClass.put(className, classTyoe.getDefinition());</span>
-<span class="nc" id="L109">    }</span>
+<span class="fc" id="L102">        envTypes.put(className, classType.getDefinition());</span>
+<span class="fc" id="L103">    }</span>
+
+    /**
+     * TODO
+     * @param className
+     * @return
+     */
+    public ClassDefinition getClass(Symbol className) {
+<span class="fc" id="L111">        TypeDefinition def = this.defOfType(className);</span>
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">        if (def == null || !def.isClass()) {</span>
+<span class="nc" id="L113">            throw new DecacInternalError(&quot;Should not happen, contact developpers please.&quot;);</span>
+        }
+<span class="fc" id="L115">        return (ClassDefinition) def;</span>
+    }
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

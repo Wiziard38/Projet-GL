@@ -8,5 +8,5 @@
 //    cree le 01/01/2023
 
 class iden {
-    int iden (type1 iden3, type2 iden2) asm ("deuxieme test");
+    int iden1 (type1 iden3, type2 iden2) asm ("deuxieme test");
 }

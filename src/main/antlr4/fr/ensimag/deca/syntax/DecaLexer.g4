@@ -94,6 +94,6 @@ COMMENT:
 	| '/*' .*? '*/' {skip();};
 
 // Includes
-FILENAME: (LETTER | DIGIT | DOT | '-' | '_')+;
+fragment FILENAME: (LETTER | DIGIT | DOT | '-' | '_')+;
 INCLUDE:
 	'#include' (' ')* '"' FILENAME '"' {doInclude(getText());};

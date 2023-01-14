@@ -35,13 +35,13 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     String prettyPrintNode() {
-<span class="nc" id="L38">        return &quot;Int (&quot; + getValue() + &quot;)&quot;;</span>
+<span class="fc" id="L38">        return &quot;Int (&quot; + getValue() + &quot;)&quot;;</span>
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L43">        s.print(Integer.toString(value));</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L43">        s.print(Integer.toString(value));</span>
+<span class="fc" id="L44">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -51,7 +51,7 @@ public class IntLiteral extends AbstractExpr {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node =&gt; nothing to do
-<span class="nc" id="L54">    }</span>
+<span class="fc" id="L54">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

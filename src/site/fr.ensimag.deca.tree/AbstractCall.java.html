@@ -18,33 +18,35 @@ public abstract class AbstractCall extends AbstractExpr {
 
     private AbstractIdentifier name;
 
-<span class="nc" id="L21">    public AbstractCall(AbstractIdentifier name) {</span>
-<span class="nc" id="L22">        Validate.notNull(name);</span>
-<span class="nc" id="L23">        this.name = name;</span>
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L21">    public AbstractCall(AbstractIdentifier name) {</span>
+<span class="fc" id="L22">        Validate.notNull(name);</span>
+<span class="fc" id="L23">        this.name = name;</span>
+<span class="fc" id="L24">    }</span>
 
     public AbstractIdentifier getName() {
-<span class="nc" id="L27">        return name;</span>
+<span class="fc" id="L27">        return name;</span>
     }
 
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
-            throws ContextualError {
-        // TODO Auto-generated method stub
-<span class="nc" id="L34">        return null;</span>
+    public Type verifyExprMessage(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass, String message) throws ContextualError {
+<span class="nc" id="L32">        Type exprType = this.verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (!exprType.isClass()) {</span>
+<span class="nc" id="L34">            throw new ContextualError(message, this.getLocation());</span>
+        }
+<span class="nc" id="L36">        return exprType;</span>
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L43">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L49">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

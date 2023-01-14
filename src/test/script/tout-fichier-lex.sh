@@ -16,24 +16,17 @@ echo ""
 echo "---------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/lexer/valid/*.deca
+for fichier in ./src/test/deca/syntax/valid/homemade/lexer/test/*.deca
 do
-    echo "$fichier"
     nom=${fichier##*/}
     export nom
     test_lex "$fichier" 2>&1 > actual
-    echo ""
-    if diff -w actual "./src/test/deca/syntax/lexer/valid/resultat/${nom%.deca}_resultat.txt"
+    if ! diff -Z actual "./src/test/deca/syntax/valid/homemade/lexer/resultat/${nom%.deca}_resultat.txt"
     then
         echo ""
-        echo "ok"
-    else
-        echo ""
+        echo "$fichier"
         echo "faux"
     fi
-    echo ""
-    echo "----------------------------------"
-    echo ""
 done
 
 echo ""
@@ -41,21 +34,17 @@ echo "Début des tests invalids"
 echo "--------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/lexer/invalid/*.deca
+for fichier in ./src/test/deca/syntax/invalid/homemade/lexer/test/*.deca
 do
-    echo "$fichier"
     nom=${fichier##*/}
     export nom
-    test_lex "$fichier" 2>&1 >actual
-    if diff -w actual "./src/test/deca/syntax/lexer/invalid/resultat/${nom%.deca}_resultat.txt"
+    t=$(test_lex "$fichier" 2>&1 >actual)
+    if ! diff -Z actual "./src/test/deca/syntax/invalid/homemade/lexer/resultat/${nom%.deca}_resultat.txt"
     then
         echo ""
-        echo "ok"
-    else
-        echo ""
+        echo "$fichier"
         echo "faux"
     fi
-    echo ""
-    echo "----------------------------------"
-    echo ""
 done
+
+rm actual

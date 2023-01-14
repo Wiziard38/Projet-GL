@@ -1,0 +1,17 @@
+// Description:
+//    Programme minimaliste testant un arbre d'une classe qui s'étend à une autre
+//
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 05/01/2023
+
+class B{
+    protected int x = 8;
+    int iden4 (type3 iden5) asm ("string");
+}
+
+class A extends B {
+    int z = 1;
+}

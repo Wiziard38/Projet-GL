@@ -14,14 +14,14 @@ import java.io.PrintStream;
  * @author gl39
  * @date 01/01/2023
  */
-<span class="nc" id="L17">public class NoOperation extends AbstractInst {</span>
+<span class="fc" id="L17">public class NoOperation extends AbstractInst {</span>
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         //throw new UnsupportedOperationException(&quot;not yet implemented&quot;);
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L24">    }</span>
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
@@ -30,8 +30,8 @@ import java.io.PrintStream;
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L33">        s.print(&quot;;&quot;);</span>
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L33">        s.print(&quot;;&quot;);</span>
+<span class="fc" id="L34">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -41,7 +41,7 @@ import java.io.PrintStream;
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node =&gt; nothing to do
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L44">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

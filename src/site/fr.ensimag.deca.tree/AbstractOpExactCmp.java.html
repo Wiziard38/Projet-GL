@@ -41,9 +41,9 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         Type returnType;
         try {
 <span class="fc" id="L43">            returnType = super.verifyExpr(compiler, localEnv, currentClass);</span>
-<span class="nc" id="L44">        } catch (Exception ContextualException) {</span>
-<span class="nc" id="L45">            throw new ContextualError(&quot;Comparaison d'egalité ni sur des nombres, ni des booleans&quot;, </span>
-<span class="nc" id="L46">                    this.getLocation()); // Rule 3.33</span>
+<span class="fc" id="L44">        } catch (Exception ContextualException) {</span>
+<span class="fc" id="L45">            throw new ContextualError(&quot;Comparaison d'egalité ni sur des nombres, ni des booleans&quot;, </span>
+<span class="fc" id="L46">                    this.getLocation()); // Rule 3.33</span>
 <span class="fc" id="L47">        }</span>
 
 <span class="fc" id="L49">        return returnType;</span>

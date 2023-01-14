@@ -5,6 +5,8 @@ import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -20,7 +22,6 @@ public class EnvironmentType {
     public EnvironmentType(DecacCompiler compiler) {
         
         envTypes = new HashMap<Symbol, TypeDefinition>();
-        envClass = new HashMap<Symbol, ClassDefinition>();
         
         Symbol intSymb = compiler.createSymbol("int");
         INT = new IntType(intSymb);
@@ -42,26 +43,27 @@ public class EnvironmentType {
         STRING = new StringType(stringSymb);
         // not added to envTypes, it's not visible for the user.
         
-        // Init object class
+        // Init the Object class
         Symbol objectSymb = compiler.createSymbol("Object");
         OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);
-        envClass.put(objectSymb, OBJECT.getDefinition());
+        envTypes.put(objectSymb, OBJECT.getDefinition());
 
-        // Init equals method
+        // Init the equals method
         Symbol equalsMethod = compiler.createSymbol("equals");
         Signature equalsSignature = new Signature();
         equalsSignature.add(OBJECT);
-        ExpDefinition equalsDef = new MethodDefinition(OBJECT, Location.BUILTIN, equalsSignature, 0);
+        MethodDefinition equalsDef = new MethodDefinition(BOOLEAN, Location.BUILTIN, equalsSignature, 1);
+
+        // Add the method to Object environment
         try {
             OBJECT.getDefinition().getMembers().declare(equalsMethod, equalsDef);
-            OBJECT.getDefinition().incNumberOfMethods();
         } catch (EnvironmentExp.DoubleDefException e) {
-            throw new InternalError("Big proble, equals method should not return DoubleDefException!");
+            throw new DecacInternalError("Should not happen, contact developpers please.");
         }
+        OBJECT.getDefinition().incNumberOfMethods();
     }
 
     private final Map<Symbol, TypeDefinition> envTypes;
-    private final Map<Symbol, ClassDefinition> envClass;
 
     /**
      * TODO
@@ -72,14 +74,6 @@ public class EnvironmentType {
         return envTypes.get(s);
     }
 
-    /**
-     * TODO
-     * @param s
-     * @return
-     */
-    public ClassDefinition defOfClass(Symbol s) {
-        return envClass.get(s);
-    }
 
     public final VoidType    VOID;
     public final IntType     INT;
@@ -103,9 +97,22 @@ public class EnvironmentType {
             throw new DoubleDefException();
         }
 
-        ClassType classTyoe = new ClassType(className, classLocation, superClass);
+        ClassType classType = new ClassType(className, classLocation, superClass);
         
-        envClass.put(className, classTyoe.getDefinition());
+        envTypes.put(className, classType.getDefinition());
+    }
+
+    /**
+     * TODO
+     * @param className
+     * @return
+     */
+    public ClassDefinition getClass(Symbol className) {
+        TypeDefinition def = this.defOfType(className);
+        if (def == null || !def.isClass()) {
+            throw new DecacInternalError("Should not happen, contact developpers please.");
+        }
+        return (ClassDefinition) def;
     }
 
 }

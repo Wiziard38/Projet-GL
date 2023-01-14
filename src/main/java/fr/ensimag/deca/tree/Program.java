@@ -40,7 +40,7 @@ public class Program extends AbstractProgram {
         // Passe 2 :
         this.classes.verifyListClassMembers(compiler);
         // Passe 3 :
-        
+        this.classes.verifyListClassBody(compiler);
         this.main.verifyMain(compiler);
         LOG.debug("verify program: end");
     }

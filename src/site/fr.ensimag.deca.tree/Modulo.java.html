@@ -21,17 +21,17 @@ public class Modulo extends AbstractOpArith {
             ClassDefinition currentClass) throws ContextualError {
 
 <span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass).isInt()) </span>
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">                &amp;&amp; (this.getRightOperand().verifyExpr(compiler, localEnv, currentClass).isInt())) {</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">                &amp;&amp; (this.getRightOperand().verifyExpr(compiler, localEnv, currentClass).isInt())) {</span>
 <span class="fc" id="L25">            this.setType(compiler.environmentType.INT);</span>
 <span class="fc" id="L26">            return compiler.environmentType.INT;</span>
         }
-<span class="nc" id="L28">        throw new ContextualError(&quot;Tentative de modulo sur des non-entiers&quot;, this.getLocation()); // Rule 3.33</span>
+<span class="fc" id="L28">        throw new ContextualError(&quot;Tentative de modulo sur des non-entiers&quot;, this.getLocation()); // Rule 3.33</span>
     }
 
 
     @Override
     protected String getOperatorName() {
-<span class="nc" id="L34">        return &quot;%&quot;;</span>
+<span class="fc" id="L34">        return &quot;%&quot;;</span>
     }
 
 }

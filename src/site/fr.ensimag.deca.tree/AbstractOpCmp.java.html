@@ -33,19 +33,19 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 <span class="fc" id="L33">                newTreeNode.setType(compiler.environmentType.FLOAT);</span>
 <span class="fc" id="L34">                return compiler.environmentType.BOOLEAN;</span>
             }
-<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (typeRight.isFloat()) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (typeRight.isFloat()) {</span>
                 // Case where Float OP Float
 <span class="fc" id="L38">                this.setType(compiler.environmentType.BOOLEAN);</span>
 <span class="fc" id="L39">                return compiler.environmentType.BOOLEAN;</span>
             }
         }
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (typeLeft.isInt()) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (typeLeft.isInt()) {</span>
 <span class="fc bfc" id="L43" title="All 2 branches covered.">            if (typeRight.isInt()) {</span>
                 // Case where Int OP Int
 <span class="fc" id="L45">                this.setType(compiler.environmentType.BOOLEAN);</span>
 <span class="fc" id="L46">                return compiler.environmentType.BOOLEAN;</span>
             }
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">            if (typeRight.isFloat()) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            if (typeRight.isFloat()) {</span>
                 // Case where Int OP Float
 <span class="fc" id="L50">                this.setType(compiler.environmentType.BOOLEAN);</span>
 <span class="fc" id="L51">                ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());</span>
@@ -55,7 +55,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
             }
         }
 
-<span class="nc" id="L58">        throw new ContextualError(&quot;Comparaison arithmétique sur des non-nombres&quot;, this.getLocation()); // Rule 3.33</span>
+<span class="fc" id="L58">        throw new ContextualError(&quot;Comparaison arithmétique sur des non-nombres&quot;, this.getLocation()); // Rule 3.33</span>
     }
 
 }

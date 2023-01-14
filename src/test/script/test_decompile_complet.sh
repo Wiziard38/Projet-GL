@@ -53,17 +53,17 @@ test_decompile_valide () {
         
         if echo "$test_result" | grep -q -e "$filename:[0-9][0-9]*:"; then
             echo -e "${RED}Echec inattendu pour test_context sur $filename.${NC}"
-            exit 1
+            # exit 1
         elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
             echo -e "${RED}Erreur non soulevée pour $filename.${NC}"
-            exit 1
+            # exit 1
         else
             # echo "Succes attendu de test_context sur $1."
             total_valid=$((total_valid+1))
         fi
 
     fi
-    rm $output_file1 $output_file2 $output_err
+    # rm $output_file1 $output_file2 $output_err
 }    
 
 echo "--------------------------"

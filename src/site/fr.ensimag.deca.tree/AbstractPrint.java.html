@@ -43,10 +43,10 @@ public abstract class AbstractPrint extends AbstractInst {
         
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        for (AbstractExpr myExpr : this.arguments.getList()) {</span>
 <span class="fc" id="L45">            Type myExprType = myExpr.verifyExpr(compiler, localEnv, currentClass);</span>
-<span class="pc bpc" id="L46" title="2 of 6 branches missed.">            if (!myExprType.isFloat() &amp;&amp; !myExprType.isInt() &amp;&amp; !myExprType.isString()) {</span>
+<span class="fc bfc" id="L46" title="All 6 branches covered.">            if (!myExprType.isFloat() &amp;&amp; !myExprType.isInt() &amp;&amp; !myExprType.isString()) {</span>
                 
-<span class="nc" id="L48">                throw new ContextualError(String.format(&quot;Print ne peut pas afficher une expression de type '%s'&quot;, </span>
-<span class="nc" id="L49">                        myExprType.toString()), myExpr.getLocation()); // Rule 3.31</span>
+<span class="fc" id="L48">                throw new ContextualError(String.format(&quot;Print ne peut pas afficher une expression de type '%s'&quot;, </span>
+<span class="fc" id="L49">                        myExprType.toString()), myExpr.getLocation()); // Rule 3.31</span>
                 }
 <span class="fc" id="L51">        }</span>
 <span class="fc" id="L52">    }</span>
@@ -65,13 +65,13 @@ public abstract class AbstractPrint extends AbstractInst {
     @Override
     public void decompile(IndentPrintStream s) {
         // TO DO: tenir compte de printHex !!!
-<span class="nc" id="L68">        s.print(&quot;print&quot; + getSuffix() + &quot;( &quot;);</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (AbstractExpr e : arguments.getList()) {</span>
-<span class="nc" id="L70">            e.decompile(s);</span>
-<span class="nc" id="L71">            s.print(&quot; &quot;);</span>
-<span class="nc" id="L72">        }</span>
-<span class="nc" id="L73">        s.print(&quot;);&quot;);</span>
-<span class="nc" id="L74">    }</span>
+<span class="fc" id="L68">        s.print(&quot;print&quot; + getSuffix() + &quot;( &quot;);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (AbstractExpr e : arguments.getList()) {</span>
+<span class="fc" id="L70">            e.decompile(s);</span>
+<span class="fc" id="L71">            s.print(&quot; &quot;);</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">        s.print(&quot;);&quot;);</span>
+<span class="fc" id="L74">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {

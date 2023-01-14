@@ -2,12 +2,42 @@
 
 import java.io.PrintStream;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * Field declaration
- */
-<span class="nc" id="L10">public abstract class AbstractDeclField extends Tree {</span>
+<span class="fc" id="L10">public abstract class AbstractDeclField extends Tree {</span>
 
+    @Override
+    public void decompile(IndentPrintStream s) {
+        // TODO Auto-generated method stub
+
+<span class="nc" id="L16">    }</span>
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        // TODO Auto-generated method stub
+
+<span class="nc" id="L22">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        // TODO Auto-generated method stub
+
+<span class="nc" id="L28">    }</span>
+
+    /**
+     * TODO
+     */    
+    public abstract void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef, 
+            AbstractIdentifier superClass) throws ContextualError;
+
+
+    /**
+     * TODO
+     */    
+    public abstract void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef) 
+            throws ContextualError;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,26 @@
+{
+    boolean x;
+    boolean y;
+    int entree = readInt();
+    float testFloat = 1;
+
+    int compteur = 0;
+    while( compteur!= 10){
+        if(compteur == 2){
+            x = true;
+        }
+        if(compteur==5){
+            y = true;
+        }
+        if(x || y){
+            print("ou");
+        }
+        if(x && y){
+            print(entree);
+        }
+        compteur = compteur + 1;
+    }
+    if (testFloat > entree){
+        x = !y;
+    }
+}

@@ -1,5 +1,10 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Signature;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /*
@@ -16,6 +21,29 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
                 s.print(", ");
             }
             count--;
+        }
+    }
+
+    /**
+     * TODO
+     * @param compiler
+     * @return
+     * @throws ContextualError
+     */
+    public Signature verifySignature(DecacCompiler compiler) throws ContextualError {
+        Signature sig = new Signature();
+        for (AbstractDeclParam signatureParam : this.getList()) {
+            Type paramType = signatureParam.verifySigParam(compiler);
+            sig.add(paramType);
+        }
+        return sig;
+    }
+
+
+    public void verifyEnvParams(DecacCompiler compiler, EnvironmentExp localEnv)
+            throws ContextualError {
+        for (AbstractDeclParam signatureParam : this.getList()) {
+            signatureParam.verifyEnvParam(compiler, localEnv);
         }
     }
 

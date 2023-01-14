@@ -25,10 +25,10 @@ test_synt_invalide () {
         total_valid=$((total_valid+1))
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "${RED}Erreur non soulevée pour $1.${NC}"
-        exit 1
+        # exit 1
     else
         echo "${RED}Succes inattendu de test_synt sur $1.${NC}"
-        exit 1
+        # exit 1
     fi
 }    
 

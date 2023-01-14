@@ -16,26 +16,26 @@ public class Cast extends AbstractExpr {
     private AbstractIdentifier type;
     private AbstractExpr expr;
 
-<span class="nc" id="L19">    public Cast(AbstractIdentifier type, AbstractExpr e) {</span>
-<span class="nc" id="L20">        Validate.notNull(e);</span>
-<span class="nc" id="L21">        Validate.notNull(type);</span>
-<span class="nc" id="L22">        this.type = type;</span>
-<span class="nc" id="L23">        expr = e;</span>
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L19">    public Cast(AbstractIdentifier type, AbstractExpr e) {</span>
+<span class="fc" id="L20">        Validate.notNull(e);</span>
+<span class="fc" id="L21">        Validate.notNull(type);</span>
+<span class="fc" id="L22">        this.type = type;</span>
+<span class="fc" id="L23">        expr = e;</span>
+<span class="fc" id="L24">    }</span>
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L28">        s.print(&quot;(&quot;);</span>
-<span class="nc" id="L29">        type.decompile(s);</span>
-<span class="nc" id="L30">        s.print(&quot;)&quot;);</span>
-<span class="nc" id="L31">        expr.decompile(s);</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L28">        s.print(&quot;(&quot;);</span>
+<span class="fc" id="L29">        type.decompile(s);</span>
+<span class="fc" id="L30">        s.print(&quot;)&quot;);</span>
+<span class="fc" id="L31">        expr.decompile(s);</span>
+<span class="fc" id="L32">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L36">        type.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L37">        expr.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L36">        type.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L37">        expr.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L38">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {

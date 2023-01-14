@@ -215,7 +215,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                         else {
                             compiler.addInstruction(new QUO(Register.getR(nActualRight),Register.getR(nActualLeft)));
                         }
-                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
+                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()    ));
                         break;
                     case "%":
                         compiler.addInstruction(new REM(Register.getR(nActualRight),Register.getR(nActualLeft)));
@@ -249,6 +249,9 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                         break;
                 }
             }
+        }
+        if (this.getType().isFloat()){
+            compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
         }
         compiler.setN(nActualLeft);
     }

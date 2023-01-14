@@ -2,22 +2,17 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
-import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.ADD;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
 /**
  * @author gl39
  * @date 01/01/2023
@@ -42,9 +37,10 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));
         int nAct = compiler.getN()+1;
         initialization.codeGenInst(compiler);
+        compiler.setSP(compiler.getSP() + 1);
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
-        compiler.setN(nAct-1);
+        compiler.setN(nAct - 1);
     }
 
     @Override

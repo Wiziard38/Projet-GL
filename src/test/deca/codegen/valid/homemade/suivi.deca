@@ -1,0 +1,15 @@
+{
+    int x = 0;
+    float pi = 3.0;
+
+    while(x != 5){
+
+        println(x);
+        if (x == 3) {
+            pi = 3.1415;
+        }
+        x = x + 1;
+    }
+
+    println(pi, x, "oui");
+}

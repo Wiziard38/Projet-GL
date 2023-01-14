@@ -1,0 +1,17 @@
+{
+
+
+    int j = 1;
+    while (j <= 10) {
+        print(j," ");
+        j = j + 1;
+    }
+
+    println();
+    int k = 1;
+    do {
+        print(k," ");
+        k = k + 1;
+    } while (k <= 10);
+
+}

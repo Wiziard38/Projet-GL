@@ -9,12 +9,9 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -195,7 +192,7 @@ public class DecacCompiler {
         String destFile = null;
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
-        String namePath = this.source.getPath();
+        String namePath = this.source.getAbsolutePath();
         String nameSource = this.source.getName();
         //destFile = nameSource.substring(0, nameSource.length()-5)+".ass";
         String newName = nameSource.substring(0, nameSource.length()-5)+".ass";

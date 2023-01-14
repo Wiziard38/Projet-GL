@@ -1,17 +1,17 @@
 {
-    int x = 10;
+    int x = 30;
     int y = 20;
-    int z = 30;
+    int z = 10;
 
-    if (x > y) {
+    if (x < y) {
         println("x is greater than y");
     } else {
         println("x is not greater than y");
     }
 
-    if (x > y && x > z) {
+    if (x < y && x < z) {
         println("x is the greatest among x, y and z");
-    } else if (y > z) {
+    } else if (y < z) {
         println("y is the greatest among x, y and z");
     } else {
         println("z is the greatest among x, y and z");

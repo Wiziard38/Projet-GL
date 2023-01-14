@@ -1,0 +1,7 @@
+{
+    boolean a;
+    a = true;
+    if(a){
+        println("a = true");
+    }
+}

@@ -25,6 +25,10 @@ public class NoInitialization extends AbstractInitialization {
         // throw new UnsupportedOperationException("not yet implemented");
     }
 
+    @Override
+    protected void codeGenInst(DecacCompiler compiler){
+        //nothing to do
+    }
 
     /**
      * Node contains no real information, nothing to check.

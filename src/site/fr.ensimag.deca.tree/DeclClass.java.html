@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeclClass.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">DeclClass.java</span></div><h1>DeclClass.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.context.ClassType;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import java.io.PrintStream;
+
+import org.apache.commons.lang.Validate;
+
+/**
+ * Declaration of a class (&lt;code&gt;class name extends superClass {members}&lt;code&gt;).
+ * 
+ * @author gl39
+ * @date 01/01/2023
+ */
+public class DeclClass extends AbstractDeclClass {
+
+    private AbstractIdentifier name;
+    private AbstractIdentifier superclass;
+    private ListDeclField fields;
+    private ListDeclMethod methods;
+
+    public DeclClass(AbstractIdentifier nom, AbstractIdentifier mother, ListDeclField params,
+<span class="nc" id="L26">            ListDeclMethod functions) {</span>
+<span class="nc" id="L27">        Validate.notNull(nom);</span>
+<span class="nc" id="L28">        Validate.notNull(mother);</span>
+<span class="nc" id="L29">        Validate.notNull(params);</span>
+<span class="nc" id="L30">        Validate.notNull(functions);</span>
+<span class="nc" id="L31">        name = nom;</span>
+<span class="nc" id="L32">        superclass = mother;</span>
+<span class="nc" id="L33">        fields = params;</span>
+<span class="nc" id="L34">        methods = functions;</span>
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+<span class="nc" id="L39">        s.print(&quot;class &quot;);</span>
+<span class="nc" id="L40">        name.decompile(s);</span>
+<span class="nc" id="L41">        s.print(&quot;extends &quot;);</span>
+<span class="nc" id="L42">        superclass.decompile(s);</span>
+<span class="nc" id="L43">        s.println(&quot; {&quot;);</span>
+<span class="nc" id="L44">        s.indent();</span>
+<span class="nc" id="L45">        fields.decompile(s);</span>
+<span class="nc" id="L46">        s.println();</span>
+<span class="nc" id="L47">        methods.decompile(s);</span>
+<span class="nc" id="L48">        s.println();</span>
+<span class="nc" id="L49">        s.unindent();</span>
+<span class="nc" id="L50">        s.println(&quot;}&quot;);</span>
+<span class="nc" id="L51">    }</span>
+
+    @Override
+    protected void verifyClass(DecacCompiler compiler) throws ContextualError {
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (compiler.environmentType.defOfType(this.superclass.getName()) == null) {</span>
+<span class="nc" id="L57">            throw new ContextualError(String.format(&quot;Super class '%s' doesn't exists&quot;, this.superclass), this.getLocation());</span>
+        }
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (compiler.environmentType.defOfClass(this.superclass.getName()) == null) {</span>
+<span class="nc" id="L61">            throw new ContextualError(String.format(&quot;Super class '%s' is not a class&quot;, this.superclass), this.getLocation());</span>
+        }
+
+        try {
+<span class="nc" id="L65">            compiler.environmentType.addNewClass(compiler, this.name.getName(), </span>
+<span class="nc" id="L66">                    this.getLocation(), compiler.environmentType.defOfClass(this.superclass.getName()));</span>
+<span class="nc" id="L67">        } catch (EnvironmentExp.DoubleDefException e) {</span>
+<span class="nc" id="L68">            throw new ContextualError(String.format(&quot;Class '%s' already exists&quot;, this.name), this.getLocation());</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">    }</span>
+
+    @Override
+    protected void verifyClassMembers(DecacCompiler compiler)
+            throws ContextualError {
+<span class="nc" id="L75">        throw new UnsupportedOperationException(&quot;not yet implemented&quot;);</span>
+    }
+
+    @Override
+    protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+<span class="nc" id="L80">        throw new UnsupportedOperationException(&quot;not yet implemented&quot;);</span>
+    }
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+<span class="nc" id="L85">        name.prettyPrint(s, prefix, false);</span>
+<span class="nc" id="L86">        superclass.prettyPrint(s, prefix, false);</span>
+<span class="nc" id="L87">        fields.prettyPrint(s, prefix, false);</span>
+<span class="nc" id="L88">        methods.prettyPrint(s, prefix, false);</span>
+<span class="nc" id="L89">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+<span class="nc" id="L93">        name.iter(f);</span>
+<span class="nc" id="L94">        superclass.iter(f);</span>
+<span class="nc" id="L95">        fields.iter(f);</span>
+<span class="nc" id="L96">        methods.iter(f);</span>
+<span class="nc" id="L97">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

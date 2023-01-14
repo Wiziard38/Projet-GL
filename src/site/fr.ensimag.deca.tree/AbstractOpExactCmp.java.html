@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractOpExactCmp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">AbstractOpExactCmp.java</span></div><h1>AbstractOpExactCmp.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.ima.pseudocode.instructions.SEQ;
+import fr.ensimag.ima.pseudocode.instructions.SNE;
+
+/**
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
+public abstract class AbstractOpExactCmp extends AbstractOpCmp {
+
+    public AbstractOpExactCmp(AbstractExpr leftOperand, AbstractExpr rightOperand) {
+<span class="fc" id="L22">        super(leftOperand, rightOperand);</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass) throws ContextualError {
+        
+<span class="fc" id="L29">        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="fc" id="L30">        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);</span>
+        
+    
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        if (typeLeft.isBoolean() &amp;&amp; typeRight.isBoolean()) {</span>
+            
+<span class="fc" id="L35">            this.setType(compiler.environmentType.BOOLEAN);</span>
+<span class="fc" id="L36">            return compiler.environmentType.BOOLEAN;</span>
+        }
+
+        // TODO rajouter pour les classes
+
+        Type returnType;
+        try {
+<span class="fc" id="L43">            returnType = super.verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="nc" id="L44">        } catch (Exception ContextualException) {</span>
+<span class="nc" id="L45">            throw new ContextualError(&quot;Comparaison d'egalité ni sur des nombres, ni des booleans&quot;, </span>
+<span class="nc" id="L46">                    this.getLocation()); // Rule 3.33</span>
+<span class="fc" id="L47">        }</span>
+
+<span class="fc" id="L49">        return returnType;</span>
+    }
+
+    @Override
+    protected void checkDecoration() {
+<span class="nc" id="L54">        super.checkDecoration();</span>
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        if (!this.getLeftOperand().getType().isFloat() &amp;&amp; !this.getLeftOperand().getType().isInt()</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                &amp;&amp; !this.getLeftOperand().getType().isBoolean()) {</span>
+<span class="nc" id="L57">            throw new DecacInternalError(&quot;Not both operand of &quot; + this.toString() + &quot; are of Type int or float or boolean&quot;);</span>
+        }
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (!this.getType().isBoolean()) {</span>
+<span class="nc" id="L60">            throw new DecacInternalError(&quot;OpCmp &quot; + this.toString() + &quot; is not of Type boolean&quot;);</span>
+        }
+<span class="nc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

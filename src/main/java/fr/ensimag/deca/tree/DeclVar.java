@@ -2,19 +2,17 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
-import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 /**
  * @author gl39
  * @date 01/01/2023
@@ -35,14 +33,14 @@ public class DeclVar extends AbstractDeclVar {
     }
 
     protected void codeGenVar(DecacCompiler compiler){
+        compiler.setD(compiler.getD() + 1);
+        compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));
         int nAct = compiler.getN()+1;
-        Initialization initExpr = (Initialization)initialization;
-        initExpr.getExpression().codeGenInst(compiler);
+        initialization.codeGenInst(compiler);
+        compiler.setSP(compiler.getSP() + 1);
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
-        compiler.addInstruction(new STORE(Register.getR(nAct),new RegisterOffset(compiler.getSP(), Register.GB)));
-        compiler.setN(nAct-1);
-        compiler.setSP(compiler.getSP()+1);
+        compiler.setN(nAct - 1);
     }
 
     @Override

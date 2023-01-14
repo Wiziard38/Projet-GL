@@ -17,8 +17,12 @@ public class This extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        // TODO Auto-generated method stub
-        return null;
+        
+        if (currentClass == null) {
+            throw new ContextualError("'This' ne peut être appelé en dehors d'une class", this.getLocation());
+        }
+        
+        return currentClass.getType();
     }
 
     @Override

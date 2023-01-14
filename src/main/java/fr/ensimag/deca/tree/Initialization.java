@@ -37,7 +37,8 @@ public class Initialization extends AbstractInitialization {
             throws ContextualError {
         Validate.notNull(t);
 
-        this.expression.verifyRValue(compiler, localEnv, currentClass, t);
+        // On set si jamais y'a un ConvFloat a ajouter
+        this.setExpression(this.expression.verifyRValue(compiler, localEnv, currentClass, t));
 
         // Type initializationType = this.expression.verifyExpr(compiler, localEnv, currentClass);
 

@@ -27,11 +27,13 @@ public abstract class AbstractCall extends AbstractExpr {
         return name;
     }
 
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
-            throws ContextualError {
-        // TODO Auto-generated method stub
-        return null;
+    public Type verifyExprMessage(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass, String message) throws ContextualError {
+        Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
+        if (!exprType.isClass()) {
+            throw new ContextualError(message, this.getLocation());
+        }
+        return exprType;
     }
 
     @Override

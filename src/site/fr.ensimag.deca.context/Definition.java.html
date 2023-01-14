@@ -13,8 +13,8 @@ public abstract class Definition {
     public String toString() {
         String res;
 <span class="fc" id="L15">        res = getNature();</span>
-<span class="pc bpc" id="L16" title="1 of 2 branches missed.">        if (location == Location.BUILTIN) {</span>
-<span class="nc" id="L17">            res += &quot; (builtin)&quot;;</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (location == Location.BUILTIN) {</span>
+<span class="fc" id="L17">            res += &quot; (builtin)&quot;;</span>
         } else {
 <span class="fc" id="L19">            res += &quot; defined at &quot; + location;</span>
         }
@@ -66,7 +66,10 @@ public abstract class Definition {
      */
     public MethodDefinition asMethodDefinition(String errorMessage, Location l)
             throws ContextualError {
-<span class="nc" id="L69">        throw new ContextualError(errorMessage, l);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (this.isMethod()) {</span>
+<span class="nc" id="L70">            return (MethodDefinition) (this);</span>
+        }
+<span class="nc" id="L72">        throw new ContextualError(errorMessage, l);</span>
     }
     
     /**
@@ -75,7 +78,7 @@ public abstract class Definition {
      */
     public FieldDefinition asFieldDefinition(String errorMessage, Location l)
             throws ContextualError {
-<span class="nc" id="L78">        throw new ContextualError(errorMessage, l);</span>
+<span class="nc" id="L81">        throw new ContextualError(errorMessage, l);</span>
     }
 
     public abstract boolean isExpression();

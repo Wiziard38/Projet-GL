@@ -56,9 +56,9 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L59">        s.print(getOperatorName());</span>
-<span class="nc" id="L60">        getOperand().decompile(s);</span>
-<span class="nc" id="L61">    }</span>
+<span class="fc" id="L59">        s.print(getOperatorName());</span>
+<span class="fc" id="L60">        getOperand().decompile(s);</span>
+<span class="fc" id="L61">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -67,8 +67,8 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L70">        operand.prettyPrint(s, prefix, true);</span>
-<span class="nc" id="L71">    }</span>
+<span class="fc" id="L70">        operand.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L71">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

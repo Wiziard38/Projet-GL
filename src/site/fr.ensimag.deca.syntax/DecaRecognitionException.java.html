@@ -14,12 +14,12 @@ import org.antlr.v4.runtime.Token;
  *
  * @author Ensimag
  */
-<span class="nc bnc" id="L17" title="All 2 branches missed.">class DecaRecognitionException extends RecognitionException {</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">class DecaRecognitionException extends RecognitionException {</span>
     private static final long serialVersionUID = -4104122409998903414L;
     Location location;
     Location getLocation() {
-<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (location != null) {</span>
-<span class="nc" id="L22">            return location;</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if (location != null) {</span>
+<span class="fc" id="L22">            return location;</span>
         }
 <span class="nc" id="L24">        final Token offendingToken = getOffendingToken();</span>
 <span class="nc bnc" id="L25" title="All 4 branches missed.">        assert(offendingToken != null);</span>
@@ -32,15 +32,15 @@ import org.antlr.v4.runtime.Token;
 
     public DecaRecognitionException(AbstractDecaLexer recognizer,
                 IntStream input) {
-<span class="nc" id="L35">        super(recognizer, input, null);</span>
-<span class="nc" id="L36">        location = new Location(recognizer.getLine(), recognizer.getCharPositionInLine(), recognizer.getSourceName());</span>
-<span class="nc" id="L37">        setOffendingToken(recognizer.getToken());</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L35">        super(recognizer, input, null);</span>
+<span class="fc" id="L36">        location = new Location(recognizer.getLine(), recognizer.getCharPositionInLine(), recognizer.getSourceName());</span>
+<span class="fc" id="L37">        setOffendingToken(recognizer.getToken());</span>
+<span class="fc" id="L38">    }</span>
 
     public DecaRecognitionException(DecaParser recognizer, ParserRuleContext ctx) {
-<span class="nc" id="L41">        super(recognizer, recognizer.getInputStream(), ctx);</span>
-<span class="nc" id="L42">        setOffendingToken(ctx.getStart());</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L41">        super(recognizer, recognizer.getInputStream(), ctx);</span>
+<span class="fc" id="L42">        setOffendingToken(ctx.getStart());</span>
+<span class="fc" id="L43">    }</span>
 
     public DecaRecognitionException(DecaParser recognizer, Token offendingToken) {
 <span class="nc" id="L46">        super(recognizer, recognizer.getInputStream(), recognizer.getContext());</span>
@@ -48,8 +48,8 @@ import org.antlr.v4.runtime.Token;
 <span class="nc" id="L48">    }</span>
 
     void display(PrintStream err) {
-<span class="nc" id="L51">        new LocationException(getMessage(), getLocation()).display(err);</span>
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L51">        new LocationException(getMessage(), getLocation()).display(err);</span>
+<span class="fc" id="L52">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

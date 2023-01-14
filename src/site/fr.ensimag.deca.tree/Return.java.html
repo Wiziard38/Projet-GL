@@ -18,40 +18,47 @@ public class Return extends AbstractInst {
 
     private AbstractExpr expr;
 
-<span class="nc" id="L21">    public Return(AbstractExpr e) {</span>
-<span class="nc" id="L22">        Validate.notNull(e);</span>
-<span class="nc" id="L23">        expr = e;</span>
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L21">    public Return(AbstractExpr e) {</span>
+<span class="fc" id="L22">        Validate.notNull(e);</span>
+<span class="fc" id="L23">        expr = e;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void setExpression(AbstractExpr expression) {
+<span class="nc" id="L27">        Validate.notNull(expression);</span>
+<span class="nc" id="L28">        this.expr = expression;</span>
+<span class="nc" id="L29">    }</span>
 
     @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,
-            Type returnType) throws ContextualError {
-        // TODO Auto-generated method stub
+    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass, Type returnType) throws ContextualError {
+        // Already verified non void for return type
 
-<span class="nc" id="L31">    }</span>
+        // On set si jamais y'a un ConvFloat a ajouter
+<span class="nc" id="L37">        this.setExpression(this.expr.verifyRValue(compiler, localEnv, currentClass, returnType));</span>
+<span class="nc" id="L38">    }</span>
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L37">    }</span>
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-<span class="nc" id="L41">        s.print(&quot;return &quot;);</span>
-<span class="nc" id="L42">        expr.decompile(s);</span>
-<span class="nc" id="L43">        s.print(&quot;;&quot;);</span>
 <span class="nc" id="L44">    }</span>
 
     @Override
+    public void decompile(IndentPrintStream s) {
+<span class="fc" id="L48">        s.print(&quot;return &quot;);</span>
+<span class="fc" id="L49">        expr.decompile(s);</span>
+<span class="fc" id="L50">        s.print(&quot;;&quot;);</span>
+<span class="fc" id="L51">    }</span>
+
+    @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L48">        expr.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L55">        expr.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L56">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
-<span class="nc" id="L53">        expr.iter(f);</span>
-<span class="nc" id="L54">    }</span>
+<span class="nc" id="L60">        expr.iter(f);</span>
+<span class="nc" id="L61">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

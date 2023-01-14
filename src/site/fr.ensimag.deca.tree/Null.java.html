@@ -12,7 +12,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Null keyword
  */
-<span class="nc" id="L15">public class Null extends AbstractExpr {</span>
+<span class="fc" id="L15">public class Null extends AbstractExpr {</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
@@ -23,14 +23,14 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L26">        s.print(&quot;null&quot;);</span>
-<span class="nc" id="L27">    }</span>
+<span class="fc" id="L26">        s.print(&quot;null&quot;);</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L33">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {

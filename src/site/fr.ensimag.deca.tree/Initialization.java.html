@@ -20,22 +20,22 @@ import org.apache.commons.lang.Validate;
 public class Initialization extends AbstractInitialization {
 
     public AbstractExpr getExpression() {
-<span class="fc" id="L23">        return expression;</span>
+<span class="nc" id="L23">        return expression;</span>
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler){
-<span class="nc" id="L28">        expression.codeGenInst(compiler);</span>
-<span class="nc" id="L29">        compiler.addInstruction(new STORE(Register.getR(compiler.getN()),new RegisterOffset(compiler.getSP()+1, Register.GB)));</span>
+<span class="fc" id="L28">        expression.codeGenInst(compiler);</span>
+<span class="fc" id="L29">        compiler.addInstruction(new STORE(Register.getR(compiler.getN()),new RegisterOffset(compiler.getSP()+1, Register.GB)));</span>
         
-<span class="nc" id="L31">    }</span>
+<span class="fc" id="L31">    }</span>
 
     private AbstractExpr expression;
 
     public void setExpression(AbstractExpr expression) {
-<span class="nc" id="L36">        Validate.notNull(expression);</span>
-<span class="nc" id="L37">        this.expression = expression;</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L36">        Validate.notNull(expression);</span>
+<span class="fc" id="L37">        this.expression = expression;</span>
+<span class="fc" id="L38">    }</span>
 
 <span class="fc" id="L40">    public Initialization(AbstractExpr expression) {</span>
 <span class="fc" id="L41">        Validate.notNull(expression);</span>
@@ -48,31 +48,34 @@ public class Initialization extends AbstractInitialization {
             throws ContextualError {
 <span class="fc" id="L49">        Validate.notNull(t);</span>
 
-<span class="fc" id="L51">        Type initializationType = this.expression.verifyExpr(compiler, localEnv, currentClass);</span>
+        // On set si jamais y'a un ConvFloat a ajouter
+<span class="fc" id="L52">        this.setExpression(this.expression.verifyRValue(compiler, localEnv, currentClass, t));</span>
 
-<span class="pc bpc" id="L53" title="3 of 4 branches missed.">        if (t.isFloat() &amp;&amp; initializationType.isInt()) {</span>
-<span class="nc" id="L54">            ConvFloat newTreeNode = new ConvFloat(this.expression);</span>
-<span class="nc" id="L55">            newTreeNode.setType(compiler.environmentType.FLOAT);</span>
-<span class="nc" id="L56">            this.setExpression(newTreeNode);</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        } else if (this.getExpression().verifyExpr(compiler, localEnv, currentClass) != t) {</span>
-<span class="nc" id="L58">            throw new ContextualError(String.format(&quot;Cette expression devrait être de type '%s'&quot;, </span>
-<span class="nc" id="L59">                    t.toString()), this.getLocation()); // Rule 3.28</span>
-        }
-<span class="fc" id="L61">    }</span>
+        // Type initializationType = this.expression.verifyExpr(compiler, localEnv, currentClass);
+
+        // if (t.isFloat() &amp;&amp; initializationType.isInt()) {
+        //     ConvFloat newTreeNode = new ConvFloat(this.expression);
+        //     newTreeNode.setType(compiler.environmentType.FLOAT);
+        //     this.setExpression(newTreeNode);
+        // } else if (this.getExpression().verifyExpr(compiler, localEnv, currentClass) != t) {
+        //     throw new ContextualError(String.format(&quot;Cette expression devrait être de type '%s'&quot;, 
+        //             t.toString()), this.getLocation()); // Rule 3.28
+        // }
+<span class="fc" id="L64">    }</span>
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L65">        expression.decompile(s);</span>
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L68">        expression.decompile(s);</span>
+<span class="fc" id="L69">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
-<span class="fc" id="L70">        expression.iter(f);</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L73">        expression.iter(f);</span>
+<span class="fc" id="L74">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L75">        expression.prettyPrint(s, prefix, true);</span>
-<span class="nc" id="L76">    }</span>
+<span class="fc" id="L78">        expression.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L79">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

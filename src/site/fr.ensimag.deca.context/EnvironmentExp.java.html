@@ -31,7 +31,7 @@ public class EnvironmentExp {
 <span class="fc" id="L31">        this.parentEnvironment = parentEnvironment;</span>
 <span class="fc" id="L32">    }</span>
 
-<span class="nc" id="L34">    public static class DoubleDefException extends Exception {</span>
+<span class="fc" id="L34">    public static class DoubleDefException extends Exception {</span>
         private static final long serialVersionUID = -2733379901827316441L;
     }
 
@@ -40,12 +40,12 @@ public class EnvironmentExp {
      * symbol is undefined.
      */
     public ExpDefinition get(Symbol key) {
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (this.currentEnvironmentExp.containsKey(key)) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (this.currentEnvironmentExp.containsKey(key)) {</span>
 <span class="fc" id="L44">            return this.currentEnvironmentExp.get(key);</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        } else if (this.parentEnvironment == null) {</span>
-<span class="nc" id="L46">            return null;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        } else if (this.parentEnvironment == null) {</span>
+<span class="fc" id="L46">            return null;</span>
         } else {
-<span class="nc" id="L48">            return this.parentEnvironment.get(key);</span>
+<span class="fc" id="L48">            return this.parentEnvironment.get(key);</span>
         }
     }
 
@@ -72,10 +72,10 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (!this.currentEnvironmentExp.containsKey(name)) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (!this.currentEnvironmentExp.containsKey(name)) {</span>
 <span class="fc" id="L76">            this.currentEnvironmentExp.put(name, def);</span>
         } else {
-<span class="nc" id="L78">            throw new DoubleDefException();</span>
+<span class="fc" id="L78">            throw new DoubleDefException();</span>
         }
 <span class="fc" id="L80">    }</span>
 

@@ -33,15 +33,15 @@ public class DeclVar extends AbstractDeclVar {
 <span class="fc" id="L33">    }</span>
 
     protected void codeGenVar(DecacCompiler compiler){
-<span class="nc" id="L36">        compiler.setD(compiler.getD() + 1);</span>
-<span class="nc" id="L37">        compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));</span>
-<span class="nc" id="L38">        int nAct = compiler.getN()+1;</span>
-<span class="nc" id="L39">        initialization.codeGenInst(compiler);</span>
-<span class="nc" id="L40">        compiler.setSP(compiler.getSP() + 1);</span>
-<span class="nc" id="L41">        VariableDefinition varDef = (VariableDefinition) varName.getDefinition();</span>
-<span class="nc" id="L42">        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));</span>
-<span class="nc" id="L43">        compiler.setN(nAct - 1);</span>
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L36">        compiler.setD(compiler.getD() + 1);</span>
+<span class="fc" id="L37">        compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));</span>
+<span class="fc" id="L38">        int nAct = compiler.getN()+1;</span>
+<span class="fc" id="L39">        initialization.codeGenInst(compiler);</span>
+<span class="fc" id="L40">        compiler.setSP(compiler.getSP() + 1);</span>
+<span class="fc" id="L41">        VariableDefinition varDef = (VariableDefinition) varName.getDefinition();</span>
+<span class="fc" id="L42">        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));</span>
+<span class="fc" id="L43">        compiler.setN(nAct - 1);</span>
+<span class="fc" id="L44">    }</span>
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
@@ -50,18 +50,18 @@ public class DeclVar extends AbstractDeclVar {
 <span class="fc" id="L50">        Validate.notNull(localEnv);</span>
 
         // On verifie que le type existe bien
-<span class="fc" id="L53">        Type initializationType = this.type.verifyType(compiler);</span>
+<span class="fc" id="L53">        Type initializationType = this.type.verifyType(compiler, true, &quot;une variable&quot;);</span>
         // this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
 
         // On verifie que varName n'est pas deja declare localement
         try {
 <span class="fc" id="L58">            this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));</span>
 <span class="fc" id="L59">            localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());</span>
-<span class="nc" id="L60">        } catch (Exception DoubleDefException) {</span>
-<span class="nc" id="L61">            throw new ContextualError(</span>
-<span class="nc" id="L62">                    String.format(&quot;Le nom de variable '%s' est déjà déclaré dans l'environnement local&quot;,</span>
-<span class="nc" id="L63">                            this.varName.getName().getName()),</span>
-<span class="nc" id="L64">                    this.getLocation()); // Rule 3.17</span>
+<span class="fc" id="L60">        } catch (Exception DoubleDefException) {</span>
+<span class="fc" id="L61">            throw new ContextualError(</span>
+<span class="fc" id="L62">                    String.format(&quot;Le nom de variable '%s' est déjà déclaré dans l'environnement local&quot;,</span>
+<span class="fc" id="L63">                            this.varName.getName().getName()),</span>
+<span class="fc" id="L64">                    this.getLocation()); // Rule 3.17</span>
 <span class="fc" id="L65">        }</span>
 
 <span class="fc" id="L67">        this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);</span>
@@ -70,15 +70,15 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L73">        type.decompile(s);</span>
-<span class="nc" id="L74">        s.print(&quot; &quot;);</span>
-<span class="nc" id="L75">        varName.decompile(s);</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (initialization instanceof Initialization) {</span>
-<span class="nc" id="L77">            s.print(&quot; = &quot;);</span>
-<span class="nc" id="L78">            initialization.decompile(s);</span>
+<span class="fc" id="L73">        type.decompile(s);</span>
+<span class="fc" id="L74">        s.print(&quot; &quot;);</span>
+<span class="fc" id="L75">        varName.decompile(s);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (initialization instanceof Initialization) {</span>
+<span class="fc" id="L77">            s.print(&quot; = &quot;);</span>
+<span class="fc" id="L78">            initialization.decompile(s);</span>
         }
-<span class="nc" id="L80">        s.print(&quot;;&quot;);</span>
-<span class="nc" id="L81">    }</span>
+<span class="fc" id="L80">        s.print(&quot;;&quot;);</span>
+<span class="fc" id="L81">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -89,9 +89,9 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L92">        type.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L93">        varName.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L94">        initialization.prettyPrint(s, prefix, true);</span>
-<span class="nc" id="L95">    }</span>
+<span class="fc" id="L92">        type.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L93">        varName.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L94">        initialization.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L95">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

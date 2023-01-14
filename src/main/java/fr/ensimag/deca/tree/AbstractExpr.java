@@ -88,7 +88,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return this with an additional ConvFloat if needed...
      */
     public AbstractExpr verifyRValue(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass, 
+            EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
@@ -98,9 +98,14 @@ public abstract class AbstractExpr extends AbstractInst {
             newTreeNode.setType(compiler.environmentType.FLOAT);
             return newTreeNode;
         }
-        if (expectedType != exprType) {
+        if (!expectedType.sameType(exprType)) {
+            if (!exprType.isClass() || expectedType.isClass()) {
+                if (!exprType.asClassType("Should not happen, contact developpers please.",
+                        this.getLocation()).isSubClassOf(expectedType.asClassType(
+                            "Should not happen, contact developpers please.", this.getLocation())));
+            }
             throw new ContextualError(String.format("%s is not of type %s", 
-                this.toString(), expectedType.toString()), this.getLocation());
+                this.toString(), expectedType.toString()), this.getLocation()); // Rule 3.28
         }
         return this;
     }

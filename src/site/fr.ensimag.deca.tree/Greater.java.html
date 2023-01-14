@@ -17,18 +17,18 @@ public class Greater extends AbstractOpIneq {
 <span class="fc" id="L17">    }</span>
 
     protected void codeGenInst(DecacCompiler compiler){
-<span class="nc" id="L20">        int nActualLeft = compiler.getN()+1;</span>
-<span class="nc" id="L21">        this.getLeftOperand().codeGenInst(compiler);</span>
-<span class="nc" id="L22">        int nActualRight = compiler.getN()+1;</span>
-<span class="nc" id="L23">        this.getRightOperand().codeGenInst(compiler);</span>
-<span class="nc" id="L24">        compiler.addInstruction(new CMP(Register.getR(nActualLeft), Register.getR(nActualRight)));</span>
-<span class="nc" id="L25">        compiler.addInstruction(new SGT(Register.getR(nActualLeft)));</span>
-<span class="nc" id="L26">        compiler.setN(nActualLeft);</span>
-<span class="nc" id="L27">    }</span>
+<span class="fc" id="L20">        int nActualLeft = compiler.getN()+1;</span>
+<span class="fc" id="L21">        this.getLeftOperand().codeGenInst(compiler);</span>
+<span class="fc" id="L22">        int nActualRight = compiler.getN()+1;</span>
+<span class="fc" id="L23">        this.getRightOperand().codeGenInst(compiler);</span>
+<span class="fc" id="L24">        compiler.addInstruction(new CMP(Register.getR(nActualLeft), Register.getR(nActualRight)));</span>
+<span class="fc" id="L25">        compiler.addInstruction(new SGT(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L26">        compiler.setN(nActualLeft);</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     protected String getOperatorName() {
-<span class="nc" id="L31">        return &quot;&gt;&quot;;</span>
+<span class="fc" id="L31">        return &quot;&gt;&quot;;</span>
     }
 
 }

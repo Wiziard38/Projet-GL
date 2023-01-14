@@ -4,6 +4,11 @@ import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /*
@@ -39,5 +44,12 @@ public class MethodAsmBody extends AbstractMethodBody {
     protected void iterChildren(TreeFunction f) {
         // nothing to do here
     }
+
+    @Override
+    public void verifyBody(DecacCompiler compiler, EnvironmentExp paramsEnvExp,
+            ClassDefinition currentClassDef, Type returnType) throws ContextualError {
+        // nothing to do here
+    }
+
 
 }

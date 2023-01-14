@@ -72,7 +72,7 @@ import org.apache.commons.lang.Validate;
     protected void prettyPrintChildren(PrintStream s, String prefix) {
 <span class="fc" id="L73">        int count = getList().size();</span>
 <span class="fc bfc" id="L74" title="All 2 branches covered.">        for (TreeType i : getList()) {</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            i.prettyPrint(s, prefix, count == 1, true);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            i.prettyPrint(s, prefix, count == 1, true);</span>
 <span class="fc" id="L76">            count--;</span>
 <span class="fc" id="L77">        }</span>
 <span class="fc" id="L78">    }</span>

@@ -69,19 +69,19 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L72">        s.print(&quot;if &quot;);</span>
-<span class="nc" id="L73">        condition.decompile(s);</span>
-<span class="nc" id="L74">        s.println(&quot; {&quot;);</span>
-<span class="nc" id="L75">        s.indent();</span>
-<span class="nc" id="L76">        thenBranch.decompile(s);</span>
-<span class="nc" id="L77">        s.unindent();</span>
-<span class="nc" id="L78">        s.println(&quot;}&quot;);</span>
-<span class="nc" id="L79">        s.println(&quot;else {&quot;);</span>
-<span class="nc" id="L80">        s.indent();</span>
-<span class="nc" id="L81">        elseBranch.decompile(s);</span>
-<span class="nc" id="L82">        s.unindent();</span>
-<span class="nc" id="L83">        s.print(&quot;}&quot;);</span>
-<span class="nc" id="L84">    }</span>
+<span class="fc" id="L72">        s.print(&quot;if &quot;);</span>
+<span class="fc" id="L73">        condition.decompile(s);</span>
+<span class="fc" id="L74">        s.println(&quot; {&quot;);</span>
+<span class="fc" id="L75">        s.indent();</span>
+<span class="fc" id="L76">        thenBranch.decompile(s);</span>
+<span class="fc" id="L77">        s.unindent();</span>
+<span class="fc" id="L78">        s.println(&quot;}&quot;);</span>
+<span class="fc" id="L79">        s.println(&quot;else {&quot;);</span>
+<span class="fc" id="L80">        s.indent();</span>
+<span class="fc" id="L81">        elseBranch.decompile(s);</span>
+<span class="fc" id="L82">        s.unindent();</span>
+<span class="fc" id="L83">        s.print(&quot;}&quot;);</span>
+<span class="fc" id="L84">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -92,9 +92,9 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L95">        condition.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L96">        thenBranch.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L97">        elseBranch.prettyPrint(s, prefix, true);</span>
-<span class="nc" id="L98">    }</span>
+<span class="fc" id="L95">        condition.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L96">        thenBranch.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L97">        elseBranch.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L98">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

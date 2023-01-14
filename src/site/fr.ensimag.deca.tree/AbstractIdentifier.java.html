@@ -92,6 +92,7 @@ import fr.ensimag.deca.tools.SymbolTable;
      * @return the type corresponding to this identifier
      *         (corresponds to the &quot;type&quot; attribute)
      */
-    public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
+    public abstract Type verifyType(DecacCompiler compiler, boolean checkVoid,
+            String message) throws ContextualError;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

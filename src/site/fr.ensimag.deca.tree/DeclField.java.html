@@ -4,11 +4,14 @@ import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.FieldDefinition;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * Declaration of a field
- */
 public class DeclField extends AbstractDeclField {
 
     private Visibility visibility;
@@ -17,51 +20,83 @@ public class DeclField extends AbstractDeclField {
     private AbstractInitialization initialization;
 
     public DeclField(Visibility v, AbstractIdentifier type, AbstractIdentifier varName,
-<span class="nc" id="L20">            AbstractInitialization initialization) {</span>
-<span class="nc" id="L21">        Validate.notNull(v);</span>
-<span class="nc" id="L22">        Validate.notNull(type);</span>
-<span class="nc" id="L23">        Validate.notNull(varName);</span>
-<span class="nc" id="L24">        Validate.notNull(initialization);</span>
-<span class="nc" id="L25">        visibility = v;</span>
-<span class="nc" id="L26">        this.type = type;</span>
-<span class="nc" id="L27">        this.name = varName;</span>
-<span class="nc" id="L28">        this.initialization = initialization;</span>
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L23">            AbstractInitialization initialization) {</span>
+<span class="fc" id="L24">        Validate.notNull(v);</span>
+<span class="fc" id="L25">        Validate.notNull(type);</span>
+<span class="fc" id="L26">        Validate.notNull(varName);</span>
+<span class="fc" id="L27">        Validate.notNull(initialization);</span>
+<span class="fc" id="L28">        visibility = v;</span>
+<span class="fc" id="L29">        this.type = type;</span>
+<span class="fc" id="L30">        this.name = varName;</span>
+<span class="fc" id="L31">        this.initialization = initialization;</span>
+<span class="fc" id="L32">    }</span>
+
+
+    @Override
+    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
+            AbstractIdentifier superClass) throws ContextualError {
+
+<span class="fc" id="L39">        Type fieldType = this.type.verifyType(compiler, true, &quot;un champ&quot;);</span>
+        
+<span class="fc" id="L41">        FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,</span>
+<span class="fc" id="L42">                currentClassDef, currentClassDef.getNumberOfFields() + 1);</span>
+
+        try {
+<span class="fc" id="L45">            currentClassDef.getMembers().declare(this.name.getName(), currentField);</span>
+<span class="fc" id="L46">        } catch (DoubleDefException e) {</span>
+<span class="fc" id="L47">            throw new ContextualError(String.format(&quot;Champ '%s' deja declare localement&quot;,</span>
+<span class="fc" id="L48">                    this.name), this.getLocation()); // Rule 2.4</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">        currentClassDef.incNumberOfFields();</span>
+<span class="fc" id="L51">    }</span>
+
+
+    @Override
+    public void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError {
+    
+<span class="fc" id="L58">        FieldDefinition thisDef = currentClassDef.getMembers().get(this.name.getName()).asFieldDefinition(</span>
+<span class="fc" id="L59">            &quot;Should not happen, contact developpers please.&quot;, this.getLocation());</span>
+
+<span class="fc" id="L61">        this.initialization.verifyInitialization(compiler, thisDef.getType(), </span>
+<span class="fc" id="L62">                currentClassDef.getMembers(), currentClassDef);</span>
+<span class="fc" id="L63">    }</span>
+
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (visibility == Visibility.PROTECTED) {</span>
-<span class="nc" id="L34">            s.print(&quot;protected &quot;);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (visibility == Visibility.PROTECTED) {</span>
+<span class="fc" id="L69">            s.print(&quot;protected &quot;);</span>
         } else {
-<span class="nc" id="L36">            s.print(&quot;public &quot;);</span>
+<span class="fc" id="L71">            s.print(&quot;public &quot;);</span>
         }
-<span class="nc" id="L38">        type.decompile(s);</span>
-<span class="nc" id="L39">        s.print(&quot; &quot;);</span>
-<span class="nc" id="L40">        name.decompile(s);</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (initialization instanceof Initialization) {</span>
-<span class="nc" id="L42">            s.print(&quot; = &quot;);</span>
-<span class="nc" id="L43">            initialization.decompile(s);</span>
+<span class="fc" id="L73">        type.decompile(s);</span>
+<span class="fc" id="L74">        s.print(&quot; &quot;);</span>
+<span class="fc" id="L75">        name.decompile(s);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (initialization instanceof Initialization) {</span>
+<span class="fc" id="L77">            s.print(&quot; = &quot;);</span>
+<span class="fc" id="L78">            initialization.decompile(s);</span>
         }
-<span class="nc" id="L45">        s.print(&quot;;&quot;);</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L80">        s.print(&quot;;&quot;);</span>
+<span class="fc" id="L81">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (visibility == Visibility.PROTECTED) {</span>
-<span class="nc" id="L51">            s.println(prefix + &quot;PROTECTED&quot;);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (visibility == Visibility.PROTECTED) {</span>
+<span class="fc" id="L86">            s.println(prefix + &quot;PROTECTED&quot;);</span>
         } else {
-<span class="nc" id="L53">            s.println(prefix + &quot;PUBLIC&quot;);</span>
+<span class="fc" id="L88">            s.println(prefix + &quot;PUBLIC&quot;);</span>
         }
-<span class="nc" id="L55">        type.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L56">        name.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L57">        initialization.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L58">    }</span>
+<span class="fc" id="L90">        type.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L91">        name.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L92">        initialization.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L93">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L64">    }</span>
+<span class="nc" id="L99">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

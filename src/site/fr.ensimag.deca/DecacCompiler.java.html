@@ -9,12 +9,9 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,69 +37,69 @@ import org.apache.log4j.Logger;
  * @author gl39
  * @date 01/01/2023
  */
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">public class DecacCompiler {</span>
-<span class="fc" id="L44">    private static final Logger LOG = Logger.getLogger(DecacCompiler.class);</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">public class DecacCompiler {</span>
+<span class="fc" id="L41">    private static final Logger LOG = Logger.getLogger(DecacCompiler.class);</span>
     
     /**
      * Portable newline character.
      */
-<span class="fc" id="L49">    private static final String nl = System.getProperty(&quot;line.separator&quot;, &quot;\n&quot;);</span>
-<span class="fc" id="L50">    private int n = 1;</span>
-<span class="fc" id="L51">    private int SP = 0;</span>
-<span class="fc" id="L52">    private int d = 0;</span>
-<span class="fc" id="L53">    private Label erreurPile = new Label(&quot;ErreurPile&quot;);</span>
+<span class="fc" id="L46">    private static final String nl = System.getProperty(&quot;line.separator&quot;, &quot;\n&quot;);</span>
+<span class="fc" id="L47">    private int n = 1;</span>
+<span class="fc" id="L48">    private int SP = 0;</span>
+<span class="fc" id="L49">    private int d = 0;</span>
+<span class="fc" id="L50">    private Label erreurPile = new Label(&quot;ErreurPile&quot;);</span>
 
     public Label getErreurPile(){
-<span class="fc" id="L56">        return erreurPile;</span>
+<span class="fc" id="L53">        return erreurPile;</span>
     }
 
-<span class="fc" id="L59">    private Label erreurOverflow = new Label(&quot;overflof_error&quot;);</span>
+<span class="fc" id="L56">    private Label erreurOverflow = new Label(&quot;overflof_error&quot;);</span>
 
     public Label getErreurOverflow(){
-<span class="fc" id="L62">        return erreurOverflow;</span>
+<span class="fc" id="L59">        return erreurOverflow;</span>
     }
 
-<span class="fc" id="L65">    private Label erreurInOut = new Label(&quot;io_error&quot;);</span>
+<span class="fc" id="L62">    private Label erreurInOut = new Label(&quot;io_error&quot;);</span>
 
     public Label getErreurinOut(){
-<span class="fc" id="L68">        return erreurInOut;</span>
+<span class="fc" id="L65">        return erreurInOut;</span>
     }
     
     public int getD(){
-<span class="fc" id="L72">        return d;</span>
+<span class="fc" id="L69">        return d;</span>
     }
 
     public void setD(int d){
-<span class="nc" id="L76">        this.d = d;</span>
-<span class="nc" id="L77">    }</span>
+<span class="fc" id="L73">        this.d = d;</span>
+<span class="fc" id="L74">    }</span>
 
     public int getN(){
-<span class="fc" id="L80">        return n;</span>
+<span class="fc" id="L77">        return n;</span>
     }
 
     public void setN(int n){
-<span class="fc" id="L84">        this.n = n;</span>
-<span class="fc" id="L85">    }</span>
+<span class="fc" id="L81">        this.n = n;</span>
+<span class="fc" id="L82">    }</span>
 
     public int getSP(){
-<span class="nc" id="L88">        return SP;</span>
+<span class="fc" id="L85">        return SP;</span>
     }
 
     public void setSP(int SP){
-<span class="nc" id="L92">        this.SP = SP;</span>
-<span class="nc" id="L93">    }</span>
+<span class="fc" id="L89">        this.SP = SP;</span>
+<span class="fc" id="L90">    }</span>
     
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
-<span class="fc" id="L96">        super();</span>
-<span class="fc" id="L97">        this.compilerOptions = compilerOptions;</span>
-<span class="fc" id="L98">        this.source = source;</span>
-<span class="fc" id="L99">    }</span>
+<span class="fc" id="L93">        super();</span>
+<span class="fc" id="L94">        this.compilerOptions = compilerOptions;</span>
+<span class="fc" id="L95">        this.source = source;</span>
+<span class="fc" id="L96">    }</span>
 
     /**
      * Source file associated with this compiler instance.
      */
     public File getSource() {
-<span class="nc" id="L105">        return source;</span>
+<span class="nc" id="L102">        return source;</span>
     }
 
     /**
@@ -110,7 +107,7 @@ import org.apache.log4j.Logger;
      * to use, ...).
      */
     public CompilerOptions getCompilerOptions() {
-<span class="fc" id="L113">        return compilerOptions;</span>
+<span class="fc" id="L110">        return compilerOptions;</span>
     }
 
     /**
@@ -118,50 +115,50 @@ import org.apache.log4j.Logger;
      * fr.ensimag.ima.pseudocode.IMAProgram#add(fr.ensimag.ima.pseudocode.AbstractLine)
      */
     public void add(AbstractLine line) {
-<span class="nc" id="L121">        program.add(line);</span>
-<span class="nc" id="L122">    }</span>
+<span class="nc" id="L118">        program.add(line);</span>
+<span class="nc" id="L119">    }</span>
 
     /**
      * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
      */
     public void addComment(String comment) {
-<span class="fc" id="L128">        program.addComment(comment);</span>
-<span class="fc" id="L129">    }</span>
+<span class="fc" id="L125">        program.addComment(comment);</span>
+<span class="fc" id="L126">    }</span>
 
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addLabel(fr.ensimag.ima.pseudocode.Label)
      */
     public void addLabel(Label label) {
-<span class="fc" id="L136">        program.addLabel(label);</span>
-<span class="fc" id="L137">    }</span>
+<span class="fc" id="L133">        program.addLabel(label);</span>
+<span class="fc" id="L134">    }</span>
 
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
      */
     public void addInstruction(Instruction instruction) {
-<span class="fc" id="L144">        program.addInstruction(instruction);</span>
-<span class="fc" id="L145">    }</span>
+<span class="fc" id="L141">        program.addInstruction(instruction);</span>
+<span class="fc" id="L142">    }</span>
 
     public void addInstructionFirst(Instruction instruction) {
-<span class="fc" id="L148">        program.addFirst(instruction);</span>
-<span class="fc" id="L149">    }</span>
+<span class="fc" id="L145">        program.addFirst(instruction);</span>
+<span class="fc" id="L146">    }</span>
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction,
      * java.lang.String)
      */
     public void addInstruction(Instruction instruction, String comment) {
-<span class="nc" id="L156">        program.addInstruction(instruction, comment);</span>
-<span class="nc" id="L157">    }</span>
+<span class="nc" id="L153">        program.addInstruction(instruction, comment);</span>
+<span class="nc" id="L154">    }</span>
     
     /**
      * @see 
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {
-<span class="nc" id="L164">        return program.display();</span>
+<span class="nc" id="L161">        return program.display();</span>
     }
     
     private final CompilerOptions compilerOptions;
@@ -169,12 +166,12 @@ import org.apache.log4j.Logger;
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
-<span class="fc" id="L172">    private final IMAProgram program = new IMAProgram();</span>
+<span class="fc" id="L169">    private final IMAProgram program = new IMAProgram();</span>
  
 
     /** The global environment for types (and the symbolTable) */
-<span class="fc" id="L176">    public final SymbolTable symbolTable = new SymbolTable();</span>
-<span class="fc" id="L177">    public final EnvironmentType environmentType = new EnvironmentType(this);</span>
+<span class="fc" id="L173">    public final SymbolTable symbolTable = new SymbolTable();</span>
+<span class="fc" id="L174">    public final EnvironmentType environmentType = new EnvironmentType(this);</span>
 
     /**
      * TODO
@@ -182,7 +179,7 @@ import org.apache.log4j.Logger;
      * @return
      */
     public Symbol createSymbol(String name) {
-<span class="fc" id="L185">        return symbolTable.create(name);</span>
+<span class="fc" id="L182">        return symbolTable.create(name);</span>
     }
 
     /**
@@ -191,42 +188,42 @@ import org.apache.log4j.Logger;
      * @return true on error
      */
     public boolean compile() {
-<span class="fc" id="L194">        String sourceFile = source.getAbsolutePath();</span>
-<span class="fc" id="L195">        String destFile = null;</span>
+<span class="fc" id="L191">        String sourceFile = source.getAbsolutePath();</span>
+<span class="fc" id="L192">        String destFile = null;</span>
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
-<span class="fc" id="L198">        String namePath = this.source.getPath();</span>
-<span class="fc" id="L199">        String nameSource = this.source.getName();</span>
+<span class="fc" id="L195">        String namePath = this.source.getAbsolutePath();</span>
+<span class="fc" id="L196">        String nameSource = this.source.getName();</span>
         //destFile = nameSource.substring(0, nameSource.length()-5)+&quot;.ass&quot;;
-<span class="fc" id="L201">        String newName = nameSource.substring(0, nameSource.length()-5)+&quot;.ass&quot;;</span>
-<span class="fc" id="L202">        destFile = namePath.replaceAll(nameSource, &quot;/&quot; + newName);</span>
+<span class="fc" id="L198">        String newName = nameSource.substring(0, nameSource.length()-5)+&quot;.ass&quot;;</span>
+<span class="fc" id="L199">        destFile = namePath.replaceAll(nameSource, &quot;/&quot; + newName);</span>
         //destFile = nameSource.replaceAll(this.source.getName(), &quot;assembleur/&quot;+this.getSource().getName().substring(0, nameSource.length()-5)+&quot;.ass&quot;);
-<span class="fc" id="L204">        PrintStream err = System.err;</span>
-<span class="fc" id="L205">        PrintStream out = System.out;</span>
-<span class="fc" id="L206">        LOG.debug(&quot;Compiling file &quot; + sourceFile + &quot; to assembly file &quot; + destFile);</span>
+<span class="fc" id="L201">        PrintStream err = System.err;</span>
+<span class="fc" id="L202">        PrintStream out = System.out;</span>
+<span class="fc" id="L203">        LOG.debug(&quot;Compiling file &quot; + sourceFile + &quot; to assembly file &quot; + destFile);</span>
         
         try {
-<span class="fc" id="L209">            return doCompile(sourceFile, destFile, out, err);</span>
-<span class="nc" id="L210">        } catch (LocationException e) {</span>
-<span class="nc" id="L211">            e.display(err);</span>
+<span class="fc" id="L206">            return doCompile(sourceFile, destFile, out, err);</span>
+<span class="nc" id="L207">        } catch (LocationException e) {</span>
+<span class="nc" id="L208">            e.display(err);</span>
+<span class="nc" id="L209">            return true;</span>
+<span class="nc" id="L210">        } catch (DecacFatalError e) {</span>
+<span class="nc" id="L211">            err.println(e.getMessage());</span>
 <span class="nc" id="L212">            return true;</span>
-<span class="nc" id="L213">        } catch (DecacFatalError e) {</span>
-<span class="nc" id="L214">            err.println(e.getMessage());</span>
-<span class="nc" id="L215">            return true;</span>
-<span class="nc" id="L216">        } catch (StackOverflowError e) {</span>
-<span class="nc" id="L217">            LOG.debug(&quot;stack overflow&quot;, e);</span>
-<span class="nc" id="L218">            err.println(&quot;Stack overflow while compiling file &quot; + sourceFile + &quot;.&quot;);</span>
-<span class="nc" id="L219">            return true;</span>
-<span class="nc" id="L220">        } catch (Exception e) {</span>
-<span class="nc" id="L221">            LOG.fatal(&quot;Exception raised while compiling file &quot; + sourceFile</span>
+<span class="nc" id="L213">        } catch (StackOverflowError e) {</span>
+<span class="nc" id="L214">            LOG.debug(&quot;stack overflow&quot;, e);</span>
+<span class="nc" id="L215">            err.println(&quot;Stack overflow while compiling file &quot; + sourceFile + &quot;.&quot;);</span>
+<span class="nc" id="L216">            return true;</span>
+<span class="nc" id="L217">        } catch (Exception e) {</span>
+<span class="nc" id="L218">            LOG.fatal(&quot;Exception raised while compiling file &quot; + sourceFile</span>
                     + &quot;:&quot;, e);
-<span class="nc" id="L223">            err.println(&quot;Internal compiler error while compiling file &quot; + sourceFile + &quot;, sorry.&quot;);</span>
-<span class="nc" id="L224">            return true;</span>
-<span class="nc" id="L225">        } catch (AssertionError e) {</span>
-<span class="nc" id="L226">            LOG.fatal(&quot;Assertion failed while compiling file &quot; + sourceFile</span>
+<span class="nc" id="L220">            err.println(&quot;Internal compiler error while compiling file &quot; + sourceFile + &quot;, sorry.&quot;);</span>
+<span class="nc" id="L221">            return true;</span>
+<span class="nc" id="L222">        } catch (AssertionError e) {</span>
+<span class="nc" id="L223">            LOG.fatal(&quot;Assertion failed while compiling file &quot; + sourceFile</span>
                     + &quot;:&quot;, e);
-<span class="nc" id="L228">            err.println(&quot;Internal compiler error while compiling file &quot; + sourceFile + &quot;, sorry.&quot;);</span>
-<span class="nc" id="L229">            return true;</span>
+<span class="nc" id="L225">            err.println(&quot;Internal compiler error while compiling file &quot; + sourceFile + &quot;, sorry.&quot;);</span>
+<span class="nc" id="L226">            return true;</span>
         }
     }
 
@@ -244,46 +241,46 @@ import org.apache.log4j.Logger;
     private boolean doCompile(String sourceName, String destName,
             PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
-<span class="fc" id="L247">        AbstractProgram prog = doLexingAndParsing(sourceName, err);</span>
+<span class="fc" id="L244">        AbstractProgram prog = doLexingAndParsing(sourceName, err);</span>
 
-<span class="pc bpc" id="L249" title="1 of 2 branches missed.">        if (prog == null) {</span>
-<span class="nc" id="L250">            LOG.info(&quot;Parsing failed&quot;);</span>
-<span class="nc" id="L251">            return true;</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (prog == null) {</span>
+<span class="nc" id="L247">            LOG.info(&quot;Parsing failed&quot;);</span>
+<span class="nc" id="L248">            return true;</span>
         }
-<span class="pc bpc" id="L253" title="2 of 4 branches missed.">        assert(prog.checkAllLocations());</span>
+<span class="pc bpc" id="L250" title="2 of 4 branches missed.">        assert(prog.checkAllLocations());</span>
         
         // arret si option -p
-<span class="fc bfc" id="L256" title="All 2 branches covered.">        if (this.getCompilerOptions().getParsing()) {</span>
-<span class="fc" id="L257">            prog.decompile(System.out);</span>
-<span class="fc" id="L258">            return false;</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        if (this.getCompilerOptions().getParsing()) {</span>
+<span class="fc" id="L254">            prog.decompile(System.out);</span>
+<span class="fc" id="L255">            return false;</span>
         }
         
         // arret si option -v
-<span class="fc" id="L262">        prog.verifyProgram(this);</span>
-<span class="pc bpc" id="L263" title="2 of 4 branches missed.">        assert(prog.checkAllDecorations());</span>
+<span class="fc" id="L259">        prog.verifyProgram(this);</span>
+<span class="fc" id="L260">        prog.checkAllDecorations();</span>
 
-<span class="fc bfc" id="L265" title="All 2 branches covered.">        if (this.getCompilerOptions().getVerification()) {</span>
-<span class="fc" id="L266">            return false;</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">        if (this.getCompilerOptions().getVerification()) {</span>
+<span class="fc" id="L263">            return false;</span>
         }
 
-<span class="fc" id="L269">        addComment(&quot;start main program&quot;);</span>
-<span class="fc" id="L270">        prog.codeGenProgram(this);</span>
-<span class="fc" id="L271">        addComment(&quot;end main program&quot;);</span>
-<span class="fc" id="L272">        LOG.debug(&quot;Generated assembly code:&quot; + nl + program.display());</span>
-<span class="fc" id="L273">        LOG.info(&quot;Output file assembly file is: &quot; + destName);</span>
+<span class="fc" id="L266">        addComment(&quot;start main program&quot;);</span>
+<span class="fc" id="L267">        prog.codeGenProgram(this);</span>
+<span class="fc" id="L268">        addComment(&quot;end main program&quot;);</span>
+<span class="fc" id="L269">        LOG.debug(&quot;Generated assembly code:&quot; + nl + program.display());</span>
+<span class="fc" id="L270">        LOG.info(&quot;Output file assembly file is: &quot; + destName);</span>
 
-<span class="fc" id="L275">        FileOutputStream fstream = null;</span>
+<span class="fc" id="L272">        FileOutputStream fstream = null;</span>
         try {
-<span class="fc" id="L277">            fstream = new FileOutputStream(destName);</span>
-<span class="nc" id="L278">        } catch (FileNotFoundException e) {</span>
-<span class="nc" id="L279">            throw new DecacFatalError(&quot;Failed to open output file: &quot; + e.getLocalizedMessage());</span>
-<span class="fc" id="L280">        }</span>
+<span class="fc" id="L274">            fstream = new FileOutputStream(destName);</span>
+<span class="nc" id="L275">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L276">            throw new DecacFatalError(&quot;Failed to open output file: &quot; + e.getLocalizedMessage());</span>
+<span class="fc" id="L277">        }</span>
 
-<span class="fc" id="L282">        LOG.info(&quot;Writing assembler file ...&quot;);</span>
+<span class="fc" id="L279">        LOG.info(&quot;Writing assembler file ...&quot;);</span>
 
-<span class="fc" id="L284">        program.display(new PrintStream(fstream));</span>
-<span class="fc" id="L285">        LOG.info(&quot;Compilation of &quot; + sourceName + &quot; successful.&quot;);</span>
-<span class="fc" id="L286">        return false;</span>
+<span class="fc" id="L281">        program.display(new PrintStream(fstream));</span>
+<span class="fc" id="L282">        LOG.info(&quot;Compilation of &quot; + sourceName + &quot; successful.&quot;);</span>
+<span class="fc" id="L283">        return false;</span>
     }
 
     /**
@@ -303,15 +300,15 @@ import org.apache.log4j.Logger;
             throws DecacFatalError, DecacInternalError {
         DecaLexer lex;
         try {
-<span class="fc" id="L306">            lex = new DecaLexer(CharStreams.fromFileName(sourceName));</span>
-<span class="nc" id="L307">        } catch (IOException ex) {</span>
-<span class="nc" id="L308">            throw new DecacFatalError(&quot;Failed to open input file: &quot; + ex.getLocalizedMessage());</span>
-<span class="fc" id="L309">        }</span>
-<span class="fc" id="L310">        lex.setDecacCompiler(this);</span>
-<span class="fc" id="L311">        CommonTokenStream tokens = new CommonTokenStream(lex);</span>
-<span class="fc" id="L312">        DecaParser parser = new DecaParser(tokens);</span>
-<span class="fc" id="L313">        parser.setDecacCompiler(this);</span>
-<span class="fc" id="L314">        return parser.parseProgramAndManageErrors(err);</span>
+<span class="fc" id="L303">            lex = new DecaLexer(CharStreams.fromFileName(sourceName));</span>
+<span class="nc" id="L304">        } catch (IOException ex) {</span>
+<span class="nc" id="L305">            throw new DecacFatalError(&quot;Failed to open input file: &quot; + ex.getLocalizedMessage());</span>
+<span class="fc" id="L306">        }</span>
+<span class="fc" id="L307">        lex.setDecacCompiler(this);</span>
+<span class="fc" id="L308">        CommonTokenStream tokens = new CommonTokenStream(lex);</span>
+<span class="fc" id="L309">        DecaParser parser = new DecaParser(tokens);</span>
+<span class="fc" id="L310">        parser.setDecacCompiler(this);</span>
+<span class="fc" id="L311">        return parser.parseProgramAndManageErrors(err);</span>
     }
 
 }

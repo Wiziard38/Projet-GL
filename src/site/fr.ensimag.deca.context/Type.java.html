@@ -37,7 +37,7 @@ public abstract class Type {
     }
 
     public boolean isClass() {
-<span class="nc" id="L40">        return false;</span>
+<span class="fc" id="L40">        return false;</span>
     }
 
     public boolean isInt() {
@@ -57,7 +57,7 @@ public abstract class Type {
     }
 
     public boolean isString() {
-<span class="nc" id="L60">        return false;</span>
+<span class="fc" id="L60">        return false;</span>
     }
 
     public boolean isNull() {
@@ -77,7 +77,7 @@ public abstract class Type {
      */
     public ClassType asClassType(String errorMessage, Location l)
             throws ContextualError {
-<span class="nc" id="L80">        throw new ContextualError(errorMessage, l);</span>
+<span class="fc" id="L80">        throw new ContextualError(errorMessage, l);</span>
     }
 
 }

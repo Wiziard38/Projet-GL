@@ -22,18 +22,18 @@ public class Not extends AbstractUnaryExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
                 
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (this.getOperand().verifyExpr(compiler, localEnv, currentClass).isBoolean()) {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (this.getOperand().verifyExpr(compiler, localEnv, currentClass).isBoolean()) {</span>
 <span class="fc" id="L26">            this.setType(compiler.environmentType.BOOLEAN);</span>
 <span class="fc" id="L27">            return compiler.environmentType.BOOLEAN;</span>
         }
 
-<span class="nc" id="L30">        throw new ContextualError(&quot; Négation logique sur un non-boolean&quot;, this.getLocation()); // Rule 3.37</span>
+<span class="fc" id="L30">        throw new ContextualError(&quot; Négation logique sur un non-boolean&quot;, this.getLocation()); // Rule 3.37</span>
     }
 
 
     @Override
     protected String getOperatorName() {
-<span class="nc" id="L36">        return &quot;!&quot;;</span>
+<span class="fc" id="L36">        return &quot;!&quot;;</span>
     }
 
     protected void checkDecoration() {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.HALT;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
+
+import static org.mockito.ArgumentMatchers.nullable;
+
+import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
+
+/**
+ * @author gl39
+ * @date 01/01/2023
+ */
+public class Main extends AbstractMain {
+<span class="fc" id="L27">    private static final Logger LOG = Logger.getLogger(Main.class);</span>
+
+    private ListDeclVar declVariables;
+    private ListInst insts;
+
+<span class="fc" id="L32">    public Main(ListDeclVar declVariables, ListInst insts) {</span>
+<span class="fc" id="L33">        Validate.notNull(declVariables);</span>
+<span class="fc" id="L34">        Validate.notNull(insts);</span>
+<span class="fc" id="L35">        this.declVariables = declVariables;</span>
+<span class="fc" id="L36">        this.insts = insts;</span>
+<span class="fc" id="L37">    }</span>
+
+    @Override
+    protected void verifyMain(DecacCompiler compiler) throws ContextualError {
+<span class="fc" id="L41">        LOG.debug(&quot;verify Main: start&quot;);</span>
+        
+<span class="fc" id="L43">        EnvironmentExp localEnv = new EnvironmentExp(null);</span>
+<span class="fc" id="L44">        this.declVariables.verifyListDeclVariable(compiler, localEnv, null);</span>
+
+<span class="fc" id="L46">        LOG.debug(String.format(&quot;symbol : %s&quot;, compiler.symbolTable.getTable().get(&quot;x&quot;)));</span>
+<span class="fc" id="L47">        LOG.debug(String.format(&quot;env : %s&quot;, localEnv.getLocalEnv().toString()));</span>
+
+        
+<span class="fc" id="L50">        this.insts.verifyListInst(compiler, localEnv, null, null);</span>
+<span class="fc" id="L51">        LOG.debug(&quot;verify Main: end&quot;);</span>
+<span class="fc" id="L52">    }</span>
+
+    @Override
+    protected void codeGenMain(DecacCompiler compiler) {
+        // A FAIRE: traiter les déclarations de variables.
+<span class="fc" id="L57">        this.declVariables.codeGenListVar(compiler);</span>
+<span class="fc" id="L58">        compiler.addComment(&quot;Beginning of main instructions:&quot;);</span>
+<span class="fc" id="L59">        insts.codeGenListInst(compiler);</span>
+<span class="fc" id="L60">        compiler.addInstruction(new HALT());</span>
+<span class="fc" id="L61">        compiler.addComment(&quot;End of the main program&quot;);</span>
+<span class="fc" id="L62">        compiler.addLabel(compiler.getErreurPile());</span>
+<span class="fc" id="L63">        compiler.addInstruction(new WSTR(&quot;Erreur de débordement de pile dans le programme&quot;));</span>
+<span class="fc" id="L64">        compiler.addInstruction(new WNL());</span>
+<span class="fc" id="L65">        compiler.addInstruction(new ERROR());</span>
+<span class="fc" id="L66">        compiler.addLabel(compiler.getErreurOverflow() );</span>
+<span class="fc" id="L67">        compiler.addInstruction(new WSTR(&quot;Erreur 'overflow' pendant une opération arithmétique&quot;));</span>
+<span class="fc" id="L68">        compiler.addInstruction(new WNL());</span>
+<span class="fc" id="L69">        compiler.addInstruction(new ERROR());</span>
+<span class="fc" id="L70">        compiler.addLabel(compiler.getErreurinOut() );</span>
+<span class="fc" id="L71">        compiler.addInstruction(new WSTR(&quot;Erreur lorsd d'une entrée/sortie&quot;));</span>
+<span class="fc" id="L72">        compiler.addInstruction(new WNL());</span>
+<span class="fc" id="L73">        compiler.addInstruction(new ERROR());</span>
+<span class="fc" id="L74">        compiler.addInstructionFirst(new BOV(compiler.getErreurPile()));</span>
+<span class="fc" id="L75">        compiler.addInstructionFirst(new TSTO(compiler.getD()));</span>
+<span class="fc" id="L76">    }</span>
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+<span class="nc" id="L80">        s.println(&quot;{&quot;);</span>
+<span class="nc" id="L81">        s.indent();</span>
+<span class="nc" id="L82">        declVariables.decompile(s);</span>
+<span class="nc" id="L83">        insts.decompile(s);</span>
+<span class="nc" id="L84">        s.unindent();</span>
+<span class="nc" id="L85">        s.println(&quot;}&quot;);</span>
+<span class="nc" id="L86">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+<span class="fc" id="L90">        declVariables.iter(f);</span>
+<span class="fc" id="L91">        insts.iter(f);</span>
+<span class="fc" id="L92">    }</span>
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+<span class="fc" id="L96">        declVariables.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L97">        insts.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L98">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

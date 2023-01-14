@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractPrint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">AbstractPrint.java</span></div><h1>AbstractPrint.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.FloatType;
+import fr.ensimag.deca.context.IntType;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
+import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
+
+/**
+ * Print statement (print, println, ...).
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
+public abstract class AbstractPrint extends AbstractInst {
+
+    private boolean printHex;
+<span class="fc" id="L24">    private ListExpr arguments = new ListExpr();</span>
+
+    abstract String getSuffix();
+
+<span class="fc" id="L28">    public AbstractPrint(boolean printHex, ListExpr arguments) {</span>
+<span class="fc" id="L29">        Validate.notNull(arguments);</span>
+<span class="fc" id="L30">        this.arguments = arguments;</span>
+<span class="fc" id="L31">        this.printHex = printHex;</span>
+<span class="fc" id="L32">    }</span>
+
+    public ListExpr getArguments() {
+<span class="fc" id="L35">        return arguments;</span>
+    }
+
+    @Override
+    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass, Type returnType)
+            throws ContextualError {
+<span class="fc" id="L42">        Validate.notNull(localEnv);</span>
+        
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (AbstractExpr myExpr : this.arguments.getList()) {</span>
+<span class="fc" id="L45">            Type myExprType = myExpr.verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="pc bpc" id="L46" title="2 of 6 branches missed.">            if (!myExprType.isFloat() &amp;&amp; !myExprType.isInt() &amp;&amp; !myExprType.isString()) {</span>
+                
+<span class="nc" id="L48">                throw new ContextualError(String.format(&quot;Print ne peut pas afficher une expression de type '%s'&quot;, </span>
+<span class="nc" id="L49">                        myExprType.toString()), myExpr.getLocation()); // Rule 3.31</span>
+                }
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (AbstractExpr a : getArguments().getList()) {</span>
+<span class="fc" id="L57">            a.codeGenPrint(compiler);</span>
+<span class="fc" id="L58">        }</span>
+<span class="fc" id="L59">    }</span>
+
+    private boolean getPrintHex() {
+<span class="nc" id="L62">        return printHex;</span>
+    }
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+        // TO DO: tenir compte de printHex !!!
+<span class="nc" id="L68">        s.print(&quot;print&quot; + getSuffix() + &quot;( &quot;);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (AbstractExpr e : arguments.getList()) {</span>
+<span class="nc" id="L70">            e.decompile(s);</span>
+<span class="nc" id="L71">            s.print(&quot; &quot;);</span>
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">        s.print(&quot;);&quot;);</span>
+<span class="nc" id="L74">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+<span class="fc" id="L78">        arguments.iter(f);</span>
+<span class="fc" id="L79">    }</span>
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+<span class="fc" id="L83">        arguments.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L84">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeclParam.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">DeclParam.java</span></div><h1>DeclParam.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import java.io.PrintStream;
+
+import org.apache.commons.lang.Validate;
+
+import fr.ensimag.deca.tools.IndentPrintStream;
+
+/*
+ * Declaration of a parameter
+ */
+public class DeclParam extends AbstractDeclParam {
+
+    private AbstractIdentifier type;
+    private AbstractIdentifier name;
+
+<span class="nc" id="L17">    public DeclParam(AbstractIdentifier varType, AbstractIdentifier varName) {</span>
+<span class="nc" id="L18">        Validate.notNull(varName);</span>
+<span class="nc" id="L19">        Validate.notNull(varType);</span>
+<span class="nc" id="L20">        type = varType;</span>
+<span class="nc" id="L21">        name = varName;</span>
+<span class="nc" id="L22">    }</span>
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+<span class="nc" id="L26">        type.decompile(s);</span>
+<span class="nc" id="L27">        s.print(&quot; &quot;);</span>
+<span class="nc" id="L28">        name.decompile(s);</span>
+<span class="nc" id="L29">    }</span>
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+<span class="nc" id="L33">        type.prettyPrint(s, prefix, false);</span>
+<span class="nc" id="L34">        name.prettyPrint(s, prefix, false);</span>
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+<span class="nc" id="L39">        type.iter(f);</span>
+<span class="nc" id="L40">        name.iter(f);</span>
+<span class="nc" id="L41">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

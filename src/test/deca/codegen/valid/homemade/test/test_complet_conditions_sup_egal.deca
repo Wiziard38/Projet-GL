@@ -9,7 +9,7 @@
     if(a >= c){
         println("a = c");
     }
-    if(c >= b){
+    if(b >= c){
         println("erreur");
     }
 }

@@ -43,13 +43,12 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
             VariableDefinition defVar = this.getVariableDefinition();
             compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
-            if(defVar.getType().isInt()){
+            if (this.getType().isInt()) {
                 compiler.addInstruction(new WINT());
             }
-            else{
+            else {
                 compiler.addInstruction(new WFLOAT());
             }
-            
         }
 
     protected void codeGenInst(DecacCompiler compiler) {

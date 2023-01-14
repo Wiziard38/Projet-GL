@@ -12,6 +12,24 @@ import java.util.LinkedList;
  */
 public class IMAProgram {
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
+    private Label erreurPile = new Label("ErreurPile");
+
+    public Label getErreurPile(){
+        return erreurPile;
+    }
+
+    private Label erreurOverflow = new Label("overflof_error");
+
+    public Label getErreurOverflow(){
+        return erreurOverflow;
+    }
+
+    private Label erreurInOut = new Label("io_error");
+
+    public Label getErreurinOut(){
+        return erreurInOut;
+    }
+
 
     public void add(AbstractLine line) {
         lines.add(line);

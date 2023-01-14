@@ -53,7 +53,7 @@ public class Line extends AbstractLine {
         boolean tab = false;
         if (label != null) {
             s.print(label);
-                        s.print(":");
+            s.print(":");
             tab = true;
         }
         if (instruction != null) {

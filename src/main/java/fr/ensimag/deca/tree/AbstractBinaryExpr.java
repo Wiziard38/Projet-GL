@@ -233,19 +233,19 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                         break;
                     case ">":
                         compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
-                        compiler.addInstruction(new SGT(Register.getR(nActualLeft)));
+                        compiler.addInstruction(new SLT(Register.getR(nActualLeft)));
                         break;
                     case ">=":
                         compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
-                        compiler.addInstruction(new SGE(Register.getR(nActualLeft)));
+                        compiler.addInstruction(new SLE(Register.getR(nActualLeft)));
                         break;
                     case "<":
                         compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
-                        compiler.addInstruction(new SLT(Register.getR(nActualLeft)));
+                        compiler.addInstruction(new SGT(Register.getR(nActualLeft)));
                         break;
                     case "<=":
                         compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
-                        compiler.addInstruction(new SLE(Register.getR(nActualLeft)));
+                        compiler.addInstruction(new SGE(Register.getR(nActualLeft)));
                         break;
                 }
             }

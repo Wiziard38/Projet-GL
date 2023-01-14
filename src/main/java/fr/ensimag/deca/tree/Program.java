@@ -35,7 +35,12 @@ public class Program extends AbstractProgram {
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
-        // this.classes.verifyListClass(compiler); TODO a faire !
+        // Passe 1 :
+        this.classes.verifyListClass(compiler);
+        // Passe 2 :
+        this.classes.verifyListClassMembers(compiler);
+        // Passe 3 :
+        this.classes.verifyListClassBody(compiler);
         this.main.verifyMain(compiler);
         LOG.debug("verify program: end");
     }

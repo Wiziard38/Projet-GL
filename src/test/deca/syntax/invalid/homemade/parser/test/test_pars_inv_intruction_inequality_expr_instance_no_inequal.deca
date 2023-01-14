@@ -1,0 +1,12 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour instance of
+//
+// Resultats:
+//    Ligne 11 : Erreur ( expected INEQUALITY_EXPR before "instanceof")
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    instanceof iden;
+}

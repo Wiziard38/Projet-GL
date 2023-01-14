@@ -1,0 +1,12 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour instance of
+//
+// Resultats:
+//    Ligne 11 : Erreur ( expected TYPE after "instanceof")
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    expr1 +expr2 instanceof 8int;
+}

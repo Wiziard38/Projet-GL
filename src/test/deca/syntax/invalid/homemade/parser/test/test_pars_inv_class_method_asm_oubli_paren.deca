@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 12 : Erreur (missing string)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class iden3{
+    int iden (gloat iden) asm "string";
+}

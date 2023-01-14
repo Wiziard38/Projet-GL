@@ -67,11 +67,11 @@ public class ClassDefinition extends TypeDefinition {
 
     public ClassDefinition(ClassType type, Location location, ClassDefinition superClass) {
         super(type, location);
-        EnvironmentExp parent;
+        EnvironmentExp parent = null;
         if (superClass != null) {
             parent = superClass.getMembers();
-        } else {
-            parent = null;
+            this.setNumberOfFields(superClass.getNumberOfFields());
+            this.setNumberOfMethods(superClass.getNumberOfMethods());
         }
         members = new EnvironmentExp(parent);
         this.superClass = superClass;

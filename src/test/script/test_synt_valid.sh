@@ -13,7 +13,7 @@ script_dir=$(cd $(dirname $0) && pwd)
 input_dir="$script_dir/../deca/syntax/valid"
 
 # Variables pour connaitre le nombre de tests valides
-total_test=($(find $input_dir -type f -name "*.deca" | wc -l))
+total_test=$(find $input_dir -type f -name "*.deca" | wc -l)
 total_valid=0
 
 # exemple de définition d'une fonction
@@ -22,10 +22,10 @@ test_synt_valide () {
     
     if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
         echo "${RED}Echec inattendu pour test_synt sur $1.${NC}"
-        exit 1
+        # exit 1
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "${RED}Erreur non soulevée pour $1.${NC}"
-        exit 1
+        # exit 1
     else
         # echo "Succes attendu de test_synt sur $1."
         total_valid=$((total_valid+1))

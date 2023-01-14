@@ -1,0 +1,31 @@
+// Description:
+//    Programme minimaliste testant la reconnaissance de tous les symboles spéciaux
+// Resultats:
+//    
+//
+// Historique:
+//    cree le 01/01/2023
+
+
+< 
+> 
+= 
++ 
+- 
+* 
+/ 
+% 
+. 
+, 
+( 
+) 
+{ 
+}
+! 
+; 
+== 
+!= 
+>= 
+<= 
+&& 
+||

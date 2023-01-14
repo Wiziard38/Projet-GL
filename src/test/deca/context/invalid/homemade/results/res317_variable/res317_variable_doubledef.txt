@@ -1,0 +1,1 @@
+Le nom de variable ‘[name]’ est déjà déclaré dans l’environnement local

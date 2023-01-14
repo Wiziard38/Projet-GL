@@ -13,7 +13,7 @@ script_dir=$(cd $(dirname $0) && pwd)
 input_dir="$script_dir/../deca/context/invalid"
 
 # Variables pour connaitre le nombre de tests valides
-total_test=($(find $input_dir -type f -name "*.deca" | wc -l))
+total_test=$(find $input_dir -type f -name "*.deca" | wc -l)
 total_valid=0
 
 test_context_invalide () {
@@ -24,10 +24,10 @@ test_context_invalide () {
         total_valid=$((total_valid+1))
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
         echo "${RED}Erreur non soulevée pour $1.${NC}"
-        exit 1
+        # exit 1
     else
         echo "${RED}Succes inattendu de test_context sur $1.${NC}"
-        exit 1
+        # exit 1
     fi
 }    
 

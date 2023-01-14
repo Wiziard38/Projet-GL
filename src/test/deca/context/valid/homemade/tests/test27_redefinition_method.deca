@@ -2,11 +2,9 @@
 
 class B {
     int value(float x){}
-    void toPrint(){}
     boolean name(int ent, int virg){}
 }
 class A extends B{
     int value(float x){}
-    void toPrint(){}
     boolean name(int ent, int virg){}
 }

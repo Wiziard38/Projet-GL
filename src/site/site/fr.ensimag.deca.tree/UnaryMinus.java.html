@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnaryMinus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">UnaryMinus.java</span></div><h1>UnaryMinus.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+
+/**
+ * @author gl39
+ * @date 01/01/2023
+ */
+public class UnaryMinus extends AbstractUnaryExpr {
+
+    public UnaryMinus(AbstractExpr operand) {
+<span class="fc" id="L17">        super(operand);</span>
+<span class="fc" id="L18">    }</span>
+
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass) throws ContextualError {
+<span class="fc" id="L23">        Type operandType = this.getOperand().verifyExpr(compiler, localEnv, currentClass);</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (operandType.isInt()) {</span>
+<span class="fc" id="L26">            this.setType(compiler.environmentType.INT);</span>
+<span class="fc" id="L27">            return compiler.environmentType.INT;</span>
+        }
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (operandType.isFloat()) {</span>
+<span class="fc" id="L30">            this.setType(compiler.environmentType.FLOAT);</span>
+<span class="fc" id="L31">            return compiler.environmentType.FLOAT;</span>
+        }
+
+<span class="fc" id="L34">        throw new ContextualError(&quot;Négation arithmétique sur un non-nombre&quot;, this.getLocation()); // Rule 3.37</span>
+    }
+
+
+    @Override
+    protected String getOperatorName() {
+<span class="fc" id="L40">        return &quot;-&quot;;</span>
+    }
+
+    protected void checkDecoration() {
+<span class="nc" id="L44">        super.checkDecoration();</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">        if (!this.getOperand().getType().isInt() &amp;&amp; !this.getOperand().getType().isFloat()) {</span>
+<span class="nc" id="L46">            throw new DecacInternalError(&quot;UnaryMinus operand is not of Type int or float&quot;);</span>
+        }
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (!this.getType().sameType(this.getOperand().getType())) {</span>
+<span class="nc" id="L49">            throw new DecacInternalError(&quot;UnaryMinus is not of same Type as operand&quot;);</span>
+        }
+<span class="nc" id="L51">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

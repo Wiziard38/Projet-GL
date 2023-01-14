@@ -27,7 +27,6 @@ public class Initialization extends AbstractInitialization {
     protected void codeGenInst(DecacCompiler compiler){
         expression.codeGenInst(compiler);
         compiler.addInstruction(new STORE(Register.getR(compiler.getN()),new RegisterOffset(compiler.getSP()+1, Register.GB)));
-        compiler.setSP(compiler.getSP() + 1);
         
     }
 

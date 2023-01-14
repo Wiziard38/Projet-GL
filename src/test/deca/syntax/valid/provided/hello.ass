@@ -1,27 +1,15 @@
-	TSTO #4
+	TSTO #1
 	BOV ErreurPile
 ; start main program
 ; Main program
 	ADDSP #1
-	LOAD #1, R2
-	STORE R2, 1(GB)
-	ADDSP #1
-	LOAD #2, R2
-	STORE R2, 2(GB)
-	ADDSP #1
-	LOAD #3, R2
-	STORE R2, 3(GB)
-	ADDSP #1
-	LOAD #5, R2
-	STORE R2, 4(GB)
+	RFLOAT
+	LOAD R1, R2
+	BOV io_error
+	STORE R1, 1(GB)
 ; Beginning of main instructions:
-	LOAD #1, R2
-	LOAD #0, R3
-	QUO R3, R2
-	BOV overflof_error
-	LOAD #0, R1
-	LOAD R2, R1
-	WINT
+	LOAD 1(GB), R1
+	WFLOAT
 	HALT
 ; End of the main program
 ErreurPile:

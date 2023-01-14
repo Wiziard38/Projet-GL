@@ -8,5 +8,5 @@
 //    cree le 01/01/2023
 
 class iden {
-    protected int iden = 6495;
+    protected int iden1 = 6495;
 }

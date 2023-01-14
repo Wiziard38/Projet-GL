@@ -22,7 +22,7 @@ public class BooleanLiteral extends AbstractExpr {
 <span class="fc" id="L22">    }</span>
 
     public boolean getValue() {
-<span class="nc" id="L25">        return value;</span>
+<span class="fc" id="L25">        return value;</span>
     }
 
     @Override
@@ -35,22 +35,22 @@ public class BooleanLiteral extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L38">        s.print(Boolean.toString(value));</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L38">        s.print(Boolean.toString(value));</span>
+<span class="fc" id="L39">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
         // leaf node =&gt; nothing to do
-<span class="nc" id="L44">    }</span>
+<span class="fc" id="L44">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node =&gt; nothing to do
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L49">    }</span>
 
     @Override
     String prettyPrintNode() {
-<span class="nc" id="L53">        return &quot;BooleanLiteral (&quot; + value + &quot;)&quot;;</span>
+<span class="fc" id="L53">        return &quot;BooleanLiteral (&quot; + value + &quot;)&quot;;</span>
     }
 
 }

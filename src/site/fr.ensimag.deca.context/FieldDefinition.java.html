@@ -26,16 +26,16 @@ public class FieldDefinition extends ExpDefinition {
     
     public FieldDefinition(Type type, Location location, Visibility visibility,
             ClassDefinition memberOf, int index) {
-<span class="nc" id="L29">        super(type, location);</span>
-<span class="nc" id="L30">        this.visibility = visibility;</span>
-<span class="nc" id="L31">        this.containingClass = memberOf;</span>
-<span class="nc" id="L32">        this.index = index;</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L29">        super(type, location);</span>
+<span class="fc" id="L30">        this.visibility = visibility;</span>
+<span class="fc" id="L31">        this.containingClass = memberOf;</span>
+<span class="fc" id="L32">        this.index = index;</span>
+<span class="fc" id="L33">    }</span>
     
     @Override
     public FieldDefinition asFieldDefinition(String errorMessage, Location l)
             throws ContextualError {
-<span class="nc" id="L38">        return this;</span>
+<span class="fc" id="L38">        return this;</span>
     }
 
     public Visibility getVisibility() {

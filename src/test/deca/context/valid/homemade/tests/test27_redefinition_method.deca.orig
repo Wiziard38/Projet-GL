@@ -1,0 +1,10 @@
+// test valide de la règle 2.7
+
+class B {
+    int value(float x){}
+    boolean name(int ent, int virg){}
+}
+class A extends B{
+    int value(float x){}
+    boolean name(int ent, int virg){}
+}

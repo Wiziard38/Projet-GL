@@ -4,6 +4,11 @@ import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /*
@@ -14,39 +19,46 @@ public class MethodBody extends AbstractMethodBody {
     private ListDeclVar variables;
     private ListInst instructions;
 
-<span class="nc" id="L17">    public MethodBody(ListDeclVar var, ListInst inst) {</span>
-<span class="nc" id="L18">        Validate.notNull(inst);</span>
-<span class="nc" id="L19">        Validate.notNull(var);</span>
-<span class="nc" id="L20">        variables = var;</span>
-<span class="nc" id="L21">        instructions = inst;</span>
-<span class="nc" id="L22">    }</span>
+<span class="fc" id="L22">    public MethodBody(ListDeclVar var, ListInst inst) {</span>
+<span class="fc" id="L23">        Validate.notNull(inst);</span>
+<span class="fc" id="L24">        Validate.notNull(var);</span>
+<span class="fc" id="L25">        variables = var;</span>
+<span class="fc" id="L26">        instructions = inst;</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L26">        s.println(&quot;{&quot;);</span>
-<span class="nc" id="L27">        s.indent();</span>
-<span class="nc" id="L28">        variables.decompile(s);</span>
-<span class="nc" id="L29">        s.println();</span>
-<span class="nc" id="L30">        s.println();</span>
-<span class="nc" id="L31">        instructions.decompile(s);</span>
-<span class="nc" id="L32">        s.println();</span>
-<span class="nc" id="L33">        s.println(&quot;}&quot;);</span>
+<span class="fc" id="L31">        s.println(&quot;{&quot;);</span>
+<span class="fc" id="L32">        s.indent();</span>
+<span class="fc" id="L33">        variables.decompile(s);</span>
+<span class="fc" id="L34">        s.println();</span>
+<span class="fc" id="L35">        instructions.decompile(s);</span>
+<span class="fc" id="L36">        s.println();</span>
+<span class="fc" id="L37">        s.println(&quot;}&quot;);</span>
 
-<span class="nc" id="L35">    }</span>
+<span class="fc" id="L39">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L39">        variables.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L40">        instructions.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L43">        variables.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L44">        instructions.prettyPrint(s, prefix, false);</span>
 
-<span class="nc" id="L42">    }</span>
+<span class="fc" id="L46">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
-<span class="nc" id="L46">        variables.iter(f);</span>
-<span class="nc" id="L47">        instructions.iter(f);</span>
+<span class="nc" id="L50">        variables.iter(f);</span>
+<span class="nc" id="L51">        instructions.iter(f);</span>
+<span class="nc" id="L52">    }</span>
 
-<span class="nc" id="L49">    }</span>
+
+    @Override
+    public void verifyBody(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClassDef, Type returnType) throws ContextualError {
+        
+<span class="fc" id="L59">        this.variables.verifyListDeclVariable(compiler, localEnv, currentClassDef);</span>
+<span class="fc" id="L60">        this.instructions.verifyListInst(compiler, localEnv, currentClassDef, returnType);</span>
+<span class="fc" id="L61">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

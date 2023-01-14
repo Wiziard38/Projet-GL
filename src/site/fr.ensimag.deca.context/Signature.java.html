@@ -17,12 +17,28 @@ import java.util.List;
 <span class="fc" id="L17">    }</span>
     
     public Type paramNumber(int n) {
-<span class="nc" id="L20">        return args.get(n);</span>
+<span class="fc" id="L20">        return args.get(n);</span>
     }
     
     public int size() {
-<span class="nc" id="L24">        return args.size();</span>
+<span class="fc" id="L24">        return args.size();</span>
     }
 
+    public boolean differentThan(Signature otherSig) {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (this.size() != otherSig.size()) {</span>
+<span class="fc" id="L29">            return false;</span>
+        }
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (int i = 0; i &lt; this.args.size(); i++) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (!this.paramNumber(i).sameType(otherSig.paramNumber(i))) {</span>
+<span class="fc" id="L33">                return false;</span>
+            }
+        }
+<span class="fc" id="L36">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L41">        return args.toString();</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

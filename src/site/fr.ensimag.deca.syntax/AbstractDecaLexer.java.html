@@ -40,7 +40,7 @@ public abstract class AbstractDecaLexer extends Lexer {
 <span class="fc" id="L40">    }</span>
 
     protected DecacCompiler getDecacCompiler() {
-<span class="nc" id="L43">        return decacCompiler;</span>
+<span class="fc" id="L43">        return decacCompiler;</span>
     }
 
     public void setDecacCompiler(DecacCompiler decacCompiler) {
@@ -123,22 +123,22 @@ public abstract class AbstractDecaLexer extends Lexer {
     }
 
     protected File getSource() {
-<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (getDecacCompiler() != null</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if (getDecacCompiler() != null</span>
 <span class="nc bnc" id="L127" title="All 2 branches missed.">                &amp;&amp; getDecacCompiler().getSource() != null) {</span>
 <span class="nc" id="L128">            return getDecacCompiler().getSource();</span>
         } else {
-<span class="nc" id="L130">            return source;</span>
+<span class="fc" id="L130">            return source;</span>
         }
     }
 
     // Code needed to implement the #include directive.
     // Adapted from https://theantlrguy.atlassian.net/wiki/pages/viewpage.action?pageId=2686987
     private static class IncludeSaveStruct {
-<span class="nc" id="L137">        IncludeSaveStruct(CharStream input, int line, int charPositionInline) {</span>
-<span class="nc" id="L138">            this.input = input;</span>
-<span class="nc" id="L139">            this.line = line;</span>
-<span class="nc" id="L140">            this.charPositionInLine = charPositionInline;</span>
-<span class="nc" id="L141">        }</span>
+<span class="fc" id="L137">        IncludeSaveStruct(CharStream input, int line, int charPositionInline) {</span>
+<span class="fc" id="L138">            this.input = input;</span>
+<span class="fc" id="L139">            this.line = line;</span>
+<span class="fc" id="L140">            this.charPositionInLine = charPositionInline;</span>
+<span class="fc" id="L141">        }</span>
 
         /** Which stream to read from */
         public CharStream input;
@@ -161,27 +161,27 @@ public abstract class AbstractDecaLexer extends Lexer {
     CharStream findFile(String name) throws IOException,
             IncludeFileNotFound {
         // Look in the directory containing the source file ...
-<span class="nc" id="L164">        String dir = &quot;.&quot;; // default value used e.g. when reading from stdin</span>
-<span class="nc" id="L165">        File src = getSource();</span>
-<span class="nc bnc" id="L166" title="All 4 branches missed.">        if (src != null &amp;&amp; src.getParent() != null) {</span>
-<span class="nc" id="L167">            dir = src.getParent();</span>
+<span class="fc" id="L164">        String dir = &quot;.&quot;; // default value used e.g. when reading from stdin</span>
+<span class="fc" id="L165">        File src = getSource();</span>
+<span class="pc bpc" id="L166" title="2 of 4 branches missed.">        if (src != null &amp;&amp; src.getParent() != null) {</span>
+<span class="fc" id="L167">            dir = src.getParent();</span>
         }
-<span class="nc" id="L169">        String full = dir + &quot;/&quot; + name;</span>
-<span class="nc" id="L170">        File f = new File(full);</span>
-<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (f.exists()) {</span>
+<span class="fc" id="L169">        String full = dir + &quot;/&quot; + name;</span>
+<span class="fc" id="L170">        File f = new File(full);</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (f.exists()) {</span>
 <span class="nc" id="L172">            LOG.debug(&quot;Using local file &quot; + full);</span>
 <span class="nc" id="L173">            return CharStreams.fromFileName(full);</span>
         }
 
         // ... and fall back to the standard library path if not found.
-<span class="nc" id="L177">        final URL url = ClassLoader.getSystemResource(&quot;include/&quot; + name);</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">        if (url != null) {</span>
-<span class="nc" id="L179">            LOG.debug(&quot;Using library &quot; + url);</span>
+<span class="fc" id="L177">        final URL url = ClassLoader.getSystemResource(&quot;include/&quot; + name);</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        if (url != null) {</span>
+<span class="fc" id="L179">            LOG.debug(&quot;Using library &quot; + url);</span>
             // Use fromReader(Reader, String) to catch the file name --- fromStream(InputStream) does not.
-<span class="nc" id="L181">            return CharStreams.fromReader(new InputStreamReader(url.openStream()), url.getFile());</span>
+<span class="fc" id="L181">            return CharStreams.fromReader(new InputStreamReader(url.openStream()), url.getFile());</span>
         }
 
-<span class="nc" id="L184">        throw new IncludeFileNotFound(name, this, getInputStream()); // TODO: check this</span>
+<span class="fc" id="L184">        throw new IncludeFileNotFound(name, this, getInputStream()); // TODO: check this</span>
     }
 
     /**
@@ -197,27 +197,27 @@ public abstract class AbstractDecaLexer extends Lexer {
      *             When an attempt to perform a circular inclusion is done
      */
     void doInclude(String includeDirective) throws IncludeFileNotFound, CircularInclude {
-<span class="nc" id="L200">        String name = includeDirective.substring(includeDirective.indexOf('&quot;') + 1,</span>
-<span class="nc" id="L201">                includeDirective.lastIndexOf('&quot;'));</span>
-<span class="nc" id="L202">        Validate.notNull(name);</span>
-<span class="nc" id="L203">        Validate.notEmpty(name);</span>
+<span class="fc" id="L200">        String name = includeDirective.substring(includeDirective.indexOf('&quot;') + 1,</span>
+<span class="fc" id="L201">                includeDirective.lastIndexOf('&quot;'));</span>
+<span class="fc" id="L202">        Validate.notNull(name);</span>
+<span class="fc" id="L203">        Validate.notEmpty(name);</span>
         CharStream newInput;
         try {
-<span class="nc" id="L206">            newInput = findFile(name);</span>
+<span class="fc" id="L206">            newInput = findFile(name);</span>
 <span class="nc" id="L207">        } catch (IOException e1) {</span>
             // The file is probably there but not readable.
 <span class="nc" id="L209">            throw new IncludeFileNotFound(name, this, getInputStream());</span>
-<span class="nc" id="L210">        }</span>
-<span class="nc bnc" id="L211" title="All 2 branches missed.">        for (IncludeSaveStruct s : includes) {</span>
+<span class="fc" id="L210">        }</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        for (IncludeSaveStruct s : includes) {</span>
 <span class="nc bnc" id="L212" title="All 2 branches missed.">            if (newInput.getSourceName().equals(s.input.getSourceName())) {</span>
 <span class="nc" id="L213">                throw new CircularInclude(name, this, this.getInputStream());</span>
             }
 <span class="nc" id="L215">        }</span>
-<span class="nc" id="L216">        IncludeSaveStruct ss = new IncludeSaveStruct(getInputStream(),</span>
-<span class="nc" id="L217">                getLine(), getCharPositionInLine());</span>
-<span class="nc" id="L218">        includes.push(ss);</span>
-<span class="nc" id="L219">        setInputStream(newInput);</span>
-<span class="nc" id="L220">        throw new SkipANTLRPostAction();</span>
+<span class="fc" id="L216">        IncludeSaveStruct ss = new IncludeSaveStruct(getInputStream(),</span>
+<span class="fc" id="L217">                getLine(), getCharPositionInLine());</span>
+<span class="fc" id="L218">        includes.push(ss);</span>
+<span class="fc" id="L219">        setInputStream(newInput);</span>
+<span class="fc" id="L220">        throw new SkipANTLRPostAction();</span>
     }
 
     /**
@@ -252,24 +252,24 @@ public abstract class AbstractDecaLexer extends Lexer {
         Token token;
         try {
 <span class="fc" id="L254">            token = super.nextToken();</span>
-<span class="nc" id="L255">        } catch (SkipANTLRPostAction e) {</span>
+<span class="fc" id="L255">        } catch (SkipANTLRPostAction e) {</span>
             // It's OK, we just found a #include statement.
-<span class="nc" id="L257">            return this.nextToken();</span>
+<span class="fc" id="L257">            return this.nextToken();</span>
 <span class="fc" id="L258">        }</span>
 
-<span class="pc bpc" id="L260" title="1 of 4 branches missed.">        if (token.getType() == Token.EOF &amp;&amp; !includes.empty()) {</span>
+<span class="fc bfc" id="L260" title="All 4 branches covered.">        if (token.getType() == Token.EOF &amp;&amp; !includes.empty()) {</span>
             // We've got EOF and have non empty stack.
-<span class="nc" id="L262">            LOG.debug(&quot;End of file, poping include stack&quot;);</span>
-<span class="nc" id="L263">            IncludeSaveStruct ss = includes.pop();</span>
-<span class="nc" id="L264">            setInputStream(ss.input);</span>
-<span class="nc" id="L265">            setLine(ss.line);</span>
-<span class="nc" id="L266">            setCharPositionInLine(ss.charPositionInLine);</span>
+<span class="fc" id="L262">            LOG.debug(&quot;End of file, poping include stack&quot;);</span>
+<span class="fc" id="L263">            IncludeSaveStruct ss = includes.pop();</span>
+<span class="fc" id="L264">            setInputStream(ss.input);</span>
+<span class="fc" id="L265">            setLine(ss.line);</span>
+<span class="fc" id="L266">            setCharPositionInLine(ss.charPositionInLine);</span>
 
             // this should be used instead of super [like below] to
             // handle exits from nested includes. It matters, when the
             // 'include' token is the last in previous stream (using
             // super, lexer 'crashes' returning EOF token)
-<span class="nc" id="L272">            token = this.nextToken();</span>
+<span class="fc" id="L272">            token = this.nextToken();</span>
         }
 
         // Skip first token after switching on another input.

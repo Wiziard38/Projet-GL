@@ -48,9 +48,9 @@ import org.apache.log4j.Logger;
             } else {
 <span class="nc" id="L49">                throw new DecacInternalError(&quot;Parsing cancelled&quot;, e);</span>
             }
-<span class="nc" id="L51">        } catch (DecaRecognitionException e) {</span>
-<span class="nc" id="L52">            e.display(err);</span>
-<span class="nc" id="L53">            return null;</span>
+<span class="fc" id="L51">        } catch (DecaRecognitionException e) {</span>
+<span class="fc" id="L52">            e.display(err);</span>
+<span class="fc" id="L53">            return null;</span>
         }
     }
 
@@ -83,10 +83,10 @@ import org.apache.log4j.Logger;
             @Override
             public void reportError(Parser recognizer,
                                     RecognitionException e) {
-<span class="nc" id="L86">                LOG.debug(&quot;Error found by ANTLR&quot;);</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">                if (e instanceof DecaRecognitionException) {</span>
-<span class="nc" id="L88">                    Token offendingToken = e.getOffendingToken();</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">                    if (offendingToken == null) {</span>
+<span class="fc" id="L86">                LOG.debug(&quot;Error found by ANTLR&quot;);</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">                if (e instanceof DecaRecognitionException) {</span>
+<span class="fc" id="L88">                    Token offendingToken = e.getOffendingToken();</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">                    if (offendingToken == null) {</span>
 <span class="nc" id="L90">                        offendingToken = recognizer.getCurrentToken();                        </span>
                     }
 <span class="nc" id="L92">                    recognizer.notifyErrorListeners(offendingToken, e.getMessage(), e);</span>

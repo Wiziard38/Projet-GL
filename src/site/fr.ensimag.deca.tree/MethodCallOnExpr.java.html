@@ -12,22 +12,22 @@ public class MethodCallOnExpr extends MethodCallOnVoid {
     private AbstractExpr expr;
 
     public MethodCallOnExpr(AbstractExpr e, AbstractIdentifier name, ListExpr args) {
-<span class="nc" id="L15">        super(name, args);</span>
-<span class="nc" id="L16">        Validate.notNull(e);</span>
-<span class="nc" id="L17">        expr = e;</span>
-<span class="nc" id="L18">    }</span>
+<span class="fc" id="L15">        super(name, args);</span>
+<span class="fc" id="L16">        Validate.notNull(e);</span>
+<span class="fc" id="L17">        expr = e;</span>
+<span class="fc" id="L18">    }</span>
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L22">        expr.decompile(s);</span>
-<span class="nc" id="L23">        getName().decompile(s);</span>
-<span class="nc" id="L24">        s.print(&quot;(&quot;);</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">        for (AbstractExpr e : getArgs().getList()) {</span>
-<span class="nc" id="L26">            e.decompile(s);</span>
-<span class="nc" id="L27">            s.print(&quot; &quot;);</span>
-<span class="nc" id="L28">        }</span>
-<span class="nc" id="L29">        s.print(&quot;)&quot;);</span>
-<span class="nc" id="L30">    }</span>
+<span class="fc" id="L22">        expr.decompile(s);</span>
+<span class="fc" id="L23">        getName().decompile(s);</span>
+<span class="fc" id="L24">        s.print(&quot;(&quot;);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (AbstractExpr e : getArgs().getList()) {</span>
+<span class="fc" id="L26">            e.decompile(s);</span>
+<span class="fc" id="L27">            s.print(&quot; &quot;);</span>
+<span class="fc" id="L28">        }</span>
+<span class="fc" id="L29">        s.print(&quot;)&quot;);</span>
+<span class="fc" id="L30">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

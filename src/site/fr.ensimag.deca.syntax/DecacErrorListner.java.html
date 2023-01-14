@@ -34,7 +34,7 @@ public class DecacErrorListner implements ANTLRErrorListener {
         // When trying to recover from an error, e can actually be null
         // (eg. &quot;println(;&quot;)
 <span class="fc" id="L36">        Token offendingToken = null;</span>
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (e != null) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (e != null) {</span>
 <span class="fc" id="L38">            offendingToken = e.getOffendingToken();</span>
         }
         Location l;
@@ -50,12 +50,12 @@ public class DecacErrorListner implements ANTLRErrorListener {
 <span class="fc" id="L50">            LOG.info(&quot;no token, no LocationException =&gt; using input.getSourceName(): line=&quot;</span>
                     + line);
             String sourceName;
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            if (recognizer instanceof AbstractDecaLexer) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (recognizer instanceof AbstractDecaLexer) {</span>
                 // Can be different from input.getSourceName because of
                 // #include.
 <span class="fc" id="L56">                sourceName = ((AbstractDecaLexer) recognizer).getSourceName();</span>
             } else {
-<span class="nc" id="L58">                sourceName = input.getSourceName();</span>
+<span class="fc" id="L58">                sourceName = input.getSourceName();</span>
             }
 <span class="fc" id="L60">            l = new Location(line, charPositionInLine, sourceName);</span>
         }

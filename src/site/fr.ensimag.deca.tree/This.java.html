@@ -12,31 +12,35 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * This keyword
  */
-<span class="nc" id="L15">public class This extends AbstractExpr {</span>
+<span class="fc" id="L15">public class This extends AbstractExpr {</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        // TODO Auto-generated method stub
-<span class="nc" id="L21">        return null;</span>
+        
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (currentClass == null) {</span>
+<span class="nc" id="L22">            throw new ContextualError(&quot;'This' ne peut être appelé en dehors d'une class&quot;, this.getLocation());</span>
+        }
+        
+<span class="nc" id="L25">        return currentClass.getType();</span>
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L26">        s.print(&quot;this&quot;);</span>
-<span class="nc" id="L27">    }</span>
+<span class="fc" id="L30">        s.print(&quot;this&quot;);</span>
+<span class="fc" id="L31">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L37">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
         // TODO Auto-generated method stub
 
-<span class="nc" id="L39">    }</span>
+<span class="nc" id="L43">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

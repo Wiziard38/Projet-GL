@@ -26,18 +26,18 @@ public class UnaryMinus extends AbstractUnaryExpr {
 <span class="fc" id="L26">            this.setType(compiler.environmentType.INT);</span>
 <span class="fc" id="L27">            return compiler.environmentType.INT;</span>
         }
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if (operandType.isFloat()) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (operandType.isFloat()) {</span>
 <span class="fc" id="L30">            this.setType(compiler.environmentType.FLOAT);</span>
 <span class="fc" id="L31">            return compiler.environmentType.FLOAT;</span>
         }
 
-<span class="nc" id="L34">        throw new ContextualError(&quot;Négation arithmétique sur un non-nombre&quot;, this.getLocation()); // Rule 3.37</span>
+<span class="fc" id="L34">        throw new ContextualError(&quot;Négation arithmétique sur un non-nombre&quot;, this.getLocation()); // Rule 3.37</span>
     }
 
 
     @Override
     protected String getOperatorName() {
-<span class="nc" id="L40">        return &quot;-&quot;;</span>
+<span class="fc" id="L40">        return &quot;-&quot;;</span>
     }
 
     protected void checkDecoration() {

@@ -19,25 +19,25 @@ public class Instanceof extends AbstractExpr {
     private AbstractIdentifier type;
     private AbstractExpr expr;
 
-<span class="nc" id="L22">    public Instanceof(AbstractIdentifier type, AbstractExpr e) {</span>
-<span class="nc" id="L23">        Validate.notNull(e);</span>
-<span class="nc" id="L24">        Validate.notNull(type);</span>
-<span class="nc" id="L25">        this.type = type;</span>
-<span class="nc" id="L26">        expr = e;</span>
-<span class="nc" id="L27">    }</span>
+<span class="fc" id="L22">    public Instanceof(AbstractIdentifier type, AbstractExpr e) {</span>
+<span class="fc" id="L23">        Validate.notNull(e);</span>
+<span class="fc" id="L24">        Validate.notNull(type);</span>
+<span class="fc" id="L25">        this.type = type;</span>
+<span class="fc" id="L26">        expr = e;</span>
+<span class="fc" id="L27">    }</span>
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L31">        expr.decompile(s);</span>
-<span class="nc" id="L32">        s.print(&quot; instanceof &quot;);</span>
-<span class="nc" id="L33">        type.decompile(s);</span>
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L31">        expr.decompile(s);</span>
+<span class="fc" id="L32">        s.print(&quot; instanceof &quot;);</span>
+<span class="fc" id="L33">        type.decompile(s);</span>
+<span class="fc" id="L34">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="nc" id="L38">        type.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L39">        expr.prettyPrint(s, prefix, false);</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L38">        type.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L39">        expr.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L40">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {

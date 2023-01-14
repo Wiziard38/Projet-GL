@@ -31,30 +31,29 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler){
-<span class="nc" id="L34">        int nActualRight = compiler.getN() +1;</span>
-<span class="nc" id="L35">        getRightOperand().codeGenInst(compiler);</span>
-<span class="nc" id="L36">        VariableDefinition varDef = ((AbstractIdentifier)getLeftOperand()).getVariableDefinition();</span>
-<span class="nc" id="L37">        compiler.addInstruction(new STORE(Register.getR(nActualRight), varDef.getOperand()));</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L34">        int nActualRight = compiler.getN() +1;</span>
+<span class="fc" id="L35">        getRightOperand().codeGenInst(compiler);</span>
+<span class="fc" id="L36">        VariableDefinition varDef = ((AbstractIdentifier)getLeftOperand()).getVariableDefinition();</span>
+<span class="fc" id="L37">        compiler.addInstruction(new STORE(Register.getR(nActualRight), varDef.getOperand()));</span>
+<span class="fc" id="L38">    }</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         
 <span class="fc" id="L44">        Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);</span>
-<span class="fc" id="L45">        this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);</span>
         
         // On set si jamais il y a un CovnFloat a appliquer
-<span class="nc" id="L48">        this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));</span>
+<span class="fc" id="L47">        this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));</span>
 
-<span class="nc" id="L50">        this.setType(requestedType);</span>
-<span class="nc" id="L51">        return requestedType;</span>
+<span class="fc" id="L49">        this.setType(requestedType);</span>
+<span class="fc" id="L50">        return requestedType;</span>
     }
 
 
     @Override
     protected String getOperatorName() {
-<span class="nc" id="L57">        return &quot;=&quot;;</span>
+<span class="fc" id="L56">        return &quot;=&quot;;</span>
     }
 
 }

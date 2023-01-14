@@ -25,26 +25,26 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
 <span class="fc" id="L25">        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);</span>
 <span class="fc" id="L26">        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);</span>
         
-<span class="pc bpc" id="L28" title="2 of 4 branches missed.">        if (typeLeft.isBoolean() &amp;&amp; typeRight.isBoolean()) {</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">        if (typeLeft.isBoolean() &amp;&amp; typeRight.isBoolean()) {</span>
             
 <span class="fc" id="L30">            this.setType(compiler.environmentType.BOOLEAN);</span>
 <span class="fc" id="L31">            return compiler.environmentType.BOOLEAN;</span>
         }
 
-<span class="nc" id="L34">        throw new ContextualError(&quot;Comparaison logique sur des non-booleans&quot;, this.getLocation()); // Rule 3.33</span>
+<span class="fc" id="L34">        throw new ContextualError(&quot;Comparaison logique sur des non-booleans&quot;, this.getLocation()); // Rule 3.33</span>
     
     }
 
     @Override
     protected void checkDecoration() {
-<span class="nc" id="L40">        super.checkDecoration();</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (!this.getLeftOperand().getType().isBoolean()) {</span>
+<span class="fc" id="L40">        super.checkDecoration();</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (!this.getLeftOperand().getType().isBoolean()) {</span>
 <span class="nc" id="L42">            throw new DecacInternalError(&quot;Not both operand of &quot; + this.toString() + &quot; are of Type boolean&quot;);</span>
         }
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (!this.getType().isBoolean()) {</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (!this.getType().isBoolean()) {</span>
 <span class="nc" id="L45">            throw new DecacInternalError(&quot;OpBool &quot; + this.toString() + &quot; is not of Type boolean&quot;);</span>
         }
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L47">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

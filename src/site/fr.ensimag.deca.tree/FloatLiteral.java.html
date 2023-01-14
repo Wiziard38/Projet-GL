@@ -18,7 +18,7 @@ import org.apache.commons.lang.Validate;
 public class FloatLiteral extends AbstractExpr {
 
     public float getValue() {
-<span class="nc" id="L21">        return value;</span>
+<span class="fc" id="L21">        return value;</span>
     }
 
     private float value;
@@ -41,23 +41,23 @@ public class FloatLiteral extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L44">        s.print(java.lang.Float.toHexString(value));</span>
-<span class="nc" id="L45">    }</span>
+<span class="fc" id="L44">        s.print(java.lang.Float.toHexString(value));</span>
+<span class="fc" id="L45">    }</span>
 
     @Override
     String prettyPrintNode() {
-<span class="nc" id="L49">        return &quot;Float (&quot; + getValue() + &quot;)&quot;;</span>
+<span class="fc" id="L49">        return &quot;Float (&quot; + getValue() + &quot;)&quot;;</span>
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
         // leaf node =&gt; nothing to do
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L55">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node =&gt; nothing to do
-<span class="nc" id="L60">    }</span>
+<span class="fc" id="L60">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

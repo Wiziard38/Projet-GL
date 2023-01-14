@@ -1,0 +1,8 @@
+// test valide de la règle 2.3
+
+
+class A {
+    void add() {}
+    int get() {}
+    boolean exists() {}
+}

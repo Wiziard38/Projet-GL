@@ -1,0 +1,12 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour cast
+//
+// Resultats:
+//    Ligne 11 : Erreur ( expected "("" after ")")
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+{
+    (int) iden;
+}

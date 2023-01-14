@@ -1,0 +1,10 @@
+{
+    int x = 10;
+    float y = 20.5f;
+    boolean b ;
+    b = true;
+
+    println("Integer value: ",x);
+    println("Float value: ",y);
+
+}

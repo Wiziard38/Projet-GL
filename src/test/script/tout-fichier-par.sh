@@ -15,25 +15,19 @@ echo ""
 echo "---------------------------------------"
 echo ""
 
-for fichier in ./src/test/deca/syntax/parser/valid/*.deca
+for fichier in ./src/test/deca/syntax/valid/homemade/parser/test/*.deca
 do
-    echo "$fichier"
     nom=${fichier##*/}
     export nom
     test_synt "$fichier" 2>&1 > actual
-    cat actual
     echo ""
-    if diff -w actual "./src/test/deca/syntax/parser/valid/resultat/${nom%.deca}_resultat.txt"
+    if diff -w actual "./src/test/deca/syntax/valid/homemade/parser/resultat/${nom%.deca}_resultat.txt"
     then
         echo ""
-        echo "ok"
     else
         echo ""
         echo "faux"
     fi
-    echo ""
-    echo "----------------------------------"
-    echo ""
 done
 
 echo ""

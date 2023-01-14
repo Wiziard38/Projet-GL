@@ -66,6 +66,9 @@ public abstract class Definition {
      */
     public MethodDefinition asMethodDefinition(String errorMessage, Location l)
             throws ContextualError {
+        if (this.isMethod()) {
+            return (MethodDefinition) (this);
+        }
         throw new ContextualError(errorMessage, l);
     }
     

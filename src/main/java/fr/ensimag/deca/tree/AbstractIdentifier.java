@@ -92,5 +92,6 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * @return the type corresponding to this identifier
      *         (corresponds to the "type" attribute)
      */
-    public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
+    public abstract Type verifyType(DecacCompiler compiler, boolean checkVoid,
+            String message) throws ContextualError;
 }

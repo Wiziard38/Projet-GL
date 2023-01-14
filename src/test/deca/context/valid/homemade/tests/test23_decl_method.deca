@@ -2,8 +2,7 @@
 
 
 class A {
-    void add();
-    int get();
-    bool exists();
-    String name();
+    void add() {}
+    int get() {}
+    boolean exists() {}
 }

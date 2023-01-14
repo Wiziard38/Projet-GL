@@ -33,8 +33,7 @@ test_context_valide () {
 }    
 
 
-
-echo "--------------------------"
+echo "--------------------------------------"
 echo -en "\rPASSED: $total_valid       TOTAL: $total_test"
 
 for cas_de_test in $(find $input_dir -name "*.deca")
@@ -43,5 +42,4 @@ do
     printf "\033[1A"
     echo -en "\r${GREEN}PASSED: $total_valid ${NC}      TOTAL: $total_test"
 done
-
-echo "--------------------------"
+echo "--------------------------------------"

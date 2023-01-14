@@ -3,6 +3,6 @@
 
 class A {
     int value(float x){}
-    void print(){}
-    String name(int ent, int virg){}
+    void toPrint(){}
+    boolean name(int ent, int virg){}
 }

@@ -18,20 +18,26 @@ do
     nom=${fichier##*/}
     export nom
     
-    deca $fichier
-    ima "$fichier" 2>&1 > actual
-    if ! diff -w actual "./src/test/deca/codegen/valid/homemade/resultat/${nom%.deca}_resultat.txt"
+    decac $fichier
+    ima "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass" 2>&1 > actuel
+    # actuel=$(ima "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass")
+    if ! diff -Z actuel "./src/test/deca/codegen/valid/homemade/resultat/${nom%.deca}_resultat.txt"
     then
         echo "erreur innatendu"
         echo "On s'attendait à"
-        cat actual
+        cat ./src/test/deca/codegen/valid/homemade/resultat/${nom%.deca}_resultat.txt
+        echo ""
         echo "Et ima nous a retourné:"
-        ima $fichier
+        cat actuel
     else
         i=$i+1
-        echo "\r$i/$nb_fichier"
+        echo -e "\r$i/$nb_fichier"
     fi
+
+    rm "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass"
     
 
 done
+
+rm actuel
 

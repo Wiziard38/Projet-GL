@@ -67,9 +67,9 @@ public class DeclField extends AbstractDeclField {
     public void decompile(IndentPrintStream s) {
         if (visibility == Visibility.PROTECTED) {
             s.print("protected ");
-        } else {
-            s.print("public ");
-        }
+        } // else { TODO a check
+        //     s.print("public ");
+        // }
         type.decompile(s);
         s.print(" ");
         name.decompile(s);

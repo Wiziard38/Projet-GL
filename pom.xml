@@ -302,7 +302,7 @@
                     <execution>
                         <id>test-deca</id>
                         <configuration>
-                            <executable>./src/test/script/tout-deca.sh</executable>
+                            <executable>./src/test/script/test_codegen_complet.sh</executable>
                         </configuration>
                         <phase>test</phase>
                         <goals>
@@ -312,7 +312,7 @@
                     <execution>
                         <id>test-lexer</id>
                         <configuration>
-                            <executable>./src/test/script/tout-fichier-lex.sh</executable>
+                            <executable>./src/test/script/test_lex_complet.sh</executable>
                         </configuration>
                         <phase>test</phase>
                         <goals>

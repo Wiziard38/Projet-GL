@@ -3,6 +3,5 @@
 
 class A {
     int value(float x){}
-    void toPrint(){}
     boolean name(int ent, int virg){}
 }

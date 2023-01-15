@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Script pour tester tous les test de contextes
+# Script pour tester tous les test de codegen
 
 # On lance decac sur les tests et on vérifie qu'ils sont bien valides ou invalides
 

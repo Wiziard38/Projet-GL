@@ -1,9 +1,0 @@
-#include "Math.decah"
-
-class A {
-
-}
-
-{ 
-    print("Hello Math");
-}

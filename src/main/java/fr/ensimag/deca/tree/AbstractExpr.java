@@ -16,6 +16,7 @@ import fr.ensimag.ima.pseudocode.instructions.WINT;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -146,7 +147,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
         if(this.getType().sameType(compiler.environmentType.INT)){
             compiler.setN(compiler.getN()+1);
             IntLiteral intExpr = (IntLiteral)this;
@@ -157,7 +158,12 @@ public abstract class AbstractExpr extends AbstractInst {
             compiler.setN(compiler.getN()+1);
             FloatLiteral intExpr = (FloatLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));
-            compiler.addInstruction(new WFLOAT());
+            if (!printHex) {
+                compiler.addInstruction(new WFLOAT());
+            }
+            else {
+                compiler.addInstruction(new WFLOATX());
+            }
         }
     }
 

@@ -1,0 +1,4 @@
+{
+    float x = 3.1;
+    printlnx("x = ", (x));
+}

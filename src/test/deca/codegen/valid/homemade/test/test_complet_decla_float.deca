@@ -1,0 +1,4 @@
+ {
+    float y = 20.5f;
+    println("Float value: ",y);
+}

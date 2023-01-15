@@ -68,7 +68,7 @@ public class Main extends AbstractMain {
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
         compiler.addLabel(compiler.getErreurinOut() );
-        compiler.addInstruction(new WSTR("Erreur lorsd d'une entrée/sortie"));
+        compiler.addInstruction(new WSTR("Erreur lors d'une entrée/sortie"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
         compiler.addInstructionFirst(new BOV(compiler.getErreurPile()));

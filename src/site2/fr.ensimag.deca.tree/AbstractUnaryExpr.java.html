@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractUnaryExpr.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">AbstractUnaryExpr.java</span></div><h1>AbstractUnaryExpr.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.OPP;
+import fr.ensimag.ima.pseudocode.instructions.SNE;
+
+import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
+
+import org.apache.log4j.Logger;
+
+/**
+ * Unary expression.
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
+public abstract class AbstractUnaryExpr extends AbstractExpr {
+<span class="fc" id="L24">    private static final Logger LOG = Logger.getLogger(AbstractBinaryExpr.class);</span>
+
+    public AbstractExpr getOperand() {
+<span class="fc" id="L27">        return operand;</span>
+    }
+
+    private AbstractExpr operand;
+
+<span class="fc" id="L32">    public AbstractUnaryExpr(AbstractExpr operand) {</span>
+<span class="fc" id="L33">        Validate.notNull(operand);</span>
+<span class="fc" id="L34">        this.operand = operand;</span>
+<span class="fc" id="L35">    }</span>
+    @Override
+    protected void codeGenInst(DecacCompiler compiler){
+<span class="fc" id="L38">        int nActual = compiler.getN() +1;</span>
+<span class="fc" id="L39">        this.getOperand().codeGenInst(compiler);</span>
+<span class="pc bpc" id="L40" title="2 of 4 branches missed.">        switch(this.getOperatorName()){</span>
+            case &quot;/* conv float */&quot;:
+<span class="nc" id="L42">                compiler.addInstruction(new FLOAT(Register.getR(nActual),Register.getR(nActual)));</span>
+<span class="nc" id="L43">                break;</span>
+            case &quot;!&quot;:
+<span class="fc" id="L45">                compiler.addInstruction(new CMP(new ImmediateInteger(1),Register.getR(nActual)));</span>
+<span class="fc" id="L46">                compiler.addInstruction(new SNE(Register.getR(nActual)));</span>
+<span class="fc" id="L47">                break;</span>
+            case &quot;-&quot;:
+<span class="fc" id="L49">                compiler.addInstruction(new OPP(Register.getR(nActual),Register.getR(nActual)));</span>
+                break;
+        }
+<span class="fc" id="L52">        compiler.setN(nActual);</span>
+<span class="fc" id="L53">    }</span>
+
+    protected abstract String getOperatorName();
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+<span class="fc" id="L59">        s.print(getOperatorName());</span>
+<span class="fc" id="L60">        getOperand().decompile(s);</span>
+<span class="fc" id="L61">    }</span>
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+<span class="fc" id="L65">        operand.iter(f);</span>
+<span class="fc" id="L66">    }</span>
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+<span class="fc" id="L70">        operand.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L71">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

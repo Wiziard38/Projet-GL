@@ -2,7 +2,6 @@
     int x = 10;
     int y = 20;
     int z = 30;
-    int number = 2;
 
     if (x > y) {
         println("x is greater than y");

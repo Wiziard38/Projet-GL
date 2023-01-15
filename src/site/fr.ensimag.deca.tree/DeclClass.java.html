@@ -42,11 +42,11 @@ public class DeclClass extends AbstractDeclClass {
 <span class="fc" id="L42">        s.print(&quot; extends &quot;);</span>
 <span class="fc" id="L43">        superclass.decompile(s);</span>
 <span class="fc" id="L44">        s.println(&quot; {&quot;);</span>
-<span class="fc" id="L45">        s.indent();</span>
-<span class="fc" id="L46">        fields.decompile(s);</span>
-<span class="fc" id="L47">        s.println();</span>
-<span class="fc" id="L48">        methods.decompile(s);</span>
-<span class="fc" id="L49">        s.println();</span>
+<span class="fc" id="L45">        s.println();</span>
+<span class="fc" id="L46">        s.indent();</span>
+<span class="fc" id="L47">        fields.decompile(s);</span>
+<span class="fc" id="L48">        s.println();</span>
+<span class="fc" id="L49">        methods.decompile(s);</span>
 <span class="fc" id="L50">        s.unindent();</span>
 <span class="fc" id="L51">        s.println(&quot;}&quot;);</span>
 <span class="fc" id="L52">    }</span>
@@ -104,11 +104,11 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-<span class="nc" id="L107">        name.iter(f);</span>
-<span class="nc" id="L108">        superclass.iter(f);</span>
-<span class="nc" id="L109">        fields.iter(f);</span>
-<span class="nc" id="L110">        methods.iter(f);</span>
-<span class="nc" id="L111">    }</span>
+<span class="fc" id="L107">        name.iter(f);</span>
+<span class="fc" id="L108">        superclass.iter(f);</span>
+<span class="fc" id="L109">        fields.iter(f);</span>
+<span class="fc" id="L110">        methods.iter(f);</span>
+<span class="fc" id="L111">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

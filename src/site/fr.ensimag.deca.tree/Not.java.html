@@ -2,6 +2,9 @@
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -15,35 +18,30 @@ import fr.ensimag.deca.context.EnvironmentExp;
 public class Not extends AbstractUnaryExpr {
 
     public Not(AbstractExpr operand) {
-<span class="fc" id="L18">        super(operand);</span>
-<span class="fc" id="L19">    }</span>
+<span class="fc" id="L21">        super(operand);</span>
+<span class="fc" id="L22">    }</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-                
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (this.getOperand().verifyExpr(compiler, localEnv, currentClass).isBoolean()) {</span>
-<span class="fc" id="L26">            this.setType(compiler.environmentType.BOOLEAN);</span>
-<span class="fc" id="L27">            return compiler.environmentType.BOOLEAN;</span>
+
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (this.getOperand().verifyExpr(compiler, localEnv, currentClass).isBoolean()) {</span>
+<span class="fc" id="L29">            this.setType(compiler.environmentType.BOOLEAN);</span>
+<span class="fc" id="L30">            return compiler.environmentType.BOOLEAN;</span>
         }
 
-<span class="fc" id="L30">        throw new ContextualError(&quot; Négation logique sur un non-boolean&quot;, this.getLocation()); // Rule 3.37</span>
+<span class="fc" id="L33">        throw new ContextualError(&quot; Négation logique sur un non-boolean&quot;, this.getLocation()); // Rule 3.37</span>
     }
-
 
     @Override
     protected String getOperatorName() {
-<span class="fc" id="L36">        return &quot;!&quot;;</span>
+<span class="fc" id="L38">        return &quot;!&quot;;</span>
     }
 
     protected void checkDecoration() {
-<span class="nc" id="L40">        super.checkDecoration();</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (!this.getOperand().getType().isBoolean()) {</span>
-<span class="nc" id="L42">            throw new DecacInternalError(&quot;Not operand is not of Type boolean&quot;);</span>
-        }
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (!this.getType().isBoolean()) {</span>
-<span class="nc" id="L45">            throw new DecacInternalError(&quot;Not is not of Type boolean&quot;);</span>
-        }
-<span class="nc" id="L47">    }</span>
+<span class="pc bpc" id="L42" title="2 of 4 branches missed.">        Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat()</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">                || this.getOperand().getType().isBoolean());</span>
+<span class="fc" id="L44">        Validate.isTrue(this.getType().sameType(this.getOperand().getType()));</span>
+<span class="fc" id="L45">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

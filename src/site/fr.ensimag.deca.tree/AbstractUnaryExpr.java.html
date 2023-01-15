@@ -35,22 +35,22 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
 <span class="fc" id="L35">    }</span>
     @Override
     protected void codeGenInst(DecacCompiler compiler){
-<span class="nc" id="L38">        int nActual = compiler.getN() +1;</span>
-<span class="nc" id="L39">        this.getOperand().codeGenInst(compiler);</span>
-<span class="nc bnc" id="L40" title="All 4 branches missed.">        switch(this.getOperatorName()){</span>
+<span class="fc" id="L38">        int nActual = compiler.getN() +1;</span>
+<span class="fc" id="L39">        this.getOperand().codeGenInst(compiler);</span>
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">        switch(this.getOperatorName()){</span>
             case &quot;/* conv float */&quot;:
-<span class="nc" id="L42">                compiler.addInstruction(new FLOAT(Register.getR(nActual),Register.getR(nActual)));</span>
-<span class="nc" id="L43">                break;</span>
+<span class="fc" id="L42">                compiler.addInstruction(new FLOAT(Register.getR(nActual),Register.getR(nActual)));</span>
+<span class="fc" id="L43">                break;</span>
             case &quot;!&quot;:
-<span class="nc" id="L45">                compiler.addInstruction(new CMP(new ImmediateInteger(1),Register.getR(nActual)));</span>
-<span class="nc" id="L46">                compiler.addInstruction(new SNE(Register.getR(nActual)));</span>
-<span class="nc" id="L47">                break;</span>
+<span class="fc" id="L45">                compiler.addInstruction(new CMP(new ImmediateInteger(1),Register.getR(nActual)));</span>
+<span class="fc" id="L46">                compiler.addInstruction(new SNE(Register.getR(nActual)));</span>
+<span class="fc" id="L47">                break;</span>
             case &quot;-&quot;:
-<span class="nc" id="L49">                compiler.addInstruction(new OPP(Register.getR(nActual),Register.getR(nActual)));</span>
+<span class="fc" id="L49">                compiler.addInstruction(new OPP(Register.getR(nActual),Register.getR(nActual)));</span>
                 break;
         }
-<span class="nc" id="L52">        compiler.setN(nActual);</span>
-<span class="nc" id="L53">    }</span>
+<span class="fc" id="L52">        compiler.setN(nActual);</span>
+<span class="fc" id="L53">    }</span>
 
     protected abstract String getOperatorName();
 
@@ -62,8 +62,8 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-<span class="nc" id="L65">        operand.iter(f);</span>
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L65">        operand.iter(f);</span>
+<span class="fc" id="L66">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {

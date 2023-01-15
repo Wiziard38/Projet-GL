@@ -28,29 +28,29 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="fc" id="L31">        s.println(&quot; asm(&quot;);</span>
+<span class="fc" id="L31">        s.print(&quot; asm(&quot;);</span>
 <span class="fc" id="L32">        s.indent();</span>
-<span class="fc" id="L33">        s.println(textAsm);</span>
-<span class="fc" id="L34">        s.print(&quot;);&quot;);</span>
-<span class="fc" id="L35">    }</span>
+<span class="fc" id="L33">        s.print(textAsm);</span>
+<span class="fc" id="L34">        s.unindent();</span>
+<span class="fc" id="L35">        s.print(&quot;);&quot;);</span>
+<span class="fc" id="L36">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="fc" id="L39">        s.println(prefix + &quot;+&gt; &quot; + location + &quot; Assembler (&quot; + textAsm + &quot;)&quot;);</span>
+<span class="fc" id="L40">        s.println(prefix + &quot;+&gt; &quot; + location + &quot; Assembler (&quot; + textAsm + &quot;)&quot;);</span>
 
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L42">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
         // nothing to do here
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L47">    }</span>
 
     @Override
     public void verifyBody(DecacCompiler compiler, EnvironmentExp paramsEnvExp,
             ClassDefinition currentClassDef, Type returnType) throws ContextualError {
         // nothing to do here
-<span class="nc" id="L52">    }</span>
-
+<span class="nc" id="L53">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -51,234 +51,251 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
 <span class="fc" id="L51">        this.rightOperand = rightOperand;</span>
 <span class="fc" id="L52">    }</span>
 
-
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="fc" id="L57">        s.print(&quot;(&quot;);</span>
-<span class="fc" id="L58">        getLeftOperand().decompile(s);</span>
-<span class="fc" id="L59">        s.print(&quot; &quot; + getOperatorName() + &quot; &quot;);</span>
-<span class="fc" id="L60">        getRightOperand().decompile(s);</span>
-<span class="fc" id="L61">        s.print(&quot;)&quot;);</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L56">        s.print(&quot;(&quot;);</span>
+<span class="fc" id="L57">        getLeftOperand().decompile(s);</span>
+<span class="fc" id="L58">        s.print(&quot; &quot; + getOperatorName() + &quot; &quot;);</span>
+<span class="fc" id="L59">        getRightOperand().decompile(s);</span>
+<span class="fc" id="L60">        s.print(&quot;)&quot;);</span>
+<span class="fc" id="L61">    }</span>
 
     abstract protected String getOperatorName();
 
     @Override
     protected void iterChildren(TreeFunction f) {
-<span class="fc" id="L68">        leftOperand.iter(f);</span>
-<span class="fc" id="L69">        rightOperand.iter(f);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L67">        leftOperand.iter(f);</span>
+<span class="fc" id="L68">        rightOperand.iter(f);</span>
+<span class="fc" id="L69">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="fc" id="L74">        leftOperand.prettyPrint(s, prefix, false);</span>
-<span class="fc" id="L75">        rightOperand.prettyPrint(s, prefix, true);</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L73">        leftOperand.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L74">        rightOperand.prettyPrint(s, prefix, true);</span>
+<span class="fc" id="L75">    }</span>
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler){
+    protected void codeGenInst(DecacCompiler compiler) {
         int nActualLeft;
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()){</span>
-<span class="nc" id="L82">            compiler.setD(compiler.getD() + 2);</span>
-<span class="nc" id="L83">            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
-<span class="nc" id="L84">            compiler.setSP(compiler.getSP()+1);</span>
-<span class="nc" id="L85">            compiler.setN(compiler.getN()-1);</span>
-<span class="nc" id="L86">            nActualLeft = compiler.getN()+1;</span>
-<span class="nc" id="L87">            this.getLeftOperand().codeGenInst(compiler);</span>
-<span class="nc" id="L88">            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
-<span class="nc" id="L89">            compiler.setSP(compiler.getSP()+1);</span>
-<span class="nc" id="L90">            compiler.setN(compiler.getN()-1);</span>
-<span class="nc" id="L91">            int nActualRight = compiler.getN()+1;</span>
-<span class="nc" id="L92">            this.getRightOperand().codeGenInst(compiler);</span>
-<span class="nc bnc" id="L93" title="All 12 branches missed.">            switch (getOperatorName()) {</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()) {</span>
+<span class="nc" id="L81">            compiler.setD(compiler.getD() + 2);</span>
+<span class="nc" id="L82">            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
+<span class="nc" id="L83">            compiler.setSP(compiler.getSP() + 1);</span>
+<span class="nc" id="L84">            compiler.setN(compiler.getN() - 1);</span>
+<span class="nc" id="L85">            nActualLeft = compiler.getN() + 1;</span>
+<span class="nc" id="L86">            this.getLeftOperand().codeGenInst(compiler);</span>
+<span class="nc" id="L87">            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
+<span class="nc" id="L88">            compiler.setSP(compiler.getSP() + 1);</span>
+<span class="nc" id="L89">            compiler.setN(compiler.getN() - 1);</span>
+<span class="nc" id="L90">            int nActualRight = compiler.getN() + 1;</span>
+<span class="nc" id="L91">            this.getRightOperand().codeGenInst(compiler);</span>
+<span class="nc bnc" id="L92" title="All 12 branches missed.">            switch (getOperatorName()) {</span>
                 case &quot;+&quot;:
-<span class="nc" id="L95">                    compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
+<span class="nc" id="L94">                    compiler.addInstruction(</span>
+<span class="nc" id="L95">                            new ADD(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
 <span class="nc" id="L96">                    break;</span>
                 case &quot;-&quot;:
-<span class="nc" id="L98">                    compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-<span class="nc" id="L99">                    break;</span>
+<span class="nc" id="L98">                    compiler.addInstruction(</span>
+<span class="nc" id="L99">                            new SUB(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L100">                    break;</span>
                 case &quot;/&quot;:
-<span class="nc bnc" id="L101" title="All 2 branches missed.">                    if (getLeftOperand().getType().isFloat()) {</span>
-<span class="nc" id="L102">                        compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                    if (getLeftOperand().getType().isFloat()) {</span>
+<span class="nc" id="L103">                        compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L104">                                Register.getR(nActualRight)));</span>
+                    } else {
+<span class="nc" id="L106">                        compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L107">                                Register.getR(nActualRight)));</span>
                     }
-                    else {
-<span class="nc" id="L105">                        compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-                    }
-<span class="nc" id="L107">                    break;</span>
+<span class="nc" id="L109">                    break;</span>
                 case &quot;%&quot;:
-<span class="nc" id="L109">                    compiler.addInstruction(new REM(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-<span class="nc" id="L110">                    break;</span>
-                case &quot;*&quot;:
-<span class="nc" id="L112">                    compiler.addInstruction(new MUL(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
+<span class="nc" id="L111">                    compiler.addInstruction(</span>
+<span class="nc" id="L112">                            new REM(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
 <span class="nc" id="L113">                    break;</span>
-                case &quot;!=&quot;:
-<span class="nc" id="L115">                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L116">                    compiler.addInstruction(new SNE(Register.getR(nActualRight)));</span>
+                case &quot;*&quot;:
+<span class="nc" id="L115">                    compiler.addInstruction(</span>
+<span class="nc" id="L116">                            new MUL(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
 <span class="nc" id="L117">                    break;</span>
+                case &quot;!=&quot;:
+<span class="nc" id="L119">                    compiler.addInstruction(</span>
+<span class="nc" id="L120">                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L121">                    compiler.addInstruction(new SNE(Register.getR(nActualRight)));</span>
+<span class="nc" id="L122">                    break;</span>
                 case &quot;==&quot;:
-<span class="nc" id="L119">                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L120">                    compiler.addInstruction(new SEQ(Register.getR(nActualRight)));</span>
-<span class="nc" id="L121">                    break;</span>
+<span class="nc" id="L124">                    compiler.addInstruction(</span>
+<span class="nc" id="L125">                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L126">                    compiler.addInstruction(new SEQ(Register.getR(nActualRight)));</span>
+<span class="nc" id="L127">                    break;</span>
                 case &quot;&gt;&quot;:
-<span class="nc" id="L123">                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L124">                    compiler.addInstruction(new SGT(Register.getR(nActualRight)));</span>
-<span class="nc" id="L125">                    break;</span>
+<span class="nc" id="L129">                    compiler.addInstruction(</span>
+<span class="nc" id="L130">                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L131">                    compiler.addInstruction(new SGT(Register.getR(nActualRight)));</span>
+<span class="nc" id="L132">                    break;</span>
                 case &quot;&gt;=&quot;:
-<span class="nc" id="L127">                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L128">                    compiler.addInstruction(new SGE(Register.getR(nActualRight)));</span>
-<span class="nc" id="L129">                    break;</span>
+<span class="nc" id="L134">                    compiler.addInstruction(</span>
+<span class="nc" id="L135">                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L136">                    compiler.addInstruction(new SGE(Register.getR(nActualRight)));</span>
+<span class="nc" id="L137">                    break;</span>
                 case &quot;&lt;&quot;:
-<span class="nc" id="L131">                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L132">                    compiler.addInstruction(new SLT(Register.getR(nActualRight)));</span>
-<span class="nc" id="L133">                    break;</span>
+<span class="nc" id="L139">                    compiler.addInstruction(</span>
+<span class="nc" id="L140">                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L141">                    compiler.addInstruction(new SLT(Register.getR(nActualRight)));</span>
+<span class="nc" id="L142">                    break;</span>
                 case &quot;&lt;=&quot;:
-<span class="nc" id="L135">                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L136">                    compiler.addInstruction(new SLE(Register.getR(nActualRight)));</span>
+<span class="nc" id="L144">                    compiler.addInstruction(</span>
+<span class="nc" id="L145">                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
+<span class="nc" id="L146">                    compiler.addInstruction(new SLE(Register.getR(nActualRight)));</span>
                     break;
-                }
-<span class="nc" id="L139">                compiler.addInstruction(new POP(Register.R0));</span>
-<span class="nc" id="L140">                compiler.setSP(compiler.getSP() - 1);</span>
-<span class="nc" id="L141">        }</span>
-        else{
-<span class="fc" id="L143">            nActualLeft = compiler.getN() + 1;</span>
-<span class="fc" id="L144">            this.getLeftOperand().codeGenInst(compiler);</span>
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">            if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()){</span>
-<span class="nc" id="L146">                compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
-<span class="nc" id="L147">                compiler.setD(compiler.getD() + 1);</span>
-<span class="nc" id="L148">                compiler.setSP(compiler.getSP()+1);</span>
-<span class="nc" id="L149">                compiler.setN(compiler.getN()-1);</span>
-<span class="nc" id="L150">                int nActualRight = compiler.getN()+1;</span>
-<span class="nc" id="L151">                this.getRightOperand().codeGenInst(compiler);</span>
-<span class="nc bnc" id="L152" title="All 12 branches missed.">                switch (getOperatorName()) {</span>
+            }
+<span class="nc" id="L149">            compiler.addInstruction(new POP(Register.R0));</span>
+<span class="nc" id="L150">            compiler.setSP(compiler.getSP() - 1);</span>
+<span class="nc" id="L151">        } else {</span>
+<span class="fc" id="L152">            nActualLeft = compiler.getN() + 1;</span>
+<span class="fc" id="L153">            this.getLeftOperand().codeGenInst(compiler);</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">            if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()) {</span>
+<span class="nc" id="L155">                compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
+<span class="nc" id="L156">                compiler.setD(compiler.getD() + 1);</span>
+<span class="nc" id="L157">                compiler.setSP(compiler.getSP() + 1);</span>
+<span class="nc" id="L158">                compiler.setN(compiler.getN() - 1);</span>
+<span class="nc" id="L159">                int nActualRight = compiler.getN() + 1;</span>
+<span class="nc" id="L160">                this.getRightOperand().codeGenInst(compiler);</span>
+<span class="nc bnc" id="L161" title="All 12 branches missed.">                switch (getOperatorName()) {</span>
                     case &quot;+&quot;:
-<span class="nc" id="L154">                        compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-<span class="nc" id="L155">                        break;</span>
+<span class="nc" id="L163">                        compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L164">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L165">                        break;</span>
                     case &quot;-&quot;:
-<span class="nc" id="L157">                        compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-<span class="nc" id="L158">                        break;</span>
-                    case &quot;/&quot;:
-<span class="nc bnc" id="L160" title="All 2 branches missed.">                        if (getLeftOperand().getType().isFloat()) {</span>
-<span class="nc" id="L161">                            compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-                        }
-                        else {
-<span class="nc" id="L164">                            compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-                        }
-<span class="nc" id="L166">                        break;</span>
-                    case &quot;%&quot;:
-<span class="nc" id="L168">                        compiler.addInstruction(new REM(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
+<span class="nc" id="L167">                        compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L168">                                Register.getR(nActualRight)));</span>
 <span class="nc" id="L169">                        break;</span>
+                    case &quot;/&quot;:
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                        if (getLeftOperand().getType().isFloat()) {</span>
+<span class="nc" id="L172">                            compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L173">                                    Register.getR(nActualRight)));</span>
+                        } else {
+<span class="nc" id="L175">                            compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L176">                                    Register.getR(nActualRight)));</span>
+                        }
+<span class="nc" id="L178">                        break;</span>
+                    case &quot;%&quot;:
+<span class="nc" id="L180">                        compiler.addInstruction(new REM(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L181">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L182">                        break;</span>
                     case &quot;*&quot;:
-<span class="nc" id="L171">                        compiler.addInstruction(new MUL(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));</span>
-<span class="nc" id="L172">                        break;</span>
+<span class="nc" id="L184">                        compiler.addInstruction(new MUL(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L185">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L186">                        break;</span>
                     case &quot;!=&quot;:
-<span class="nc" id="L174">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L175">                        compiler.addInstruction(new SNE(Register.getR(nActualRight)));</span>
-<span class="nc" id="L176">                        break;</span>
+<span class="nc" id="L188">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L189">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L190">                        compiler.addInstruction(new SNE(Register.getR(nActualRight)));</span>
+<span class="nc" id="L191">                        break;</span>
                     case &quot;==&quot;:
-<span class="nc" id="L178">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L179">                        compiler.addInstruction(new SEQ(Register.getR(nActualRight)));</span>
-<span class="nc" id="L180">                        break;</span>
+<span class="nc" id="L193">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L194">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L195">                        compiler.addInstruction(new SEQ(Register.getR(nActualRight)));</span>
+<span class="nc" id="L196">                        break;</span>
                     case &quot;&gt;&quot;:
-<span class="nc" id="L182">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L183">                        compiler.addInstruction(new SGT(Register.getR(nActualRight)));</span>
-<span class="nc" id="L184">                        break;</span>
+<span class="nc" id="L198">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L199">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L200">                        compiler.addInstruction(new SGT(Register.getR(nActualRight)));</span>
+<span class="nc" id="L201">                        break;</span>
                     case &quot;&gt;=&quot;:
-<span class="nc" id="L186">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L187">                        compiler.addInstruction(new SGE(Register.getR(nActualRight)));</span>
-<span class="nc" id="L188">                        break;</span>
+<span class="nc" id="L203">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L204">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L205">                        compiler.addInstruction(new SGE(Register.getR(nActualRight)));</span>
+<span class="nc" id="L206">                        break;</span>
                     case &quot;&lt;&quot;:
-<span class="nc" id="L190">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L191">                        compiler.addInstruction(new SLT(Register.getR(nActualRight)));</span>
-<span class="nc" id="L192">                        break;</span>
+<span class="nc" id="L208">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L209">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L210">                        compiler.addInstruction(new SLT(Register.getR(nActualRight)));</span>
+<span class="nc" id="L211">                        break;</span>
                     case &quot;&lt;=&quot;:
-<span class="nc" id="L194">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));</span>
-<span class="nc" id="L195">                        compiler.addInstruction(new SLE(Register.getR(nActualRight)));</span>
+<span class="nc" id="L213">                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),</span>
+<span class="nc" id="L214">                                Register.getR(nActualRight)));</span>
+<span class="nc" id="L215">                        compiler.addInstruction(new SLE(Register.getR(nActualRight)));</span>
                         break;
                 }
-<span class="nc" id="L198">                compiler.setSP(compiler.getSP() - 1);</span>
-<span class="nc" id="L199">                compiler.addInstruction(new POP(Register.getR(0)));</span>
-<span class="nc" id="L200">            }</span>
-            else {
-<span class="fc" id="L202">                int nActualRight = compiler.getN()+1;</span>
-<span class="fc" id="L203">                this.getRightOperand().codeGenInst(compiler);</span>
-<span class="pc bpc" id="L204" title="5 of 12 branches missed.">                switch (getOperatorName()) {</span>
+<span class="nc" id="L218">                compiler.setSP(compiler.getSP() - 1);</span>
+<span class="nc" id="L219">                compiler.addInstruction(new POP(Register.getR(0)));</span>
+<span class="nc" id="L220">            } else {</span>
+<span class="fc" id="L221">                int nActualRight = compiler.getN() + 1;</span>
+<span class="fc" id="L222">                this.getRightOperand().codeGenInst(compiler);</span>
+<span class="pc bpc" id="L223" title="1 of 12 branches missed.">                switch (getOperatorName()) {</span>
                     case &quot;+&quot;:
-<span class="fc" id="L206">                        compiler.addInstruction(new ADD(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="fc" id="L207">                        break;</span>
+<span class="fc" id="L225">                        compiler.addInstruction(new ADD(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L226">                        break;</span>
                     case &quot;-&quot;:
-<span class="fc" id="L209">                        compiler.addInstruction(new SUB(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="fc" id="L210">                        break;</span>
+<span class="fc" id="L228">                        compiler.addInstruction(new SUB(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L229">                        break;</span>
                     case &quot;/&quot;:
-<span class="pc bpc" id="L212" title="1 of 2 branches missed.">                        if (getLeftOperand().getType().isFloat()) {</span>
-<span class="nc" id="L213">                            compiler.addInstruction(new DIV(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">                        if (getLeftOperand().getType().isFloat()) {</span>
+<span class="fc" id="L232">                            compiler.addInstruction(new DIV(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+                        } else {
+<span class="fc" id="L234">                            compiler.addInstruction(new QUO(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
                         }
-                        else {
-<span class="fc" id="L216">                            compiler.addInstruction(new QUO(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-                        }
-<span class="fc" id="L218">                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()    ));</span>
-<span class="fc" id="L219">                        break;</span>
+<span class="fc" id="L236">                        break;</span>
                     case &quot;%&quot;:
-<span class="fc" id="L221">                        compiler.addInstruction(new REM(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="fc" id="L222">                        break;</span>
+<span class="fc" id="L238">                        compiler.addInstruction(new REM(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L239">                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()));</span>
+<span class="fc" id="L240">                        break;</span>
                     case &quot;*&quot;:
-<span class="fc" id="L224">                        compiler.addInstruction(new MUL(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="fc" id="L225">                        break;</span>
+<span class="fc" id="L242">                        compiler.addInstruction(new MUL(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L243">                        break;</span>
                     case &quot;!=&quot;:
-<span class="nc" id="L227">                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="nc" id="L228">                        compiler.addInstruction(new SNE(Register.getR(nActualLeft)));</span>
-<span class="nc" id="L229">                        break;</span>
+<span class="fc" id="L245">                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L246">                        compiler.addInstruction(new SNE(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L247">                        break;</span>
                     case &quot;==&quot;:
-<span class="nc" id="L231">                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="nc" id="L232">                        compiler.addInstruction(new SEQ(Register.getR(nActualLeft)));</span>
-<span class="nc" id="L233">                        break;</span>
+<span class="fc" id="L249">                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L250">                        compiler.addInstruction(new SEQ(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L251">                        break;</span>
                     case &quot;&gt;&quot;:
-<span class="nc" id="L235">                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="nc" id="L236">                        compiler.addInstruction(new SGT(Register.getR(nActualLeft)));</span>
-<span class="nc" id="L237">                        break;</span>
+<span class="fc" id="L253">                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L254">                        compiler.addInstruction(new SGT(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L255">                        break;</span>
                     case &quot;&gt;=&quot;:
-<span class="fc" id="L239">                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="fc" id="L240">                        compiler.addInstruction(new SGE(Register.getR(nActualLeft)));</span>
-<span class="fc" id="L241">                        break;</span>
+<span class="fc" id="L257">                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L258">                        compiler.addInstruction(new SGE(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L259">                        break;</span>
                     case &quot;&lt;&quot;:
-<span class="nc" id="L243">                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="nc" id="L244">                        compiler.addInstruction(new SLT(Register.getR(nActualLeft)));</span>
-<span class="nc" id="L245">                        break;</span>
+<span class="fc" id="L261">                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L262">                        compiler.addInstruction(new SLT(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L263">                        break;</span>
                     case &quot;&lt;=&quot;:
-<span class="fc" id="L247">                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));</span>
-<span class="fc" id="L248">                        compiler.addInstruction(new SLE(Register.getR(nActualLeft)));</span>
+<span class="fc" id="L265">                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L266">                        compiler.addInstruction(new SLE(Register.getR(nActualLeft)));</span>
                         break;
                 }
             }
         }
-<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (this.getType().isFloat()){</span>
-<span class="nc" id="L254">            compiler.addInstruction(new BOV(compiler.getErreurOverflow()));</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">        if (this.getType().isFloat()) {</span>
+<span class="fc" id="L272">            compiler.addInstruction(new BOV(compiler.getErreurOverflow()));</span>
         }
-<span class="fc" id="L256">        compiler.setN(nActualLeft);</span>
-<span class="fc" id="L257">    }</span>
+<span class="fc" id="L274">        compiler.setN(nActualLeft);</span>
+<span class="fc" id="L275">    }</span>
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler){
-<span class="fc" id="L261">        int nActualLeft = compiler.getN()+1;</span>
-<span class="fc" id="L262">        this.codeGenInst(compiler);</span>
-<span class="pc bpc" id="L263" title="1 of 2 branches missed.">        if (this.getType().isInt()) {</span>
-<span class="fc" id="L264">            compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.getR(1)));</span>
-<span class="fc" id="L265">            compiler.addInstruction(new LOAD(Register.getR(nActualLeft),Register.getR(1)));</span>
-<span class="fc" id="L266">            compiler.addInstruction(new WINT());</span>
+    protected void codeGenPrint(DecacCompiler compiler) {
+<span class="fc" id="L279">        int nActualLeft = compiler.getN() + 1;</span>
+<span class="fc" id="L280">        this.codeGenInst(compiler);</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (this.getType().isInt()) {</span>
+<span class="fc" id="L282">            compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.getR(1)));</span>
+<span class="fc" id="L283">            compiler.addInstruction(new LOAD(Register.getR(nActualLeft), Register.getR(1)));</span>
+<span class="fc" id="L284">            compiler.addInstruction(new WINT());</span>
+        } else {
+<span class="fc" id="L286">            compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.getR(1)));</span>
+<span class="fc" id="L287">            compiler.addInstruction(new LOAD(Register.getR(nActualLeft), Register.getR(1)));</span>
+<span class="fc" id="L288">            compiler.addInstruction(new WFLOAT());</span>
         }
-        else {
-<span class="nc" id="L269">            compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.getR(1)));</span>
-<span class="nc" id="L270">            compiler.addInstruction(new LOAD(Register.getR(nActualLeft),Register.getR(1)));</span>
-<span class="nc" id="L271">            compiler.addInstruction(new WFLOAT());</span>
-        }
-<span class="fc" id="L273">        compiler.setN(nActualLeft-1);</span>
-<span class="fc" id="L274">    }</span>
+<span class="fc" id="L290">        compiler.setN(nActualLeft - 1);</span>
+<span class="fc" id="L291">    }</span>
 
     @Override
     protected void checkDecoration() {
-<span class="fc" id="L278">        super.checkDecoration();</span>
-<span class="pc bpc" id="L279" title="1 of 2 branches missed.">        if (!this.getLeftOperand().getType().sameType(this.getRightOperand().getType())) {</span>
-<span class="nc" id="L280">            throw new DecacInternalError(&quot;Both operand of &quot; + this.toString() + &quot; have a different Type&quot;);</span>
-        }   
-<span class="fc" id="L282">    }</span>
+<span class="fc" id="L295">        super.checkDecoration();</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">        if (!this.getLeftOperand().getType().sameType(this.getRightOperand().getType())) {</span>
+<span class="nc" id="L297">            throw new DecacInternalError(&quot;Both operand of &quot; + this.toString() + &quot; have a different Type&quot;);</span>
+        }
+<span class="fc" id="L299">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

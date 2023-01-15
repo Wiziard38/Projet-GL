@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractOpCmp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.deca.tree</a> &gt; <span class="el_source">AbstractOpCmp.java</span></div><h1>AbstractOpCmp.java</h1><pre class="source lang-java linenums">package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -14,49 +17,56 @@ import fr.ensimag.deca.context.EnvironmentExp;
 public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 
     public AbstractOpCmp(AbstractExpr leftOperand, AbstractExpr rightOperand) {
-<span class="fc" id="L17">        super(leftOperand, rightOperand);</span>
-<span class="fc" id="L18">    }</span>
+<span class="fc" id="L20">        super(leftOperand, rightOperand);</span>
+<span class="fc" id="L21">    }</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
 
-<span class="fc" id="L24">        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);</span>
-<span class="fc" id="L25">        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="fc" id="L27">        Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="fc" id="L28">        Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);</span>
         
-<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (typeLeft.isFloat()) {</span>
-<span class="fc bfc" id="L28" title="All 2 branches covered.">            if (typeRight.isInt()) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (typeLeft.isFloat()) {</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            if (typeRight.isInt()) {</span>
                 // Case where Float OP Int
-<span class="fc" id="L30">                this.setType(compiler.environmentType.BOOLEAN);</span>
-<span class="fc" id="L31">                ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());</span>
-<span class="fc" id="L32">                this.setRightOperand(newTreeNode);</span>
-<span class="fc" id="L33">                newTreeNode.setType(compiler.environmentType.FLOAT);</span>
-<span class="fc" id="L34">                return compiler.environmentType.BOOLEAN;</span>
+<span class="fc" id="L33">                this.setType(compiler.environmentType.BOOLEAN);</span>
+<span class="fc" id="L34">                ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());</span>
+<span class="fc" id="L35">                this.setRightOperand(newTreeNode);</span>
+<span class="fc" id="L36">                newTreeNode.setType(compiler.environmentType.FLOAT);</span>
+<span class="fc" id="L37">                return compiler.environmentType.BOOLEAN;</span>
             }
-<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (typeRight.isFloat()) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            if (typeRight.isFloat()) {</span>
                 // Case where Float OP Float
-<span class="fc" id="L38">                this.setType(compiler.environmentType.BOOLEAN);</span>
-<span class="fc" id="L39">                return compiler.environmentType.BOOLEAN;</span>
+<span class="fc" id="L41">                this.setType(compiler.environmentType.BOOLEAN);</span>
+<span class="fc" id="L42">                return compiler.environmentType.BOOLEAN;</span>
             }
         }
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (typeLeft.isInt()) {</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (typeRight.isInt()) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (typeLeft.isInt()) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (typeRight.isInt()) {</span>
                 // Case where Int OP Int
-<span class="fc" id="L45">                this.setType(compiler.environmentType.BOOLEAN);</span>
-<span class="fc" id="L46">                return compiler.environmentType.BOOLEAN;</span>
+<span class="fc" id="L48">                this.setType(compiler.environmentType.BOOLEAN);</span>
+<span class="fc" id="L49">                return compiler.environmentType.BOOLEAN;</span>
             }
-<span class="fc bfc" id="L48" title="All 2 branches covered.">            if (typeRight.isFloat()) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (typeRight.isFloat()) {</span>
                 // Case where Int OP Float
-<span class="fc" id="L50">                this.setType(compiler.environmentType.BOOLEAN);</span>
-<span class="fc" id="L51">                ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());</span>
-<span class="fc" id="L52">                this.setLeftOperand(newTreeNode);</span>
-<span class="fc" id="L53">                newTreeNode.setType(compiler.environmentType.FLOAT);</span>
-<span class="fc" id="L54">                return compiler.environmentType.BOOLEAN;</span>
+<span class="fc" id="L53">                this.setType(compiler.environmentType.BOOLEAN);</span>
+<span class="fc" id="L54">                ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());</span>
+<span class="fc" id="L55">                this.setLeftOperand(newTreeNode);</span>
+<span class="fc" id="L56">                newTreeNode.setType(compiler.environmentType.FLOAT);</span>
+<span class="fc" id="L57">                return compiler.environmentType.BOOLEAN;</span>
             }
         }
 
-<span class="fc" id="L58">        throw new ContextualError(&quot;Comparaison arithmétique sur des non-nombres&quot;, this.getLocation()); // Rule 3.33</span>
+<span class="fc" id="L61">        throw new ContextualError(&quot;Comparaison arithmétique sur des non-nombres&quot;, this.getLocation()); // Rule 3.33</span>
     }
+
+    @Override
+    protected void checkDecoration() {
+<span class="nc" id="L66">        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));</span>
+<span class="nc" id="L67">        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));</span>
+<span class="nc bnc" id="L68" title="All 4 branches missed.">        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());</span>
+<span class="nc" id="L69">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -69,14 +69,7 @@ public abstract class AbstractPrint extends AbstractInst {
             s.print("x");
         }
         s.print("(");
-        int count = arguments.size();
-        for (AbstractExpr e : arguments.getList()) {
-            e.decompile(s);
-            if (count != 1) {
-                s.print(", ");
-            }
-            count--;
-        }
+        this.arguments.decompile(s);
         s.print(");");
     }
 

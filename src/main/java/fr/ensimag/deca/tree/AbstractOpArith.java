@@ -66,8 +66,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
 
     @Override
     protected void checkDecoration() {
-        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getType().sameType(this.getLeftOperand().getType()));
         Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
+        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getLeftOperand().getType().isFloat());
     }
 }

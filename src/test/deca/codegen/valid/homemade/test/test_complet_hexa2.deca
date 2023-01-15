@@ -1,0 +1,4 @@
+{
+    float x5 = 0xAb.fP+1f;
+    println("x = ", (x5));
+}

@@ -28,14 +28,13 @@ public class MethodBody extends AbstractMethodBody {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.println("{");
+        s.print("{");
         s.indent();
         variables.decompile(s);
         s.println();
         instructions.decompile(s);
-        s.println();
-        s.println("}");
-
+        s.unindent();
+        s.print("}");
     }
 
     @Override
@@ -51,11 +50,10 @@ public class MethodBody extends AbstractMethodBody {
         instructions.iter(f);
     }
 
-
     @Override
     public void verifyBody(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClassDef, Type returnType) throws ContextualError {
-        
+
         this.variables.verifyListDeclVariable(compiler, localEnv, currentClassDef);
         this.instructions.verifyListInst(compiler, localEnv, currentClassDef, returnType);
     }

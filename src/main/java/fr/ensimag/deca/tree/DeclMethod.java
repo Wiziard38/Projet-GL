@@ -44,7 +44,9 @@ public class DeclMethod extends AbstractDeclMethod {
         returnType.decompile(s);
         s.print(" ");
         name.decompile(s);
-        s.print(" ");
+        s.print("(");
+        parameters.decompile(s);
+        s.print(") ");
         body.decompile(s);
     }
 
@@ -61,11 +63,10 @@ public class DeclMethod extends AbstractDeclMethod {
         name.iter(f);
     }
 
-    public void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef, 
+    public void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
-                
-        ClassDefinition superClassDef = (ClassDefinition) (compiler.environmentType.
-                defOfType(superClass.getName()));
+
+        ClassDefinition superClassDef = (ClassDefinition) (compiler.environmentType.defOfType(superClass.getName()));
         String errorDef = String.format("'%s' est deja défini dans l'environnment", this.name);
         String errorSig = String.format(
                 "La signature de la méthode '%s' n'est pas conforme pour une redefinition", this.name);
@@ -85,15 +86,15 @@ public class DeclMethod extends AbstractDeclMethod {
                 throw new ContextualError(String.format("Le nom '%s' est deja utilisé localement",
                         this.name), this.getLocation()); // Rule 2.6
             }
-            
+
             // C'est une redefinition !
-            MethodDefinition overridedMethod = superClassDef.getMembers().
-                    get(this.name.getName()).asMethodDefinition(errorDef, getLocation()); // Rule 2.7
+            MethodDefinition overridedMethod = superClassDef.getMembers().get(this.name.getName())
+                    .asMethodDefinition(errorDef, getLocation()); // Rule 2.7
 
             if (!overridedMethod.getSignature().differentThan(sig)) {
                 throw new ContextualError(errorSig, this.getLocation()); // Rule 2.7
             }
-            
+
             if (!returnMethodType.sameType(overridedMethod.getType())) {
                 ClassType returnClass = returnMethodType.asClassType(errorType, this.getLocation()); // Rule 2.7
                 if (!returnClass.isSubClassOf(overridedMethod.getType().asClassType(null, null))) {
@@ -101,7 +102,8 @@ public class DeclMethod extends AbstractDeclMethod {
                 }
             }
 
-            // On diminue le nombre de method de 1, car si c'est une redefinition alors on ajoute pas de nombre de methode.
+            // On diminue le nombre de method de 1, car si c'est une redefinition alors on
+            // ajoute pas de nombre de methode.
             // Le -1 vient donc se compenser avec l'incrémentation qui suit ci-dessous
             currentClassDef.setNumberOfMethods(index - 2);
             index = overridedMethod.getIndex();
@@ -109,7 +111,7 @@ public class DeclMethod extends AbstractDeclMethod {
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);
         currentClassDef.incNumberOfMethods();
-        
+
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);
         } catch (DoubleDefException e) {

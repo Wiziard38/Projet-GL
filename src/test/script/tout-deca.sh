@@ -23,8 +23,8 @@ do
     nom=${fichier##*/}
     
     decac $fichier
-    #ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
-    if ! diff -w actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
+    ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
+    if ! diff -Z actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
         printf "\033[1A"
         echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
@@ -62,8 +62,8 @@ do
     nom=${fichier##*/}
     
     decac $fichier
-    #ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
-    if ! diff -w actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
+    ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
+    if ! diff -Z actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
         printf "\033[1A"
         echo -e "${RED}Succes inattendu de compilation pour ${NC} $fichier"

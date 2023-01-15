@@ -50,17 +50,6 @@ public class Initialization extends AbstractInitialization {
 
         // On set si jamais y'a un ConvFloat a ajouter
         this.setExpression(this.getExpression().verifyRValue(compiler, localEnv, currentClass, t));
-
-        // Type initializationType = this.expression.verifyExpr(compiler, localEnv, currentClass);
-
-        // if (t.isFloat() && initializationType.isInt()) {
-        //     ConvFloat newTreeNode = new ConvFloat(this.expression);
-        //     newTreeNode.setType(compiler.environmentType.FLOAT);
-        //     this.setExpression(newTreeNode);
-        // } else if (this.getExpression().verifyExpr(compiler, localEnv, currentClass) != t) {
-        //     throw new ContextualError(String.format("Cette expression devrait être de type '%s'", 
-        //             t.toString()), this.getLocation()); // Rule 3.28
-        // }
     }
 
     @Override

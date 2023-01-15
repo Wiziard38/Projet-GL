@@ -33,7 +33,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
                 this.setType(compiler.environmentType.BOOLEAN);
                 ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());
                 this.setRightOperand(newTreeNode);
-                newTreeNode.setType(compiler.environmentType.FLOAT);
+                newTreeNode.verifyExpr(compiler, localEnv, currentClass);
                 return compiler.environmentType.BOOLEAN;
             }
             if (typeRight.isFloat()) {
@@ -53,7 +53,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
                 this.setType(compiler.environmentType.BOOLEAN);
                 ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());
                 this.setLeftOperand(newTreeNode);
-                newTreeNode.setType(compiler.environmentType.FLOAT);
+                newTreeNode.verifyExpr(compiler, localEnv, currentClass);
                 return compiler.environmentType.BOOLEAN;
             }
         }

@@ -45,13 +45,13 @@ test_synt_invalide () {
 echo ""
 echo "               SYNTAX - INVALID TESTS                  "
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 
 for cas_de_test in $(find $input_dir -name "*.deca" ! -path "*lexer*")
 do
     test_synt_invalide "$cas_de_test"
     printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 done
 
 echo "-------------------------------------------------------"

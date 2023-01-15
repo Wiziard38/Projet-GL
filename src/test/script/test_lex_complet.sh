@@ -29,7 +29,7 @@ echo ""
 echo "                LEXER - VALID TESTS                    "
 
 echo "-------------------------------------------------------"
-echo -e "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 printf "\033[1A"
 
 for fichier in $input_dir/test/*.deca
@@ -47,7 +47,7 @@ do
     fi
 
     printf "\033[1A"
-    echo -e "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
     printf "\033[1A"
 
 done
@@ -60,12 +60,12 @@ total_test=$(find $input_dir/test/ -type f -name "*.deca" | wc -l)
 total_valid=0
 total_failed=0
 
-
+echo "-------------------------------------------------------"
 echo ""
 echo "               LEXER - INVALID TESTS                   "
 
 echo "-------------------------------------------------------"
-echo -e "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 printf "\033[1A"
 
 for fichier in $input_dir/test/*.deca
@@ -87,10 +87,11 @@ do
     fi
 
     printf "\033[1A"
-    echo -e "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
     printf "\033[1A"
 done
 
 echo ""
+echo "-------------------------------------------------------"
 
 rm actual actualErr

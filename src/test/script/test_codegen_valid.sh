@@ -21,7 +21,7 @@ total_failed=0
 echo ""
 echo "               CODEGEN - VALID TESTS                   "
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 
 for fichier in $(find $input_dir/test/ -name "*.deca")
 do
@@ -48,7 +48,7 @@ do
     fi
 
     printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
     rm "$input_dir/test/${nom%.deca}.ass"
 done
 

@@ -34,9 +34,7 @@ public class Identifier extends AbstractIdentifier {
     
     @Override
     protected void checkDecoration() {
-        if (getDefinition() == null) {
-            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
-        }
+        Validate.notNull(this.getDefinition());
     }
 
     protected void codeGenPrint(DecacCompiler compiler) {

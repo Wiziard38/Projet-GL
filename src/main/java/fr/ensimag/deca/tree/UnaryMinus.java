@@ -7,6 +7,8 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * @author gl39
  * @date 01/01/2023
@@ -40,14 +42,10 @@ public class UnaryMinus extends AbstractUnaryExpr {
         return "-";
     }
 
+    @Override
     protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getOperand().getType().isInt() && !this.getOperand().getType().isFloat()) {
-            throw new DecacInternalError("UnaryMinus operand is not of Type int or float");
-        }
-        if (!this.getType().sameType(this.getOperand().getType())) {
-            throw new DecacInternalError("UnaryMinus is not of same Type as operand");
-        }
+        Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat());
+        Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
 
 }

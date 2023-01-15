@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.EnvironmentType;
 
+import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 /**
@@ -65,12 +66,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
 
     @Override
     protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getLeftOperand().getType().isFloat() && !this.getLeftOperand().getType().isInt()) {
-            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type int or float");
-        }
-        if (!this.getType().isFloat() && !this.getType().isInt()) {
-            throw new DecacInternalError("OpArith " + this.toString() + " is not of Type int or float");
-        }
+        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
     }
 }

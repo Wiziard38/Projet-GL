@@ -38,7 +38,6 @@ public class FloatLiteral extends AbstractExpr {
         return compiler.environmentType.FLOAT;
     }
 
-
     @Override
     public void decompile(IndentPrintStream s) {
         s.print(java.lang.Float.toHexString(value));

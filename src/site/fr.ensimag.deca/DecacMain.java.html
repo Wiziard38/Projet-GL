@@ -52,13 +52,13 @@ import org.apache.log4j.Logger;
         } else {
 <span class="fc bfc" id="L53" title="All 2 branches covered.">            for (File source : options.getSourceFiles()) {</span>
 <span class="fc" id="L54">                DecacCompiler compiler = new DecacCompiler(options, source);</span>
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                if (compiler.compile()) {</span>
-<span class="nc" id="L56">                    error = true;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                if (compiler.compile()) {</span>
+<span class="fc" id="L56">                    error = true;</span>
                 }
 <span class="fc" id="L58">            }</span>
         }
         
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        System.exit(error ? 1 : 0);</span>
+<span class="pc bfc" id="L61" title="All 2 branches covered.">        System.exit(error ? 1 : 0);</span>
 <span class="nc" id="L62">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

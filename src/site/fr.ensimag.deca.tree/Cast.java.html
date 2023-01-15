@@ -27,27 +27,28 @@ public class Cast extends AbstractExpr {
     public void decompile(IndentPrintStream s) {
 <span class="fc" id="L28">        s.print(&quot;(&quot;);</span>
 <span class="fc" id="L29">        type.decompile(s);</span>
-<span class="fc" id="L30">        s.print(&quot;)&quot;);</span>
+<span class="fc" id="L30">        s.print(&quot;) (&quot;);</span>
 <span class="fc" id="L31">        expr.decompile(s);</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L32">        s.print(&quot;)&quot;);</span>
+<span class="fc" id="L33">    }</span>
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-<span class="fc" id="L36">        type.prettyPrint(s, prefix, false);</span>
-<span class="fc" id="L37">        expr.prettyPrint(s, prefix, false);</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L37">        type.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L38">        expr.prettyPrint(s, prefix, false);</span>
+<span class="fc" id="L39">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L43">        type.iter(f);</span>
+<span class="nc" id="L44">        expr.iter(f);</span>
+<span class="nc" id="L45">    }</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         // TODO Auto-generated method stub
-<span class="nc" id="L50">        return null;</span>
+<span class="nc" id="L51">        return null;</span>
     }
 
 }

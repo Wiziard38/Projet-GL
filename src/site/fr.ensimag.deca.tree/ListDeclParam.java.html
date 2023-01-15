@@ -14,15 +14,15 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 
     @Override
     public void decompile(IndentPrintStream s) {
-<span class="nc" id="L17">        int count = getList().size();</span>
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        for (AbstractDeclParam p : getList()) {</span>
-<span class="nc" id="L19">            p.decompile(s);</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">            if (count != 1) {</span>
-<span class="nc" id="L21">                s.print(&quot;, &quot;);</span>
+<span class="fc" id="L17">        int count = getList().size();</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        for (AbstractDeclParam p : getList()) {</span>
+<span class="fc" id="L19">            p.decompile(s);</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            if (count != 1) {</span>
+<span class="fc" id="L21">                s.print(&quot;, &quot;);</span>
             }
-<span class="nc" id="L23">            count--;</span>
-<span class="nc" id="L24">        }</span>
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L23">            count--;</span>
+<span class="fc" id="L24">        }</span>
+<span class="fc" id="L25">    }</span>
 
     /**
      * TODO

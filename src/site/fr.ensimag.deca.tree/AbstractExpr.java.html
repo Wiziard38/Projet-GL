@@ -48,12 +48,6 @@ import org.apache.commons.lang.Validate;
 <span class="fc" id="L48">    }</span>
     private Type type;
 
-    @Override
-    protected void checkDecoration() {
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (getType() == null) {</span>
-<span class="nc" id="L54">            throw new DecacInternalError(&quot;Expression &quot; + decompile() + &quot; has no Type decoration&quot;);</span>
-        }
-<span class="fc" id="L56">    }</span>
 
     /**
      * Verify the expression for contextual error.
@@ -91,23 +85,23 @@ import org.apache.commons.lang.Validate;
             EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
-<span class="fc" id="L94">        Type exprType = this.verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="fc" id="L88">        Type exprType = this.verifyExpr(compiler, localEnv, currentClass);</span>
         
-<span class="fc bfc" id="L96" title="All 4 branches covered.">        if (expectedType.isFloat() &amp;&amp; exprType.isInt()) {</span>
-<span class="fc" id="L97">            ConvFloat newTreeNode = new ConvFloat(this);</span>
-<span class="fc" id="L98">            newTreeNode.setType(compiler.environmentType.FLOAT);</span>
-<span class="fc" id="L99">            return newTreeNode;</span>
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        if (expectedType.isFloat() &amp;&amp; exprType.isInt()) {</span>
+<span class="fc" id="L91">            ConvFloat newTreeNode = new ConvFloat(this);</span>
+<span class="fc" id="L92">            newTreeNode.setType(compiler.environmentType.FLOAT);</span>
+<span class="fc" id="L93">            return newTreeNode;</span>
         }
-<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (!expectedType.sameType(exprType)) {</span>
-<span class="pc bpc" id="L102" title="3 of 4 branches missed.">            if (!exprType.isClass() || expectedType.isClass()) {</span>
-<span class="pc" id="L103">                if (!exprType.asClassType(&quot;Should not happen, contact developpers please.&quot;,</span>
-<span class="pc bnc" id="L104" title="All 2 branches missed.">                        this.getLocation()).isSubClassOf(expectedType.asClassType(</span>
-<span class="nc" id="L105">                            &quot;Should not happen, contact developpers please.&quot;, this.getLocation())));</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (!expectedType.sameType(exprType)) {</span>
+<span class="pc bpc" id="L96" title="3 of 4 branches missed.">            if (!exprType.isClass() || expectedType.isClass()) {</span>
+<span class="pc" id="L97">                if (!exprType.asClassType(&quot;Should not happen, contact developpers please.&quot;,</span>
+<span class="pc bnc" id="L98" title="All 2 branches missed.">                        this.getLocation()).isSubClassOf(expectedType.asClassType(</span>
+<span class="nc" id="L99">                            &quot;Should not happen, contact developpers please.&quot;, this.getLocation())));</span>
             }
-<span class="nc" id="L107">            throw new ContextualError(String.format(&quot;%s is not of type %s&quot;, </span>
-<span class="nc" id="L108">                this.toString(), expectedType.toString()), this.getLocation()); // Rule 3.28</span>
+<span class="nc" id="L101">            throw new ContextualError(String.format(&quot;%s is not of type %s&quot;, </span>
+<span class="nc" id="L102">                this.toString(), expectedType.toString()), this.getLocation()); // Rule 3.28</span>
         }
-<span class="fc" id="L110">        return this;</span>
+<span class="fc" id="L104">        return this;</span>
     }
     
     
@@ -115,10 +109,10 @@ import org.apache.commons.lang.Validate;
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-<span class="fc" id="L118">        Validate.notNull(localEnv);</span>
+<span class="fc" id="L112">        Validate.notNull(localEnv);</span>
 
-<span class="fc" id="L120">        this.verifyExpr(compiler, localEnv, currentClass);</span>
-<span class="fc" id="L121">    }</span>
+<span class="fc" id="L114">        this.verifyExpr(compiler, localEnv, currentClass);</span>
+<span class="fc" id="L115">    }</span>
 
     /**
      * Verify the expression as a condition, i.e. check that the type is
@@ -132,10 +126,10 @@ import org.apache.commons.lang.Validate;
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (!this.verifyExpr(compiler, localEnv, currentClass).isBoolean()) {</span>
-<span class="fc" id="L136">            throw new ContextualError(&quot;La condition ne renvoie pas un boolean&quot;, this.getLocation()); // Rule 3.29</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (!this.verifyExpr(compiler, localEnv, currentClass).isBoolean()) {</span>
+<span class="fc" id="L130">            throw new ContextualError(&quot;La condition ne renvoie pas un boolean&quot;, this.getLocation()); // Rule 3.29</span>
         }
-<span class="fc" id="L138">    }</span>
+<span class="fc" id="L132">    }</span>
 
     /**
      * Generate code to print the expression
@@ -143,60 +137,60 @@ import org.apache.commons.lang.Validate;
      * @param compiler
      */
     protected void codeGenPrint(DecacCompiler compiler) {
-<span class="nc bnc" id="L146" title="All 2 branches missed.">        if(this.getType().sameType(compiler.environmentType.INT)){</span>
-<span class="nc" id="L147">            compiler.setN(compiler.getN()+1);</span>
-<span class="nc" id="L148">            IntLiteral intExpr = (IntLiteral)this;</span>
-<span class="nc" id="L149">            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(1)));</span>
-<span class="nc" id="L150">            compiler.addInstruction(new WINT());</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.INT)){</span>
+<span class="fc" id="L141">            compiler.setN(compiler.getN()+1);</span>
+<span class="fc" id="L142">            IntLiteral intExpr = (IntLiteral)this;</span>
+<span class="fc" id="L143">            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(1)));</span>
+<span class="fc" id="L144">            compiler.addInstruction(new WINT());</span>
         }
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        if(this.getType().sameType(compiler.environmentType.FLOAT)){</span>
-<span class="nc" id="L153">            compiler.setN(compiler.getN()+1);</span>
-<span class="nc" id="L154">            FloatLiteral intExpr = (FloatLiteral)this;</span>
-<span class="nc" id="L155">            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));</span>
-<span class="nc" id="L156">            compiler.addInstruction(new WFLOAT());</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.FLOAT)){</span>
+<span class="fc" id="L147">            compiler.setN(compiler.getN()+1);</span>
+<span class="fc" id="L148">            FloatLiteral intExpr = (FloatLiteral)this;</span>
+<span class="fc" id="L149">            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));</span>
+<span class="fc" id="L150">            compiler.addInstruction(new WFLOAT());</span>
         }
-<span class="nc" id="L158">    }</span>
+<span class="fc" id="L152">    }</span>
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
 
-<span class="fc" id="L163">        compiler.setN(compiler.getN()+1);</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.INT)){</span>
-<span class="fc" id="L165">            IntLiteral intExpr = (IntLiteral)this;</span>
-<span class="fc" id="L166">            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(compiler.getN())));</span>
+<span class="fc" id="L157">        compiler.setN(compiler.getN()+1);</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.INT)){</span>
+<span class="fc" id="L159">            IntLiteral intExpr = (IntLiteral)this;</span>
+<span class="fc" id="L160">            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(compiler.getN())));</span>
         }
-<span class="fc bfc" id="L168" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.FLOAT)){</span>
-<span class="fc" id="L169">            FloatLiteral intExpr = (FloatLiteral)this;</span>
-<span class="fc" id="L170">            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(compiler.getN())));</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.FLOAT)){</span>
+<span class="fc" id="L163">            FloatLiteral intExpr = (FloatLiteral)this;</span>
+<span class="fc" id="L164">            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(compiler.getN())));</span>
         }
-<span class="fc bfc" id="L172" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.BOOLEAN)){</span>
-<span class="fc" id="L173">            BooleanLiteral intExpr = (BooleanLiteral) this;</span>
-<span class="pc bpc" id="L174" title="1 of 2 branches missed.">            if (intExpr.getValue()){</span>
-<span class="fc" id="L175">                compiler.addInstruction(new LOAD(new ImmediateInteger(1),Register.getR(compiler.getN())));</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if(this.getType().sameType(compiler.environmentType.BOOLEAN)){</span>
+<span class="fc" id="L167">            BooleanLiteral intExpr = (BooleanLiteral) this;</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">            if (intExpr.getValue()){</span>
+<span class="fc" id="L169">                compiler.addInstruction(new LOAD(new ImmediateInteger(1),Register.getR(compiler.getN())));</span>
             }
             else{
-<span class="nc" id="L178">                compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.getR(compiler.getN())));</span>
+<span class="fc" id="L172">                compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.getR(compiler.getN())));</span>
             }
         }
-<span class="fc" id="L181">    }</span>
+<span class="fc" id="L175">    }</span>
 
     
 
     @Override
     protected void decompileInst(IndentPrintStream s) {
-<span class="fc" id="L187">        decompile(s);</span>
-<span class="fc" id="L188">        s.print(&quot;;&quot;);</span>
-<span class="fc" id="L189">    }</span>
+<span class="fc" id="L181">        decompile(s);</span>
+<span class="fc" id="L182">        s.print(&quot;;&quot;);</span>
+<span class="fc" id="L183">    }</span>
 
     @Override
     protected void prettyPrintType(PrintStream s, String prefix) {
-<span class="fc" id="L193">        Type t = getType();</span>
-<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (t != null) {</span>
-<span class="fc" id="L195">            s.print(prefix);</span>
-<span class="fc" id="L196">            s.print(&quot;type: &quot;);</span>
-<span class="fc" id="L197">            s.print(t);</span>
-<span class="fc" id="L198">            s.println();</span>
+<span class="fc" id="L187">        Type t = getType();</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (t != null) {</span>
+<span class="fc" id="L189">            s.print(prefix);</span>
+<span class="fc" id="L190">            s.print(&quot;type: &quot;);</span>
+<span class="fc" id="L191">            s.print(t);</span>
+<span class="fc" id="L192">            s.println();</span>
         }
-<span class="fc" id="L200">    }</span>
+<span class="fc" id="L194">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

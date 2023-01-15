@@ -158,10 +158,10 @@ import org.apache.log4j.Logger;
      * hierarchy. Useful for debugging.
      */
     public final String prettyPrint() {
-<span class="nc" id="L161">        ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
-<span class="nc" id="L162">        PrintStream s = new PrintStream(out);</span>
-<span class="nc" id="L163">        prettyPrint(s);</span>
-<span class="nc" id="L164">        return out.toString();</span>
+<span class="fc" id="L161">        ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="fc" id="L162">        PrintStream s = new PrintStream(out);</span>
+<span class="fc" id="L163">        prettyPrint(s);</span>
+<span class="fc" id="L164">        return out.toString();</span>
     }
 
     protected final void prettyPrint(PrintStream s, String prefix,
@@ -252,10 +252,10 @@ import org.apache.log4j.Logger;
      * information.
      */
     protected void checkLocation() {
-<span class="pc bpc" id="L255" title="1 of 2 branches missed.">        if (getLocation() == null) {</span>
-<span class="nc" id="L256">            LOG.info(prettyPrint());</span>
-<span class="nc" id="L257">            throw new DecacInternalError(&quot;Tree &quot;</span>
-<span class="nc" id="L258">                    + getClass().getName()</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">        if (getLocation() == null) {</span>
+<span class="fc" id="L256">            LOG.info(prettyPrint());</span>
+<span class="fc" id="L257">            throw new DecacInternalError(&quot;Tree &quot;</span>
+<span class="fc" id="L258">                    + getClass().getName()</span>
                     + &quot; has no location set&quot;);
         }
 <span class="fc" id="L261">    }</span>

@@ -1,0 +1,6 @@
+{
+
+    int x = 10;
+    float y = 3.5;
+    println("y/x = ",(y / x));
+}

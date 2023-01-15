@@ -24,7 +24,7 @@ public class FloatLiteral extends AbstractExpr {
     private float value;
 
 <span class="fc" id="L26">    public FloatLiteral(float value) {</span>
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        Validate.isTrue(!Float.isInfinite(value),</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        Validate.isTrue(!Float.isInfinite(value),</span>
                 &quot;literal values cannot be infinite&quot;);
 <span class="pc bpc" id="L29" title="1 of 2 branches missed.">        Validate.isTrue(!Float.isNaN(value),</span>
                 &quot;literal values cannot be NaN&quot;);

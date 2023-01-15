@@ -64,11 +64,18 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TO DO: tenir compte de printHex !!!
-        s.print("print" + getSuffix() + "( ");
+        s.print("print" + getSuffix());
+        if (printHex){
+            s.print("x");
+        }
+        s.print("(");
+        int count = arguments.size();
         for (AbstractExpr e : arguments.getList()) {
             e.decompile(s);
-            s.print(" ");
+            if (count != 1){
+                s.print(", ");
+            }
+            count--;
         }
         s.print(");");
     }

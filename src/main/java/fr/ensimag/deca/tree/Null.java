@@ -28,14 +28,12 @@ public class Null extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
 }

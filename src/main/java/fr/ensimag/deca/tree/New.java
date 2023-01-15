@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -28,8 +30,18 @@ public class New extends AbstractCall {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        
-        return super.verifyExprMessage(compiler, localEnv, currentClass, 
+
+        return super.verifyExprMessage(compiler, localEnv, currentClass,
                 "'New' ne peut etre affecté que pour une class");
+    }
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        getName().prettyPrint(s, prefix, false);
+    }
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        getName().iter(f);
     }
 }

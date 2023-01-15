@@ -17,11 +17,11 @@ public class This extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        
+
         if (currentClass == null) {
             throw new ContextualError("'This' ne peut être appelé en dehors d'une class", this.getLocation());
         }
-        
+
         return currentClass.getType();
     }
 
@@ -32,14 +32,12 @@ public class This extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
 }

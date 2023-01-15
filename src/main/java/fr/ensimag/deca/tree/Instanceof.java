@@ -41,8 +41,8 @@ public class Instanceof extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        type.iter(f);
+        expr.iter(f);
     }
 
     @Override

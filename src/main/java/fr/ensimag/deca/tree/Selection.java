@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -31,10 +33,21 @@ public class Selection extends AbstractCall {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        
-        return super.verifyExprMessage(compiler, localEnv, currentClass, 
+
+        return super.verifyExprMessage(compiler, localEnv, currentClass,
                 "La sélection doit se faire sur une class"); // Rule 3.65 // Rule 3.66
     }
-    
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        expr.prettyPrint(s, prefix, false);
+        getName().prettyPrint(s, prefix, false);
+    }
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        expr.iter(f);
+        getName().iter(f);
+    }
 
 }

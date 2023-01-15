@@ -233,10 +233,14 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                         } else {
                             compiler.addInstruction(new QUO(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         }
+                        else {
+                            compiler.addInstruction(new QUO(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        }
                         compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
                         break;
                     case "%":
-                        compiler.addInstruction(new REM(Register.getR(nActualRight), Register.getR(nActualLeft)));
+                        compiler.addInstruction(new REM(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
                         break;
                     case "*":
                         compiler.addInstruction(new MUL(Register.getR(nActualRight), Register.getR(nActualLeft)));

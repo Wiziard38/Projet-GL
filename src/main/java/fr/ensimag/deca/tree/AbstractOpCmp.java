@@ -33,7 +33,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
                 this.setType(compiler.environmentType.BOOLEAN);
                 ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());
                 this.setRightOperand(newTreeNode);
-                newTreeNode.setType(compiler.environmentType.FLOAT);
+                newTreeNode.verifyExpr(compiler, localEnv, currentClass);
                 return compiler.environmentType.BOOLEAN;
             }
             if (typeRight.isFloat()) {
@@ -53,19 +53,12 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
                 this.setType(compiler.environmentType.BOOLEAN);
                 ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());
                 this.setLeftOperand(newTreeNode);
-                newTreeNode.setType(compiler.environmentType.FLOAT);
+                newTreeNode.verifyExpr(compiler, localEnv, currentClass);
                 return compiler.environmentType.BOOLEAN;
             }
         }
 
         throw new ContextualError("Comparaison arithmétique sur des non-nombres", this.getLocation()); // Rule 3.33
-    }
-
-    @Override
-    protected void checkDecoration() {
-        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
     }
 
 }

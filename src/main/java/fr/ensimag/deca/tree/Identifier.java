@@ -37,7 +37,8 @@ public class Identifier extends AbstractIdentifier {
         Validate.notNull(this.getDefinition());
     }
 
-    protected void codeGenPrint(DecacCompiler compiler) {
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
             VariableDefinition defVar = this.getVariableDefinition();
             compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
             if (this.getType().isInt()) {

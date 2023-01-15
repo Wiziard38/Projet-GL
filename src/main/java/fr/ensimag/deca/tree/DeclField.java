@@ -31,13 +31,12 @@ public class DeclField extends AbstractDeclField {
         this.initialization = initialization;
     }
 
-
     @Override
     public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
-        
+
         FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
                 currentClassDef, currentClassDef.getNumberOfFields() + 1);
 
@@ -50,26 +49,24 @@ public class DeclField extends AbstractDeclField {
         currentClassDef.incNumberOfFields();
     }
 
-
     @Override
     public void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {
-    
-        FieldDefinition thisDef = currentClassDef.getMembers().get(this.name.getName()).asFieldDefinition(
-            "Should not happen, contact developpers please.", this.getLocation());
 
-        this.initialization.verifyInitialization(compiler, thisDef.getType(), 
+        FieldDefinition thisDef = currentClassDef.getMembers().get(this.name.getName()).asFieldDefinition(
+                "Should not happen, contact developpers please.", this.getLocation());
+
+        this.initialization.verifyInitialization(compiler, thisDef.getType(),
                 currentClassDef.getMembers(), currentClassDef);
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
         if (visibility == Visibility.PROTECTED) {
             s.print("protected ");
-        } else {
-            s.print("public ");
-        }
+        } // else { TODO a check
+        //     s.print("public ");
+        // }
         type.decompile(s);
         s.print(" ");
         name.decompile(s);
@@ -94,8 +91,9 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        type.iter(f);
+        name.iter(f);
+        initialization.iter(f);
     }
 
 }

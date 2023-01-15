@@ -13,8 +13,8 @@ public abstract class Definition {
     public String toString() {
         String res;
 <span class="fc" id="L15">        res = getNature();</span>
-<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (location == Location.BUILTIN) {</span>
-<span class="fc" id="L17">            res += &quot; (builtin)&quot;;</span>
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">        if (location == Location.BUILTIN) {</span>
+<span class="nc" id="L17">            res += &quot; (builtin)&quot;;</span>
         } else {
 <span class="fc" id="L19">            res += &quot; defined at &quot; + location;</span>
         }

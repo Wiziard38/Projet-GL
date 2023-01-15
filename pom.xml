@@ -302,7 +302,7 @@
                     <execution>
                         <id>test-deca</id>
                         <configuration>
-                            <executable>./src/test/script/tout-deca.sh</executable>
+                            <executable>./src/test/script/test_codegen_complet.sh</executable>
                         </configuration>
                         <phase>test</phase>
                         <goals>
@@ -312,9 +312,33 @@
                     <execution>
                         <id>test-lexer</id>
                         <configuration>
-                            <executable>./src/test/script/tout-fichier-lex.sh</executable>
+                            <executable>./src/test/script/test_lex_complet.sh</executable>
                         </configuration>
                         <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>permissions</id>
+                        <configuration>
+                            <executable>chmod</executable>
+                            <arguments>
+                                <argument>+x</argument>
+                                <argument>./src/test/script/permissions.sh</argument>
+                            </arguments>
+                        </configuration>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>do-permissions</id>
+                        <configuration>
+                            <executable>./src/test/script/permissions.sh</executable>
+                        </configuration>
+                        <phase>compile</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>

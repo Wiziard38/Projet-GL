@@ -22,10 +22,10 @@ public class Or extends AbstractOpBool {
 <span class="fc" id="L22">    }</span>
 
     protected void codeGenInst(DecacCompiler compiler){
-<span class="nc" id="L25">        Label labelOneTrue = new Label(&quot;OneTrueOr&quot; + this.getLocation().getLine() + this.getLocation().getPositionInLine());</span>
-<span class="nc" id="L26">        Label labelFin = new Label(&quot;FinCompOr&quot; + this.getLocation().getLine() + this.getLocation().getPositionInLine());</span>
+<span class="fc" id="L25">        Label labelOneTrue = new Label(&quot;OneTrueOr&quot; + this.getLocation().getLine() + this.getLocation().getPositionInLine());</span>
+<span class="fc" id="L26">        Label labelFin = new Label(&quot;FinCompOr&quot; + this.getLocation().getLine() + this.getLocation().getPositionInLine());</span>
         int nActualLeft;
-<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()){</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()){</span>
 <span class="nc" id="L29">            compiler.setD(compiler.getD() + 2);</span>
 <span class="nc" id="L30">            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
 <span class="nc" id="L31">            compiler.setSP(compiler.getSP()+1);</span>
@@ -46,11 +46,11 @@ public class Or extends AbstractOpBool {
 <span class="nc" id="L46">            compiler.setSP(compiler.getSP() - 1);</span>
 <span class="nc" id="L47">        }</span>
         else{
-<span class="nc" id="L49">            nActualLeft = compiler.getN() + 1;</span>
-<span class="nc" id="L50">            this.getLeftOperand().codeGenInst(compiler);</span>
-<span class="nc" id="L51">            compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualLeft)));</span>
-<span class="nc" id="L52">            compiler.addInstruction(new BEQ(labelOneTrue));</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()){</span>
+<span class="fc" id="L49">            nActualLeft = compiler.getN() + 1;</span>
+<span class="fc" id="L50">            this.getLeftOperand().codeGenInst(compiler);</span>
+<span class="fc" id="L51">            compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L52">            compiler.addInstruction(new BEQ(labelOneTrue));</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">            if (compiler.getN() &gt;= compiler.getCompilerOptions().getnumberRegisters()){</span>
 <span class="nc" id="L54">                compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));</span>
 <span class="nc" id="L55">                compiler.setD(compiler.getD() + 1);</span>
 <span class="nc" id="L56">                compiler.setSP(compiler.getSP()+1);</span>
@@ -64,18 +64,18 @@ public class Or extends AbstractOpBool {
 <span class="nc" id="L64">                compiler.addInstruction(new POP(Register.getR(0)));</span>
 <span class="nc" id="L65">            }</span>
             else {
-<span class="nc" id="L67">                int nActualRight = compiler.getN()+1;</span>
-<span class="nc" id="L68">                this.getRightOperand().codeGenInst(compiler);</span>
-<span class="nc" id="L69">                compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualRight)));</span>
-<span class="nc" id="L70">                compiler.addInstruction(new BEQ(labelOneTrue));</span>
-<span class="nc" id="L71">                compiler.addInstruction(new BRA(labelFin));</span>
+<span class="fc" id="L67">                int nActualRight = compiler.getN()+1;</span>
+<span class="fc" id="L68">                this.getRightOperand().codeGenInst(compiler);</span>
+<span class="fc" id="L69">                compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualRight)));</span>
+<span class="fc" id="L70">                compiler.addInstruction(new BEQ(labelOneTrue));</span>
+<span class="fc" id="L71">                compiler.addInstruction(new BRA(labelFin));</span>
             }
         }
-<span class="nc" id="L74">        compiler.addLabel(labelOneTrue);</span>
-<span class="nc" id="L75">        compiler.addInstruction(new LOAD(new ImmediateInteger(1), Register.getR(nActualLeft)));</span>
-<span class="nc" id="L76">        compiler.addLabel(labelFin);</span>
-<span class="nc" id="L77">        compiler.setN(nActualLeft);</span>
-<span class="nc" id="L78">    }</span>
+<span class="fc" id="L74">        compiler.addLabel(labelOneTrue);</span>
+<span class="fc" id="L75">        compiler.addInstruction(new LOAD(new ImmediateInteger(1), Register.getR(nActualLeft)));</span>
+<span class="fc" id="L76">        compiler.addLabel(labelFin);</span>
+<span class="fc" id="L77">        compiler.setN(nActualLeft);</span>
+<span class="fc" id="L78">    }</span>
     
     @Override
     protected String getOperatorName() {

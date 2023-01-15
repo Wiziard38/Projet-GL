@@ -25,7 +25,7 @@ public class Initialization extends AbstractInitialization {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler){
-        expression.codeGenInst(compiler);
+        this.getExpression().codeGenInst(compiler);
         compiler.addInstruction(new STORE(Register.getR(compiler.getN()),new RegisterOffset(compiler.getSP()+1, Register.GB)));
         
     }
@@ -49,7 +49,7 @@ public class Initialization extends AbstractInitialization {
         Validate.notNull(t);
 
         // On set si jamais y'a un ConvFloat a ajouter
-        this.setExpression(this.expression.verifyRValue(compiler, localEnv, currentClass, t));
+        this.setExpression(this.getExpression().verifyRValue(compiler, localEnv, currentClass, t));
 
         // Type initializationType = this.expression.verifyExpr(compiler, localEnv, currentClass);
 

@@ -17,11 +17,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        
+
 <span class="nc bnc" id="L21" title="All 2 branches missed.">        if (currentClass == null) {</span>
 <span class="nc" id="L22">            throw new ContextualError(&quot;'This' ne peut être appelé en dehors d'une class&quot;, this.getLocation());</span>
         }
-        
+
 <span class="nc" id="L25">        return currentClass.getType();</span>
     }
 
@@ -32,15 +32,13 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
-<span class="fc" id="L37">    }</span>
+        // nothing to do here
+<span class="fc" id="L36">    }</span>
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
-<span class="nc" id="L43">    }</span>
+        // nothing to do here
+<span class="nc" id="L41">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

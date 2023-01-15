@@ -48,12 +48,6 @@ public abstract class AbstractExpr extends AbstractInst {
     }
     private Type type;
 
-    @Override
-    protected void checkDecoration() {
-        if (getType() == null) {
-            throw new DecacInternalError("Expression " + decompile() + " has no Type decoration");
-        }
-    }
 
     /**
      * Verify the expression for contextual error.

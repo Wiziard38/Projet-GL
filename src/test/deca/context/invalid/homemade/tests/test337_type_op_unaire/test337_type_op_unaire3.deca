@@ -1,5 +1,6 @@
 // test invalide de la règle 3.37
 
+
 {
-    float a = -7;
+    int a = -"toto";
 }

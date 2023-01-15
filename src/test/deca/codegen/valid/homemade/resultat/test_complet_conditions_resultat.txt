@@ -1,2 +1,2 @@
-x is greater than y
-x is the greatest among x, y and z
+x is not greater than y
+z is the greatest among x, y and z

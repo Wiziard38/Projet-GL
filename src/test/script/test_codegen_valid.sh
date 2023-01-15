@@ -20,20 +20,22 @@ echo "               CODEGEN - VALID TESTS                   "
 echo "-------------------------------------------------------"
 echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
 
-for fichier in $input_dir/test/*.deca
+for fichier in $(find $input_dir/test/ -name "*.deca")
 do
     nom=${fichier##*/}
     
     decac $fichier
     ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
+    echo ""
     if ! diff -Z actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
         printf "\033[1A"
-        echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
-        echo -n "Resultat attendu : "
-        $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")
-        echo -n "Resultat obtenu : "
-        $(cat $actuel)
+        # echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
+        # echo -n "Resultat attendu : "
+        # $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")
+        # echo -n "Resultat obtenu : "
+        # $(cat $actuel)
+        echo ""
         echo ""
         echo ""
         total_failed=$((total_failed+1))
@@ -41,6 +43,7 @@ do
         total_valid=$((total_valid+1))
     fi
 
+    printf "\033[1A"
     echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
     rm "$input_dir/test/${nom%.deca}.ass"
 done

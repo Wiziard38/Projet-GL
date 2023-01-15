@@ -15,6 +15,7 @@ import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+
 /**
  * @author gl39
  * @date 01/01/2023
@@ -36,10 +37,10 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
-    protected void codeGenVar(DecacCompiler compiler){
+    protected void codeGenVar(DecacCompiler compiler) {
         compiler.setD(compiler.getD() + 1);
         compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));
-        int nAct = compiler.getN()+1;
+        int nAct = compiler.getN() + 1;
         initialization.codeGenInst(compiler);
         compiler.setSP(compiler.getSP() + 1);
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
@@ -80,10 +81,7 @@ public class DeclVar extends AbstractDeclVar {
         type.decompile(s);
         s.print(" ");
         varName.decompile(s);
-        if (initialization instanceof Initialization) {
-            s.print(" = ");
-            initialization.decompile(s);
-        }
+        initialization.decompile(s);
         s.print(";");
     }
 

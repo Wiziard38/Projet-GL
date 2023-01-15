@@ -27,6 +27,7 @@ public class Selection extends AbstractCall {
     @Override
     public void decompile(IndentPrintStream s) {
         expr.decompile(s);
+        s.print(".");
         getName().decompile(s);
     }
 

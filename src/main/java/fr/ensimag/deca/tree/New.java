@@ -24,7 +24,7 @@ public class New extends AbstractCall {
     public void decompile(IndentPrintStream s) {
         s.print("new ");
         getName().decompile(s);
-        s.print("();");
+        s.print("()");
     }
 
     @Override

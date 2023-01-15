@@ -32,9 +32,13 @@ public class MethodCallOnVoid extends AbstractCall {
     public void decompile(IndentPrintStream s) {
         getName().decompile(s);
         s.print("(");
+        int count = getArgs().size();
         for (AbstractExpr e : getArgs().getList()) {
             e.decompile(s);
-            s.print(" ");
+            if (count != 1) {
+                s.print(", ");
+            }
+            count--;
         }
         s.print(")");
     }

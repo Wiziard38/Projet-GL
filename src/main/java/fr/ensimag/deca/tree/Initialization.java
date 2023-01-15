@@ -26,9 +26,8 @@ public class Initialization extends AbstractInitialization {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         this.getExpression().codeGenInst(compiler);
-        compiler.addInstruction(
-                new STORE(Register.getR(compiler.getN()), new RegisterOffset(compiler.getSP() + 1, Register.GB)));
-
+        compiler.addInstruction(new STORE(Register.getR(compiler.getN()),new RegisterOffset(compiler.getSP(), Register.GB)));
+        
     }
 
     private AbstractExpr expression;

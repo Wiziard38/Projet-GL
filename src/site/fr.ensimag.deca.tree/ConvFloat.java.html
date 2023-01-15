@@ -3,6 +3,9 @@
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -15,30 +18,25 @@ import fr.ensimag.deca.context.EnvironmentExp;
  */
 public class ConvFloat extends AbstractUnaryExpr {
     public ConvFloat(AbstractExpr operand) {
-<span class="fc" id="L18">        super(operand);</span>
-<span class="fc" id="L19">    }</span>
+<span class="fc" id="L21">        super(operand);</span>
+<span class="fc" id="L22">    }</span>
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) {
-<span class="nc" id="L24">        this.setType(compiler.environmentType.FLOAT);</span>
-<span class="nc" id="L25">        return compiler.environmentType.FLOAT;</span>
+<span class="nc" id="L27">        this.setType(compiler.environmentType.FLOAT);</span>
+<span class="nc" id="L28">        return compiler.environmentType.FLOAT;</span>
     }
 
 
     @Override
     protected String getOperatorName() {
-<span class="nc" id="L31">        return &quot;/* conv float */&quot;;</span>
+<span class="fc" id="L34">        return &quot;/* conv float */&quot;;</span>
     }
 
     protected void checkDecoration() {
-<span class="nc" id="L35">        super.checkDecoration();</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (!this.getOperand().getType().isInt()) {</span>
-<span class="nc" id="L37">            throw new DecacInternalError(&quot;ConvFloat operand is not of Type int&quot;);</span>
-        }
-<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (!this.getType().isFloat()) {</span>
-<span class="nc" id="L40">            throw new DecacInternalError(&quot;ConvFloat is not of Type Float&quot;);</span>
-        }
-<span class="nc" id="L42">    }</span>
+<span class="fc" id="L38">        Validate.isTrue(this.getOperand().getType().isInt());</span>
+<span class="fc" id="L39">        Validate.isTrue(this.getType().isFloat());</span>
+<span class="fc" id="L40">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

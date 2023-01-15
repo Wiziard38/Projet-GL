@@ -1,6 +1,0 @@
-{
-    float x = 3.5;
-    int y;
-    y = x;
-    println("y = ",(y));
-}

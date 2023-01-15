@@ -1018,7 +1018,7 @@ public class DecaParser extends AbstractDecaParser {
 <span class="fc" id="L1018">			setState(225);</span>
 <span class="fc" id="L1019">			_errHandler.sync(this);</span>
 <span class="fc" id="L1020">			_la = _input.LA(1);</span>
-<span class="pc bpc" id="L1021" title="1 of 4 branches missed.">			if (((_la) &amp; ~0x3f) == 0 &amp;&amp; ((1L &lt;&lt; _la) &amp; 205624916967432L) != 0) {</span>
+<span class="pc bpc" id="L1021" title="2 of 4 branches missed.">			if (((_la) &amp; ~0x3f) == 0 &amp;&amp; ((1L &lt;&lt; _la) &amp; 205624916967432L) != 0) {</span>
 				{
 <span class="fc" id="L1023">				setState(214);</span>
 <span class="fc" id="L1024">				((List_exprContext)_localctx).e1 = expr();</span>
@@ -2300,7 +2300,7 @@ public class DecaParser extends AbstractDecaParser {
 <span class="fc" id="L2300">				setState(433);</span>
 <span class="fc" id="L2301">				((Primary_exprContext)_localctx).literal = literal();</span>
 
-<span class="pc bpc" id="L2303" title="2 of 4 branches missed.">				                assert(((Primary_exprContext)_localctx).literal.tree != null);</span>
+<span class="pc bpc" id="L2303" title="1 of 4 branches missed.">				                assert(((Primary_exprContext)_localctx).literal.tree != null);</span>
 <span class="fc" id="L2304">				                ((Primary_exprContext)_localctx).tree =  ((Primary_exprContext)_localctx).literal.tree;</span>
 <span class="pc bpc" id="L2305" title="1 of 2 branches missed.">				                setLocation(_localctx.tree, (((Primary_exprContext)_localctx).literal!=null?(((Primary_exprContext)_localctx).literal.start):null));</span>
 				        
@@ -2397,16 +2397,16 @@ public class DecaParser extends AbstractDecaParser {
 				                try {
 <span class="pc bpc" id="L2398" title="1 of 2 branches missed.">				                        ((LiteralContext)_localctx).tree =  new IntLiteral(Integer.parseInt((((LiteralContext)_localctx).INT!=null?((LiteralContext)_localctx).INT.getText():null)));</span>
 <span class="fc" id="L2399">				                        setLocation(_localctx.tree, ((LiteralContext)_localctx).INT);</span>
-<span class="nc" id="L2400">				                } catch (NumberFormatException e) {</span>
+<span class="fc" id="L2400">				                } catch (NumberFormatException e) {</span>
 				                        // The integer could not be parsed (probably it's too large).
 				                        // set _localctx.tree to null, and then fail with the semantic predicate
 				                        // {_localctx.tree != null}?. In decac, we'll have a more advanced error
 				                        // management.
-<span class="nc" id="L2405">				                        ((LiteralContext)_localctx).tree =  null;</span>
+<span class="fc" id="L2405">				                        ((LiteralContext)_localctx).tree =  null;</span>
 <span class="fc" id="L2406">				                }</span>
 				        
 				}
-<span class="nc" id="L2409">				break;</span>
+<span class="fc" id="L2409">				break;</span>
 			case FLOAT:
 <span class="fc" id="L2411">				enterOuterAlt(_localctx, 2);</span>
 				{

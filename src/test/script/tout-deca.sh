@@ -46,6 +46,7 @@ do
     rm "$input_dir/test/${nom%.deca}.ass"
 done
 
+echo ""
 echo "-------------------------------------------------------"
 
 # Partie invalide
@@ -86,6 +87,7 @@ do
     rm "$input_dir/test/${nom%.deca}.ass"
 done
 
+echo ""
 echo "-------------------------------------------------------"
 
 rm actuel

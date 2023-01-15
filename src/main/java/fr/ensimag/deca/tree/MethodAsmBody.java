@@ -28,9 +28,10 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.println(" asm(");
+        s.print(" asm(");
         s.indent();
-        s.println(textAsm);
+        s.print(textAsm);
+        s.unindent();
         s.print(");");
     }
 
@@ -50,6 +51,5 @@ public class MethodAsmBody extends AbstractMethodBody {
             ClassDefinition currentClassDef, Type returnType) throws ContextualError {
         // nothing to do here
     }
-
 
 }

@@ -1,3 +1,5 @@
+#! /bin/bash
+
 #Un script shell qui lance tous les tests créer pour le lexeur
 
 #Utilisation: On créer des fihiers de tests dans src/test/deca/syntax/[invalid|valid] avec comme nom "fichier_test.deca"

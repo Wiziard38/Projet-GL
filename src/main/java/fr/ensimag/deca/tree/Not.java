@@ -24,7 +24,7 @@ public class Not extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-                
+
         if (this.getOperand().verifyExpr(compiler, localEnv, currentClass).isBoolean()) {
             this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
@@ -33,14 +33,14 @@ public class Not extends AbstractUnaryExpr {
         throw new ContextualError(" Négation logique sur un non-boolean", this.getLocation()); // Rule 3.37
     }
 
-
     @Override
     protected String getOperatorName() {
         return "!";
     }
 
     protected void checkDecoration() {
-        Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat());
+        Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat()
+                || this.getOperand().getType().isBoolean());
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
 }

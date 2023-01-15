@@ -26,7 +26,7 @@ public abstract class AbstractOpIneq extends AbstractOpCmp {
     protected void checkDecoration() {
         Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
         Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getType().isBoolean());
     }
 
 }

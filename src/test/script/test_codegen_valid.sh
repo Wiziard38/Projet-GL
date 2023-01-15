@@ -33,7 +33,7 @@ do
     if ! diff -Z actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
         printf "\033[1A"
-        echo "${RED}Echec inattendu ${NC}"
+        echo "${RED}Echec inattendu pour${NC} $fichier"
         # echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
         # echo -n "Resultat attendu : "
         # $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")
@@ -63,7 +63,7 @@ do
     if ! diff -Z actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
         printf "\033[1A"
-        echo "${RED}Echec inattendu avec 4 registres ${NC}"
+        echo "${RED}Echec inattendu avec 4 registres pour${NC} $fichier"
         # echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
         # echo -n "Resultat attendu : "
         # $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")

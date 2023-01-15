@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IMAProgram.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Deca Compiler</a> &gt; <a href="index.source.html" class="el_package">fr.ensimag.ima.pseudocode</a> &gt; <span class="el_source">IMAProgram.java</span></div><h1>IMAProgram.java</h1><pre class="source lang-java linenums">package fr.ensimag.ima.pseudocode;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
+
+/**
+ * Abstract representation of an IMA program, i.e. set of Lines.
+ *
+ * @author Ensimag
+ * @date 01/01/2023
+ */
+<span class="fc" id="L13">public class IMAProgram {</span>
+<span class="fc" id="L14">    private final LinkedList&lt;AbstractLine&gt; lines = new LinkedList&lt;AbstractLine&gt;();</span>
+<span class="fc" id="L15">    private Label erreurPile = new Label(&quot;ErreurPile&quot;);</span>
+
+    public Label getErreurPile(){
+<span class="nc" id="L18">        return erreurPile;</span>
+    }
+
+<span class="fc" id="L21">    private Label erreurOverflow = new Label(&quot;overflof_error&quot;);</span>
+
+    public Label getErreurOverflow(){
+<span class="nc" id="L24">        return erreurOverflow;</span>
+    }
+
+<span class="fc" id="L27">    private Label erreurInOut = new Label(&quot;io_error&quot;);</span>
+
+    public Label getErreurinOut(){
+<span class="nc" id="L30">        return erreurInOut;</span>
+    }
+
+
+    public void add(AbstractLine line) {
+<span class="nc" id="L35">        lines.add(line);</span>
+<span class="nc" id="L36">    }</span>
+
+    public void addComment(String s) {
+<span class="fc" id="L39">        lines.add(new Line(s));</span>
+<span class="fc" id="L40">    }</span>
+
+    public void addLabel(Label l) {
+<span class="fc" id="L43">        lines.add(new Line(l));</span>
+<span class="fc" id="L44">    }</span>
+
+    public void addInstruction(Instruction i) {
+<span class="fc" id="L47">        lines.add(new Line(i));</span>
+<span class="fc" id="L48">    }</span>
+
+    public void addInstruction(Instruction i, String s) {
+<span class="nc" id="L51">        lines.add(new Line(null, i, s));</span>
+<span class="nc" id="L52">    }</span>
+
+    /**
+     * Append the content of program p to the current program. The new program
+     * and p may or may not share content with this program, so p should not be
+     * used anymore after calling this function.
+     */
+    public void append(IMAProgram p) {
+<span class="nc" id="L60">        lines.addAll(p.lines);</span>
+<span class="nc" id="L61">    }</span>
+    
+    /**
+     * Add a line at the front of the program.
+     */
+    public void addFirst(Line l) {
+<span class="fc" id="L67">        lines.addFirst(l);</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * Display the program in a textual form readable by IMA to stream s.
+     */
+    public void display(PrintStream s) {
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (AbstractLine l: lines) {</span>
+<span class="fc" id="L75">            l.display(s);</span>
+<span class="fc" id="L76">        }</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * Return the program in a textual form readable by IMA as a String.
+     */
+    public String display() {
+<span class="fc" id="L83">        ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="fc" id="L84">        PrintStream s = new PrintStream(out);</span>
+<span class="fc" id="L85">        display(s);</span>
+<span class="fc" id="L86">        return out.toString();</span>
+    }
+
+    public void addFirst(Instruction i) {
+<span class="fc" id="L90">        addFirst(new Line(i));</span>
+<span class="fc" id="L91">    }</span>
+    
+    public void addFirst(Instruction i, String comment) {
+<span class="nc" id="L94">        addFirst(new Line(null, i, comment));</span>
+<span class="nc" id="L95">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

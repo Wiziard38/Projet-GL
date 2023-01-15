@@ -26,7 +26,8 @@ echo ""
 echo "                LEXER - VALID TESTS                    "
 
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+printf "\033[1A"
 
 for fichier in $input_dir/test/*.deca
 do
@@ -35,14 +36,13 @@ do
     if ! diff -Z actual "$input_dir/resultat/${nom%.deca}_resultat.txt" &> /dev/null
     then
         total_failed=$((total_failed+1))
-        echo ""
-        echo -e "${RED}Erreur non soulevée pour $fichier.${NC}"
+        echo -e "${RED}Erreur non soulevée pour ${NC}$fichier"
         echo ""
     else 
         total_valid=$((total_valid+1))
     fi
-    # printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    printf "\033[1A"
 
 done
 
@@ -59,23 +59,23 @@ echo ""
 echo "               LEXER - INVALID TESTS                   "
 
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+printf "\033[1A"
 
 for fichier in $input_dir/test/*.deca
 do
     nom=${fichier##*/}
     t=$(test_lex "$fichier" 2>&1 >actual)
-    if ! diff -Z actual "$input_dir/resultat/${nom%.deca}_resultat.txt"
+    if ! diff -Z actual "$input_dir/resultat/${nom%.deca}_resultat.txt" &> /dev/null
     then
         total_failed=$((total_failed+1))
-        echo ""
-        echo -e "${RED}Erreur non soulevée pour $fichier.${NC}"
+        echo -e "${RED}Erreur non soulevée pour ${NC}$fichier"
         echo ""
     else 
         total_valid=$((total_valid+1))
     fi
-    # printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    printf "\033[1A"
 done
 
 echo ""

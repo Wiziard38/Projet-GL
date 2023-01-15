@@ -1,0 +1,7 @@
+{
+    float a = 1.0e4;
+
+    float b = 1.0E4;
+
+    println(a," ",b);
+}

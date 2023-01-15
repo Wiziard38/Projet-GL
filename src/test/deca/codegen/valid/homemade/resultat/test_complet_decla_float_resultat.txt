@@ -1,2 +1,1 @@
-Integer value: 10
 Float value: 2.05000e+01

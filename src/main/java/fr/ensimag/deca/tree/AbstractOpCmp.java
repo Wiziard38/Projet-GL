@@ -61,11 +61,4 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         throw new ContextualError("Comparaison arithmétique sur des non-nombres", this.getLocation()); // Rule 3.33
     }
 
-    @Override
-    protected void checkDecoration() {
-        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
-    }
-
 }

@@ -5,7 +5,7 @@
       |  []> [12, 8] DeclVar
       |      +> [12, 4] Identifier (int)
       |      +> [12, 8] Identifier (x)
-      |      `> Initialization
+      |      `> [12, 12] Initialization
       |         `> [12, 12] Int (3)
       `> ListInst [List with 1 elements]
          []> [13, 4] IfThenElse
@@ -17,7 +17,7 @@
              |      `> ListExpr [List with 1 elements]
              |         []> [14, 16] Identifier (x)
              `> ListInst [List with 1 elements]
-                []> IfThenElse
+                []> [16, 9] IfThenElse
                     +> [16, 13] Equals
                     |  +> [16, 13] Identifier (x)
                     |  `> [16, 18] Int (5)
@@ -26,7 +26,7 @@
                     |      `> ListExpr [List with 1 elements]
                     |         []> [17, 16] StringLiteral ("x == 5")
                     `> ListInst [List with 1 elements]
-                       []> IfThenElse
+                       []> [19, 9] IfThenElse
                            +> [19, 13] Equals
                            |  +> [19, 13] Identifier (x)
                            |  `> [19, 18] Int (6)

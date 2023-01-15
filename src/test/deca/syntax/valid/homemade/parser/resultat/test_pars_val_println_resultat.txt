@@ -3,6 +3,6 @@
    `> [11, 0] Main
       +> ListDeclVar [List with 0 elements]
       `> ListInst [List with 1 elements]
-         []> Println
+         []> [12, 4] Println
              `> ListExpr [List with 1 elements]
-                []> StringLiteral ("Hello")
+                []> [12, 12] StringLiteral ("Hello")

@@ -21,7 +21,7 @@ total_failed=0
 
 # exemple de définition d'une fonction
 test_context_valide () {
-    test_result=$(test_context "$1" 2>&1)
+    test_result=$(decac -v "$1" 2>&1)
     
     if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
         printf "\033[1A"

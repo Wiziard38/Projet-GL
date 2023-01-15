@@ -24,7 +24,7 @@ echo "              CONTEXT - INVALID TESTS                  "
 
 
 test_context_invalide () {
-    test_result=$(test_context "$1" 2>&1)
+    test_result=$(decac -v "$1" 2>&1)
     
     if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
         # echo "Echec attendu pour test_context sur $1."

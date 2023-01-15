@@ -1,78 +1,85 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
 cd "$(dirname "$0")"/../../.. || exit 1
+source_dir=$(pwd)
+PATH=$source_dir/src/test/script/launchers:"$PATH"
+input_dir="$source_dir/src/test/deca/codegen/valid/homemade"
 
-PATH=./src/test/script/launchers:"$PATH"
-echo "Début des tests valid"
-echo ""
-echo "---------------------------------------"
-echo ""
+total_test=$(find $input_dir/test -type f -name "*.deca" | wc -l)
+total_valid=0
+total_failed=0
 
-i=0
-nb_fichier=${ls-l | wc-l}
-export nb_fichier
-export i
-for fichier in ./src/test/deca/codegen/valid/homemade/test/*.deca
+echo ""
+echo "               CODEGEN - VALID TESTS                   "
+echo "-------------------------------------------------------"
+echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+
+for fichier in $input_dir/test/*.deca
 do
-    echo "$fichier"
     nom=${fichier##*/}
-    export nom
     
     decac $fichier
-    ima "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass" 2>&1 > actuel
-    # actuel=$(ima "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass")
-    if ! diff -Z actuel "./src/test/deca/codegen/valid/homemade/resultat/${nom%.deca}_resultat.txt"
+    #ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
+    if ! diff -w actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
-        echo "erreur innatendu"
-        echo "On s'attendait à"
-        cat ./src/test/deca/codegen/valid/homemade/resultat/${nom%.deca}_resultat.txt
+        printf "\033[1A"
+        echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
+        echo -n "Resultat attendu : "
+        $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")
+        echo -n "Resultat obtenu : "
+        $(cat $actuel)
         echo ""
-        echo "Et ima nous a retourné:"
-        cat actuel
+        echo ""
+        total_failed=$((total_failed+1))
     else
-        i=$i+1
-        echo -e "\r$i/$nb_fichier"
+        total_valid=$((total_valid+1))
     fi
 
-    rm "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass"
-    
-
+    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    rm "$input_dir/test/${nom%.deca}.ass"
 done
 
-echo "Début des tests invalides"
-echo ""
-echo "---------------------------------------"
-echo ""
+echo "-------------------------------------------------------"
 
-i=0
-nb_fichier=${ls-l | wc-l}
-export nb_fichier
-export i
-for file in ./src/test/deca/codegen/invalid/homemade/test/*.deca
+
+input_dir="$source_dir/src/test/deca/codegen/invalid/homemade"
+
+total_test=$(find $input_dir/test -type f -name "*.deca" | wc -l)
+total_valid=0
+total_failed=0
+
+echo ""
+echo "              CODEGEN - INVALID TESTS                  "
+echo "-------------------------------------------------------"
+echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+
+for fichier in $input_dir/test/*.deca
 do
-    echo "$file"
-    nom=${file##*/}
-    export nom
+    nom=${fichier##*/}
     
-    decac $file
-    ima "./src/test/deca/codegen/invalid/homemade/test/${nom%.deca}.ass" 2>&1 > actuel
-    # actuel=$(ima "./src/test/deca/codegen/valid/homemade/test/${nom%.deca}.ass")
-    if ! diff -Z actuel "./src/test/deca/codegen/invalid/homemade/resultat/${nom%.deca}_resultat.txt"
+    decac $fichier
+    #ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
+    if ! diff -w actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
     then
-        echo "erreur innatendu"
-        echo "On s'attendait à"
-        cat ./src/test/deca/codegen/invalid/homemade/resultat/${nom%.deca}_resultat.txt
+        printf "\033[1A"
+        echo -e "${RED}Succes inattendu de compilation pour ${NC} $fichier"
+        echo -n "Resultat attendu : "
+        $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")
+        echo -n "Resultat obtenu : "
+        $(cat $actuel)
         echo ""
-        echo "Et ima nous a retourné:"
-        cat actuel
+        echo ""
+        total_failed=$((total_failed+1))
     else
-        i=$i+1
-        echo -e "\r$i/$nb_fichier"
+        total_valid=$((total_valid+1))
     fi
 
-    rm "./src/test/deca/codegen/invalid/homemade/test/${nom%.deca}.ass"
-    
-
+    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    rm "$input_dir/test/${nom%.deca}.ass"
 done
 
 rm actuel

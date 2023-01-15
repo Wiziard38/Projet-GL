@@ -2,6 +2,9 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -37,13 +40,9 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
 
     @Override
     protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getLeftOperand().getType().isBoolean()) {
-            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type boolean");
-        }
-        if (!this.getType().isBoolean()) {
-            throw new DecacInternalError("OpBool " + this.toString() + " is not of Type boolean");
-        }
+        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getLeftOperand().getType().isBoolean());
     }
 
 }

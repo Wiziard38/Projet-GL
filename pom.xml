@@ -299,7 +299,7 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- <execution>
+                    <execution>
                         <id>test-deca</id>
                         <configuration>
                             <executable>./src/test/script/test_codegen_complet.sh</executable>
@@ -308,7 +308,7 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                    </execution> -->
+                    </execution>
                     <execution>
                         <id>test-lexer</id>
                         <configuration>

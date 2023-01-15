@@ -1,0 +1,17 @@
+class lion extends animal {
+    int a = 0;
+    protected boolean bool = false;
+
+    void add(int num){
+        a = a + num;
+    }
+
+    int valeur(){
+        return a;
+    }
+}
+{
+    lion louis = new lion();
+    boolean b = louis instanceof animal;
+    animal louis2 = (animal) (louis);
+}

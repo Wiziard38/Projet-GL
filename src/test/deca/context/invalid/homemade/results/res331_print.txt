@@ -1,0 +1,1 @@
+Print ne peut pas afficher une expression de type ‘[Type]’

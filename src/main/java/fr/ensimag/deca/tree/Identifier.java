@@ -2,7 +2,6 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -18,6 +17,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 import java.io.PrintStream;
@@ -35,19 +35,24 @@ public class Identifier extends AbstractIdentifier {
     
     @Override
     protected void checkDecoration() {
-        if (getDefinition() == null) {
-            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
-        }
+        Validate.notNull(this.getDefinition());
     }
 
-    protected void codeGenPrint(DecacCompiler compiler) {
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
             VariableDefinition defVar = this.getVariableDefinition();
             compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
             if (this.getType().isInt()) {
                 compiler.addInstruction(new WINT());
             }
             else {
-                compiler.addInstruction(new WFLOAT());
+                if (!printHex) {
+                    compiler.addInstruction(new WFLOAT());
+                }
+                else {
+                    compiler.addInstruction(new WFLOATX());
+                }
+                
             }
         }
 
@@ -205,17 +210,16 @@ public class Identifier extends AbstractIdentifier {
      * @param compiler contains "env_types" attribute
      */
     @Override
-    public Type verifyType(DecacCompiler compiler) throws ContextualError {
+    public Type verifyType(DecacCompiler compiler, boolean checkVoid, String message) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
         LOG.debug(this.getName());
-        LOG.debug(thisTypeDef);
         if (thisTypeDef == null) {
             throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
                     this.name.getName()), this.getLocation()); // Rule 0.2
         }
-        if (thisTypeDef.getType().isVoid()) {
-            throw new ContextualError("Déclaration de variable invalide : type void", 
-                    this.getLocation()); // Rule 3.17
+        if (checkVoid && thisTypeDef.getType().isVoid()) {
+            throw new ContextualError(String.format("Le type void ne peut etre affecté pour %s",
+                    message), this.getLocation()); // Rule 3.17 // Rule 2.5 // Rule 2.9
         }
         
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
@@ -262,4 +266,8 @@ public class Identifier extends AbstractIdentifier {
         return this.getDefinition().getType();
     }
 
+    @Override
+    public String toString() {
+        return this.getName().toString();
+    }
 }

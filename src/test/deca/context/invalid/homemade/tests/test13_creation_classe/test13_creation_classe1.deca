@@ -1,0 +1,4 @@
+// test invalide de la règle 1.3
+
+
+class A extends B{}

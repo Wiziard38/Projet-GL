@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.Register;
@@ -22,13 +24,9 @@ public abstract class AbstractOpIneq extends AbstractOpCmp {
 
     @Override
     protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getLeftOperand().getType().isFloat() && !this.getLeftOperand().getType().isInt()) {
-            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type int or float");
-        }
-        if (!this.getType().isBoolean()) {
-            throw new DecacInternalError("OpIneq " + this.toString() + " is not of Type boolean");
-        }
+        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
+        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getType().isBoolean());
     }
 
 }

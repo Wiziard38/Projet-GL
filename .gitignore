@@ -13,10 +13,11 @@
 .DS_STORE
 .gitconfig
 .vscode/
-src/test/deca/syntax/valid/homeMade
+src/main/java/fr/ensimag/arm/
 
 # Compilation
 docker/*
 **/.antlr/*
 target/*
 *.ass
+!target/site/*

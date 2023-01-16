@@ -16,9 +16,11 @@ import fr.ensimag.ima.pseudocode.instructions.WINT;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Expression, i.e. anything that has a value.
@@ -27,6 +29,8 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public abstract class AbstractExpr extends AbstractInst {
+    private static final Logger LOG = Logger.getLogger(AbstractExpr.class);
+
     /**
      * @return true if the expression does not correspond to any concrete token
      * in the source code (and should be decompiled to the empty string).
@@ -48,12 +52,6 @@ public abstract class AbstractExpr extends AbstractInst {
     }
     private Type type;
 
-    @Override
-    protected void checkDecoration() {
-        if (getType() == null) {
-            throw new DecacInternalError("Expression " + decompile() + " has no Type decoration");
-        }
-    }
 
     /**
      * Verify the expression for contextual error.
@@ -88,19 +86,31 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return this with an additional ConvFloat if needed...
      */
     public AbstractExpr verifyRValue(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass, 
+            EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
+        LOG.debug("Verify RValue - begin");
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
         
         if (expectedType.isFloat() && exprType.isInt()) {
             ConvFloat newTreeNode = new ConvFloat(this);
-            newTreeNode.setType(compiler.environmentType.FLOAT);
+            newTreeNode.verifyExpr(compiler, localEnv, currentClass);
             return newTreeNode;
         }
-        if (expectedType != exprType) {
-            throw new ContextualError(String.format("%s is not of type %s", 
-                this.toString(), expectedType.toString()), this.getLocation());
+        LOG.debug("Verify RValue - not ConvFloat case");
+
+        if (!expectedType.sameType(exprType)) {
+            LOG.debug("Verify RValue - not same type");
+
+            if (exprType.isClass() || expectedType.isClass()) {
+                LOG.debug("Verify RValue - not classes type");
+
+                if (!exprType.asClassType("Should not happen, contact developpers please.",
+                        this.getLocation()).isSubClassOf(expectedType.asClassType(
+                            "Should not happen, contact developpers please.", this.getLocation())));
+            }
+            throw new ContextualError(String.format("'%s' is not of type %s", 
+                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
         }
         return this;
     }
@@ -137,18 +147,23 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
-        if(this.getType().sameType(compiler.environmentType.INT)){
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+        if(this.getType().isInt()){
             compiler.setN(compiler.getN()+1);
             IntLiteral intExpr = (IntLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(1)));
             compiler.addInstruction(new WINT());
         }
-        if(this.getType().sameType(compiler.environmentType.FLOAT)){
+        if(this.getType().isFloat()){
             compiler.setN(compiler.getN()+1);
             FloatLiteral intExpr = (FloatLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));
-            compiler.addInstruction(new WFLOAT());
+            if (!printHex) {
+                compiler.addInstruction(new WFLOAT());
+            }
+            else {
+                compiler.addInstruction(new WFLOATX());
+            }
         }
     }
 

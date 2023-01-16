@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 12 : Erreur ( expected field after int)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class iden3{
+    protected int ;
+}

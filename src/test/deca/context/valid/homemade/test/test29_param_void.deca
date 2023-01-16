@@ -1,0 +1,7 @@
+// test valide de la règle 2.9
+
+
+class A {
+    int value(float x){}
+    boolean name(int ent, int virg){}
+}

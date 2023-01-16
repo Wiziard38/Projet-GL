@@ -1,27 +1,31 @@
 package fr.ensimag.deca.tree;
 
-import java.io.PrintStream;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
-import fr.ensimag.deca.tools.IndentPrintStream;
+/*
+ * Parameters declaration
+ */
+public abstract class AbstractDeclParam extends Tree {
 
-public class AbstractDeclParam extends Tree {
+    /**
+     * TODO
+     * @param compiler
+     * @return
+     * @throws ContextualError
+     */
+    public abstract Type verifySigParam(DecacCompiler compiler) throws ContextualError;
 
-    @Override
-    public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
-    }
+    /**
+     * TODO
+     * @param compiler
+     * @return
+     * @throws ContextualError
+     */
+    public abstract void verifyEnvParam(DecacCompiler compiler, EnvironmentExp localEnv)
+            throws ContextualError;
 
 }

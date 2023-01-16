@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compileSource>1.8</compileSource>
-        <jacoco.skip>false</jacoco.skip>
+        <jacoco.skip>true</jacoco.skip>
         <jacoco.report_dir>${project.build.directory}/site</jacoco.report_dir>
     </properties>
 
@@ -265,6 +265,80 @@
                             <executable>./src/test/script/common-tests.sh</executable>
                         </configuration>
                         <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-decompile</id>
+                        <configuration>
+                            <executable>./src/test/script/test_decompile_complet.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-syntax</id>
+                        <configuration>
+                            <executable>./src/test/script/test_synt_complet.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-context</id>
+                        <configuration>
+                            <executable>./src/test/script/test_context_complet.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-deca</id>
+                        <configuration>
+                            <executable>./src/test/script/test_codegen_complet.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-lexer</id>
+                        <configuration>
+                            <executable>./src/test/script/test_lex_complet.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>permissions</id>
+                        <configuration>
+                            <executable>chmod</executable>
+                            <arguments>
+                                <argument>+x</argument>
+                                <argument>./src/test/script/permissions.sh</argument>
+                            </arguments>
+                        </configuration>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>do-permissions</id>
+                        <configuration>
+                            <executable>./src/test/script/permissions.sh</executable>
+                        </configuration>
+                        <phase>compile</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>

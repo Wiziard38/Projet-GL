@@ -1,0 +1,24 @@
+{
+    boolean a;
+    boolean b;
+
+    a = true;
+    b = false;
+
+    a = !a;
+    b = !!b;
+
+
+    if(a == true){
+        println("a = true");
+    }else{
+        println("a = false");
+    }
+    if(b == true){
+        println("b = true");
+    }else{
+        println("b = false");
+    }
+
+
+}

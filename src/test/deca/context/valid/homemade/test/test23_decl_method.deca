@@ -1,0 +1,7 @@
+// test valide de la règle 2.3
+
+
+class A {
+    int get() {}
+    boolean exists() {}
+}

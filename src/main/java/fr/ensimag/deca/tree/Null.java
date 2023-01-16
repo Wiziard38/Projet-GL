@@ -9,6 +9,9 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * Null keyword
+ */
 public class Null extends AbstractExpr {
 
     @Override
@@ -20,20 +23,17 @@ public class Null extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
+        s.print("null");
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
 }

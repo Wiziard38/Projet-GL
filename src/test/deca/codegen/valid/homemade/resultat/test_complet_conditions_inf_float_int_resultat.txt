@@ -1,0 +1,2 @@
+b inf a \n
+c inf b

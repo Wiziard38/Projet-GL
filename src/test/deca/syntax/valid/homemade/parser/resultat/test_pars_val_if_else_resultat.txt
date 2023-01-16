@@ -5,7 +5,7 @@
       |  []> [12, 8] DeclVar
       |      +> [12, 4] Identifier (int)
       |      +> [12, 8] Identifier (x)
-      |      `> Initialization
+      |      `> [12, 12] Initialization
       |         `> [12, 12] Int (3)
       `> ListInst [List with 1 elements]
          []> [13, 4] IfThenElse

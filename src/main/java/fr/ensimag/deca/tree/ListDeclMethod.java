@@ -1,13 +1,50 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-public class ListDeclMethod extends TreeList<AbstractMethod> {
+/*
+ * List of methods' declaration
+ */
+public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
+        for (AbstractDeclMethod m : getList()) {
+            m.decompile(s);
+            s.println();
+            s.println();
+        }
     }
+
+    /**
+     * TODO
+     */    
+    public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef, 
+            AbstractIdentifier superClass) throws ContextualError {
+        
+        for (AbstractDeclMethod myMethod : this.getList()) {
+            myMethod.verifyEnvMethod(compiler, currentClassDef, superClass);
+        }
+    }
+
+    /**
+     * TODO
+     * @param compiler
+     * @param currentClass
+     * @param superClass
+     * @throws ContextualError
+     */
+    public void verifyListDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError {
+        
+        for (AbstractDeclMethod myMethod : this.getList()) {
+            myMethod.verifyBodyMethod(compiler, currentClassDef);
+        }
+    }
+
+
 
 }

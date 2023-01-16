@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 11 : Erreur (oubli de "class")
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+iden1 extends iden3{
+
+}

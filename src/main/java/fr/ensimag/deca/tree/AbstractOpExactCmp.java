@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -25,13 +27,12 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        
+
         Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
-        
-    
+
         if (typeLeft.isBoolean() && typeRight.isBoolean()) {
-            
+
             this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }
@@ -42,7 +43,7 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         try {
             returnType = super.verifyExpr(compiler, localEnv, currentClass);
         } catch (Exception ContextualException) {
-            throw new ContextualError("Comparaison d'egalité ni sur des nombres, ni des booleans", 
+            throw new ContextualError("Comparaison d'egalité ni sur des nombres, ni des booleans",
                     this.getLocation()); // Rule 3.33
         }
 
@@ -51,13 +52,9 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
 
     @Override
     protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getLeftOperand().getType().isFloat() && !this.getLeftOperand().getType().isInt()
-                && !this.getLeftOperand().getType().isBoolean()) {
-            throw new DecacInternalError("Not both operand of " + this.toString() + " are of Type int or float or boolean");
-        }
-        if (!this.getType().isBoolean()) {
-            throw new DecacInternalError("OpCmp " + this.toString() + " is not of Type boolean");
-        }
+        Validate.isTrue(this.getType().isBoolean());
+        Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getLeftOperand().getType().isFloat()
+                || this.getLeftOperand().getType().isBoolean());
     }
 }

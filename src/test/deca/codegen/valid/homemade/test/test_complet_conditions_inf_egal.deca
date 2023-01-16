@@ -1,0 +1,15 @@
+{
+    int a = 20;
+    int b = 10;
+    int c = 20;
+
+    if(b <= a){
+        println("b inf a");
+    }
+    if(a <= c){
+        println("a = c");
+    }
+    if(a <= b){
+        println("erreur");
+    }
+}

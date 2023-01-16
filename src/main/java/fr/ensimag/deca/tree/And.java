@@ -1,12 +1,9 @@
 package fr.ensimag.deca.tree;
 
-import org.apache.log4j.helpers.Loader;
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.SUB;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
@@ -28,8 +25,8 @@ public class And extends AbstractOpBool {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler){
-        Label labelOneFalse = new Label("OneFalse" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
-        Label labelFin = new Label("FinComp" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelOneFalse = new Label("OneFalseAnd" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelFin = new Label("FinCompAnd" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         int nActualLeft;
         if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()){
             compiler.setD(compiler.getD() + 2);
@@ -55,7 +52,7 @@ public class And extends AbstractOpBool {
             nActualLeft = compiler.getN() + 1;
             this.getLeftOperand().codeGenInst(compiler);
             compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualLeft)));
-        compiler.addInstruction(new BNE(labelOneFalse));
+            compiler.addInstruction(new BNE(labelOneFalse));
             if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()){
                 compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
                 compiler.setD(compiler.getD() + 1);
@@ -73,8 +70,8 @@ public class And extends AbstractOpBool {
                 int nActualRight = compiler.getN()+1;
                 this.getRightOperand().codeGenInst(compiler);
                 compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualRight)));
-            compiler.addInstruction(new BNE(labelOneFalse));
-            compiler.addInstruction(new BRA(labelFin));
+                compiler.addInstruction(new BNE(labelOneFalse));
+                compiler.addInstruction(new BRA(labelFin));
             }
         }
         compiler.addLabel(labelOneFalse);

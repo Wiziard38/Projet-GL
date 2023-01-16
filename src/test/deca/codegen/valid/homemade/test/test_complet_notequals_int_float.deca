@@ -1,0 +1,11 @@
+{
+
+    int x = 10;
+    float y = 4.5;
+    if (x != y){
+        println("x != y");
+    }
+    else{
+        println("x = y");
+    }
+}

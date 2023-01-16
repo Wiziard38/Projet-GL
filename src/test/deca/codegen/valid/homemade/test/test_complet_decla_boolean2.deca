@@ -1,0 +1,6 @@
+{
+    boolean b = false;
+    if(b == false){
+        println("b = false");
+    }
+}

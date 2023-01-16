@@ -9,31 +9,35 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/*
+ * This keyword
+ */
 public class This extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        // TODO Auto-generated method stub
-        return null;
+
+        if (currentClass == null) {
+            throw new ContextualError("'This' ne peut être appelé en dehors d'une class", this.getLocation());
+        }
+
+        return currentClass.getType();
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO Auto-generated method stub
-
+        s.print("this");
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        // TODO Auto-generated method stub
-
+        // nothing to do here
     }
 
 }

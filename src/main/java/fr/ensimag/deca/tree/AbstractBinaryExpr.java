@@ -5,8 +5,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -51,7 +49,6 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         this.rightOperand = rightOperand;
     }
 
-
     @Override
     public void decompile(IndentPrintStream s) {
         s.print("(");
@@ -76,205 +73,230 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler){
+    protected void codeGenInst(DecacCompiler compiler) {
         int nActualLeft;
-        if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()){
+        if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
             compiler.setD(compiler.getD() + 2);
             compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
-            compiler.setSP(compiler.getSP()+1);
-            compiler.setN(compiler.getN()-1);
-            nActualLeft = compiler.getN()+1;
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.setN(compiler.getN() - 1);
+            nActualLeft = compiler.getN() + 1;
             this.getLeftOperand().codeGenInst(compiler);
             compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
-            compiler.setSP(compiler.getSP()+1);
-            compiler.setN(compiler.getN()-1);
-            int nActualRight = compiler.getN()+1;
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.setN(compiler.getN() - 1);
+            int nActualRight = compiler.getN() + 1;
             this.getRightOperand().codeGenInst(compiler);
+            compiler.setD(compiler.getD() + 1);
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.addInstruction(new PUSH(Register.getR(nActualRight)));
             switch (getOperatorName()) {
                 case "+":
-                    compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new ADD(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     break;
                 case "-":
-                    compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new SUB(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     break;
                 case "/":
                     if (getLeftOperand().getType().isFloat()) {
-                        compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
-                    }
-                    else {
-                        compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                        compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
+                    } else {
+                        compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                     }
                     break;
                 case "%":
-                    compiler.addInstruction(new REM(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new REM(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     break;
                 case "*":
-                    compiler.addInstruction(new MUL(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new MUL(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     break;
                 case "!=":
-                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     compiler.addInstruction(new SNE(Register.getR(nActualRight)));
                     break;
                 case "==":
-                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     compiler.addInstruction(new SEQ(Register.getR(nActualRight)));
                     break;
                 case ">":
-                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     compiler.addInstruction(new SGT(Register.getR(nActualRight)));
                     break;
                 case ">=":
-                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     compiler.addInstruction(new SGE(Register.getR(nActualRight)));
                     break;
                 case "<":
-                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     compiler.addInstruction(new SLT(Register.getR(nActualRight)));
                     break;
                 case "<=":
-                    compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                    compiler.addInstruction(
+                            new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                     compiler.addInstruction(new SLE(Register.getR(nActualRight)));
                     break;
-                }
-                compiler.addInstruction(new POP(Register.R0));
-                compiler.setSP(compiler.getSP() - 1);
-        }
-        else{
+            }
+            compiler.addInstruction(new POP(Register.R0));
+            compiler.addInstruction(new POP(Register.R0));
+            compiler.setSP(compiler.getSP() - 2);
+        } else {
             nActualLeft = compiler.getN() + 1;
             this.getLeftOperand().codeGenInst(compiler);
-            if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()){
+            if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
                 compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
                 compiler.setD(compiler.getD() + 1);
-                compiler.setSP(compiler.getSP()+1);
-                compiler.setN(compiler.getN()-1);
-                int nActualRight = compiler.getN()+1;
+                compiler.setSP(compiler.getSP() + 1);
+                compiler.setN(compiler.getN() - 1);
+                int nActualRight = compiler.getN() + 1;
                 this.getRightOperand().codeGenInst(compiler);
+                compiler.setD(compiler.getD() + 1);
+                compiler.setSP(compiler.getSP() + 1);
+                compiler.addInstruction(new PUSH(Register.getR(nActualRight)));
+                compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getSP()-1, Register.GB), Register.getR(nActualRight)));
                 switch (getOperatorName()) {
                     case "+":
-                        compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                        compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
                         break;
                     case "-":
-                        compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                        compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         break;
                     case "/":
                         if (getLeftOperand().getType().isFloat()) {
-                            compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
-                        }
-                        else {
-                            compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                            compiler.addInstruction(new DIV(new RegisterOffset(compiler.getSP(), Register.GB),
+                                    Register.getR(nActualRight)));
+                        } else {
+                            compiler.addInstruction(new QUO(new RegisterOffset(compiler.getSP(), Register.GB),
+                                    Register.getR(nActualRight)));
                         }
                         break;
                     case "%":
-                        compiler.addInstruction(new REM(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                        compiler.addInstruction(new REM(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         break;
                     case "*":
-                        compiler.addInstruction(new MUL(new RegisterOffset(compiler.getSP(), Register.GB),Register.getR(nActualRight)));
+                        compiler.addInstruction(new MUL(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         break;
                     case "!=":
-                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         compiler.addInstruction(new SNE(Register.getR(nActualRight)));
                         break;
                     case "==":
-                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         compiler.addInstruction(new SEQ(Register.getR(nActualRight)));
                         break;
                     case ">":
-                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         compiler.addInstruction(new SGT(Register.getR(nActualRight)));
                         break;
                     case ">=":
-                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         compiler.addInstruction(new SGE(Register.getR(nActualRight)));
                         break;
                     case "<":
-                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         compiler.addInstruction(new SLT(Register.getR(nActualRight)));
                         break;
                     case "<=":
-                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new CMP(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         compiler.addInstruction(new SLE(Register.getR(nActualRight)));
                         break;
                 }
-                compiler.setSP(compiler.getSP() - 1);
+                compiler.setSP(compiler.getSP() - 2);
                 compiler.addInstruction(new POP(Register.getR(0)));
-            }
-            else {
-                int nActualRight = compiler.getN()+1;
+                compiler.addInstruction(new POP(Register.getR(0)));
+            } else {
+                int nActualRight = compiler.getN() + 1;
                 this.getRightOperand().codeGenInst(compiler);
+                
                 switch (getOperatorName()) {
                     case "+":
-                        compiler.addInstruction(new ADD(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new ADD(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         break;
                     case "-":
-                        compiler.addInstruction(new SUB(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new SUB(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         break;
                     case "/":
                         if (getLeftOperand().getType().isFloat()) {
-                            compiler.addInstruction(new DIV(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                            compiler.addInstruction(new DIV(Register.getR(nActualRight), Register.getR(nActualLeft)));
+                            compiler.addInstruction(new CMP(new ImmediateFloat(0), Register.getR(nActualLeft)));
+                            compiler.addInstruction(new BEQ(compiler.getErreurArrondi()));
+                        } else {
+                            compiler.addInstruction(new QUO(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         }
-                        else {
-                            compiler.addInstruction(new QUO(Register.getR(nActualRight),Register.getR(nActualLeft)));
-                        }
-                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
                         break;
                     case "%":
-                        compiler.addInstruction(new REM(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new REM(Register.getR(nActualRight), Register.getR(nActualLeft)));
+                        compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
                         break;
                     case "*":
-                        compiler.addInstruction(new MUL(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new MUL(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         break;
                     case "!=":
-                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         compiler.addInstruction(new SNE(Register.getR(nActualLeft)));
                         break;
                     case "==":
-                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         compiler.addInstruction(new SEQ(Register.getR(nActualLeft)));
                         break;
                     case ">":
-                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         compiler.addInstruction(new SGT(Register.getR(nActualLeft)));
                         break;
                     case ">=":
-                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         compiler.addInstruction(new SGE(Register.getR(nActualLeft)));
                         break;
                     case "<":
-                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         compiler.addInstruction(new SLT(Register.getR(nActualLeft)));
                         break;
                     case "<=":
-                        compiler.addInstruction(new CMP(Register.getR(nActualRight),Register.getR(nActualLeft)));
+                        compiler.addInstruction(new CMP(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         compiler.addInstruction(new SLE(Register.getR(nActualLeft)));
                         break;
                 }
             }
         }
+        if (this.getType().isFloat()) {
+            compiler.addInstruction(new BOV(compiler.getErreurOverflow()));
+        }
         compiler.setN(nActualLeft);
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler){
-        int nActualLeft = compiler.getN()+1;
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+        int nActualLeft = compiler.getN() + 1;
         this.codeGenInst(compiler);
         if (this.getType().isInt()) {
             compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.getR(1)));
-            compiler.addInstruction(new LOAD(Register.getR(nActualLeft),Register.getR(1)));
+            compiler.addInstruction(new LOAD(Register.getR(nActualLeft), Register.getR(1)));
             compiler.addInstruction(new WINT());
-        }
-        else {
+        } else {
             compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.getR(1)));
-            compiler.addInstruction(new LOAD(Register.getR(nActualLeft),Register.getR(1)));
+            compiler.addInstruction(new LOAD(Register.getR(nActualLeft), Register.getR(1)));
             compiler.addInstruction(new WFLOAT());
         }
-        compiler.setN(nActualLeft-1);
+        compiler.setN(nActualLeft - 1);
     }
 
-    @Override
-    protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getLeftOperand().getType().sameType(this.getRightOperand().getType())) {
-            throw new DecacInternalError("Both operand of " + this.toString() + " have a different Type");
-        }   
-    }
 }

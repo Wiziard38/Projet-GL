@@ -75,7 +75,10 @@ fragment DEC: NUM DOT NUM;
 fragment FLOATDEC: (DEC | DEC EXP) ('F' | 'f')?;
 fragment DIGITHEX: (DIGIT | 'A' .. 'F' | 'a' .. 'f');
 fragment NUMHEX: DIGITHEX+;
-fragment FLOATHEX: ('0x' | '0X') NUMHEX DOT NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f')?;
+fragment FLOATHEX: ('0x' | '0X') NUMHEX DOT NUMHEX ('P' | 'p') SIGN NUM (
+		'F'
+		| 'f'
+	)?;
 FLOAT: FLOATDEC | FLOATHEX;
 
 // Separateurs
@@ -87,9 +90,10 @@ MULTI_LINE_STRING: '"' .*? '"';
 
 // Commentaires
 COMMENT:
-	'//' ~('\n' | '\r' )* '\r'? ('\n' | EOF) {skip();}
+	'//' ~('\n' | '\r')* '\r'? ('\n' | EOF) {skip();}
 	| '/*' .*? '*/' {skip();};
 
 // Includes
-FILENAME: (LETTER | DIGIT | DOT | '-' | '_')+;
-INCLUDE: '#include' (' ')* '"' FILENAME '"';
+fragment FILENAME: (LETTER | DIGIT | DOT | '-' | '_')+;
+INCLUDE:
+	'#include' (' ')* '"' FILENAME '"' {doInclude(getText());};

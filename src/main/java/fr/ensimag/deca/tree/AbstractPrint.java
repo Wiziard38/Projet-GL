@@ -40,36 +40,36 @@ public abstract class AbstractPrint extends AbstractInst {
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         Validate.notNull(localEnv);
-        
+
         for (AbstractExpr myExpr : this.arguments.getList()) {
             Type myExprType = myExpr.verifyExpr(compiler, localEnv, currentClass);
             if (!myExprType.isFloat() && !myExprType.isInt() && !myExprType.isString()) {
-                
-                throw new ContextualError(String.format("Print ne peut pas afficher une expression de type '%s'", 
+
+                throw new ContextualError(String.format("Print ne peut pas afficher une expression de type '%s'",
                         myExprType.toString()), myExpr.getLocation()); // Rule 3.31
-                }
+            }
         }
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         for (AbstractExpr a : getArguments().getList()) {
-            a.codeGenPrint(compiler);
+            a.codeGenPrint(compiler, printHex);
         }
     }
 
-    private boolean getPrintHex() {
+    public boolean getPrintHex() {
         return printHex;
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TO DO: tenir compte de printHex !!!
-        s.print("print" + getSuffix() + "( ");
-        for (AbstractExpr e : arguments.getList()) {
-            e.decompile(s);
-            s.print(" ");
+        s.print("print" + getSuffix());
+        if (printHex) {
+            s.print("x");
         }
+        s.print("(");
+        this.arguments.decompile(s);
         s.print(");");
     }
 

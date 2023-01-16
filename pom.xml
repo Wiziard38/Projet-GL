@@ -239,7 +239,7 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- <execution>
+                    <execution>
                         <id>basic-gencode</id>
                         <configuration>
                             <executable>./src/test/script/basic-gencode.sh</executable>
@@ -248,7 +248,7 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                    </execution> -->
+                    </execution>
                     <execution>
                         <id>basic-decac</id>
                         <configuration>
@@ -259,7 +259,7 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- <execution>
+                    <execution>
                         <id>common-tests</id>
                         <configuration>
                             <executable>./src/test/script/common-tests.sh</executable>
@@ -268,7 +268,7 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                    </execution> -->
+                    </execution>
                     <execution>
                         <id>test-decompile</id>
                         <configuration>
@@ -299,7 +299,7 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- <execution>
+                    <execution>
                         <id>test-deca</id>
                         <configuration>
                             <executable>./src/test/script/test_codegen_complet.sh</executable>
@@ -308,7 +308,7 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                    </execution> -->
+                    </execution>
                     <execution>
                         <id>test-lexer</id>
                         <configuration>

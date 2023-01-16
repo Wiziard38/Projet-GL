@@ -18,6 +18,7 @@ options {
 @header {
         import fr.ensimag.deca.tree.*;
         import java.io.PrintStream;
+        import fr.ensimag.deca.syntax.InvalidFloatInput;
 }
 
 @members {
@@ -469,6 +470,12 @@ literal
         }
 	| fd = FLOAT {
                 try {
+                        if (Float.valueOf($fd.text) < Float.MIN_VALUE) {
+                                throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.LOW);
+                        }
+                        if (Float.valueOf($fd.text) > Float.MAX_VALUE) {
+                                throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.HIGH);
+                        }
                         $tree = new FloatLiteral(Float.parseFloat($fd.text));
                         setLocation($tree, $fd);
                 } catch (NumberFormatException e) {

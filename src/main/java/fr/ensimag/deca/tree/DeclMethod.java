@@ -15,6 +15,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
 
 import org.apache.log4j.Logger;
 
@@ -128,5 +129,9 @@ public class DeclMethod extends AbstractDeclMethod {
         this.parameters.verifyEnvParams(compiler, localEnv);
         Type returnTypeNonVoid = this.returnType.verifyType(compiler, true, "un return de méthode"); // Rule 3.24
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
+    }
+
+    protected void codeGenDeclMethode(DecacCompiler compiler, AbstractIdentifier className){
+        compiler.environmentType.getClass(className.getName()).addMethodLabel(new Label(this.name.toString()));
     }
 }

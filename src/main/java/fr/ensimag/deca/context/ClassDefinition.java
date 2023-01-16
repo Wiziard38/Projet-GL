@@ -1,7 +1,12 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.Label;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -12,6 +17,15 @@ import org.apache.commons.lang.Validate;
  */
 public class ClassDefinition extends TypeDefinition {
 
+    private DAddr operand;
+
+    public DAddr getOperand(){
+        return operand;
+    }
+
+    public void setOperand(DAddr operand){
+        this.operand = operand;
+    }
 
     public void setNumberOfFields(int numberOfFields) {
         this.numberOfFields = numberOfFields;
@@ -60,6 +74,16 @@ public class ClassDefinition extends TypeDefinition {
 
     private final EnvironmentExp members;
     private final ClassDefinition superClass; 
+
+    private ArrayList<Label> methodLabelArray= new ArrayList<Label>();
+
+    public void addMethodLabel(Label methodLabel){
+        methodLabelArray.add(methodLabel);
+    }
+
+    public Iterator<Label> getAllLabelMethod(){
+        return methodLabelArray.iterator();
+    }
 
     public EnvironmentExp getMembers() {
         return members;

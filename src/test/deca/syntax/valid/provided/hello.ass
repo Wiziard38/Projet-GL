@@ -1,15 +1,10 @@
-	TSTO #1
+	TSTO #0
 	BOV ErreurPile
 ; start main program
+	LOAD Test, R1
+; Class declaration
 ; Main program
-	ADDSP #1
-	RFLOAT
-	LOAD R1, R2
-	BOV io_error
-	STORE R1, 1(GB)
 ; Beginning of main instructions:
-	LOAD 1(GB), R1
-	WFLOAT
 	HALT
 ; End of the main program
 ErreurPile:
@@ -21,7 +16,11 @@ overflof_error:
 	WNL
 	ERROR
 io_error:
-	WSTR "Erreur lorsd d'une entrée/sortie"
+	WSTR "Erreur lors d'une entrée/sortie"
+	WNL
+	ERROR
+ErreurArrondi:
+	WSTR "Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini"
 	WNL
 	ERROR
 	HALT

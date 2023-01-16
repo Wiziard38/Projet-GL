@@ -2,6 +2,7 @@ package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.Visibility;
+import fr.ensimag.ima.pseudocode.DAddr;
 
 /**
  * Definition of a field (data member of a class).

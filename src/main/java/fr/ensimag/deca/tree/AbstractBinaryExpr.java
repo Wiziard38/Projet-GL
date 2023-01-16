@@ -5,8 +5,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -239,6 +237,8 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                     case "/":
                         if (getLeftOperand().getType().isFloat()) {
                             compiler.addInstruction(new DIV(Register.getR(nActualRight), Register.getR(nActualLeft)));
+                            compiler.addInstruction(new CMP(new ImmediateFloat(0), Register.getR(nActualLeft)));
+                            compiler.addInstruction(new BEQ(compiler.getErreurArrondi()));
                         } else {
                             compiler.addInstruction(new QUO(Register.getR(nActualRight), Register.getR(nActualLeft)));
                         }

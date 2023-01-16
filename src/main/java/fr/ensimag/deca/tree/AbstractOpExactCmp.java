@@ -54,7 +54,7 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
     protected void checkDecoration() {
         Validate.isTrue(this.getType().isBoolean());
         Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat()
+        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getLeftOperand().getType().isFloat()
                 || this.getLeftOperand().getType().isBoolean());
     }
 }

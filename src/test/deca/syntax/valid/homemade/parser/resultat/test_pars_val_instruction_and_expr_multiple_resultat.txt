@@ -4,7 +4,7 @@
       +> ListDeclVar [List with 0 elements]
       `> ListInst [List with 1 elements]
          []> [12, 4] And
-             +> [12, 4] And
+             +> [12, 22] And
              |  +> [12, 4] Identifier (instruction_bidon)
-             |  `> [12, 24] Identifier (instruction_bidon2)
-             `> [12, 46] Identifier (instruction_bidon3)
+             |  `> [12, 25] Identifier (instruction_bidon2)
+             `> [12, 47] Identifier (instruction_bidon3)

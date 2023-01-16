@@ -9,21 +9,26 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
+
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+
 /**
  * @author gl39
  * @date 01/01/2023
  */
 public class DeclVar extends AbstractDeclVar {
+    private static final Logger LOG = Logger.getLogger(DeclVar.class);
 
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
 
     public DeclVar(AbstractIdentifier type, AbstractIdentifier varName, AbstractInitialization initialization) {
+
         Validate.notNull(type);
         Validate.notNull(varName);
         Validate.notNull(initialization);
@@ -32,7 +37,7 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
-    protected void codeGenVar(DecacCompiler compiler){
+    protected void codeGenVar(DecacCompiler compiler) {
         compiler.setD(compiler.getD() + 1);
         compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));
         int spActual = compiler.getSP() + 1;
@@ -50,10 +55,12 @@ public class DeclVar extends AbstractDeclVar {
             throws ContextualError {
         Validate.notNull(localEnv);
 
+        LOG.debug("Verify Decl Var - type");
         // On verifie que le type existe bien
         Type initializationType = this.type.verifyType(compiler, true, "une variable");
         // this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
 
+        LOG.debug("Verify Decl Var - name");
         // On verifie que varName n'est pas deja declare localement
         try {
             this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
@@ -65,6 +72,7 @@ public class DeclVar extends AbstractDeclVar {
                     this.getLocation()); // Rule 3.17
         }
 
+        LOG.debug("Verify Decl Var - initialization");
         this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);
 
     }
@@ -74,10 +82,7 @@ public class DeclVar extends AbstractDeclVar {
         type.decompile(s);
         s.print(" ");
         varName.decompile(s);
-        if (initialization instanceof Initialization) {
-            s.print(" = ");
-            initialization.decompile(s);
-        }
+        initialization.decompile(s);
         s.print(";");
     }
 

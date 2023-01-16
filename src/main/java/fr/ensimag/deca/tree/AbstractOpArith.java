@@ -37,7 +37,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 this.setType(compiler.environmentType.FLOAT);
                 ConvFloat newTreeNode = new ConvFloat(this.getRightOperand());
                 this.setRightOperand(newTreeNode);
-                newTreeNode.setType(compiler.environmentType.FLOAT);
+                newTreeNode.verifyExpr(compiler, localEnv, currentClass);
                 return compiler.environmentType.FLOAT;
             }
             if (typeRight.isFloat()) {
@@ -57,7 +57,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 this.setType(compiler.environmentType.FLOAT);
                 ConvFloat newTreeNode = new ConvFloat(this.getLeftOperand());
                 this.setLeftOperand(newTreeNode);
-                newTreeNode.setType(compiler.environmentType.FLOAT);
+                newTreeNode.verifyExpr(compiler, localEnv, currentClass);
                 return compiler.environmentType.FLOAT;
             }
         }
@@ -66,8 +66,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
 
     @Override
     protected void checkDecoration() {
-        Validate.isTrue(this.getType().sameType(this.getRightOperand().getType()));
+        Validate.isTrue(this.getType().sameType(this.getLeftOperand().getType()));
         Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
-        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getRightOperand().getType().isFloat());
+        Validate.isTrue(this.getLeftOperand().getType().isInt() || this.getLeftOperand().getType().isFloat());
     }
 }

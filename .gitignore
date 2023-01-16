@@ -13,7 +13,6 @@
 .DS_STORE
 .gitconfig
 .vscode/
-src/test/deca/syntax/valid/homeMade
 
 # Compilation
 docker/*

@@ -299,11 +299,4 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         compiler.setN(nActualLeft - 1);
     }
 
-    @Override
-    protected void checkDecoration() {
-        super.checkDecoration();
-        if (!this.getLeftOperand().getType().sameType(this.getRightOperand().getType())) {
-            throw new DecacInternalError("Both operand of " + this.toString() + " have a different Type");
-        }
-    }
 }

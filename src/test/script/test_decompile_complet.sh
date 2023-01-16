@@ -96,14 +96,14 @@ test_decompile_valide () {
 }    
 
 echo "-------------------------------------------------------"
-echo -e "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 
 for cas_de_test in $(find $base_dir -type f -name "*.deca" ! -path "*lexer*")
 do
     test_decompile_valide "$cas_de_test"
     printf "\033[1A"
-    echo -e "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"   
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+
 done
 
-echo ""
 echo "-------------------------------------------------------"

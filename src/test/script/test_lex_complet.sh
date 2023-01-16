@@ -11,11 +11,14 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-script_dir=$(cd $(dirname $0) && pwd)
-PATH=./src/test/script/launchers:"$PATH"
 
-# Obtenir le répertoire où sont les tests
-input_dir="$script_dir/../deca/syntax/valid/homemade/lexer"
+cd "$(dirname "$0")"/../../.. || exit 1
+source_dir=$(pwd)
+PATH=$source_dir/src/test/script/launchers:"$PATH"
+
+# On recupere le directory d'entree
+input_dir="$source_dir/src/test/deca/syntax/valid/homemade/lexer"
+
 
 total_test=$(find $input_dir/test/ -type f -name "*.deca" | wc -l)
 total_valid=0
@@ -26,58 +29,69 @@ echo ""
 echo "                LEXER - VALID TESTS                    "
 
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+printf "\033[1A"
 
 for fichier in $input_dir/test/*.deca
 do
     nom=${fichier##*/}
-    test_lex "$fichier" 2>&1 > actual
-    if ! diff -Z actual "$input_dir/resultat/${nom%.deca}_resultat.txt" &> /dev/null
+    test_lex "$fichier" &> actual
+    echo ""
+    if ! diff -w actual "$input_dir/resultat/${nom%.deca}_resultat.txt" &> /dev/null
     then
         total_failed=$((total_failed+1))
-        echo ""
-        echo -e "${RED}Erreur non soulevée pour $fichier.${NC}"
+        echo -e "${RED}Erreur non soulevée pour ${NC}$fichier"
         echo ""
     else 
         total_valid=$((total_valid+1))
     fi
-    # printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}         ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+
+    printf "\033[1A"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+    printf "\033[1A"
 
 done
 
 echo ""
 
-input_dir="$script_dir/../deca/syntax/invalid/homemade/lexer"
+input_dir="$source_dir/src/test/deca/syntax/invalid/homemade/lexer"
 
 total_test=$(find $input_dir/test/ -type f -name "*.deca" | wc -l)
 total_valid=0
 total_failed=0
 
-
+echo "-------------------------------------------------------"
 echo ""
 echo "               LEXER - INVALID TESTS                   "
 
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+printf "\033[1A"
 
 for fichier in $input_dir/test/*.deca
 do
     nom=${fichier##*/}
-    t=$(test_lex "$fichier" 2>&1 >actual)
-    if ! diff -Z actual "$input_dir/resultat/${nom%.deca}_resultat.txt"
-    then
-        total_failed=$((total_failed+1))
-        echo ""
-        echo -e "${RED}Erreur non soulevée pour $fichier.${NC}"
-        echo ""
+    t=$(test_lex "$fichier" > actual 2> actualErr)
+    echo ""
+    if ! diff -w actual "$input_dir/resultat/${nom%.deca}_resultat.txt" >/dev/null; then
+        if ! diff -w actualErr "$input_dir/resultat/${nom%.deca}_resultat.txt" >/dev/null; then
+            total_valid=$((total_valid+1))
+        else
+            total_failed=$((total_failed+1))
+            echo -e "${RED}Erreur non soulevée pour ${NC}$fichier"
+            echo ""
+            exit 1
+        fi
     else 
         total_valid=$((total_valid+1))
     fi
-    # printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+
+    printf "\033[1A"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+    printf "\033[1A"
 done
 
 echo ""
+echo "-------------------------------------------------------"
 
-rm actual
+rm actual actualErr

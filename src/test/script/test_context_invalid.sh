@@ -48,13 +48,13 @@ test_context_invalide () {
 
 
 echo "-------------------------------------------------------"
-echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 
 for cas_de_test in $(find $input_dir -name "*.deca")
 do
     test_context_invalide "$cas_de_test"
     printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}        ${RED}FAILED: $total_failed  ${NC}         TOTAL: $total_test"
+    echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 done
 
 echo "-------------------------------------------------------"

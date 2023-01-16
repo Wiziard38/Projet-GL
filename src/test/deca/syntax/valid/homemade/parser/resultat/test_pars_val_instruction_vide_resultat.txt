@@ -3,4 +3,4 @@
    `> [11, 0] Main
       +> ListDeclVar [List with 0 elements]
       `> ListInst [List with 1 elements]
-         []> NoOperation
+         []> [12, 4] NoOperation

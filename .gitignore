@@ -13,6 +13,7 @@
 .DS_STORE
 .gitconfig
 .vscode/
+src/main/java/fr/ensimag/arm/
 
 # Compilation
 docker/*

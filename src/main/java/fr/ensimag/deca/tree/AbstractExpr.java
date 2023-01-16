@@ -148,13 +148,13 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
-        if(this.getType().sameType(compiler.environmentType.INT)){
+        if(this.getType().isInt()){
             compiler.setN(compiler.getN()+1);
             IntLiteral intExpr = (IntLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(1)));
             compiler.addInstruction(new WINT());
         }
-        if(this.getType().sameType(compiler.environmentType.FLOAT)){
+        if(this.getType().isFloat()){
             compiler.setN(compiler.getN()+1);
             FloatLiteral intExpr = (FloatLiteral)this;
             compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));

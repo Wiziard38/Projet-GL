@@ -59,6 +59,12 @@ public class DecacCompiler {
         return erreurOverflow;
     }
 
+    private Label erreurArondi = new Label("ErreurArrondi");
+
+    public Label getErreurArrondi(){
+        return erreurArondi;
+    }
+
     private Label erreurInOut = new Label("io_error");
 
     public Label getErreurinOut() {

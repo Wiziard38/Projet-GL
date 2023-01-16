@@ -17,6 +17,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 import java.io.PrintStream;
@@ -45,7 +46,13 @@ public class Identifier extends AbstractIdentifier {
                 compiler.addInstruction(new WINT());
             }
             else {
-                compiler.addInstruction(new WFLOAT());
+                if (!printHex) {
+                    compiler.addInstruction(new WFLOAT());
+                }
+                else {
+                    compiler.addInstruction(new WFLOATX());
+                }
+                
             }
         }
 

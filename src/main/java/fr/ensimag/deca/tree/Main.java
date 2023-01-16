@@ -71,6 +71,10 @@ public class Main extends AbstractMain {
         compiler.addInstruction(new WSTR("Erreur lors d'une entrée/sortie"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
+        compiler.addLabel(compiler.getErreurArrondi() );
+        compiler.addInstruction(new WSTR("Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
         compiler.addInstructionFirst(new BOV(compiler.getErreurPile()));
         compiler.addInstructionFirst(new TSTO(compiler.getD()));
     }

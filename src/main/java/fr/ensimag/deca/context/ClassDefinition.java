@@ -1,8 +1,8 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.pseudocode.DAddr;
+import fr.ensimag.pseudocode.Label;
 
 import java.util.ArrayList;
 import java.util.Iterator;

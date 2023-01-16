@@ -3,17 +3,13 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.BOV;
-import fr.ensimag.ima.pseudocode.instructions.ERROR;
-import fr.ensimag.ima.pseudocode.instructions.HALT;
-import fr.ensimag.ima.pseudocode.instructions.TSTO;
-import fr.ensimag.ima.pseudocode.instructions.WNL;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
-
-import static org.mockito.ArgumentMatchers.nullable;
+import fr.ensimag.superInstructions.SuperBOV;
+import fr.ensimag.superInstructions.SuperERROR;
+import fr.ensimag.superInstructions.SuperHALT;
+import fr.ensimag.superInstructions.SuperTSTO;
+import fr.ensimag.superInstructions.SuperWNL;
+import fr.ensimag.superInstructions.SuperWSTR;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -39,14 +35,13 @@ public class Main extends AbstractMain {
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
-        
+
         EnvironmentExp localEnv = new EnvironmentExp(null);
         this.declVariables.verifyListDeclVariable(compiler, localEnv, null);
 
         LOG.debug(String.format("symbol : %s", compiler.symbolTable.getTable().get("x")));
         LOG.debug(String.format("env : %s", localEnv.getLocalEnv().toString()));
 
-        
         this.insts.verifyListInst(compiler, localEnv, null, null);
         LOG.debug("verify Main: end");
     }
@@ -57,26 +52,30 @@ public class Main extends AbstractMain {
         this.declVariables.codeGenListVar(compiler);
         compiler.addComment("Beginning of main instructions:");
         insts.codeGenListInst(compiler);
-        compiler.addInstruction(new HALT());
+        compiler.addInstruction(SuperHALT.main(compiler.compileInArm()));
         compiler.addComment("End of the main program");
         compiler.addLabel(compiler.getErreurPile());
-        compiler.addInstruction(new WSTR("Erreur de débordement de pile dans le programme"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
-        compiler.addLabel(compiler.getErreurOverflow() );
-        compiler.addInstruction(new WSTR("Erreur 'overflow' pendant une opération arithmétique"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
-        compiler.addLabel(compiler.getErreurinOut() );
-        compiler.addInstruction(new WSTR("Erreur lors d'une entrée/sortie"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
-        compiler.addLabel(compiler.getErreurArrondi() );
-        compiler.addInstruction(new WSTR("Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
-        compiler.addInstructionFirst(new BOV(compiler.getErreurPile()));
-        compiler.addInstructionFirst(new TSTO(compiler.getD()));
+        compiler.addInstruction(
+                SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
+        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        compiler.addLabel(compiler.getErreurOverflow());
+        compiler.addInstruction(
+                SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique", compiler.compileInArm()));
+        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        compiler.addLabel(compiler.getErreurinOut());
+        compiler.addInstruction(SuperWSTR.main("Erreur lors d'une entrée/sortie", compiler.compileInArm()));
+        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        compiler.addLabel(compiler.getErreurArrondi());
+        compiler.addInstruction(
+                SuperWSTR.main("Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini",
+                        compiler.compileInArm()));
+        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        compiler.addInstructionFirst(SuperBOV.main(compiler.getErreurPile(), compiler.compileInArm()));
+        compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(), compiler.compileInArm()));
     }
 
     @Override

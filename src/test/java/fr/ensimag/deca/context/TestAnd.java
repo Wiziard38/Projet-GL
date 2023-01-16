@@ -33,7 +33,7 @@ public class TestAnd {
     public void setup() throws ContextualError {
         //MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
-        compiler = new DecacCompiler(null, null);
+        compiler = new DecacCompiler(null, null, false);
         when(booleanexpr1.verifyExpr(compiler, null, null)).thenReturn(BOOLEAN);
         when(booleanexpr2.verifyExpr(compiler, null, null)).thenReturn(BOOLEAN);
     }

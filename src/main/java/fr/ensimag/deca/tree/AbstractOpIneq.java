@@ -4,12 +4,12 @@ import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.SGE;
-import fr.ensimag.ima.pseudocode.instructions.SGT;
-import fr.ensimag.ima.pseudocode.instructions.SLE;
-import fr.ensimag.ima.pseudocode.instructions.SLT;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperSGE;
+import fr.ensimag.superInstructions.SuperSGT;
+import fr.ensimag.superInstructions.SuperSLE;
+import fr.ensimag.superInstructions.SuperSLT;
 
 /**
  *

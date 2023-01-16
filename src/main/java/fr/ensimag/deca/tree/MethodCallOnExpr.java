@@ -13,8 +13,8 @@ public class MethodCallOnExpr extends MethodCallOnVoid {
 
     private AbstractExpr expr;
 
-    public MethodCallOnExpr(AbstractExpr e, AbstractIdentifier name, ListExpr args) {
-        super(name, args);
+    public MethodCallOnExpr(AbstractExpr e, AbstractIdentifier getFieldIdent, ListExpr args) {
+        super(getFieldIdent, args);
         Validate.notNull(e);
         expr = e;
     }
@@ -23,7 +23,7 @@ public class MethodCallOnExpr extends MethodCallOnVoid {
     public void decompile(IndentPrintStream s) {
         expr.decompile(s);
         s.print(".");
-        getName().decompile(s);
+        getFieldIdent().decompile(s);
         s.print("(");
         int count = getArgs().size();
         for (AbstractExpr e : getArgs().getList()) {
@@ -38,13 +38,13 @@ public class MethodCallOnExpr extends MethodCallOnVoid {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        getName().prettyPrint(s, prefix, false);
+        getFieldIdent().prettyPrint(s, prefix, false);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
         expr.iter(f);
-        getName().iter(f);
+        getFieldIdent().iter(f);
         getArgs().iter(f);
     }
 

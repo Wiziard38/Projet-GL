@@ -6,8 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateString;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.superInstructions.SuperWSTR;
 import java.io.PrintStream;
 import org.apache.log4j.Logger;
 
@@ -44,7 +43,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
-        compiler.addInstruction(new WSTR(this.value.replaceAll("\"", "")));
+        compiler.addInstruction(SuperWSTR.main(this.value.replaceAll("\"", ""), compiler.compileInArm()));
     }
 
     @Override

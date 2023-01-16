@@ -70,10 +70,8 @@ public class DeclClass extends AbstractDeclClass {
         s.print(" extends ");
         superclass.decompile(s);
         s.println(" {");
-        s.println();
         s.indent();
         fields.decompile(s);
-        s.println();
         methods.decompile(s);
         s.unindent();
         s.println("}");

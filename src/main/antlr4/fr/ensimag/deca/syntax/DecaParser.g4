@@ -593,6 +593,7 @@ decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
 		EQUALS e = expr {
                         assert($e.tree != null);
                         init = new Initialization($e.tree);
+                        setLocation(init, $expr.start);
         }
 	)? {
                 assert($v != null);

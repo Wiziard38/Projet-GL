@@ -8,10 +8,10 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.pseudocode.AbstractLine;
+import fr.ensimag.pseudocode.IMAProgram;
+import fr.ensimag.pseudocode.Instruction;
+import fr.ensimag.pseudocode.Label;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +61,7 @@ public class DecacCompiler {
 
     private Label erreurArondi = new Label("ErreurArrondi");
 
-    public Label getErreurArrondi(){
+    public Label getErreurArrondi() {
         return erreurArondi;
     }
 
@@ -264,7 +264,7 @@ public class DecacCompiler {
 
         // arret si option -v
         prog.verifyProgram(this);
-        assert(prog.checkAllDecorations());
+        assert (prog.checkAllDecorations());
 
         if (this.getCompilerOptions().getVerification()) {
             return false;

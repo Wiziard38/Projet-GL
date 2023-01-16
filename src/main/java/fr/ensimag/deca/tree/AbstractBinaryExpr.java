@@ -163,10 +163,12 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 compiler.setD(compiler.getD() + 1);
                 compiler.setSP(compiler.getSP() + 1);
                 compiler.addInstruction(new PUSH(Register.getR(nActualRight)));
-                compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getSP()-1, Register.GB), Register.getR(nActualRight)));
+                compiler.addInstruction(
+                        new LOAD(new RegisterOffset(compiler.getSP() - 1, Register.GB), Register.getR(nActualRight)));
                 switch (getOperatorName()) {
                     case "+":
-                        compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB), Register.getR(nActualRight)));
+                        compiler.addInstruction(new ADD(new RegisterOffset(compiler.getSP(), Register.GB),
+                                Register.getR(nActualRight)));
                         break;
                     case "-":
                         compiler.addInstruction(new SUB(new RegisterOffset(compiler.getSP(), Register.GB),
@@ -226,7 +228,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             } else {
                 int nActualRight = compiler.getN() + 1;
                 this.getRightOperand().codeGenInst(compiler);
-                
+
                 switch (getOperatorName()) {
                     case "+":
                         compiler.addInstruction(new ADD(Register.getR(nActualRight), Register.getR(nActualLeft)));

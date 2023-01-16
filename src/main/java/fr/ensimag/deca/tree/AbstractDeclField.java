@@ -9,15 +9,15 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 
 public abstract class AbstractDeclField extends Tree {
 
-    /**
-     * TODO
-     */
-    public abstract void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
-            AbstractIdentifier superClass) throws ContextualError;
+        /**
+         * TODO
+         */
+        public abstract void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
+                        AbstractIdentifier superClass) throws ContextualError;
 
-    /**
-     * TODO
-     */
-    public abstract void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef)
-            throws ContextualError;
+        /**
+         * TODO
+         */
+        public abstract void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef)
+                        throws ContextualError;
 }

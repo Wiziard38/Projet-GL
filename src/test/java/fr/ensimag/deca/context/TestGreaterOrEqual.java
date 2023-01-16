@@ -37,7 +37,7 @@ public class TestGreaterOrEqual {
     public void setup() throws ContextualError {
         //MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
-        compiler = new DecacCompiler(null, null);
+        compiler = new DecacCompiler(null, null, false);
         when(intexpr1.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(intexpr2.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(floatexpr1.verifyExpr(compiler, null, null)).thenReturn(FLOAT);

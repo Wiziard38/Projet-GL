@@ -21,7 +21,7 @@ public class TestReadFloat {
     public void setup() throws ContextualError {
         //MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
-        compiler = new DecacCompiler(null, null);
+        compiler = new DecacCompiler(null, null, false);
     }
 
     @Test

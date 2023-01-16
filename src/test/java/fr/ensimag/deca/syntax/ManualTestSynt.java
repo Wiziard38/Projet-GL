@@ -25,7 +25,7 @@ public class ManualTestSynt {
         if (lex.getSourceName() != null) {
             file = new File(lex.getSourceName());
         }
-        final DecacCompiler decacCompiler = new DecacCompiler(new CompilerOptions(), file);
+        final DecacCompiler decacCompiler = new DecacCompiler(new CompilerOptions(), file, false);
         parser.setDecacCompiler(decacCompiler);
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {

@@ -11,10 +11,10 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperADDSP;
 
 /**
  * @author gl39
@@ -39,7 +39,7 @@ public class DeclVar extends AbstractDeclVar {
 
     protected void codeGenVar(DecacCompiler compiler) {
         compiler.setD(compiler.getD() + 1);
-        compiler.addInstruction(new ADDSP(new ImmediateInteger(1)));
+        compiler.addInstruction(SuperADDSP.main(new ImmediateInteger(1), compiler.compileInArm()));
         int spActual = compiler.getSP() + 1;
         compiler.setSP(compiler.getSP() + 1);
         int nAct = compiler.getN() + 1;

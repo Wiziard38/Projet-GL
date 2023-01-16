@@ -95,10 +95,17 @@ public class DecacCompiler {
         this.SP = SP;
     }
 
-    public DecacCompiler(CompilerOptions compilerOptions, File source) {
+    private boolean compileInArm = false;
+
+    public DecacCompiler(CompilerOptions compilerOptions, File source, boolean arm) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        compileInArm = arm;
+    }
+
+    public boolean compileInArm() {
+        return compileInArm;
     }
 
     /**

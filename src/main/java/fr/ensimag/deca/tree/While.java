@@ -6,12 +6,12 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.BNE;
-import fr.ensimag.ima.pseudocode.instructions.BRA;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperBNE;
+import fr.ensimag.superInstructions.SuperBRA;
+import fr.ensimag.superInstructions.SuperCMP;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -42,20 +42,21 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        Label labelCondition = new Label("ConditionWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelCondition = new Label(
+                "ConditionWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("FinWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
 
-        int nCondition = compiler.getN()+1;
+        int nCondition = compiler.getN() + 1;
         compiler.addLabel(labelCondition);
         this.getCondition().codeGenInst(compiler);
-        compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nCondition)));
-        compiler.addInstruction(new BNE(labelFin));
+        compiler.addInstruction(
+                SuperCMP.main(new ImmediateInteger(1), Register.getR(nCondition), compiler.compileInArm()));
+        compiler.addInstruction(SuperBNE.main(labelFin, compiler.compileInArm()));
         compiler.setN(nCondition - 1);
         this.getBody().codeGenListInst(compiler);
-        compiler.addInstruction(new BRA(labelCondition));
+        compiler.addInstruction(SuperBRA.main(labelCondition, compiler.compileInArm()));
         compiler.addLabel(labelFin);
         compiler.setN(nCondition - 1);
-
 
     }
 

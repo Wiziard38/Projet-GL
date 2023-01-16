@@ -8,10 +8,10 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.SEQ;
-import fr.ensimag.ima.pseudocode.instructions.SNE;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperSEQ;
+import fr.ensimag.superInstructions.SuperSNE;
 
 /**
  *

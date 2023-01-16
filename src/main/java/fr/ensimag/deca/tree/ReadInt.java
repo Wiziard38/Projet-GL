@@ -6,10 +6,10 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.BOV;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.RINT;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperBOV;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperRINT;
 
 import java.io.PrintStream;
 
@@ -28,11 +28,11 @@ public class ReadInt extends AbstractReadExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler){
-        compiler.addInstruction(new RINT());
+    protected void codeGenInst(DecacCompiler compiler) {
+        compiler.addInstruction(SuperRINT.main(compiler.compileInArm()));
         int nActual = compiler.getN() + 1;
-        compiler.addInstruction(new LOAD(Register.getR(1),Register.getR(nActual)));
-        compiler.addInstruction(new BOV(compiler.getErreurinOut()));
+        compiler.addInstruction(SuperLOAD.main(Register.getR(1), Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperBOV.main(compiler.getErreurinOut(), compiler.compileInArm()));
     }
 
     @Override

@@ -1,7 +1,5 @@
 package fr.ensimag.deca.tree;
 
-import static org.mockito.ArgumentMatchers.nullable;
-
 import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;

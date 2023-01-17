@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.pseudocode.Label;
 import fr.ensimag.superInstructions.SuperWNL;
 
 /**

@@ -31,8 +31,11 @@ public class Return extends AbstractInst {
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType) throws ContextualError {
-        // Already verified non void for return type
-
+        // On verifie si le type de retour n'est pas void
+        if (returnType.isVoid()) {
+            throw new ContextualError("'Return' ne peut pas être appelé pour une fonction donc le type de retour est void",
+                    this.getLocation()); // Rule 
+        }
         // On set si jamais y'a un ConvFloat a ajouter
         this.setExpression(this.expr.verifyRValue(compiler, localEnv, currentClass, returnType));
     }

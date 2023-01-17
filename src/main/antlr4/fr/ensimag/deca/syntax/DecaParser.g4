@@ -393,7 +393,7 @@ select_expr
 		o = OPARENT args = list_expr CPARENT {
                 // we matched "e1.i(args)"
                 assert($args.tree != null);
-                $tree = new MethodCallOnExpr($e1.tree, $i.tree, $args.tree);
+                $tree = new MethodCall($e1.tree, $i.tree, $args.tree);
                 setLocation($tree, $e1.start);
         }
 		| /* epsilon */ {
@@ -413,7 +413,7 @@ primary_expr
 	| m = ident OPARENT args = list_expr CPARENT {
                 assert($args.tree != null);
                 assert($m.tree != null);
-                $tree = new MethodCallOnVoid($m.tree, $args.tree);
+                $tree = new MethodCall($m.tree, $args.tree);
                 setLocation($tree, $ident.start);
         }
 	| OPARENT expr CPARENT {

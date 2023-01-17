@@ -14,16 +14,18 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Call a constructor via keyword 'new'
  */
-public class New extends AbstractCall {
+public class New extends AbstractExpr {
+
+    private AbstractIdentifier name;
 
     public New(AbstractIdentifier name) {
-        super(name);
+        this.name = name;
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
         s.print("new ");
-        getFieldIdent().decompile(s);
+        this.name.decompile(s);
         s.print("()");
     }
 
@@ -31,17 +33,23 @@ public class New extends AbstractCall {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
-        return super.verifyCallMessage(compiler, localEnv, currentClass,
-                "'New' ne peut etre affecté que pour une class");
+        Type exprType = this.name.verifyExpr(compiler, localEnv, currentClass);
+        if (!exprType.isClass()) {
+            throw new ContextualError("'New' ne peut etre affecté que pour une class",
+                    this.getLocation()); // Rule 3.42
+        }
+        this.setType(exprType);
+        return exprType;
+
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        getFieldIdent().prettyPrint(s, prefix, false);
+        this.name.prettyPrint(s, prefix, false);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        getFieldIdent().iter(f);
+        this.name.iter(f);
     }
 }

@@ -89,30 +89,31 @@ public abstract class AbstractExpr extends AbstractInst {
         LOG.debug("Verify RValue - begin");
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
 
+        // Vérification de assign_compatible
         if (expectedType.isFloat() && exprType.isInt()) {
             ConvFloat newTreeNode = new ConvFloat(this);
             newTreeNode.verifyExpr(compiler, localEnv, currentClass);
             return newTreeNode;
         }
-        LOG.debug("Verify RValue - not ConvFloat case");
 
-        if (!expectedType.sameType(exprType)) {
-            LOG.debug("Verify RValue - not same type");
-
-            if (exprType.isClass() || expectedType.isClass()) {
-                LOG.debug("Verify RValue - not classes type");
-
-                if (!exprType.asClassType("Should not happen, contact developpers please.",
-                        this.getLocation()).isSubClassOf(
-                                expectedType.asClassType(
-                                        "Should not happen, contact developpers please.", this.getLocation())))
-                    ;
-            }
-            throw new ContextualError(String.format("'%s' is not of type %s",
-                    this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
+        if (expectedType.sameType(exprType)) {
+            return this;
         }
-        return this;
+        LOG.debug("Verify RValue - not same type");
+
+        if (exprType.isClass() && expectedType.isClass()) {
+            LOG.debug("Verify RValue - not classes type");
+
+            if (exprType.asClassType(null, null).isSubClassOf(expectedType.asClassType(
+                    null, null))) {
+                return this;
+
+            }
+        }
+        throw new ContextualError(String.format("'%s' is not of type %s",
+                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
     }
+
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,

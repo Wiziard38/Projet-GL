@@ -47,6 +47,7 @@ public class DeclField extends AbstractDeclField {
                     this.name), this.getLocation()); // Rule 2.4
         }
         currentClassDef.incNumberOfFields();
+        this.name.setDefinition(currentField);
     }
 
     @Override
@@ -58,6 +59,7 @@ public class DeclField extends AbstractDeclField {
 
         this.initialization.verifyInitialization(compiler, thisDef.getType(),
                 currentClassDef.getMembers(), currentClassDef);
+        
     }
 
     @Override

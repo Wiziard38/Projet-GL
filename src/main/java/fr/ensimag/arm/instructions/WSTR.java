@@ -4,7 +4,6 @@ import java.io.PrintStream;
 
 import fr.ensimag.pseudocode.ImmediateString;
 import fr.ensimag.pseudocode.InstructionArm;
-import fr.ensimag.pseudocode.Label;
 
 /**
  * @author Ensimag
@@ -37,6 +36,7 @@ public class WSTR extends InstructionArm {
         s.println("msg_" + op.stripped() + ":");
         s.println(".ascii " + op);
         s.println("len = . - msg_" + op.stripped());
+        s.print("\n");
     }
 
 }

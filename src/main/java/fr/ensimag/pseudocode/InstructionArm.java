@@ -6,8 +6,7 @@ public abstract class InstructionArm extends Instruction {
 
     @Override
     void displayOperands(PrintStream s) {
-        // TODO Auto-generated method stub
-
+        // nothing to do, the display is specific because on multiple lines
     }
 
     abstract public void displayInstructions(PrintStream s);

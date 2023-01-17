@@ -16,3 +16,7 @@ public class REM extends BinaryInstructionDValToReg {
     }
 
 }
+
+// RM / Dval -> R?
+// R? * DVAl -> R?
+// RM - R? -> Rm

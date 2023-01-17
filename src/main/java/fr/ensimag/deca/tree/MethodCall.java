@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.nullable;
 import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -20,7 +21,8 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  * Call of a method function on an expression
  */
 public class MethodCall extends AbstractExpr {
-    
+    private static final Logger LOG = Logger.getLogger(MethodCall.class);
+
     private AbstractIdentifier name;
     private AbstractExpr expr;
     private ListExpr args;
@@ -30,6 +32,7 @@ public class MethodCall extends AbstractExpr {
         Validate.notNull(name);
         this.name = name;
         this.expr = e;
+        this.args = args;
     }
 
     public MethodCall(AbstractIdentifier name, ListExpr args) {
@@ -46,9 +49,10 @@ public class MethodCall extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        LOG.debug(this.expr);
 
         ClassType callerClass;
-        if (this.expr == null) {
+        if (this.expr != null) {
             // On verifie que l'expr est de type class 
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
             if (!exprType.isClass()) {
@@ -67,8 +71,8 @@ public class MethodCall extends AbstractExpr {
         // On verifie que la signature correspond
         this.verifyRValueStar(compiler, localEnv, currentClass, methodDef.getSignature());
 
-
-        return null;
+        this.setType(methodDef.getType());
+        return methodDef.getType();
     }
 
 
@@ -76,17 +80,16 @@ public class MethodCall extends AbstractExpr {
      * TODO
      */
     public MethodDefinition verifyMethodIdent(EnvironmentExp localEnv) throws ContextualError {
+        LOG.debug(this.name);
 
         if (localEnv.get(this.name.getName()) == null) {
             throw new ContextualError(String.format("La méthode '%s' n'est pas défini dans l'environnement local",
                     this.name.getName()), this.getLocation()); // Rule 3.70
         }
 
-        if (!this.name.getDefinition().isMethod()) {
-            throw new ContextualError(String.format("'%s' n'est pas une méthode", 
-                    this.name.getName()), this.getLocation()); // Rule 3.72
-        }
-
+        this.name.setDefinition(localEnv.get(this.name.getName()).asMethodDefinition(String.format(
+                "'%s' n'est pas une méthode", this.name.getName()), this.getLocation())); // Rule 3.72
+        
         return this.name.getMethodDefinition();
     }
 
@@ -94,12 +97,18 @@ public class MethodCall extends AbstractExpr {
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {
         
+        LOG.debug("Signature: " + sig);
+        LOG.debug("Caller: " + this.args);
+
         int index = 0;
-        for (AbstractExpr currentExpr : this.args.getList()) {
-            currentExpr.verifyRValue(compiler, localEnv, currentClass, sig.paramNumber(index));
-            index++;
+        if (this.args != null) {
+            for (AbstractExpr currentExpr : this.args.getList()) {
+                currentExpr.verifyRValue(compiler, localEnv, currentClass, sig.paramNumber(index));
+                index++;
+            }
         }
-        if (index == sig.size()) {
+
+        if (index != sig.size()) {
             throw new ContextualError("Le nombre de paramètres ne correspond pas",
                     this.getLocation()); // Rule 3.74
         }

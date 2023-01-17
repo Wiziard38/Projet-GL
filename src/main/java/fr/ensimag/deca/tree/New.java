@@ -8,7 +8,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /*
@@ -33,19 +35,22 @@ public class New extends AbstractExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
-        Type exprType = this.name.verifyExpr(compiler, localEnv, currentClass);
+        TypeDefinition exprType = compiler.environmentType.defOfType(this.name.getName());
         if (!exprType.isClass()) {
             throw new ContextualError("'New' ne peut etre affecté que pour une class",
                     this.getLocation()); // Rule 3.42
         }
-        this.setType(exprType);
-        return exprType;
+        
+        
+        this.setType(exprType.getType());
+        this.name.setDefinition(compiler.environmentType.getClass(this.name.getName()));
 
+        return exprType.getType();
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        this.name.prettyPrint(s, prefix, false);
+        this.name.prettyPrint(s, prefix, true);
     }
 
     @Override

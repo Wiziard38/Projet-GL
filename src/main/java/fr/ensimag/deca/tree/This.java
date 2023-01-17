@@ -22,6 +22,7 @@ public class This extends AbstractExpr {
             throw new ContextualError("'This' ne peut être appelé en dehors d'une class", this.getLocation());
         }
 
+        this.setType(currentClass.getType());
         return currentClass.getType();
     }
 

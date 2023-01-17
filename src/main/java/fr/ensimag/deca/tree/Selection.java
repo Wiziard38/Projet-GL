@@ -86,7 +86,7 @@ public class Selection extends AbstractLValue {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         this.expr.prettyPrint(s, prefix, false);
-        this.name.prettyPrint(s, prefix, false);
+        this.name.prettyPrint(s, prefix, true);
     }
 
     @Override

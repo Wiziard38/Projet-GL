@@ -74,16 +74,17 @@ public class DeclField extends AbstractDeclField {
         s.print(";");
     }
 
+
+    @Override
+    String prettyPrintNode() {
+        return "[visibility=" + this.visibility + "] DeclField";
+    }
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        if (visibility == Visibility.PROTECTED) {
-            s.println(prefix + "PROTECTED");
-        } else {
-            s.println(prefix + "PUBLIC");
-        }
         type.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
-        initialization.prettyPrint(s, prefix, false);
+        initialization.prettyPrint(s, prefix, true);
     }
 
     @Override

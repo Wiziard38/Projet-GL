@@ -31,12 +31,6 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public class Identifier extends AbstractIdentifier {
-    private static final Logger LOG = Logger.getLogger(Identifier.class);
-
-    @Override
-    protected void checkDecoration() {
-        Validate.notNull(this.getDefinition());
-    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {

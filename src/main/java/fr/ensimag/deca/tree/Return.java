@@ -55,7 +55,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s, prefix, false);
+        expr.prettyPrint(s, prefix, true);
     }
 
     @Override

@@ -536,7 +536,6 @@ class_decl
                 assert($superclass.tree != null);
                 assert($class_body.fields != null);
                 assert($class_body.methods != null);
-                setLocation($superclass.tree, $superclass.start);
                 $tree = new DeclClass($name.tree, $superclass.tree, $class_body.fields, $class_body.methods);
                 setLocation($tree, $CLASS);
         };
@@ -546,9 +545,11 @@ class_extension
 	EXTENDS ident {
                 assert($ident.tree != null);
                 $tree = $ident.tree;
+                setLocation($tree, $ident.start);
         }
 	| /* epsilon */ {
                 $tree = new Identifier(getDecacCompiler().createSymbol("Object"));
+                $tree.setLocation(Location.BUILTIN);
         };
 
 class_body

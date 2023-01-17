@@ -27,5 +27,9 @@ public class ListExpr extends TreeList<AbstractExpr> {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.getList().toString();
+    }
     
 }

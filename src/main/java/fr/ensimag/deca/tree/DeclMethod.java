@@ -54,13 +54,16 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         returnType.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
-        body.prettyPrint(s, prefix, false);
+        parameters.prettyPrint(s, prefix, false);
+        body.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
         returnType.iter(f);
         name.iter(f);
+        parameters.iter(f);
+        body.iter(f);
     }
 
     public void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef,
@@ -117,6 +120,8 @@ public class DeclMethod extends AbstractDeclMethod {
         } catch (DoubleDefException e) {
             throw new DecacInternalError("Should not happen, contact developpers please.");
         }
+
+        this.name.setDefinition(current);
 
     }
 

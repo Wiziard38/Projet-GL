@@ -37,7 +37,7 @@ public class DeclParam extends AbstractDeclParam {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);
-        name.prettyPrint(s, prefix, false);
+        name.prettyPrint(s, prefix, true);
     }
 
     @Override
@@ -62,7 +62,8 @@ public class DeclParam extends AbstractDeclParam {
             throw new ContextualError(String.format("Le nom '%s' apparait dans plusieurs paramètres",
                     this.name), this.getLocation());
         }
-        
+
+        this.name.setDefinition(localEnv.get(this.name.getName()).asParamDefinition(null, null));
     }
 
 

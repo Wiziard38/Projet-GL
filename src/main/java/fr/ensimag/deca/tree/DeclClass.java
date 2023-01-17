@@ -99,7 +99,7 @@ public class DeclClass extends AbstractDeclClass {
         name.prettyPrint(s, prefix, false);
         superclass.prettyPrint(s, prefix, false);
         fields.prettyPrint(s, prefix, false);
-        methods.prettyPrint(s, prefix, false);
+        methods.prettyPrint(s, prefix, true);
     }
 
     @Override

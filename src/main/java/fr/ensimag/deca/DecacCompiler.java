@@ -135,7 +135,11 @@ public class DecacCompiler {
      * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
      */
     public void addComment(String comment) {
-        program.addComment(comment);
+        if (compileInArm) {
+            program.addComment("/* " + comment + "*/");
+        } else {
+            program.addComment("; " + comment);
+        }
     }
 
     /**

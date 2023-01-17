@@ -12,6 +12,7 @@ import fr.ensimag.pseudocode.AbstractLine;
 import fr.ensimag.pseudocode.IMAProgram;
 import fr.ensimag.pseudocode.Instruction;
 import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.Line;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -284,6 +285,11 @@ public class DecacCompiler {
 
         addComment("start main program");
         prog.codeGenProgram(this);
+        if (compileInArm) {
+            program.addFirst(new Line("_start:"));
+            program.addFirst(new Line(".global _start"));
+            program.addFirst(new Line(".text"));
+        }
         addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);

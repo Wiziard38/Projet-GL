@@ -14,6 +14,10 @@ public class ImmediateString extends Operand {
         this.value = value;
     }
 
+    public String stripped() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return "\"" + value.replace("\"", "\"\"") + "\"";

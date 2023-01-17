@@ -29,8 +29,9 @@ public class StringLiteral extends AbstractStringLiteral {
     private String value;
 
     public StringLiteral(String value) {
+        LOG.debug(value);
         Validate.notNull(value);
-        this.value = value;
+        this.value = value.replaceAll("\"", "");
     }
 
     @Override
@@ -48,7 +49,9 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public void decompile(IndentPrintStream s) {
+        s.print("\"");
         s.print(value);
+        s.print("\"");
     }
 
     @Override
@@ -63,7 +66,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     String prettyPrintNode() {
-        return "StringLiteral (" + value + ")";
+        return String.format("StringLiteral (%s)", this.value);
     }
 
 }

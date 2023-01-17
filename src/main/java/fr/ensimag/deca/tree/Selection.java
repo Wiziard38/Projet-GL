@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -16,32 +17,39 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 /*
  * Selection of a field
  */
-public class Selection extends AbstractCall {
+public class Selection extends AbstractLValue {
+    private static final Logger LOG = Logger.getLogger(Selection.class);
 
     private AbstractExpr expr;
+    private AbstractIdentifier name;
 
-    public Selection(AbstractExpr e, AbstractIdentifier field_ident) {
-        super(field_ident);
-        Validate.notNull(field_ident);
-        expr = e;
+    public AbstractIdentifier getName() {
+        return name;
+    }
+
+    public Selection(AbstractExpr expr, AbstractIdentifier name) {
+        Validate.notNull(name);
+        Validate.notNull(expr);
+        this.name = name;
+        this.expr = expr;
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
         expr.decompile(s);
         s.print(".");
-        getFieldIdent().decompile(s);
+        this.name.decompile(s);
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
-        ClassType selectClass = super.verifyCallMessage(compiler, localEnv, currentClass,
-                "La sélection doit se faire sur une class").asClassType(null, null); // Rule 3.65 // Rule 3.66
-        
+        ClassType selectClass = this.expr.verifyExpr(compiler, localEnv, currentClass)
+                .asClassType("La sélection doit se faire sur une classe", 
+                this.getLocation()); // Rule 3.65 // Rule 3.66
 
-        FieldDefinition fieldDef = this.verifyFieldIdent(compiler, compiler.environmentType.getClass(
+        FieldDefinition fieldDef = this.verifyFieldIdent(compiler.environmentType.getClass(
                 selectClass.getName()).getMembers());
                 
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
@@ -49,23 +57,42 @@ public class Selection extends AbstractCall {
         }
         if (selectClass.isSubClassOf(currentClass.getType())) {
             if (currentClass.getType().isSubClassOf(fieldDef.getContainingClass().getType())) {
+                this.setType(fieldDef.getType());
                 return fieldDef.getType();
             }
         }
         throw new ContextualError(String.format("Le champ '%s' ne peut être accédé localement !",
-                this.getFieldIdent()), this.getLocation()); // Rule 3.66
+                this.name), this.getLocation()); // Rule 3.66
+    }
+
+    /**
+     * TODO
+     */
+    public FieldDefinition verifyFieldIdent(EnvironmentExp localEnv) throws ContextualError {
+
+        if (localEnv.get(this.name.getName()) == null) {
+            throw new ContextualError(String.format("Le champ '%s' n'est pas défini dans l'environnement local",
+                    this.name.getName()), this.getLocation()); // Rule 3.70
+        }
+        LOG.debug(localEnv.get(this.name.getName()));
+        
+        FieldDefinition currentField = localEnv.get(this.name.getName()).asFieldDefinition(String.format(
+                "'%s' n'est pas un champ de class", this.name.getName()), this.getLocation()); // Rule 3.70
+
+        this.name.setDefinition(currentField);
+        return currentField;
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s, prefix, false);
-        getFieldIdent().prettyPrint(s, prefix, false);
+        this.expr.prettyPrint(s, prefix, false);
+        this.name.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        expr.iter(f);
-        getFieldIdent().iter(f);
+        this.expr.iter(f);
+        this.name.iter(f);
     }
 
 }

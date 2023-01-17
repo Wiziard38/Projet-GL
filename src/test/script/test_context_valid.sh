@@ -58,7 +58,6 @@ do
     echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 done
 
-printf "\033[1A"
 
 # Test pour les fichiers ayant un resultat
 
@@ -87,3 +86,5 @@ done
 
 echo ""
 echo "-------------------------------------------------------"
+
+rm actual

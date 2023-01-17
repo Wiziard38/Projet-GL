@@ -40,8 +40,7 @@ public class MethodBody extends AbstractMethodBody {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         variables.prettyPrint(s, prefix, false);
-        instructions.prettyPrint(s, prefix, false);
-
+        instructions.prettyPrint(s, prefix, true);
     }
 
     @Override

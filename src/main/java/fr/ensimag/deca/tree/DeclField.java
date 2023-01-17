@@ -52,6 +52,7 @@ public class DeclField extends AbstractDeclField {
                     this.name), this.getLocation()); // Rule 2.4
         }
         currentClassDef.incNumberOfFields();
+        this.name.setDefinition(currentField);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class DeclField extends AbstractDeclField {
 
         this.initialization.verifyInitialization(compiler, thisDef.getType(),
                 currentClassDef.getMembers(), currentClassDef);
+        
     }
 
     @Override
@@ -77,16 +79,17 @@ public class DeclField extends AbstractDeclField {
         s.print(";");
     }
 
+
+    @Override
+    String prettyPrintNode() {
+        return "[visibility=" + this.visibility + "] DeclField";
+    }
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        if (visibility == Visibility.PROTECTED) {
-            s.println(prefix + "PROTECTED");
-        } else {
-            s.println(prefix + "PUBLIC");
-        }
         type.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
-        initialization.prettyPrint(s, prefix, false);
+        initialization.prettyPrint(s, prefix, true);
     }
 
     @Override

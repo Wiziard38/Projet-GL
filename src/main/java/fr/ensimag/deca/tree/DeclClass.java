@@ -111,6 +111,8 @@ public class DeclClass extends AbstractDeclClass {
             throw new ContextualError(String.format("Le nom '%s' est deja un nom de class",
                     this.name), this.getLocation()); // Rule 1.3
         }
+        this.superclass.setDefinition(superDef);
+        this.name.setDefinition(compiler.environmentType.getClass(this.name.getName()));
     }
 
     @Override
@@ -137,7 +139,7 @@ public class DeclClass extends AbstractDeclClass {
         name.prettyPrint(s, prefix, false);
         superclass.prettyPrint(s, prefix, false);
         fields.prettyPrint(s, prefix, false);
-        methods.prettyPrint(s, prefix, false);
+        methods.prettyPrint(s, prefix, true);
     }
 
     @Override

@@ -16,11 +16,6 @@ public class ClassType extends Type {
     public ClassDefinition getDefinition() {
         return this.definition;
     }
-            
-    @Override
-    public ClassType asClassType(String errorMessage, Location l) {
-        return this;
-    }
 
     @Override
     public boolean isClass() {

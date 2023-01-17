@@ -32,12 +32,6 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public class Identifier extends AbstractIdentifier {
-    private static final Logger LOG = Logger.getLogger(Identifier.class);
-
-    @Override
-    protected void checkDecoration() {
-        Validate.notNull(this.getDefinition());
-    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
@@ -226,7 +220,6 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyType(DecacCompiler compiler, boolean checkVoid, String message) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
-        LOG.debug(this.getName());
         if (thisTypeDef == null) {
             throw new ContextualError(String.format("Identificateur de type '%s' non déclaré",
                     this.name.getName()), this.getLocation()); // Rule 0.2

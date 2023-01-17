@@ -10,7 +10,7 @@ public abstract class InstructionArm extends Instruction {
 
     }
 
-    abstract void displayInstructions(PrintStream s);
+    abstract public void displayInstructions(PrintStream s);
 
     @Override
     void display(PrintStream s) {

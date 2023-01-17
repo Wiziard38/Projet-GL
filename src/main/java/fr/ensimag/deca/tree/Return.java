@@ -10,6 +10,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.DVal;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperLOAD;
 
 /*
  * Return keyword
@@ -39,8 +42,10 @@ public class Return extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        // TODO Auto-generated method stub
-
+        int nActual = compiler.getN() + 1;
+        expr.codeGenInst(compiler);
+        compiler.addInstruction(SuperLOAD.main(Register.getR(nActual),Register.R0, compiler.compileInArm()));
+        
     }
 
     @Override

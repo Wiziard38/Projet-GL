@@ -15,6 +15,7 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperWFLOAT;
 import fr.ensimag.superInstructions.SuperWFLOATX;
@@ -55,10 +56,21 @@ public class Identifier extends AbstractIdentifier {
     }
 
     protected void codeGenInst(DecacCompiler compiler) {
-        VariableDefinition defVar = this.getVariableDefinition();
-        compiler.setN(compiler.getN() + 1);
-        compiler.addInstruction(
-                SuperLOAD.main(defVar.getOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+        System.out.println(this.getDefinition().getNature());
+        switch (this.getDefinition().getNature()){
+            case "variable":
+                VariableDefinition defVar = (VariableDefinition) this.getDefinition();
+                compiler.setN(compiler.getN() + 1);
+                compiler.addInstruction(
+                        SuperLOAD.main(defVar.getOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+                break;
+            case "field":
+                FieldDefinition defField = (FieldDefinition) this.getDefinition();
+                int nActual = compiler.getN() + 1; 
+                compiler.setN(nActual);
+                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual),compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex() + 1, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        }
     }
 
     @Override

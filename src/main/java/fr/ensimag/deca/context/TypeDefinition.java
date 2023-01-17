@@ -1,6 +1,8 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.pseudocode.DAddr;
+import fr.ensimag.pseudocode.Operand;
 
 /**
  * Definition of a Deca type (builtin or class).
@@ -23,5 +25,5 @@ public class TypeDefinition extends Definition {
     public boolean isExpression() {
         return false;
     }
-
+    
 }

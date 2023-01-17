@@ -58,4 +58,11 @@ public class MethodBody extends AbstractMethodBody {
         this.instructions.verifyListInst(compiler, localEnv, currentClassDef, returnType);
     }
 
+    @Override
+    protected void codeGenInstBody(DecacCompiler compiler) {
+        this.variables.codeGenListVar(compiler);
+        this.instructions.codeGenListInst(compiler);
+        
+    }
+
 }

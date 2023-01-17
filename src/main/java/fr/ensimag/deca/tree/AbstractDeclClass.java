@@ -33,4 +33,5 @@ public abstract class AbstractDeclClass extends Tree {
                         throws ContextualError;
 
     protected abstract void codeGenClass(DecacCompiler compiler);    
+    protected abstract void codeGenCorpMethod(DecacCompiler compiler);
 }

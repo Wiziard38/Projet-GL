@@ -15,7 +15,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.pseudocode.Label;
 
 import org.apache.log4j.Logger;
 
@@ -23,6 +23,11 @@ public class DeclMethod extends AbstractDeclMethod {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
     private AbstractIdentifier name;
+
+    public AbstractIdentifier getName(){
+        return name;
+    }
+
     private AbstractIdentifier returnType;
     private ListDeclParam parameters;
     private AbstractMethodBody body;
@@ -131,7 +136,7 @@ public class DeclMethod extends AbstractDeclMethod {
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
     }
 
-    protected void codeGenDeclMethode(DecacCompiler compiler, AbstractIdentifier className){
-        compiler.environmentType.getClass(className.getName()).addMethodLabel(new Label(this.name.toString()));
+    protected void codeGenCorpMethod(DecacCompiler compiler){
+        this.body.codeGenInstBody(compiler);
     }
 }

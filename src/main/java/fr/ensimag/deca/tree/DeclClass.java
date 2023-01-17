@@ -6,13 +6,14 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.LabelOperand;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.LabelOperand;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperRTS;
+import fr.ensimag.ima.instructions.LEA;
+import fr.ensimag.ima.instructions.LOAD;
+import fr.ensimag.ima.instructions.PUSH;
 
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -45,21 +46,32 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     protected void codeGenClass(DecacCompiler compiler){
-        
-        System.out.println("oui");
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
         compiler.addInstruction(new PUSH(Register.getR(nActual)));
+        compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
         compiler.setSP(compiler.getSP() + 1);
         compiler.setN(nActual - 1);
-        compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
-        methods.codeGenListMethode(compiler, this.name);
-        Iterator<Label> labelMethod = compiler.environmentType.getClass(this.name.getName()).getAllLabelMethod();
-        while (labelMethod.hasNext()){
-            compiler.addInstruction(new LOAD(new LabelOperand(labelMethod.next()), Register.getR(nActual)));
+        for (AbstractDeclMethod method : methods.getList()){
+            compiler.addInstruction(
+                new LOAD(new LabelOperand(
+                    new Label(this.name.getName().toString() + '.' + method.getName().getName().toString())),
+                    Register.getR(nActual)));
             compiler.addInstruction(new PUSH(Register.getR(nActual)));
             compiler.setSP(compiler.getSP() + 1);
+        }
+    }
+
+    protected void codeGenCorpMethod(DecacCompiler compiler){
+        compiler.addLabel(new Label(this.name.getName().toString() + ".Init"));
+        for (AbstractDeclField field : fields.getList()) {
+            field.codeGenDeclFiedl(compiler);
+        }
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        for (AbstractDeclMethod method : methods.getList()) {
+            compiler.addLabel(new Label(this.name.getName().toString() + '.' + method.getName().getName().toString()));
+            method.codeGenCorpMethod(compiler);
         }
     }
 

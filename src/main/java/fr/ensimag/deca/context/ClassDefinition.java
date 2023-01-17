@@ -1,5 +1,6 @@
 package fr.ensimag.deca.context;
 
+import fr.ensimag.deca.tree.AbstractDeclMethod;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Label;
@@ -74,16 +75,6 @@ public class ClassDefinition extends TypeDefinition {
 
     private final EnvironmentExp members;
     private final ClassDefinition superClass; 
-
-    private ArrayList<Label> methodLabelArray= new ArrayList<Label>();
-
-    public void addMethodLabel(Label methodLabel){
-        methodLabelArray.add(methodLabel);
-    }
-
-    public Iterator<Label> getAllLabelMethod(){
-        return methodLabelArray.iterator();
-    }
 
     public EnvironmentExp getMembers() {
         return members;

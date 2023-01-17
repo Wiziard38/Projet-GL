@@ -7,10 +7,15 @@ import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperSTORE;
 
 public class DeclField extends AbstractDeclField {
 
@@ -91,4 +96,17 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
+    protected void codeGenDeclFiedl(DecacCompiler compiler){
+        FieldDefinition defField = (FieldDefinition)this.name.getDefinition();
+        int nActual = compiler.getN();
+        initialization.codeGenInst(compiler);
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN()), compiler.compileInArm()));
+        compiler.addInstruction(SuperSTORE.main(Register.getR(compiler.getN()), new RegisterOffset(defField.getIndex(), Register.getR(compiler.getN())), compiler.compileInArm()));
+        compiler.setN(nActual - 1);
+    }
+
+    @Override
+    public AbstractIdentifier getName() {
+        return name;
+    }
 }

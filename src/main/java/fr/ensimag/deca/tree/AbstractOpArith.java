@@ -27,10 +27,10 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        
+
         Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
-        
+
         if (typeLeft.isFloat()) {
             if (typeRight.isInt()) {
                 // Case where Float OP Int

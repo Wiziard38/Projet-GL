@@ -27,6 +27,7 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
             s.println();
         }
     }
+
     public void codeGenListVar(DecacCompiler compiler) {
         for (AbstractDeclVar i : getList()) {
             i.codeGenVar(compiler);
@@ -53,7 +54,7 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
 
         for (AbstractDeclVar currentDeclaration : this.getList()) {
             currentDeclaration.verifyDeclVar(compiler, localEnv, currentClass);
-        }        
+        }
 
     }
 

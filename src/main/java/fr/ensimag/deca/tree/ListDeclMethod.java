@@ -21,10 +21,10 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
 
     /**
      * TODO
-     */    
-    public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef, 
+     */
+    public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
-        
+
         for (AbstractDeclMethod myMethod : this.getList()) {
             myMethod.verifyEnvMethod(compiler, currentClassDef, superClass);
         }
@@ -32,6 +32,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
 
     /**
      * TODO
+     * 
      * @param compiler
      * @param currentClass
      * @param superClass
@@ -39,12 +40,10 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
      */
     public void verifyListDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {
-        
+
         for (AbstractDeclMethod myMethod : this.getList()) {
             myMethod.verifyBodyMethod(compiler, currentClassDef);
         }
     }
-
-
 
 }

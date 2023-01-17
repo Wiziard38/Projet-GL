@@ -28,7 +28,6 @@ public class ConvFloat extends AbstractUnaryExpr {
         return compiler.environmentType.FLOAT;
     }
 
-
     @Override
     protected String getOperatorName() {
         return "/* conv float */";

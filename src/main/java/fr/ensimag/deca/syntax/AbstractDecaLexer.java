@@ -43,8 +43,8 @@ public abstract class AbstractDecaLexer extends Lexer {
         return decacCompiler;
     }
 
-    public void setDecacCompiler(DecacCompiler decacCompiler) {
-        this.decacCompiler = decacCompiler;
+    public void setDecacCompiler(DecacCompiler decacCompiler2) {
+        this.decacCompiler = decacCompiler2;
     }
 
     /**

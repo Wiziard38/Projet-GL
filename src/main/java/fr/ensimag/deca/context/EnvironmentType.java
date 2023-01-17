@@ -19,37 +19,37 @@ import fr.ensimag.deca.tree.Location;
  * @date 01/01/2023
  */
 public class EnvironmentType {
-    public EnvironmentType(DecacCompiler compiler) {
-        
+    public EnvironmentType(DecacCompiler decacCompiler) {
+
         envTypes = new HashMap<Symbol, TypeDefinition>();
-        
-        Symbol intSymb = compiler.createSymbol("int");
+
+        Symbol intSymb = decacCompiler.createSymbol("int");
         INT = new IntType(intSymb);
         envTypes.put(intSymb, new TypeDefinition(INT, Location.BUILTIN));
 
-        Symbol floatSymb = compiler.createSymbol("float");
+        Symbol floatSymb = decacCompiler.createSymbol("float");
         FLOAT = new FloatType(floatSymb);
         envTypes.put(floatSymb, new TypeDefinition(FLOAT, Location.BUILTIN));
 
-        Symbol voidSymb = compiler.createSymbol("void");
+        Symbol voidSymb = decacCompiler.createSymbol("void");
         VOID = new VoidType(voidSymb);
         envTypes.put(voidSymb, new TypeDefinition(VOID, Location.BUILTIN));
 
-        Symbol booleanSymb = compiler.createSymbol("boolean");
+        Symbol booleanSymb = decacCompiler.createSymbol("boolean");
         BOOLEAN = new BooleanType(booleanSymb);
         envTypes.put(booleanSymb, new TypeDefinition(BOOLEAN, Location.BUILTIN));
 
-        Symbol stringSymb = compiler.createSymbol("string");
+        Symbol stringSymb = decacCompiler.createSymbol("string");
         STRING = new StringType(stringSymb);
         // not added to envTypes, it's not visible for the user.
-        
+
         // Init the Object class
-        Symbol objectSymb = compiler.createSymbol("Object");
+        Symbol objectSymb = decacCompiler.createSymbol("Object");
         OBJECT = new ClassType(objectSymb, Location.BUILTIN, null);
         envTypes.put(objectSymb, OBJECT.getDefinition());
 
         // Init the equals method
-        Symbol equalsMethod = compiler.createSymbol("equals");
+        Symbol equalsMethod = decacCompiler.createSymbol("equals");
         Signature equalsSignature = new Signature();
         equalsSignature.add(OBJECT);
         MethodDefinition equalsDef = new MethodDefinition(BOOLEAN, Location.BUILTIN, equalsSignature, 1);
@@ -67,6 +67,7 @@ public class EnvironmentType {
 
     /**
      * TODO
+     * 
      * @param s
      * @return
      */
@@ -74,36 +75,37 @@ public class EnvironmentType {
         return envTypes.get(s);
     }
 
-
-    public final VoidType    VOID;
-    public final IntType     INT;
-    public final FloatType   FLOAT;
-    public final StringType  STRING;
+    public final VoidType VOID;
+    public final IntType INT;
+    public final FloatType FLOAT;
+    public final StringType STRING;
     public final BooleanType BOOLEAN;
-    public final ClassType   OBJECT;
+    public final ClassType OBJECT;
 
     /**
      * TODO
+     * 
      * @param compiler
      * @param className
      * @param classLocation
      * @param superClass
      * @throws DoubleDefException
      */
-    public void addNewClass(DecacCompiler compiler, Symbol className, Location classLocation, 
+    public void addNewClass(DecacCompiler compiler, Symbol className, Location classLocation,
             ClassDefinition superClass) throws DoubleDefException {
-        
+
         if (envTypes.containsKey(className)) {
             throw new DoubleDefException();
         }
 
         ClassType classType = new ClassType(className, classLocation, superClass);
-        
+
         envTypes.put(className, classType.getDefinition());
     }
 
     /**
      * TODO
+     * 
      * @param className
      * @return
      */

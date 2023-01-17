@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  */
 public class ListDeclClass extends TreeList<AbstractDeclClass> {
     private static final Logger LOG = Logger.getLogger(ListDeclClass.class);
-    
+
     @Override
     public void decompile(IndentPrintStream s) {
         for (AbstractDeclClass c : getList()) {
@@ -40,7 +40,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             currentClass.verifyClassMembers(compiler);
         }
     }
-    
+
     /**
      * Pass 3 of [SyntaxeContextuelle]
      */
@@ -49,6 +49,5 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             currentClass.verifyClassBody(compiler);
         }
     }
-
 
 }

@@ -62,8 +62,7 @@ public class DeclParam extends AbstractDeclParam {
             throw new ContextualError(String.format("Le nom '%s' apparait dans plusieurs paramètres",
                     this.name), this.getLocation());
         }
-        
-    }
 
+    }
 
 }

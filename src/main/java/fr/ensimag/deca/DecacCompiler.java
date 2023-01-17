@@ -207,7 +207,8 @@ public class DecacCompiler {
         String namePath = this.source.getAbsolutePath();
         String nameSource = this.source.getName();
         // destFile = nameSource.substring(0, nameSource.length()-5)+".ass";
-        String newName = nameSource.substring(0, nameSource.length() - 5) + ".ass";
+        String newName = compileInArm() ? nameSource.substring(0, nameSource.length() - 5) + ".S"
+                : nameSource.substring(0, nameSource.length() - 5) + ".ass";
         destFile = namePath.replaceAll(nameSource, "/" + newName);
         // destFile = nameSource.replaceAll(this.source.getName(),
         // "assembleur/"+this.getSource().getName().substring(0,

@@ -49,16 +49,10 @@ public class DecacMain {
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
             throw new UnsupportedOperationException("Parallel build not yet implemented");
-        } else if (options.getCompileInARM()) {
-            for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source, true);
-                if (compiler.compile()) {
-                    error = true;
-                }
-            }
         } else {
+            boolean arm = options.getCompileInARM();
             for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source, false);
+                DecacCompiler compiler = new DecacCompiler(options, source, arm);
                 if (compiler.compile()) {
                     error = true;
                 }

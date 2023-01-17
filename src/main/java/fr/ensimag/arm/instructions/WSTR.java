@@ -25,7 +25,7 @@ public class WSTR extends InstructionArm {
     @Override
     public void displayInstructions(PrintStream s) {
         s.println("mov r0, #1");
-        s.println("adr r1, " + op.stripped());
+        s.println("adr r1, msg_" + op.stripped());
         s.println("mov r2, #len");
         s.println("mov r7, #4");
         s.println("svc #0");
@@ -34,9 +34,9 @@ public class WSTR extends InstructionArm {
         s.println("mov r7, #1");
         s.println("svc #0");
         s.print("\n");
-        s.println("msg" + op.stripped() + ":");
+        s.println("msg_" + op.stripped() + ":");
         s.println(".ascii " + op);
-        s.println("len = . - msg");
+        s.println("len = . - msg_" + op.stripped());
     }
 
 }

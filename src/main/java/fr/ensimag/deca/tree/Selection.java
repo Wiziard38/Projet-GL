@@ -42,6 +42,11 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
+    public void verifyLValue(EnvironmentExp localEnv) throws ContextualError {
+        // nothing to do
+    }
+
+    @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 

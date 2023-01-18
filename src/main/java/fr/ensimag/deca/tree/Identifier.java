@@ -200,7 +200,6 @@ public class Identifier extends AbstractIdentifier {
         this.name = name;
     }
 
-
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
@@ -246,6 +245,15 @@ public class Identifier extends AbstractIdentifier {
 
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
         return thisTypeDef.getType();
+    }
+
+    @Override
+    public void verifyLValue(EnvironmentExp localEnv) throws ContextualError {
+
+        if (localEnv.get(this.getName()).isMethod()) {
+            throw new ContextualError("La valeur de gauche doit être une variable, un paramètre ou un champ",
+                    this.getLocation()); // Rule 3.67 // Rule 3.68 // Rule 3.69
+        }
     }
 
     private Definition definition;

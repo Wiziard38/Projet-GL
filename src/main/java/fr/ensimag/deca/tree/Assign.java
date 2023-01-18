@@ -47,6 +47,7 @@ public class Assign extends AbstractBinaryExpr {
             ClassDefinition currentClass) throws ContextualError {
 
         Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        this.getLeftOperand().verifyLValue(localEnv);
 
         // On set si jamais il y a un CovnFloat a appliquer
         this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));

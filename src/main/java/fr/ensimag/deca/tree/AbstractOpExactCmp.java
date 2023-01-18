@@ -7,11 +7,6 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.pseudocode.Register;
-import fr.ensimag.superInstructions.SuperCMP;
-import fr.ensimag.superInstructions.SuperSEQ;
-import fr.ensimag.superInstructions.SuperSNE;
 
 /**
  *

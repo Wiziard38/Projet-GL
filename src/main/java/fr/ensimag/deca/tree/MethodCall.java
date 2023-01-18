@@ -1,7 +1,5 @@
 package fr.ensimag.deca.tree;
 
-import static org.mockito.ArgumentMatchers.nullable;
-
 import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
@@ -23,8 +21,8 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 public class MethodCall extends AbstractExpr {
     private static final Logger LOG = Logger.getLogger(MethodCall.class);
 
-    private AbstractIdentifier name;
     private AbstractExpr expr;
+    private AbstractIdentifier name;
     private ListExpr args;
 
     public MethodCall(AbstractExpr e, AbstractIdentifier name, ListExpr args) {
@@ -65,8 +63,8 @@ public class MethodCall extends AbstractExpr {
         }
 
         // On verifie que le ident est bien une méthode 
-        MethodDefinition methodDef = this.verifyMethodIdent(compiler.environmentType.getClass(
-            callerClass.getName()).getMembers());
+        MethodDefinition methodDef = this.name.verifyDefinition(compiler, callerClass.getDefinition().getMembers())
+                .asMethodDefinition(String.format("'%s' n'est pas une méthode", this.name), getLocation()); // Rule 3.72
 
         // On verifie que la signature correspond
         this.verifyRValueStar(compiler, localEnv, currentClass, methodDef.getSignature());
@@ -74,25 +72,6 @@ public class MethodCall extends AbstractExpr {
         this.setType(methodDef.getType());
         return methodDef.getType();
     }
-
-
-    /**
-     * TODO
-     */
-    public MethodDefinition verifyMethodIdent(EnvironmentExp localEnv) throws ContextualError {
-        LOG.debug(this.name);
-
-        if (localEnv.get(this.name.getName()) == null) {
-            throw new ContextualError(String.format("La méthode '%s' n'est pas défini dans l'environnement local",
-                    this.name.getName()), this.getLocation()); // Rule 3.70
-        }
-
-        this.name.setDefinition(localEnv.get(this.name.getName()).asMethodDefinition(String.format(
-                "'%s' n'est pas une méthode", this.name.getName()), this.getLocation())); // Rule 3.72
-        
-        return this.name.getMethodDefinition();
-    }
-
 
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {

@@ -29,7 +29,6 @@ public class StringLiteral extends AbstractStringLiteral {
     private String value;
 
     public StringLiteral(String value) {
-        LOG.debug(value);
         Validate.notNull(value);
         this.value = value.replaceAll("\"", "");
     }

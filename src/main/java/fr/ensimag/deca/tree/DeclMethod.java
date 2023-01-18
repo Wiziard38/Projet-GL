@@ -142,7 +142,7 @@ public class DeclMethod extends AbstractDeclMethod {
 
         EnvironmentExp localEnv = new EnvironmentExp(currentClassDef.getMembers());
         this.parameters.verifyEnvParams(compiler, localEnv);
-        Type returnTypeNonVoid = this.returnType.verifyType(compiler, true, "un return de méthode"); // Rule 3.24
+        Type returnTypeNonVoid = this.returnType.verifyType(compiler, false, "un return de méthode");
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
     }
 

@@ -60,7 +60,7 @@ public class DeclParam extends AbstractDeclParam {
             localEnv.declare(this.name.getName(), new ParamDefinition(paramType, this.getLocation()));
         } catch (DoubleDefException e) {
             throw new ContextualError(String.format("Le nom '%s' apparait dans plusieurs paramètres",
-                    this.name), this.getLocation());
+                    this.name), this.getLocation()); // Rule 3.12
         }
 
         this.name.setDefinition(localEnv.get(this.name.getName()).asParamDefinition(null, null));

@@ -54,8 +54,8 @@ public class MethodCall extends AbstractExpr {
             // On verifie que l'expr est de type class 
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
             if (!exprType.isClass()) {
-                throw new ContextualError(String.format("L'appel méthode sur '%s' doit se faire sur un Type class",
-                        this.name), this.getLocation()); // Rule 3.70
+                throw new ContextualError(String.format("L'appel méthode '%s' doit se faire sur une class",
+                        this.name), this.getLocation()); // Rule 3.71
             }
             callerClass = exprType.asClassType(null, null);
         } else {
@@ -89,7 +89,7 @@ public class MethodCall extends AbstractExpr {
 
         if (index != sig.size()) {
             throw new ContextualError("Le nombre de paramètres ne correspond pas",
-                    this.getLocation()); // Rule 3.74
+                    this.getLocation()); // Rule 3.73 // Rule 3.74
         }
     }
 

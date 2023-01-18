@@ -110,8 +110,8 @@ public abstract class AbstractExpr extends AbstractInst {
 
             }
         }
-        throw new ContextualError(String.format("'%s' is not of type %s",
-                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
+        throw new ContextualError(String.format("Cette expression devrait être de type '%s'",
+                expectedType.toString()), this.getLocation()); // Rule 3.28
     }
 
 

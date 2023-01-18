@@ -221,7 +221,6 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
-        LOG.debug("xxxx " + localEnv.get(this.name));
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name);
     }
@@ -240,7 +239,7 @@ public class Identifier extends AbstractIdentifier {
         }
         if (checkVoid && thisTypeDef.getType().isVoid()) {
             throw new ContextualError(String.format("Le type void ne peut etre affecté pour %s",
-                    message), this.getLocation()); // Rule 3.17 // Rule 2.5 // Rule 2.9
+                    message), this.getLocation()); // Rule 2.5 // Rule 2.9 // Rule 3.17
         }
 
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));

@@ -47,7 +47,7 @@ public class DeclField extends AbstractDeclField {
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);
         } catch (DoubleDefException e) {
-            throw new ContextualError(String.format("Champ '%s' deja declare localement",
+            throw new ContextualError(String.format("Le champ '%s' est deja déclaré localement",
                     this.name), this.getLocation()); // Rule 2.4
         }
         currentClassDef.incNumberOfFields();

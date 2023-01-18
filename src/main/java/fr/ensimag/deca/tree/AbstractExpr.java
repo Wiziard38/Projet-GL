@@ -5,17 +5,14 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.pseudocode.ImmediateFloat;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperWINT;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperWFLOAT;
+import fr.ensimag.superInstructions.SuperWFLOATX;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -32,14 +29,15 @@ public abstract class AbstractExpr extends AbstractInst {
 
     /**
      * @return true if the expression does not correspond to any concrete token
-     * in the source code (and should be decompiled to the empty string).
+     *         in the source code (and should be decompiled to the empty string).
      */
     boolean isImplicit() {
         return false;
     }
 
     /**
-     * Get the type decoration associated to this expression (i.e. the type computed by contextual verification).
+     * Get the type decoration associated to this expression (i.e. the type computed
+     * by contextual verification).
      */
     public Type getType() {
         return type;
@@ -49,72 +47,74 @@ public abstract class AbstractExpr extends AbstractInst {
         Validate.notNull(type);
         this.type = type;
     }
-    private Type type;
 
+    private Type type;
 
     /**
      * Verify the expression for contextual error.
      * 
-     * implements non-terminals "expr" and "lvalue" 
-     *    of [SyntaxeContextuelle] in pass 3
+     * implements non-terminals "expr" and "lvalue"
+     * of [SyntaxeContextuelle] in pass 3
      *
-     * @param compiler  (contains the "env_types" attribute)
+     * @param compiler     (contains the "env_types" attribute)
      * @param localEnv
-     *            Environment in which the expression should be checked
-     *            (corresponds to the "env_exp" attribute)
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_exp" attribute)
      * @param currentClass
-     *            Definition of the class containing the expression
-     *            (corresponds to the "class" attribute)
-     *             is null in the main bloc.
+     *                     Definition of the class containing the expression
+     *                     (corresponds to the "class" attribute)
+     *                     is null in the main bloc.
      * @return the Type of the expression
-     *            (corresponds to the "type" attribute)
+     *         (corresponds to the "type" attribute)
      */
     public abstract Type verifyExpr(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
-     * Verify the expression in right hand-side of (implicit) assignments 
+     * Verify the expression in right hand-side of (implicit) assignments
      * 
      * implements non-terminal "rvalue" of [SyntaxeContextuelle] in pass 3
      *
-     * @param compiler  contains the "env_types" attribute
-     * @param localEnv corresponds to the "env_exp" attribute
+     * @param compiler     contains the "env_types" attribute
+     * @param localEnv     corresponds to the "env_exp" attribute
      * @param currentClass corresponds to the "class" attribute
-     * @param expectedType corresponds to the "type1" attribute            
+     * @param expectedType corresponds to the "type1" attribute
      * @return this with an additional ConvFloat if needed...
      */
     public AbstractExpr verifyRValue(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
-        LOG.debug("Verify RValue - begin");
+        // LOG.debug("Verify RValue - begin");
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
-        
+
+        // Vérification de assign_compatible
         if (expectedType.isFloat() && exprType.isInt()) {
             ConvFloat newTreeNode = new ConvFloat(this);
             newTreeNode.verifyExpr(compiler, localEnv, currentClass);
             return newTreeNode;
         }
-        LOG.debug("Verify RValue - not ConvFloat case");
 
-        if (!expectedType.sameType(exprType)) {
-            LOG.debug("Verify RValue - not same type");
-
-            if (exprType.isClass() || expectedType.isClass()) {
-                LOG.debug("Verify RValue - not classes type");
-
-                if (!exprType.asClassType("Should not happen, contact developpers please.",
-                        this.getLocation()).isSubClassOf(expectedType.asClassType(
-                            "Should not happen, contact developpers please.", this.getLocation())));
-            }
-            throw new ContextualError(String.format("'%s' is not of type %s", 
-                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
+        if (expectedType.sameType(exprType)) {
+            return this;
         }
-        return this;
+        // LOG.debug("Verify RValue - not same type");
+
+        if (exprType.isClass() && expectedType.isClass()) {
+            LOG.debug("Verify RValue - not classes type");
+
+            if (exprType.asClassType(null, null).isSubClassOf(expectedType.asClassType(
+                    null, null))) {
+                return this;
+
+            }
+        }
+        throw new ContextualError(String.format("'%s' is not of type %s",
+                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
     }
-    
-    
+
+
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
@@ -129,10 +129,11 @@ public abstract class AbstractExpr extends AbstractInst {
      * boolean.
      *
      * @param localEnv
-     *            Environment in which the condition should be checked.
+     *                     Environment in which the condition should be checked.
      * @param currentClass
-     *            Definition of the class containing the expression, or null in
-     *            the main program.
+     *                     Definition of the class containing the expression, or
+     *                     null in
+     *                     the main program.
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
@@ -146,45 +147,52 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
-        if(this.getType().sameType(compiler.environmentType.INT)){
-            compiler.setN(compiler.getN()+1);
-            IntLiteral intExpr = (IntLiteral)this;
-            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(1)));
-            compiler.addInstruction(new WINT());
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+        if (this.getType().isInt()) {
+            compiler.setN(compiler.getN() + 1);
+            IntLiteral intExpr = (IntLiteral) this;
+            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()), Register.getR(1),
+                    compiler.compileInArm()));
+            compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         }
-        if(this.getType().sameType(compiler.environmentType.FLOAT)){
-            compiler.setN(compiler.getN()+1);
-            FloatLiteral intExpr = (FloatLiteral)this;
-            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(1)));
-            compiler.addInstruction(new WFLOAT());
+        if (this.getType().isFloat()) {
+            compiler.setN(compiler.getN() + 1);
+            FloatLiteral intExpr = (FloatLiteral) this;
+            compiler.addInstruction(
+                    SuperLOAD.main(new ImmediateFloat(intExpr.getValue()), Register.getR(1), compiler.compileInArm()));
+            if (!printHex) {
+                compiler.addInstruction(SuperWFLOAT.main(compiler.compileInArm()));
+            } else {
+                compiler.addInstruction(SuperWFLOATX.main(compiler.compileInArm()));
+            }
         }
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
 
-        compiler.setN(compiler.getN()+1);
-        if(this.getType().sameType(compiler.environmentType.INT)){
-            IntLiteral intExpr = (IntLiteral)this;
-            compiler.addInstruction(new LOAD(new ImmediateInteger(intExpr.getValue()),Register.getR(compiler.getN())));
+        compiler.setN(compiler.getN() + 1);
+        if (this.getType().sameType(compiler.environmentType.INT)) {
+            IntLiteral intExpr = (IntLiteral) this;
+            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()),
+                    Register.getR(compiler.getN()), compiler.compileInArm()));
         }
-        if(this.getType().sameType(compiler.environmentType.FLOAT)){
-            FloatLiteral intExpr = (FloatLiteral)this;
-            compiler.addInstruction(new LOAD(new ImmediateFloat(intExpr.getValue()),Register.getR(compiler.getN())));
+        if (this.getType().sameType(compiler.environmentType.FLOAT)) {
+            FloatLiteral intExpr = (FloatLiteral) this;
+            compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(intExpr.getValue()),
+                    Register.getR(compiler.getN()), compiler.compileInArm()));
         }
-        if(this.getType().sameType(compiler.environmentType.BOOLEAN)){
+        if (this.getType().sameType(compiler.environmentType.BOOLEAN)) {
             BooleanLiteral intExpr = (BooleanLiteral) this;
-            if (intExpr.getValue()){
-                compiler.addInstruction(new LOAD(new ImmediateInteger(1),Register.getR(compiler.getN())));
-            }
-            else{
-                compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.getR(compiler.getN())));
+            if (intExpr.getValue()) {
+                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(1), Register.getR(compiler.getN()),
+                        compiler.compileInArm()));
+            } else {
+                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(compiler.getN()),
+                        compiler.compileInArm()));
             }
         }
     }
-
-    
 
     @Override
     protected void decompileInst(IndentPrintStream s) {

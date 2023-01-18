@@ -12,15 +12,16 @@ public abstract class AbstractDeclParam extends Tree {
 
     /**
      * TODO
+     * 
      * @param compiler
      * @return
      * @throws ContextualError
      */
     public abstract Type verifySigParam(DecacCompiler compiler) throws ContextualError;
 
-
     /**
      * TODO
+     * 
      * @param compiler
      * @return
      * @throws ContextualError

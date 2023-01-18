@@ -6,12 +6,12 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.BNE;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperBNE;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperBRA;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -50,17 +50,18 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        int nActual = compiler.getN() +1;
+        int nActual = compiler.getN() + 1;
         condition.codeGenInst(compiler);
-        compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActual)));
+        compiler.addInstruction(
+                SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
         Label labelIf = new Label("If" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
-        Label labelElse = new Label("Else"+this.getLocation().getLine() + this.getLocation().getPositionInLine());
+        Label labelElse = new Label("Else" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("Fin" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
-        compiler.addInstruction(new BNE(labelElse));
+        compiler.addInstruction(SuperBNE.main(labelElse, compiler.compileInArm()));
         compiler.addLabel(labelIf);
         compiler.setN(nActual - 1);
         thenBranch.codeGenListInst(compiler);
-        compiler.addInstruction(new BRA(labelFin));
+        compiler.addInstruction(SuperBRA.main(labelFin, compiler.compileInArm()));
         compiler.addLabel(labelElse);
         elseBranch.codeGenListInst(compiler);
         compiler.addLabel(labelFin);

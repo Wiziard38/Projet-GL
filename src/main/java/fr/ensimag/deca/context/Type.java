@@ -1,7 +1,7 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.context.ClassType;
-import fr.ensimag.deca.context.ContextualError;
+import org.apache.log4j.Logger;
+
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -13,6 +13,7 @@ import fr.ensimag.deca.tree.Location;
  */
 
 public abstract class Type {
+    private static final Logger LOG = Logger.getLogger(Type.class);
 
 
     /**
@@ -77,6 +78,10 @@ public abstract class Type {
      */
     public ClassType asClassType(String errorMessage, Location l)
             throws ContextualError {
+        // LOG.debug(this.name);
+        if (this instanceof ClassType) {
+            return (ClassType) this;
+        }
         throw new ContextualError(errorMessage, l);
     }
 

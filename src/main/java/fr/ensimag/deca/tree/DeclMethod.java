@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 public class DeclMethod extends AbstractDeclMethod {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
-    private AbstractIdentifier name;
     private AbstractIdentifier returnType;
+    private AbstractIdentifier name;
     private ListDeclParam parameters;
     private AbstractMethodBody body;
 
@@ -33,9 +33,9 @@ public class DeclMethod extends AbstractDeclMethod {
         Validate.notNull(method);
         Validate.notNull(params);
         Validate.notNull(body);
-        name = method;
-        returnType = type;
-        parameters = params;
+        this.returnType = type;
+        this.name = method;
+        this.parameters = params;
         this.body = body;
     }
 
@@ -54,13 +54,16 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         returnType.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
-        body.prettyPrint(s, prefix, false);
+        parameters.prettyPrint(s, prefix, false);
+        body.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
         returnType.iter(f);
         name.iter(f);
+        parameters.iter(f);
+        body.iter(f);
     }
 
     public void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef,
@@ -118,6 +121,8 @@ public class DeclMethod extends AbstractDeclMethod {
             throw new DecacInternalError("Should not happen, contact developpers please.");
         }
 
+        this.name.setDefinition(current);
+
     }
 
     @Override
@@ -126,7 +131,7 @@ public class DeclMethod extends AbstractDeclMethod {
 
         EnvironmentExp localEnv = new EnvironmentExp(currentClassDef.getMembers());
         this.parameters.verifyEnvParams(compiler, localEnv);
-        Type returnTypeNonVoid = this.returnType.verifyType(compiler, true, "un return de méthode"); // Rule 3.24
+        Type returnTypeNonVoid = this.returnType.verifyType(compiler, false, "un return de méthode"); // Rule 3.24
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
     }
 }

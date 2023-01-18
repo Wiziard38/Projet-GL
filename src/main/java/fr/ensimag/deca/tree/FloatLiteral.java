@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Single precision, floating-point literal
@@ -16,6 +17,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public class FloatLiteral extends AbstractExpr {
+    private static final Logger LOG = Logger.getLogger(FloatLiteral.class);
 
     public float getValue() {
         return value;
@@ -24,6 +26,7 @@ public class FloatLiteral extends AbstractExpr {
     private float value;
 
     public FloatLiteral(float value) {
+
         Validate.isTrue(!Float.isInfinite(value),
                 "literal values cannot be infinite");
         Validate.isTrue(!Float.isNaN(value),

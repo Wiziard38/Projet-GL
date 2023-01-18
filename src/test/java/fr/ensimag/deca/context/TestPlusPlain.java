@@ -23,7 +23,7 @@ public class TestPlusPlain {
 
     @Test
     public void testType() throws ContextualError {
-        DecacCompiler compiler = new DecacCompiler(null, null);
+        DecacCompiler compiler = new DecacCompiler(null, null, false);
         AbstractExpr left = Mockito.mock(AbstractExpr.class);
         when(left.verifyExpr(compiler, null, null)).thenReturn(INT);
         AbstractExpr right = Mockito.mock(AbstractExpr.class);

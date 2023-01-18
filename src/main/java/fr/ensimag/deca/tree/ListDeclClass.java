@@ -25,11 +25,9 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 1 of [SyntaxeContextuelle]
      */
     void verifyListClass(DecacCompiler compiler) throws ContextualError {
-        LOG.debug("verify listClass: start");
         for (AbstractDeclClass currentClass : this.getList()) {
             currentClass.verifyClass(compiler);
         }
-        LOG.debug("verify listClass: end");
     }
 
     /**

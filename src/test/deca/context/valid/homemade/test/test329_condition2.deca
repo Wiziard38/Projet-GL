@@ -1,0 +1,21 @@
+// test valide de la règle 3.29
+
+
+{
+    while (false) {
+        ;
+    }
+    while (7 == 7.5) {
+        ;
+    }
+    while (1 == 7) {
+        ;
+    }
+    while (true && true) {
+        ;
+    }
+    while (1.27 >= 3.1415) {
+        ;
+    }
+    
+}

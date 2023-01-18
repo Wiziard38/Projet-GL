@@ -1,0 +1,13 @@
+{
+    boolean a = true;
+    boolean b = true;
+    boolean c = true;
+    boolean d = false;
+    boolean e = true;
+
+    if(a||(b||(c||(d||(e)))) == true){
+        println("OK");
+    }else{
+        println("NOK");
+    }
+}

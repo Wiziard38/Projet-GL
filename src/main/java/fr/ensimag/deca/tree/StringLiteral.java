@@ -6,8 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateString;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.superInstructions.SuperWSTR;
 import java.io.PrintStream;
 import org.apache.log4j.Logger;
 
@@ -31,7 +30,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     public StringLiteral(String value) {
         Validate.notNull(value);
-        this.value = value;
+        this.value = value.replaceAll("\"", "");
     }
 
     @Override
@@ -43,13 +42,15 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new WSTR(this.value.replaceAll("\"", "")));
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+        compiler.addInstruction(SuperWSTR.main(this.value.replaceAll("\"", ""), compiler.compileInArm()));
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
+        s.print("\"");
         s.print(value);
+        s.print("\"");
     }
 
     @Override
@@ -64,7 +65,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     String prettyPrintNode() {
-        return "StringLiteral (" + value + ")";
+        return String.format("StringLiteral (%s)", this.value);
     }
 
 }

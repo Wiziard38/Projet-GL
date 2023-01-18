@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -42,10 +41,8 @@ public class DeclClass extends AbstractDeclClass {
         s.print(" extends ");
         superclass.decompile(s);
         s.println(" {");
-        s.println();
         s.indent();
         fields.decompile(s);
-        s.println();
         methods.decompile(s);
         s.unindent();
         s.println("}");
@@ -73,6 +70,8 @@ public class DeclClass extends AbstractDeclClass {
             throw new ContextualError(String.format("Le nom '%s' est deja un nom de class",
                     this.name), this.getLocation()); // Rule 1.3
         }
+        this.superclass.setDefinition(superDef);
+        this.name.setDefinition(compiler.environmentType.getClass(this.name.getName()));
     }
 
     @Override
@@ -99,7 +98,7 @@ public class DeclClass extends AbstractDeclClass {
         name.prettyPrint(s, prefix, false);
         superclass.prettyPrint(s, prefix, false);
         fields.prettyPrint(s, prefix, false);
-        methods.prettyPrint(s, prefix, false);
+        methods.prettyPrint(s, prefix, true);
     }
 
     @Override

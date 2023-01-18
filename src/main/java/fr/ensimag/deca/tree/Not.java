@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.tools.DecacInternalError;
 
 import org.apache.commons.lang.Validate;
 
@@ -39,8 +38,7 @@ public class Not extends AbstractUnaryExpr {
     }
 
     protected void checkDecoration() {
-        Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat()
-                || this.getOperand().getType().isBoolean());
+        Validate.isTrue(this.getOperand().getType().isBoolean());
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
 }

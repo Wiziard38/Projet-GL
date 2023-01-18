@@ -1,0 +1,13 @@
+{
+    boolean a = false;
+    boolean b = false;
+    boolean c = false;
+    boolean d = false;
+    boolean e = true;
+
+    if(a!=(b!=(c!=(d!=(e))))){
+        println("OK");
+    }else{
+        println("NOK");
+    }
+}

@@ -14,10 +14,11 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperWFLOAT;
+import fr.ensimag.superInstructions.SuperWFLOATX;
+import fr.ensimag.superInstructions.SuperWINT;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -31,28 +32,30 @@ import org.apache.log4j.Logger;
  */
 public class Identifier extends AbstractIdentifier {
     private static final Logger LOG = Logger.getLogger(Identifier.class);
-    
-    @Override
-    protected void checkDecoration() {
-        Validate.notNull(this.getDefinition());
-    }
 
-    protected void codeGenPrint(DecacCompiler compiler) {
-            VariableDefinition defVar = this.getVariableDefinition();
-            compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(1)));
-            if (this.getType().isInt()) {
-                compiler.addInstruction(new WINT());
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+        VariableDefinition defVar = this.getVariableDefinition();
+        compiler.addInstruction(SuperLOAD.main(defVar.getOperand(), Register.getR(1), compiler.compileInArm()));
+        if (this.getType().isInt()) {
+            compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
+        } else {
+            if (!printHex) {
+                compiler.addInstruction(SuperWFLOAT.main(compiler.compileInArm()));
+            } else {
+                compiler.addInstruction(SuperWFLOATX.main(compiler.compileInArm()));
             }
-            else {
-                compiler.addInstruction(new WFLOAT());
-            }
+
         }
+    }
 
     protected void codeGenInst(DecacCompiler compiler) {
         VariableDefinition defVar = this.getVariableDefinition();
-        compiler.setN(compiler.getN()+1);
-        compiler.addInstruction(new LOAD(defVar.getOperand(), Register.getR(compiler.getN())));
+        compiler.setN(compiler.getN() + 1);
+        compiler.addInstruction(
+                SuperLOAD.main(defVar.getOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
     }
+
     @Override
     public Definition getDefinition() {
         return definition;
@@ -66,7 +69,7 @@ public class Identifier extends AbstractIdentifier {
      * when the cast fails.
      * 
      * @throws DecacInternalError
-     *             if the definition is not a class definition.
+     *                            if the definition is not a class definition.
      */
     @Override
     public ClassDefinition getClassDefinition() {
@@ -88,7 +91,7 @@ public class Identifier extends AbstractIdentifier {
      * when the cast fails.
      * 
      * @throws DecacInternalError
-     *             if the definition is not a method definition.
+     *                            if the definition is not a method definition.
      */
     @Override
     public MethodDefinition getMethodDefinition() {
@@ -110,7 +113,7 @@ public class Identifier extends AbstractIdentifier {
      * when the cast fails.
      * 
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     @Override
     public FieldDefinition getFieldDefinition() {
@@ -132,7 +135,7 @@ public class Identifier extends AbstractIdentifier {
      * when the cast fails.
      * 
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     @Override
     public VariableDefinition getVariableDefinition() {
@@ -147,13 +150,14 @@ public class Identifier extends AbstractIdentifier {
     }
 
     /**
-     * Like {@link #getDefinition()}, but works only if the definition is a ExpDefinition.
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ExpDefinition.
      * 
      * This method essentially performs a cast, but throws an explicit exception
      * when the cast fails.
      * 
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     @Override
     public ExpDefinition getExpDefinition() {
@@ -184,43 +188,55 @@ public class Identifier extends AbstractIdentifier {
         this.name = name;
     }
 
+
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        Validate.notNull(localEnv);
-
         if (localEnv.get(this.name) == null) {
-            throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement", 
+            throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
+        
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name).getType();
     }
 
+    @Override
+    public Definition verifyDefinition(DecacCompiler compiler, EnvironmentExp localEnv)
+            throws ContextualError {
+        Validate.notNull(localEnv);
+
+        if (localEnv.get(this.name) == null) {
+            throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
+                    this.name.getName()), this.getLocation()); // Rule 0.1
+        }
+        LOG.debug("xxxx " + localEnv.get(this.name));
+        this.setDefinition(localEnv.get(this.name));
+        return localEnv.get(this.name);
+    }
+
     /**
      * Implements non-terminal "type" of [SyntaxeContextuelle] in the 3 passes
+     * 
      * @param compiler contains "env_types" attribute
      */
     @Override
     public Type verifyType(DecacCompiler compiler, boolean checkVoid, String message) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());
-        LOG.debug(this.getName());
         if (thisTypeDef == null) {
-            throw new ContextualError(String.format("Identificateur de type '%s' non déclaré", 
+            throw new ContextualError(String.format("Identificateur de type '%s' non déclaré",
                     this.name.getName()), this.getLocation()); // Rule 0.2
         }
         if (checkVoid && thisTypeDef.getType().isVoid()) {
             throw new ContextualError(String.format("Le type void ne peut etre affecté pour %s",
                     message), this.getLocation()); // Rule 3.17 // Rule 2.5 // Rule 2.9
         }
-        
+
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
         return thisTypeDef.getType();
     }
-    
-    
-    private Definition definition;
 
+    private Definition definition;
 
     @Override
     protected void iterChildren(TreeFunction f) {

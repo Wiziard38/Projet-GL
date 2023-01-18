@@ -1,15 +1,16 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.BEQ;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.BRA;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperBEQ;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperBRA;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperPOP;
+import fr.ensimag.superInstructions.SuperPUSH;
+
 /**
  *
  * @author gl39
@@ -21,66 +22,70 @@ public class Or extends AbstractOpBool {
         super(leftOperand, rightOperand);
     }
 
-    protected void codeGenInst(DecacCompiler compiler){
-        Label labelOneTrue = new Label("OneTrueOr" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
+    protected void codeGenInst(DecacCompiler compiler) {
+        Label labelOneTrue = new Label(
+                "OneTrueOr" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("FinCompOr" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         int nActualLeft;
-        if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()){
+        if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
             compiler.setD(compiler.getD() + 2);
-            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
-            compiler.setSP(compiler.getSP()+1);
-            compiler.setN(compiler.getN()-1);
-            nActualLeft = compiler.getN()+1;
-            this.getLeftOperand().codeGenInst(compiler);
-            compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualLeft)));
-            compiler.addInstruction(new BEQ(labelOneTrue));
-            compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
-            compiler.setSP(compiler.getSP()+1);
-            compiler.setN(compiler.getN()-1);
-            int nActualRight = compiler.getN()+1;
-            this.getRightOperand().codeGenInst(compiler);
-            compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualRight)));
-            compiler.addInstruction(new BEQ(labelOneTrue));
-            compiler.addInstruction(new BRA(labelFin));
-            compiler.addInstruction(new POP(Register.R0));
-            compiler.setSP(compiler.getSP() - 1);
-        }
-        else{
+            compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.setN(compiler.getN() - 1);
             nActualLeft = compiler.getN() + 1;
             this.getLeftOperand().codeGenInst(compiler);
-            compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualLeft)));
-            compiler.addInstruction(new BEQ(labelOneTrue));
-            if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()){
-                compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
+            compiler.addInstruction(
+                    SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
+            compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
+            compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.setN(compiler.getN() - 1);
+            int nActualRight = compiler.getN() + 1;
+            this.getRightOperand().codeGenInst(compiler);
+            compiler.addInstruction(
+                    SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
+            compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
+            compiler.addInstruction(SuperBRA.main(labelFin, compiler.compileInArm()));
+            compiler.addInstruction(SuperPOP.main(Register.R0, compiler.compileInArm()));
+            compiler.setSP(compiler.getSP() - 1);
+        } else {
+            nActualLeft = compiler.getN() + 1;
+            this.getLeftOperand().codeGenInst(compiler);
+            compiler.addInstruction(
+                    SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
+            compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
+            if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
+                compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
                 compiler.setD(compiler.getD() + 1);
-                compiler.setSP(compiler.getSP()+1);
-                compiler.setN(compiler.getN()-1);
-                int nActualRight = compiler.getN()+1;
+                compiler.setSP(compiler.getSP() + 1);
+                compiler.setN(compiler.getN() - 1);
+                int nActualRight = compiler.getN() + 1;
                 this.getRightOperand().codeGenInst(compiler);
-                compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualRight)));
-                compiler.addInstruction(new BEQ(labelOneTrue));
-                compiler.addInstruction(new BRA(labelFin));
+                compiler.addInstruction(
+                        SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
+                compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
+                compiler.addInstruction(SuperBRA.main(labelFin, compiler.compileInArm()));
                 compiler.setSP(compiler.getSP() - 1);
-                compiler.addInstruction(new POP(Register.getR(0)));
-            }
-            else {
-                int nActualRight = compiler.getN()+1;
+                compiler.addInstruction(SuperPOP.main(Register.getR(0), compiler.compileInArm()));
+            } else {
+                int nActualRight = compiler.getN() + 1;
                 this.getRightOperand().codeGenInst(compiler);
-                compiler.addInstruction(new CMP(new ImmediateInteger(1), Register.getR(nActualRight)));
-                compiler.addInstruction(new BEQ(labelOneTrue));
-                compiler.addInstruction(new BRA(labelFin));
+                compiler.addInstruction(
+                        SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
+                compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
+                compiler.addInstruction(SuperBRA.main(labelFin, compiler.compileInArm()));
             }
         }
         compiler.addLabel(labelOneTrue);
-        compiler.addInstruction(new LOAD(new ImmediateInteger(1), Register.getR(nActualLeft)));
+        compiler.addInstruction(
+                SuperLOAD.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
         compiler.addLabel(labelFin);
         compiler.setN(nActualLeft);
     }
-    
+
     @Override
     protected String getOperatorName() {
         return "||";
     }
-
 
 }

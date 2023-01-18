@@ -8,10 +8,10 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.pseudocode.AbstractLine;
+import fr.ensimag.pseudocode.IMAProgram;
+import fr.ensimag.pseudocode.Instruction;
+import fr.ensimag.pseudocode.Label;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,6 +59,12 @@ public class DecacCompiler {
         return erreurOverflow;
     }
 
+    private Label erreurArondi = new Label("ErreurArrondi");
+
+    public Label getErreurArrondi() {
+        return erreurArondi;
+    }
+
     private Label erreurInOut = new Label("io_error");
 
     public Label getErreurinOut() {
@@ -89,10 +95,17 @@ public class DecacCompiler {
         this.SP = SP;
     }
 
-    public DecacCompiler(CompilerOptions compilerOptions, File source) {
+    private boolean compileInArm = false;
+
+    public DecacCompiler(CompilerOptions compilerOptions, File source, boolean arm) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        compileInArm = arm;
+    }
+
+    public boolean compileInArm() {
+        return compileInArm;
     }
 
     /**
@@ -258,7 +271,7 @@ public class DecacCompiler {
 
         // arret si option -v
         prog.verifyProgram(this);
-        assert(prog.checkAllDecorations());
+        assert (prog.checkAllDecorations());
 
         if (this.getCompilerOptions().getVerification()) {
             return false;

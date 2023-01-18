@@ -18,6 +18,7 @@ options {
 @header {
         import fr.ensimag.deca.tree.*;
         import java.io.PrintStream;
+        import fr.ensimag.deca.syntax.InvalidFloatInput;
 }
 
 @members {
@@ -392,7 +393,7 @@ select_expr
 		o = OPARENT args = list_expr CPARENT {
                 // we matched "e1.i(args)"
                 assert($args.tree != null);
-                $tree = new MethodCallOnExpr($e1.tree, $i.tree, $args.tree);
+                $tree = new MethodCall($e1.tree, $i.tree, $args.tree);
                 setLocation($tree, $e1.start);
         }
 		| /* epsilon */ {
@@ -412,7 +413,7 @@ primary_expr
 	| m = ident OPARENT args = list_expr CPARENT {
                 assert($args.tree != null);
                 assert($m.tree != null);
-                $tree = new MethodCallOnVoid($m.tree, $args.tree);
+                $tree = new MethodCall($m.tree, $args.tree);
                 setLocation($tree, $ident.start);
         }
 	| OPARENT expr CPARENT {
@@ -469,6 +470,12 @@ literal
         }
 	| fd = FLOAT {
                 try {
+                        if (Float.valueOf($fd.text) < Float.MIN_VALUE) {
+                                throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.LOW);
+                        }
+                        if (Float.valueOf($fd.text) > Float.MAX_VALUE) {
+                                throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.HIGH);
+                        }
                         $tree = new FloatLiteral(Float.parseFloat($fd.text));
                         setLocation($tree, $fd);
                 } catch (NumberFormatException e) {
@@ -529,7 +536,6 @@ class_decl
                 assert($superclass.tree != null);
                 assert($class_body.fields != null);
                 assert($class_body.methods != null);
-                setLocation($superclass.tree, $superclass.start);
                 $tree = new DeclClass($name.tree, $superclass.tree, $class_body.fields, $class_body.methods);
                 setLocation($tree, $CLASS);
         };
@@ -539,9 +545,11 @@ class_extension
 	EXTENDS ident {
                 assert($ident.tree != null);
                 $tree = $ident.tree;
+                setLocation($tree, $ident.start);
         }
 	| /* epsilon */ {
                 $tree = new Identifier(getDecacCompiler().createSymbol("Object"));
+                $tree.setLocation(Location.BUILTIN);
         };
 
 class_body
@@ -586,6 +594,7 @@ decl_field[ListDeclField l, Visibility v, AbstractIdentifier t]
 		EQUALS e = expr {
                         assert($e.tree != null);
                         init = new Initialization($e.tree);
+                        setLocation(init, $expr.start);
         }
 	)? {
                 assert($v != null);

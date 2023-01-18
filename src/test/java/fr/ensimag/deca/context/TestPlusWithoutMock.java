@@ -63,7 +63,7 @@ public class TestPlusWithoutMock {
 
     @Test
     public void testType() throws ContextualError {
-        DecacCompiler compiler = new DecacCompiler(null, null);
+        DecacCompiler compiler = new DecacCompiler(null, null, false);
         DummyIntExpression left = new DummyIntExpression();
         DummyIntExpression right = new DummyIntExpression();
         Plus t = new Plus(left, right);

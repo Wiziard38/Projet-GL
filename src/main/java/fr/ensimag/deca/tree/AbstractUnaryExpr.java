@@ -2,12 +2,12 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.FLOAT;
-import fr.ensimag.ima.pseudocode.instructions.OPP;
-import fr.ensimag.ima.pseudocode.instructions.SNE;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperFLOAT;
+import fr.ensimag.superInstructions.SuperOPP;
+import fr.ensimag.superInstructions.SuperSNE;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -33,20 +33,24 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
         Validate.notNull(operand);
         this.operand = operand;
     }
+
     @Override
-    protected void codeGenInst(DecacCompiler compiler){
-        int nActual = compiler.getN() +1;
+    protected void codeGenInst(DecacCompiler compiler) {
+        int nActual = compiler.getN() + 1;
         this.getOperand().codeGenInst(compiler);
-        switch(this.getOperatorName()){
+        switch (this.getOperatorName()) {
             case "/* conv float */":
-                compiler.addInstruction(new FLOAT(Register.getR(nActual),Register.getR(nActual)));
+                compiler.addInstruction(
+                        SuperFLOAT.main(Register.getR(nActual), Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "!":
-                compiler.addInstruction(new CMP(new ImmediateInteger(1),Register.getR(nActual)));
-                compiler.addInstruction(new SNE(Register.getR(nActual)));
+                compiler.addInstruction(
+                        SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(SuperSNE.main(Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "-":
-                compiler.addInstruction(new OPP(Register.getR(nActual),Register.getR(nActual)));
+                compiler.addInstruction(
+                        SuperOPP.main(Register.getR(nActual), Register.getR(nActual), compiler.compileInArm()));
                 break;
         }
         compiler.setN(nActual);

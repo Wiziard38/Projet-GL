@@ -1,15 +1,14 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperSTORE;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
+
 /**
  * Assignment, i.e. lvalue = expr.
  *
@@ -22,7 +21,7 @@ public class Assign extends AbstractBinaryExpr {
     public AbstractLValue getLeftOperand() {
         // The cast succeeds by construction, as the leftOperand has been set
         // as an AbstractLValue by the constructor.
-        return (AbstractLValue)super.getLeftOperand();
+        return (AbstractLValue) super.getLeftOperand();
     }
 
     public Assign(AbstractLValue leftOperand, AbstractExpr rightOperand) {
@@ -30,26 +29,26 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler){
-        int nActualRight = compiler.getN() +1;
+    protected void codeGenInst(DecacCompiler compiler) {
+        int nActualRight = compiler.getN() + 1;
         getRightOperand().codeGenInst(compiler);
-        VariableDefinition varDef = ((AbstractIdentifier)getLeftOperand()).getVariableDefinition();
-        compiler.addInstruction(new STORE(Register.getR(nActualRight), varDef.getOperand()));
+        VariableDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getVariableDefinition();
+        compiler.addInstruction(
+                SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        
+
         Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
-        
+
         // On set si jamais il y a un CovnFloat a appliquer
         this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));
 
         this.setType(requestedType);
         return requestedType;
     }
-
 
     @Override
     protected String getOperatorName() {

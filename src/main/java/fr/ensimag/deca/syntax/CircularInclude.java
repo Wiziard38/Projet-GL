@@ -17,7 +17,7 @@ public class CircularInclude extends DecaRecognitionException {
         super(recognizer, input);
         this.name = name;
     }
-
+    
     @Override
     public String getMessage() {
         return "Circular include for file " + name;

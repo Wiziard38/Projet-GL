@@ -30,7 +30,7 @@ public class ListInst extends TreeList<AbstractInst> {
     public void verifyListInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        LOG.debug("verify into listInst");
+        // LOG.debug("verify into listInst");
         Validate.notNull(localEnv);
         
         for (AbstractInst myInst : getList()) {

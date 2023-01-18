@@ -55,12 +55,12 @@ public class DeclVar extends AbstractDeclVar {
             throws ContextualError {
         Validate.notNull(localEnv);
 
-        LOG.debug("Verify Decl Var - type");
+        // LOG.debug("Verify Decl Var - type");
         // On verifie que le type existe bien
         Type initializationType = this.type.verifyType(compiler, true, "une variable");
         // this.type.setDefinition(compiler.environmentType.defOfType(this.type.getName()));
 
-        LOG.debug("Verify Decl Var - name");
+        // LOG.debug("Verify Decl Var - name");
         // On verifie que varName n'est pas deja declare localement
         try {
             this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
@@ -72,7 +72,7 @@ public class DeclVar extends AbstractDeclVar {
                     this.getLocation()); // Rule 3.17
         }
 
-        LOG.debug("Verify Decl Var - initialization");
+        // LOG.debug("Verify Decl Var - initialization");
         this.initialization.verifyInitialization(compiler, initializationType, localEnv, currentClass);
 
     }

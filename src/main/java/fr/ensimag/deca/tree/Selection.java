@@ -49,8 +49,9 @@ public class Selection extends AbstractLValue {
                 .asClassType("La sélection doit se faire sur une classe", 
                 this.getLocation()); // Rule 3.65 // Rule 3.66
 
-        FieldDefinition fieldDef = this.verifyFieldIdent(compiler.environmentType.getClass(
-                selectClass.getName()).getMembers());
+        FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().
+                getMembers()).asFieldDefinition(String.format("'%s' n'est pas un champ de class",
+                this.name.getName()), this.getLocation()); // Rule 3.70
                 
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
             return fieldDef.getType();
@@ -63,24 +64,6 @@ public class Selection extends AbstractLValue {
         }
         throw new ContextualError(String.format("Le champ '%s' ne peut être accédé localement !",
                 this.name), this.getLocation()); // Rule 3.66
-    }
-
-    /**
-     * TODO
-     */
-    public FieldDefinition verifyFieldIdent(EnvironmentExp localEnv) throws ContextualError {
-
-        if (localEnv.get(this.name.getName()) == null) {
-            throw new ContextualError(String.format("Le champ '%s' n'est pas défini dans l'environnement local",
-                    this.name.getName()), this.getLocation()); // Rule 3.70
-        }
-        LOG.debug(localEnv.get(this.name.getName()));
-        
-        FieldDefinition currentField = localEnv.get(this.name.getName()).asFieldDefinition(String.format(
-                "'%s' n'est pas un champ de class", this.name.getName()), this.getLocation()); // Rule 3.70
-
-        this.name.setDefinition(currentField);
-        return currentField;
     }
 
     @Override

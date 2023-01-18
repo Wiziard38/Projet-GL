@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 public class DeclMethod extends AbstractDeclMethod {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
-    private AbstractIdentifier name;
     private AbstractIdentifier returnType;
+    private AbstractIdentifier name;
     private ListDeclParam parameters;
     private AbstractMethodBody body;
 
@@ -33,9 +33,9 @@ public class DeclMethod extends AbstractDeclMethod {
         Validate.notNull(method);
         Validate.notNull(params);
         Validate.notNull(body);
-        name = method;
-        returnType = type;
-        parameters = params;
+        this.returnType = type;
+        this.name = method;
+        this.parameters = params;
         this.body = body;
     }
 

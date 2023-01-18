@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public class Identifier extends AbstractIdentifier {
+    private static final Logger LOG = Logger.getLogger(Identifier.class);
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
@@ -187,17 +188,31 @@ public class Identifier extends AbstractIdentifier {
         this.name = name;
     }
 
+
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
+        if (localEnv.get(this.name) == null) {
+            throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
+                    this.name.getName()), this.getLocation()); // Rule 0.1
+        }
+        
+        this.setDefinition(localEnv.get(this.name));
+        return localEnv.get(this.name).getType();
+    }
+
+    @Override
+    public Definition verifyDefinition(DecacCompiler compiler, EnvironmentExp localEnv)
+            throws ContextualError {
         Validate.notNull(localEnv);
 
         if (localEnv.get(this.name) == null) {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
+        LOG.debug("xxxx " + localEnv.get(this.name));
         this.setDefinition(localEnv.get(this.name));
-        return localEnv.get(this.name).getType();
+        return localEnv.get(this.name);
     }
 
     /**

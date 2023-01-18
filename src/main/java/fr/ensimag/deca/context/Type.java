@@ -78,7 +78,7 @@ public abstract class Type {
      */
     public ClassType asClassType(String errorMessage, Location l)
             throws ContextualError {
-        LOG.debug(this.name);
+        // LOG.debug(this.name);
         if (this instanceof ClassType) {
             return (ClassType) this;
         }

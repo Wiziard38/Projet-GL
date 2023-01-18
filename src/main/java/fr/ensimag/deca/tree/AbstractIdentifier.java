@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.ExpDefinition;
@@ -105,4 +106,10 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      */
     public abstract Type verifyType(DecacCompiler compiler, boolean checkVoid,
             String message) throws ContextualError;
+
+    /**
+     * TODO
+     */
+    public abstract Definition verifyDefinition(DecacCompiler compiler, EnvironmentExp localEnv)
+            throws ContextualError;
 }

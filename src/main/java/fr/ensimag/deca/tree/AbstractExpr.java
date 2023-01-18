@@ -86,7 +86,7 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
-        LOG.debug("Verify RValue - begin");
+        // LOG.debug("Verify RValue - begin");
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
 
         // Vérification de assign_compatible
@@ -99,7 +99,7 @@ public abstract class AbstractExpr extends AbstractInst {
         if (expectedType.sameType(exprType)) {
             return this;
         }
-        LOG.debug("Verify RValue - not same type");
+        // LOG.debug("Verify RValue - not same type");
 
         if (exprType.isClass() && expectedType.isClass()) {
             LOG.debug("Verify RValue - not classes type");

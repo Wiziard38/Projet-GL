@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
  * @author gl39
  * @date 01/01/2023
  */
-public class DecacCompiler {
+public class DecacCompiler implements Runnable {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
 
     /**
@@ -193,6 +193,11 @@ public class DecacCompiler {
     public Symbol createSymbol(String name) {
         return symbolTable.create(name);
     }
+
+    @Override
+        public void run() {
+            this.compile();
+        }
 
     /**
      * Run the compiler (parse source file, generate code)

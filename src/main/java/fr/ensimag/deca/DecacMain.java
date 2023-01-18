@@ -1,6 +1,9 @@
 package fr.ensimag.deca;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -48,22 +51,26 @@ public class DecacMain {
             // compiler, et lancer l'exécution des méthodes compile() de chaque
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
-            throw new UnsupportedOperationException("Parallel build not yet implemented");
-        } else if (options.getCompileInARM()) {
+            long start = System.currentTimeMillis();
+            ExecutorService executors = Executors.newFixedThreadPool(java.lang.Runtime.getRuntime().availableProcessors());
             for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source, true);
-                if (compiler.compile()) {
-                    error = true;
-                }
+                DecacCompiler compiler = new DecacCompiler(options, source, options.getCompileInARM());
+                executors.execute(compiler);
             }
+            executors.shutdown();
+            while(!executors.isTerminated());
+            LOG.info("Time Taken by concurrent compiling :: "+(System.currentTimeMillis()-start) + " ms ");
+        
         } else {
+            long start = System.currentTimeMillis();
             for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source, false);
+                DecacCompiler compiler = new DecacCompiler(options, source, options.getCompileInARM());
                 if (compiler.compile()) {
                     error = true;
                 }
             }
-        }
+            LOG.info("Time Taken by normal compiling :: "+(System.currentTimeMillis()-start) + " ms ");
+        } 
 
         System.exit(error ? 1 : 0);
     }

@@ -3,6 +3,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperSTORE;
+
+import org.apache.log4j.Logger;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -16,6 +19,7 @@ import fr.ensimag.deca.context.VariableDefinition;
  * @date 01/01/2023
  */
 public class Assign extends AbstractBinaryExpr {
+    private static Logger LOG = Logger.getLogger(Assign.class);
 
     @Override
     public AbstractLValue getLeftOperand() {
@@ -35,6 +39,7 @@ public class Assign extends AbstractBinaryExpr {
         VariableDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getVariableDefinition();
         compiler.addInstruction(
                 SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
+        compiler.setN(nActualRight - 1);
     }
 
     @Override

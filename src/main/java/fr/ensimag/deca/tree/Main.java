@@ -1,15 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.superInstructions.SuperBOV;
-import fr.ensimag.superInstructions.SuperERROR;
-import fr.ensimag.superInstructions.SuperHALT;
-import fr.ensimag.superInstructions.SuperTSTO;
-import fr.ensimag.superInstructions.SuperWNL;
-import fr.ensimag.superInstructions.SuperWSTR;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -49,10 +44,11 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         //Déclaration des variables
-        this.declVariables.codeGenListVar(compiler);
+        BlocInProg.addBloc("main", compiler.getLastLineIndex(), 0, 0);
+        this.declVariables.codeGenListVar(compiler, "main");
         //Instructions du programme principal
         compiler.addComment("Beginning of main instructions:");
-        insts.codeGenListInst(compiler);
+        insts.codeGenListInst(compiler, "main");
         //Début des gestions des erreurs
         compiler.addComment("End of the main program");
     }

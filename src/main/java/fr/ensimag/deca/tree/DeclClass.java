@@ -1,13 +1,14 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.LabelOperand;
+import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperRTS;
@@ -16,7 +17,6 @@ import fr.ensimag.ima.instructions.LOAD;
 import fr.ensimag.ima.instructions.PUSH;
 
 import java.io.PrintStream;
-import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
 
@@ -48,10 +48,11 @@ public class DeclClass extends AbstractDeclClass {
     protected void codeGenClass(DecacCompiler compiler){
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
+        compiler.addComment("class "+this.name.getName().getName());
         compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
         compiler.addInstruction(new PUSH(Register.getR(nActual)));
-        compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
         compiler.setSP(compiler.getSP() + 1);
+        compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
         compiler.setN(nActual - 1);
         for (AbstractDeclMethod method : methods.getList()){
             compiler.addInstruction(
@@ -61,17 +62,22 @@ public class DeclClass extends AbstractDeclClass {
             compiler.addInstruction(new PUSH(Register.getR(nActual)));
             compiler.setSP(compiler.getSP() + 1);
         }
+        compiler.add(new Line(""));
     }
 
-    protected void codeGenCorpMethod(DecacCompiler compiler){
-        compiler.addLabel(new Label(this.name.getName().toString() + ".Init"));
+    protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+        BlocInProg.addBloc("init." + this.name.getName().getName(), compiler.getLastLineIndex(), 0, 0);
+        compiler.addLabel(new Label("init." + this.name.getName().toString()));
         for (AbstractDeclField field : fields.getList()) {
-            field.codeGenDeclFiedl(compiler);
+            field.codeGenDeclFiedl(compiler, name);
         }
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        compiler.addComment("");
         for (AbstractDeclMethod method : methods.getList()) {
-            compiler.addLabel(new Label(this.name.getName().toString() + '.' + method.getName().getName().toString()));
-            method.codeGenCorpMethod(compiler);
+            BlocInProg.addBloc(this.name.getName().getName() + '.' + method.getName().getName(), compiler.getLastLineIndex(), 0, 0);
+            compiler.addLabel(new Label(this.name.getName().getName() + '.' + method.getName().getName()));
+            method.codeGenCorpMethod(compiler, name);
+            compiler.addComment("");
         }
     }
 

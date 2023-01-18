@@ -5,6 +5,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.pseudocode.*;
 import fr.ensimag.superInstructions.*;
 
@@ -73,21 +74,21 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActualLeft;
         if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
-            compiler.setD(compiler.getD() + 2);
+            BlocInProg.getBlock(name).incrnbPlacePileNeeded();
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(compiler.getN() - 1);
             nActualLeft = compiler.getN() + 1;
-            this.getLeftOperand().codeGenInst(compiler);
+            this.getLeftOperand().codeGenInst(compiler, name);
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(compiler.getN() - 1);
             int nActualRight = compiler.getN() + 1;
-            this.getRightOperand().codeGenInst(compiler);
-            compiler.setD(compiler.getD() + 1);
+            this.getRightOperand().codeGenInst(compiler, name);
+           BlocInProg.getBlock(name).incrnbPlacePileNeeded();
             compiler.setSP(compiler.getSP() + 1);
             compiler.addInstruction(SuperPUSH.main(Register.getR(nActualRight), compiler.compileInArm()));
             switch (getOperatorName()) {
@@ -162,15 +163,15 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             compiler.setSP(compiler.getSP() - 2);
         } else {
             nActualLeft = compiler.getN() + 1;
-            this.getLeftOperand().codeGenInst(compiler);
+            this.getLeftOperand().codeGenInst(compiler, name);
             if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
                 compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
-                compiler.setD(compiler.getD() + 1);
+                BlocInProg.getBlock(name).incrnbPlacePileNeeded();
                 compiler.setSP(compiler.getSP() + 1);
                 compiler.setN(compiler.getN() - 1);
                 int nActualRight = compiler.getN() + 1;
-                this.getRightOperand().codeGenInst(compiler);
-                compiler.setD(compiler.getD() + 1);
+                this.getRightOperand().codeGenInst(compiler, name);
+                BlocInProg.getBlock(name).incrnbPlacePileNeeded();
                 compiler.setSP(compiler.getSP() + 1);
                 compiler.addInstruction(SuperPUSH.main(Register.getR(nActualRight), compiler.compileInArm()));
                 compiler.addInstruction(
@@ -238,7 +239,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 compiler.addInstruction(SuperPOP.main(Register.getR(0), compiler.compileInArm()));
             } else {
                 int nActualRight = compiler.getN() + 1;
-                this.getRightOperand().codeGenInst(compiler);
+                this.getRightOperand().codeGenInst(compiler, name);
 
                 switch (getOperatorName()) {
                     case "+":
@@ -313,7 +314,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
         int nActualLeft = compiler.getN() + 1;
-        this.codeGenInst(compiler);
+        this.codeGenInst(compiler, "");
         if (this.getType().isInt()) {
             compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(1), compiler.compileInArm()));
             compiler.addInstruction(

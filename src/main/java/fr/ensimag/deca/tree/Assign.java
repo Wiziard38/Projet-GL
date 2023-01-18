@@ -6,9 +6,7 @@ import fr.ensimag.superInstructions.SuperSTORE;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 
 /**
@@ -31,12 +29,13 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActualRight = compiler.getN() + 1;
-        getRightOperand().codeGenInst(compiler);
+        getRightOperand().codeGenInst(compiler, name);
         VariableDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getVariableDefinition();
         compiler.addInstruction(
                 SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
+        compiler.setN(nActualRight - 1);
     }
 
     @Override

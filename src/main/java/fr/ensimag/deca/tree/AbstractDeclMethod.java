@@ -32,6 +32,6 @@ public abstract class AbstractDeclMethod extends Tree {
 
     public abstract AbstractIdentifier getName();
 
-    protected abstract void codeGenCorpMethod(DecacCompiler compiler);
+    protected abstract void codeGenCorpMethod(DecacCompiler compiler, String name);
 
 }

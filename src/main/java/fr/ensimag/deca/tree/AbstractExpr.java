@@ -169,7 +169,7 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
 
         compiler.setN(compiler.getN() + 1);
         if (this.getType().sameType(compiler.environmentType.INT)) {

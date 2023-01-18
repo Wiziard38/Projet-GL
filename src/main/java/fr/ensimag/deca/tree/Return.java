@@ -44,9 +44,9 @@ public class Return extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
-        expr.codeGenInst(compiler);
+        expr.codeGenInst(compiler, name);
         compiler.addInstruction(SuperLOAD.main(Register.getR(nActual),Register.R0, compiler.compileInArm()));
         
     }

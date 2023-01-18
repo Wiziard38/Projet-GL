@@ -50,7 +50,6 @@ public class Identifier extends AbstractIdentifier {
     }
 
     protected void codeGenInst(DecacCompiler compiler) {
-        System.out.println(this.getDefinition().getNature());
         switch (this.getDefinition().getNature()){
             case "variable":
                 VariableDefinition defVar = (VariableDefinition) this.getDefinition();

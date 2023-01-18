@@ -28,7 +28,7 @@ public class ReadFloat extends AbstractReadExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         compiler.addInstruction(SuperRFLOAT.main(compiler.compileInArm()));
         int nActual = compiler.getN() + 1;
         compiler.addInstruction(SuperLOAD.main(Register.getR(1), Register.getR(nActual), compiler.compileInArm()));

@@ -58,9 +58,9 @@ public class MethodBody extends AbstractMethodBody {
     }
 
     @Override
-    protected void codeGenInstBody(DecacCompiler compiler) {
-        this.variables.codeGenListVar(compiler);
-        this.instructions.codeGenListInst(compiler);
+    protected void codeGenInstBody(DecacCompiler compiler, String name) {
+        this.variables.codeGenListVar(compiler, name);
+        this.instructions.codeGenListInst(compiler, name);
         
     }
 

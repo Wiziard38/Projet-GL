@@ -7,7 +7,6 @@ import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
@@ -99,12 +98,14 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
-    protected void codeGenDeclFiedl(DecacCompiler compiler){
+    protected void codeGenDeclFiedl(DecacCompiler compiler, String name){
         FieldDefinition defField = (FieldDefinition)this.name.getDefinition();
-        int nActual = compiler.getN();
-        initialization.codeGenInst(compiler);
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN()), compiler.compileInArm()));
-        compiler.addInstruction(SuperSTORE.main(Register.getR(compiler.getN()), new RegisterOffset(defField.getIndex(), Register.getR(compiler.getN())), compiler.compileInArm()));
+        int nActual = compiler.getN() + 1;
+        initialization.codeGenInst(compiler, this.name.getDefinition(), name);
+        int nThis = compiler.getN() + 1;
+        compiler.setN(nThis);
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
+        compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
         compiler.setN(nActual - 1);
     }
 

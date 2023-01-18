@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.Register;
@@ -22,18 +23,19 @@ public class Or extends AbstractOpBool {
         super(leftOperand, rightOperand);
     }
 
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         Label labelOneTrue = new Label(
                 "OneTrueOr" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("FinCompOr" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         int nActualLeft;
         if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
-            compiler.setD(compiler.getD() + 2);
+            BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+            BlocInProg.getBlock(name).incrnbPlacePileNeeded();
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(compiler.getN() - 1);
             nActualLeft = compiler.getN() + 1;
-            this.getLeftOperand().codeGenInst(compiler);
+            this.getLeftOperand().codeGenInst(compiler, name);
             compiler.addInstruction(
                     SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
             compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
@@ -41,7 +43,7 @@ public class Or extends AbstractOpBool {
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(compiler.getN() - 1);
             int nActualRight = compiler.getN() + 1;
-            this.getRightOperand().codeGenInst(compiler);
+            this.getRightOperand().codeGenInst(compiler, name);
             compiler.addInstruction(
                     SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
             compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
@@ -50,17 +52,17 @@ public class Or extends AbstractOpBool {
             compiler.setSP(compiler.getSP() - 1);
         } else {
             nActualLeft = compiler.getN() + 1;
-            this.getLeftOperand().codeGenInst(compiler);
+            this.getLeftOperand().codeGenInst(compiler, name);
             compiler.addInstruction(
                     SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
             compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
             if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
                 compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
-                compiler.setD(compiler.getD() + 1);
+                BlocInProg.getBlock(name).incrnbPlacePileNeeded();
                 compiler.setSP(compiler.getSP() + 1);
                 compiler.setN(compiler.getN() - 1);
                 int nActualRight = compiler.getN() + 1;
-                this.getRightOperand().codeGenInst(compiler);
+                this.getRightOperand().codeGenInst(compiler, name);
                 compiler.addInstruction(
                         SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
                 compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));
@@ -69,7 +71,7 @@ public class Or extends AbstractOpBool {
                 compiler.addInstruction(SuperPOP.main(Register.getR(0), compiler.compileInArm()));
             } else {
                 int nActualRight = compiler.getN() + 1;
-                this.getRightOperand().codeGenInst(compiler);
+                this.getRightOperand().codeGenInst(compiler, name);
                 compiler.addInstruction(
                         SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
                 compiler.addInstruction(SuperBEQ.main(labelOneTrue, compiler.compileInArm()));

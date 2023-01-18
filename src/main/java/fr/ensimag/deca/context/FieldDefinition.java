@@ -57,9 +57,4 @@ public class FieldDefinition extends ExpDefinition {
         return true;
     }
 
-    @Override
-    public void setOperand(Operand op) {
-        
-    }
-
 }

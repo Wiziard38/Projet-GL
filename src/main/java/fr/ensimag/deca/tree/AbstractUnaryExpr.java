@@ -35,9 +35,9 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
-        this.getOperand().codeGenInst(compiler);
+        this.getOperand().codeGenInst(compiler, name);
         switch (this.getOperatorName()) {
             case "/* conv float */":
                 compiler.addInstruction(

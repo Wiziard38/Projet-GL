@@ -49,9 +49,9 @@ public class IfThenElse extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
-        condition.codeGenInst(compiler);
+        condition.codeGenInst(compiler, name);
         compiler.addInstruction(
                 SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
         Label labelIf = new Label("If" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
@@ -60,10 +60,10 @@ public class IfThenElse extends AbstractInst {
         compiler.addInstruction(SuperBNE.main(labelElse, compiler.compileInArm()));
         compiler.addLabel(labelIf);
         compiler.setN(nActual - 1);
-        thenBranch.codeGenListInst(compiler);
+        thenBranch.codeGenListInst(compiler, name);
         compiler.addInstruction(SuperBRA.main(labelFin, compiler.compileInArm()));
         compiler.addLabel(labelElse);
-        elseBranch.codeGenListInst(compiler);
+        elseBranch.codeGenListInst(compiler, name);
         compiler.addLabel(labelFin);
         compiler.setN(nActual - 1);
     }

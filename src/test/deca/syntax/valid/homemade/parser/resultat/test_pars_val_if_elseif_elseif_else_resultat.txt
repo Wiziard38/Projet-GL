@@ -24,7 +24,7 @@
                     +> ListInst [List with 1 elements]
                     |  []> [17, 8] Println
                     |      `> ListExpr [List with 1 elements]
-                    |         []> [17, 16] StringLiteral ("x == 5")
+                    |         []> [17, 16] StringLiteral (x == 5)
                     `> ListInst [List with 1 elements]
                        []> [19, 9] IfThenElse
                            +> [19, 13] Equals
@@ -33,8 +33,8 @@
                            +> ListInst [List with 1 elements]
                            |  []> [20, 8] Println
                            |      `> ListExpr [List with 1 elements]
-                           |         []> [20, 16] StringLiteral ("x == 6")
+                           |         []> [20, 16] StringLiteral (x == 6)
                            `> ListInst [List with 1 elements]
                               []> [23, 8] Println
                                   `> ListExpr [List with 1 elements]
-                                     []> [23, 16] StringLiteral ("x > 6")
+                                     []> [23, 16] StringLiteral (x > 6)

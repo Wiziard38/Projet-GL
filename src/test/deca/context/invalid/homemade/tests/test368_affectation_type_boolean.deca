@@ -1,0 +1,8 @@
+// test invalide de la règle 3.68
+
+
+class A{
+
+    boolean = x;
+}
+

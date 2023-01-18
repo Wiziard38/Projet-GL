@@ -1,0 +1,13 @@
+// test invalide de la règle 3.70
+
+
+class A{
+    int x = 8; 
+}
+
+{
+    int y = 0;
+    A a = new A();
+    a.y = 1;
+    
+}

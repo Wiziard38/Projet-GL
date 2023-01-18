@@ -1,0 +1,7 @@
+// test invalide de la règle 3.42
+
+
+
+class A {
+    eleve Jules = new eleve();
+}

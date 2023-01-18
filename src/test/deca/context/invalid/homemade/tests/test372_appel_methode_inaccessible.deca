@@ -1,0 +1,22 @@
+// test invalide de la règle 3.72
+
+
+class A{
+
+    int y = 1;
+
+    protected void calcul(int valeur){
+        this.y = 2*valeur;
+    }
+}
+
+class B{
+    int x;
+}
+
+
+{
+    int c = 5;
+    B b = new B();
+    b.calcul(5);
+}

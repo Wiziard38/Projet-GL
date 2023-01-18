@@ -54,28 +54,34 @@ public class Main extends AbstractMain {
         insts.codeGenListInst(compiler);
         compiler.addInstruction(SuperHALT.main(compiler.compileInArm()));
         compiler.addComment("End of the main program");
-        compiler.addLabel(compiler.getErreurPile());
-        compiler.addInstruction(
-                SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addLabel(compiler.getErreurOverflow());
-        compiler.addInstruction(
-                SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique", compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addLabel(compiler.getErreurinOut());
-        compiler.addInstruction(SuperWSTR.main("Erreur lors d'une entrée/sortie", compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addLabel(compiler.getErreurArrondi());
-        compiler.addInstruction(
-                SuperWSTR.main("Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini",
-                        compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addInstructionFirst(SuperBOV.main(compiler.getErreurPile(), compiler.compileInArm()));
-        compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(), compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurPile());
+        // compiler.addInstruction(
+        // SuperWSTR.main("Erreur de débordement de pile dans le programme",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurOverflow());
+        // compiler.addInstruction(
+        // SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurinOut());
+        // compiler.addInstruction(SuperWSTR.main("Erreur lors d'une entrée/sortie",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurArrondi());
+        // compiler.addInstruction(
+        // SuperWSTR.main("Erreur lors d'une opération arithmétique sur des flottant,
+        // arrondi vers 0 ou l'infini",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addInstructionFirst(SuperBOV.main(compiler.getErreurPile(),
+        // compiler.compileInArm()));
+        // compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(),
+        // compiler.compileInArm()));
     }
 
     @Override

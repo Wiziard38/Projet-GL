@@ -14,6 +14,11 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperBSR;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperPUSH;
 
 /*
  * Call of a method function on an expression
@@ -135,6 +140,23 @@ public class MethodCall extends AbstractExpr {
         if (args != null) {
             args.iter(f);
         }
+    }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler, String name) {
+        for (AbstractExpr expr : args.getList()) {
+            int nActual = compiler.getN() + 1;
+            expr.codeGenInst(compiler, name);
+            compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.setN(nActual - 1);
+        }
+        int nActual = compiler.getN() + 1;
+        compiler.addInstruction(SuperLOAD.main(((Identifier)(this.expr)).getExpDefinition().getOperand(), Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nActual)), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nActual), compiler.compileInArm()));
     }
 
 }

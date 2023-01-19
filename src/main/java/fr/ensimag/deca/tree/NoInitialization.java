@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
@@ -33,14 +34,15 @@ public class NoInitialization extends AbstractInitialization {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, Definition def, String name){
+        int nActual = compiler.getN() + 1;
+        compiler.setN(nActual);
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
         if (def.getNature().equals("field")){
             if (def.getType().isBoolean() || def.getType().isInt()) {
-                compiler.setN(compiler.getN() + 1);
-                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(compiler.getN()), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(nActual), compiler.compileInArm()));
             }
             else if (def.getType().isFloat()) {
-                compiler.setN(compiler.getN() + 1);
-                compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(0), Register.getR(compiler.getN()), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(0), Register.getR(nActual), compiler.compileInArm()));
             }
         }
     }

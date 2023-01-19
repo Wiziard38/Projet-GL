@@ -6,12 +6,16 @@ import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.LabelOperand;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperPOP;
+import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperRTS;
+import fr.ensimag.superInstructions.SuperTSTO;
 import fr.ensimag.ima.instructions.LEA;
 import fr.ensimag.ima.instructions.LOAD;
 import fr.ensimag.ima.instructions.PUSH;
@@ -66,17 +70,30 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
-        BlocInProg.addBloc("init." + this.name.getName().getName(), compiler.getLastLineIndex(), 0, 0);
-        compiler.addLabel(new Label("init." + this.name.getName().toString()));
+        String blockName = "init." + this.name.getName().getName();
+        BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
+        compiler.addLabel(new Label(blockName));
         for (AbstractDeclField field : fields.getList()) {
-            field.codeGenDeclFiedl(compiler, name);
+            field.codeGenDeclFiedl(compiler, blockName);
         }
+        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        for (int i = 2; i < BlocInProg.getBlock(blockName).getnbRegisterNeeded() + 2; i++) {
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+            compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
+        }
         compiler.addComment("");
         for (AbstractDeclMethod method : methods.getList()) {
-            BlocInProg.addBloc(this.name.getName().getName() + '.' + method.getName().getName(), compiler.getLastLineIndex(), 0, 0);
-            compiler.addLabel(new Label(this.name.getName().getName() + '.' + method.getName().getName()));
-            method.codeGenCorpMethod(compiler, name);
+            blockName = this.name.getName().getName() + '.' + method.getName().getName();
+            BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
+            compiler.addLabel(new Label(blockName));
+            method.codeGenCorpMethod(compiler, blockName);
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
+            for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
+                compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+                compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
+            }
+            compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
             compiler.addComment("");
         }
     }

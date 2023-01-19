@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -67,6 +68,7 @@ public class New extends AbstractExpr {
     protected void codeGenInst(DecacCompiler compiler, String name){
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(SuperNEW.main(compiler.environmentType.getClass(this.name.getName()).getNumberOfFields() + 1, Register.getR(nActual), compiler.compileInArm()));
         int nAdrr = compiler.getN() + 1;
         compiler.setN(nAdrr);

@@ -142,6 +142,5 @@ public class DeclMethod extends AbstractDeclMethod {
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
         this.body.codeGenInstBody(compiler, name);
-        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 }

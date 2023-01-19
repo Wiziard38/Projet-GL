@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
@@ -35,7 +36,7 @@ public class Identifier extends AbstractIdentifier {
     private static final Logger LOG = Logger.getLogger(Identifier.class);
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         VariableDefinition defVar = this.getVariableDefinition();
         compiler.addInstruction(SuperLOAD.main(defVar.getOperand(), Register.getR(1), compiler.compileInArm()));
         if (this.getType().isInt()) {
@@ -52,17 +53,17 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
+        int nActual = compiler.getN() + 1;
+        compiler.setN(nActual);
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
         switch (this.getDefinition().getNature()){
             case "variable":
                 VariableDefinition defVar = (VariableDefinition) this.getDefinition();
-                compiler.setN(compiler.getN() + 1);
                 compiler.addInstruction(
-                        SuperLOAD.main(defVar.getOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+                        SuperLOAD.main(defVar.getOperand(), Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "field":
                 FieldDefinition defField = (FieldDefinition) this.getDefinition();
-                int nActual = compiler.getN() + 1; 
-                compiler.setN(nActual);
                 compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual),compiler.compileInArm()));
                 compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex() + 1, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
         }

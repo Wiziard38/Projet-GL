@@ -27,8 +27,11 @@ public class BlocInProg {
             this.placePileNeeded = place;
         }
     
-        public void incrnbRegisterNeeded(){
-            nbregisterNeeded += 1;
+        public void incrnbRegisterNeeded(int nbRegister){
+            if (nbRegister > nbregisterNeeded) {
+                nbregisterNeeded = nbRegister;
+            }
+            
         }
     
         public void incrnbPlacePileNeeded(){

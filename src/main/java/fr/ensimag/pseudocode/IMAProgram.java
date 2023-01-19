@@ -30,8 +30,8 @@ public class IMAProgram {
         return erreurInOut;
     }
 
-    public void addIndex(AbstractLine line, int i){
-        lines.add(i, line);
+    public void addIndex(Instruction inst, int i){
+        lines.add(i, new Line(inst));
     }
 
     public int getLastLineIndex(){

@@ -50,7 +50,16 @@ public class DeclField extends AbstractDeclField {
             throw new ContextualError(String.format("Le champ '%s' est deja déclaré localement",
                     this.name), this.getLocation()); // Rule 2.4
         }
-        currentClassDef.incNumberOfFields();
+
+        if (currentClassDef.getMembers().get(this.name.getName()) != null && 
+                !currentClassDef.getMembers().get(this.name.getName()).isField()) {
+            
+            throw new ContextualError(String.format("Le champ '%s' est déjà défini dans une class mère en tant que méthode",
+                    this.name), this.getLocation()); // Rule 2.5
+        } else {
+            currentClassDef.incNumberOfFields();
+        }
+
         this.name.setDefinition(currentField);
     }
 

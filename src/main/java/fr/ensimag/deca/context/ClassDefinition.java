@@ -3,9 +3,11 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Label;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Definition of a class.
@@ -14,7 +16,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public class ClassDefinition extends TypeDefinition {
-
+    private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
     private String name;
     public void setName(String name){
         this.name = name;
@@ -81,12 +83,17 @@ public class ClassDefinition extends TypeDefinition {
     private final ClassDefinition superClass; 
 
     public MethodDefinition getMethod(int index) {
+        LOG.debug(this.name);
+        LOG.debug("index" + index);
+        LOG.debug("numberOfMethod" + numberOfMethods);
         assert(index <= numberOfMethods);
         assert(index >= 1);
         Iterator<ExpDefinition> exps = members.getLocalEnv().values().iterator();
         while (exps.hasNext()) {
             ExpDefinition exp = exps.next();
+            LOG.debug(exp.isMethod());
             if (exp.isMethod()) {
+                LOG.debug(((MethodDefinition)exp).getIndex());
                 if (((MethodDefinition)exp).getIndex() == index) {
                     return (MethodDefinition)exp;
                 }

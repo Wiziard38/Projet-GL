@@ -28,6 +28,7 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -36,7 +37,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public class DeclClass extends AbstractDeclClass {
-
+    private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
     private AbstractIdentifier name;
     private AbstractIdentifier superclass;
     private ListDeclField fields;
@@ -55,6 +56,8 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     protected void codeGenClass(DecacCompiler compiler){
+        LOG.debug(this.name.getName().getName());
+        LOG.debug(this.name.getClassDefinition().getNumberOfMethods());
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         compiler.addComment("class "+this.name.getName().getName());

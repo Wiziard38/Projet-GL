@@ -3,5 +3,9 @@
 
 
 class A {
-    eleve Jules = new eleve();
+}
+
+{
+    int x = 2;
+    x a = new x();
 }

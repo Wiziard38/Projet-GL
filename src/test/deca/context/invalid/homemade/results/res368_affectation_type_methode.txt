@@ -1,1 +1,1 @@
-‘calcul’ n’est pas affectable
+La valeur de gauche doit être une variable, un paramètre ou un champ

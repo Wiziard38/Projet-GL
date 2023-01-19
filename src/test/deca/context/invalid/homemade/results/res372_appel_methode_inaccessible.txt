@@ -1,1 +1,1 @@
-La méthode ‘calcul’ n’est pas défini dans l’environnement local
+Identificateur 'calcul' non déclaré dans l'environnement

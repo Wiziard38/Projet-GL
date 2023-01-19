@@ -13,7 +13,7 @@ PATH=$source_dir/src/test/script/launchers:"$PATH"
 input_dir="$source_dir/src/test/deca/syntax/invalid"
 
 # Variables pour connaitre le nombre de tests valides
-total_test=$(find $input_dir -type f -name "*.deca" ! -path "*lexer*" | wc -l)
+total_test=$(find $input_dir -type f -name "*.deca" | wc -l)
 total_valid=0
 total_failed=0
 
@@ -23,6 +23,9 @@ test_synt_invalide () {
     test_result=$(test_synt "$filename" 2>&1)
     
     if echo "$test_result" | grep -q -e "$filename:[0-9][0-9]*:"; then
+        # echo "Echec attendu pour test_synt sur $1."
+        total_valid=$((total_valid+1))
+    elif echo "$test_result" | grep -q -e "Circular include"; then
         # echo "Echec attendu pour test_synt sur $1."
         total_valid=$((total_valid+1))
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
@@ -47,7 +50,7 @@ echo "               SYNTAX - INVALID TESTS                  "
 echo "-------------------------------------------------------"
 echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 
-for cas_de_test in $(find $input_dir -name "*.deca" ! -path "*lexer*")
+for cas_de_test in $(find $input_dir -name "*.deca")
 do
     test_synt_invalide "$cas_de_test"
     printf "\033[1A"

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Script pour compiler et lancer un programme avec l'option -arm
+
+nom=${1##*}
+compile_result=$(decac -arm "$1" 2>&1)
+o_result=$(arm-linux-as -o "${nom%.deca}.o" "${nom%.deca}.S")
+exec_result=$(arm-linux-ld -o "${nom%.deca}" "${nom%.deca}.o")
+result=$(qemu-arm-static "${nom%.deca}")

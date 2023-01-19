@@ -61,8 +61,8 @@ public class Selection extends AbstractLValue {
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
             return fieldDef.getType();
         }
-        if (selectClass.isSubClassOf(currentClass.getType())) {
-            if (currentClass.getType().isSubClassOf(fieldDef.getContainingClass().getType())) {
+        if (selectClass.subType(currentClass.getType())) {
+            if (currentClass.getType().subType(fieldDef.getContainingClass().getType())) {
                 this.setType(fieldDef.getType());
                 return fieldDef.getType();
             }

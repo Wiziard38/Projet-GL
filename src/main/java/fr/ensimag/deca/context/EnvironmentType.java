@@ -61,6 +61,11 @@ public class EnvironmentType {
             throw new DecacInternalError("Should not happen, contact developpers please.");
         }
         OBJECT.getDefinition().incNumberOfMethods();
+
+        // Add the null type
+        Symbol nullSymb = compiler.createSymbol("null");
+        NULL = new NullType(nullSymb);
+        envTypes.put(nullSymb, new TypeDefinition(NULL, Location.BUILTIN));
     }
 
     private final Map<Symbol, TypeDefinition> envTypes;
@@ -81,6 +86,7 @@ public class EnvironmentType {
     public final StringType  STRING;
     public final BooleanType BOOLEAN;
     public final ClassType   OBJECT;
+    public final NullType    NULL;
 
     /**
      * TODO

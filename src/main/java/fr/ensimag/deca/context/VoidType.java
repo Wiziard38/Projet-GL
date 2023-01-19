@@ -25,5 +25,8 @@ public class VoidType extends Type {
         return otherType.isVoid();
     }
 
-
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
+    }
 }

@@ -46,23 +46,7 @@ public class ClassType extends Type {
 
     @Override
     public boolean sameType(Type otherType) {
-        return otherType.isClass();
-    }
-
-    /**
-     * Return true if potentialSuperClass is a superclass of this class.
-     */
-    public boolean isSubClassOf(ClassType potentialSuperClass) {
-        if (this.equals(potentialSuperClass)) {
-            return true;
-        }
-
-        if (this.getName().getName() == "Object") {
-            return false;
-        }
-
-        ClassType superClass = this.getDefinition().getSuperClass().getType();
-        return superClass.isSubClassOf(potentialSuperClass);
+        return otherType.isClass() && (this.getName().equals(otherType.getName()));
     }
 
     @Override 
@@ -74,4 +58,17 @@ public class ClassType extends Type {
         return false;
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        if (this.sameType(otherType)) {
+            return true;
+        }
+
+        if (this.getName().getName() == "Object") {
+            return false;
+        }
+
+        ClassType superClass = this.getDefinition().getSuperClass().getType();
+        return superClass.subType(otherType);
+    }
 }

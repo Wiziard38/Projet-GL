@@ -102,18 +102,10 @@ public class DeclMethod extends AbstractDeclMethod {
                         this.getLocation()); // Rule 2.7
             }
 
-            if (!returnMethodType.sameType(overridedMethod.getType())) {
-                
-                ClassType returnClass = returnMethodType.asClassType(String.format(
-                        "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition", 
+            if (!returnMethodType.subType(overridedMethod.getType())) {
+                throw new ContextualError(String.format(
+                        "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition",
                         this.name), this.getLocation()); // Rule 2.7
-                
-                if (!returnClass.isSubClassOf(overridedMethod.getType().asClassType(null, null))) {
-                    
-                    throw new ContextualError(String.format(
-                            "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition",
-                            this.name), this.getLocation()); // Rule 2.7
-                }
             }
 
             // On diminue le nombre de method de 1, car si c'est une redefinition alors on

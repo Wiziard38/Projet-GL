@@ -1,0 +1,14 @@
+classe A{
+    public int x = 8;
+}
+
+classe B extends A{
+    void calcul(){
+        this.x = x + 2;
+    }
+}
+{
+    B b = new B();
+    b.calcul();
+    println("x = ", b.x);
+}

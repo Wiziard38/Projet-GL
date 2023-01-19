@@ -15,5 +15,4 @@ public class WSTR extends UnaryInstruction {
     public WSTR(String message) {
         super(new ImmediateString(message));
     }
-
 }

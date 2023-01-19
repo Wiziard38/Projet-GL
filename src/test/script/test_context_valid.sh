@@ -26,16 +26,12 @@ test_context_valide () {
     test_result=$(decac -v "$1" 2>&1)
     
     if echo "$test_result" | grep -q -e "$1:[0-9][0-9]*:"; then
-        printf "\033[1A"
-        echo "${RED}Echec inattendu pour test_context${NC}               "
-        echo "$test_result"
+        echo -e "${RED}Echec inattendu pour ${NC}$test_result"
         echo ""
         total_failed=$((total_failed+1))
         # exit 1
     elif echo "$test_result" | grep -q -e "[Ee]rror|[Ee]xception"; then
-        printf "\033[1A"
-        echo "${RED}Erreur non soulevée ${NC}                            "
-        echo "$test_result"
+        echo -e "${RED}Erreur non soulevée pour ${NC}$test_result"
         echo ""
         total_failed=$((total_failed+1))
         # exit 1
@@ -55,7 +51,8 @@ for cas_de_test in $(find $input_dir -name "*.deca")
 do
     test_context_valide "$cas_de_test"
     # printf "\033[1A"
-    echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+    echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
+    printf "\033[1A"
 done
 
 
@@ -66,19 +63,16 @@ do
     nom=${fichier_res##*/}
 
     test_context "$input_dir/test/${nom%_resultat.txt}.deca" &> actual
-    echo ""
-    if ! diff -w actual "$fichier_res" #&> /dev/null
+    if ! diff -w actual "$fichier_res" &> /dev/null
     then
         total_failed=$((total_failed+1))
-        printf "\033[1A"
         echo -e "${RED}Erreur non soulevée pour ${NC}$input_dir/test/${nom%_resultat.txt}.deca"
         echo ""
         echo ""
-    else 
+    else
         total_valid=$((total_valid+1))
     fi
 
-    printf "\033[1A"
     echo -e "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
     printf "\033[1A"
 

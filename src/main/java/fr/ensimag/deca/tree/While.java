@@ -41,19 +41,19 @@ public class While extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         Label labelCondition = new Label(
                 "ConditionWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("FinWhile" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
 
         int nCondition = compiler.getN() + 1;
         compiler.addLabel(labelCondition);
-        this.getCondition().codeGenInst(compiler);
+        this.getCondition().codeGenInst(compiler, name);
         compiler.addInstruction(
                 SuperCMP.main(new ImmediateInteger(1), Register.getR(nCondition), compiler.compileInArm()));
         compiler.addInstruction(SuperBNE.main(labelFin, compiler.compileInArm()));
         compiler.setN(nCondition - 1);
-        this.getBody().codeGenListInst(compiler);
+        this.getBody().codeGenListInst(compiler, name);
         compiler.addInstruction(SuperBRA.main(labelCondition, compiler.compileInArm()));
         compiler.addLabel(labelFin);
         compiler.setN(nCondition - 1);

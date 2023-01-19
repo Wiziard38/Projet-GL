@@ -36,5 +36,4 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
             myDeclField.verifyInitField(compiler, currentClassDef);
         }
     }
-
 }

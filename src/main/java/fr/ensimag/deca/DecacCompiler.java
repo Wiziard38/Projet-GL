@@ -46,7 +46,6 @@ public class DecacCompiler implements Runnable {
     private static final String nl = System.getProperty("line.separator", "\n");
     private int n = 1;
     private int SP = 0;
-    private int d = 0;
     private Label erreurPile = new Label("ErreurPile");
 
     public Label getErreurPile() {
@@ -69,14 +68,6 @@ public class DecacCompiler implements Runnable {
 
     public Label getErreurinOut() {
         return erreurInOut;
-    }
-
-    public int getD() {
-        return d;
-    }
-
-    public void setD(int d) {
-        this.d = d;
     }
 
     public int getN() {
@@ -102,6 +93,14 @@ public class DecacCompiler implements Runnable {
         this.compilerOptions = compilerOptions;
         this.source = source;
         compileInArm = arm;
+    }
+
+    public int getLastLineIndex() {
+        return program.getLastLineIndex();
+    }
+
+    public void addIndexLine(int index, AbstractLine line){
+        program.addIndex(line, index);
     }
 
     public boolean compileInArm() {

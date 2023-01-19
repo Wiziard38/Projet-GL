@@ -45,6 +45,4 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
         }
     }
 
-
-
 }

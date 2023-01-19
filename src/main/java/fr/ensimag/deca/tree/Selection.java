@@ -42,11 +42,16 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
+    public void verifyLValue(EnvironmentExp localEnv) throws ContextualError {
+        // nothing to do
+    }
+
+    @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
         ClassType selectClass = this.expr.verifyExpr(compiler, localEnv, currentClass)
-                .asClassType("La sélection doit se faire sur une classe", 
+                .asClassType("La sélection doit se faire sur une class", 
                 this.getLocation()); // Rule 3.65 // Rule 3.66
 
         FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().
@@ -62,7 +67,7 @@ public class Selection extends AbstractLValue {
                 return fieldDef.getType();
             }
         }
-        throw new ContextualError(String.format("Le champ '%s' ne peut être accédé localement !",
+        throw new ContextualError(String.format("Le champ '%s' ne peut être accédé localement",
                 this.name), this.getLocation()); // Rule 3.66
     }
 

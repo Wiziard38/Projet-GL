@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -10,11 +11,9 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
-
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
-import fr.ensimag.superInstructions.SuperADDSP;
+import fr.ensimag.superInstructions.SuperPUSH;
 
 /**
  * @author gl39
@@ -37,16 +36,18 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
-    protected void codeGenVar(DecacCompiler compiler) {
-        compiler.setD(compiler.getD() + 1);
-        compiler.addInstruction(SuperADDSP.main(new ImmediateInteger(1), compiler.compileInArm()));
+    protected void codeGenVar(DecacCompiler compiler, String name) {
+        compiler.addComment(this.decompile());
+        BlocInProg.getBlock(name).incrnbPlacePileNeeded();
         int spActual = compiler.getSP() + 1;
-        compiler.setSP(compiler.getSP() + 1);
+        compiler.setSP(spActual);
         int nAct = compiler.getN() + 1;
-        initialization.codeGenInst(compiler);
+        initialization.codeGenInst(compiler, varName.getDefinition(), name);
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(new RegisterOffset(spActual, Register.GB));
         compiler.setN(nAct - 1);
+        compiler.addComment("");
     }
 
     @Override
@@ -66,10 +67,8 @@ public class DeclVar extends AbstractDeclVar {
             this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
             localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());
         } catch (Exception DoubleDefException) {
-            throw new ContextualError(
-                    String.format("Le nom de variable '%s' est déjà déclaré dans l'environnement local",
-                            this.varName.getName().getName()),
-                    this.getLocation()); // Rule 3.17
+            throw new ContextualError(String.format("Le nom de variable '%s' est deja déclaré dans l'environnement",
+                    this.varName.getName()), this.getLocation()); // Rule 3.17
         }
 
         // LOG.debug("Verify Decl Var - initialization");

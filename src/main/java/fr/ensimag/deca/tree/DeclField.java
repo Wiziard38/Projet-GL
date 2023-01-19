@@ -11,6 +11,10 @@ import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperSTORE;
 
 public class DeclField extends AbstractDeclField {
 
@@ -43,7 +47,7 @@ public class DeclField extends AbstractDeclField {
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);
         } catch (DoubleDefException e) {
-            throw new ContextualError(String.format("Champ '%s' deja declare localement",
+            throw new ContextualError(String.format("Le champ '%s' est deja déclaré localement",
                     this.name), this.getLocation()); // Rule 2.4
         }
         currentClassDef.incNumberOfFields();
@@ -94,4 +98,19 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
+    protected void codeGenDeclFiedl(DecacCompiler compiler, String name){
+        FieldDefinition defField = (FieldDefinition)this.name.getDefinition();
+        int nActual = compiler.getN() + 1;
+        initialization.codeGenInst(compiler, this.name.getDefinition(), name);
+        int nThis = compiler.getN() + 1;
+        compiler.setN(nThis);
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
+        compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
+        compiler.setN(nActual - 1);
+    }
+
+    @Override
+    public AbstractIdentifier getName() {
+        return name;
+    }
 }

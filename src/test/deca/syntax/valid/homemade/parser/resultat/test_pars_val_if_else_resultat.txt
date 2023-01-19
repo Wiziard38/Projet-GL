@@ -19,4 +19,4 @@
              `> ListInst [List with 1 elements]
                 []> [17, 8] Println
                     `> ListExpr [List with 1 elements]
-                       []> [17, 16] StringLiteral ("x >= 5")
+                       []> [17, 16] StringLiteral (x >= 5)

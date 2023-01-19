@@ -15,6 +15,7 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperWFLOAT;
 import fr.ensimag.superInstructions.SuperWFLOATX;
@@ -49,11 +50,22 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
-    protected void codeGenInst(DecacCompiler compiler) {
-        VariableDefinition defVar = this.getVariableDefinition();
-        compiler.setN(compiler.getN() + 1);
-        compiler.addInstruction(
-                SuperLOAD.main(defVar.getOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+    @Override
+    protected void codeGenInst(DecacCompiler compiler, String name) {
+        switch (this.getDefinition().getNature()){
+            case "variable":
+                VariableDefinition defVar = (VariableDefinition) this.getDefinition();
+                compiler.setN(compiler.getN() + 1);
+                compiler.addInstruction(
+                        SuperLOAD.main(defVar.getOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+                break;
+            case "field":
+                FieldDefinition defField = (FieldDefinition) this.getDefinition();
+                int nActual = compiler.getN() + 1; 
+                compiler.setN(nActual);
+                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual),compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex() + 1, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        }
     }
 
     @Override
@@ -188,7 +200,6 @@ public class Identifier extends AbstractIdentifier {
         this.name = name;
     }
 
-
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
@@ -210,7 +221,6 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
-        LOG.debug("xxxx " + localEnv.get(this.name));
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name);
     }
@@ -229,11 +239,20 @@ public class Identifier extends AbstractIdentifier {
         }
         if (checkVoid && thisTypeDef.getType().isVoid()) {
             throw new ContextualError(String.format("Le type void ne peut etre affecté pour %s",
-                    message), this.getLocation()); // Rule 3.17 // Rule 2.5 // Rule 2.9
+                    message), this.getLocation()); // Rule 2.5 // Rule 2.9 // Rule 3.17
         }
 
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
         return thisTypeDef.getType();
+    }
+
+    @Override
+    public void verifyLValue(EnvironmentExp localEnv) throws ContextualError {
+
+        if (localEnv.get(this.getName()).isMethod()) {
+            throw new ContextualError("La valeur de gauche doit être une variable, un paramètre ou un champ",
+                    this.getLocation()); // Rule 3.67 // Rule 3.68 // Rule 3.69
+        }
     }
 
     private Definition definition;

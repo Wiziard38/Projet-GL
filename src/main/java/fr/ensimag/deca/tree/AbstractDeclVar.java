@@ -29,5 +29,5 @@ public abstract class AbstractDeclVar extends Tree {
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
     
-    protected abstract void codeGenVar(DecacCompiler compiler);
+    protected abstract void codeGenVar(DecacCompiler compiler, String name);
 }

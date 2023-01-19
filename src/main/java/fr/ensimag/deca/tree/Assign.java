@@ -33,9 +33,9 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActualRight = compiler.getN() + 1;
-        getRightOperand().codeGenInst(compiler);
+        getRightOperand().codeGenInst(compiler, name);
         VariableDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getVariableDefinition();
         compiler.addInstruction(
                 SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
@@ -47,6 +47,7 @@ public class Assign extends AbstractBinaryExpr {
             ClassDefinition currentClass) throws ContextualError {
 
         Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        this.getLeftOperand().verifyLValue(localEnv);
 
         // On set si jamais il y a un CovnFloat a appliquer
         this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));

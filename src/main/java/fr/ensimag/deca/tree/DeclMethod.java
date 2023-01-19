@@ -15,11 +15,16 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.superInstructions.SuperRTS;
 
 import org.apache.log4j.Logger;
 
 public class DeclMethod extends AbstractDeclMethod {
     private static final Logger LOG = Logger.getLogger(Program.class);
+
+    public AbstractIdentifier getName(){
+        return name;
+    }
 
     private AbstractIdentifier returnType;
     private AbstractIdentifier name;
@@ -70,11 +75,7 @@ public class DeclMethod extends AbstractDeclMethod {
             AbstractIdentifier superClass) throws ContextualError {
 
         ClassDefinition superClassDef = (ClassDefinition) (compiler.environmentType.defOfType(superClass.getName()));
-        String errorDef = String.format("'%s' est deja défini dans l'environnment", this.name);
-        String errorSig = String.format(
-                "La signature de la méthode '%s' n'est pas conforme pour une redefinition", this.name);
-        String errorType = String.format(
-                "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition", this.name);
+
         int index = currentClassDef.getNumberOfMethods() + 1;
 
         // On verifie que le type de retour est conforme
@@ -86,22 +87,32 @@ public class DeclMethod extends AbstractDeclMethod {
         // On verifie que le nom est conforme
         if (currentClassDef.getMembers().get(this.name.getName()) != null) {
             if (superClassDef.getMembers().get(this.name.getName()) == null) {
-                throw new ContextualError(String.format("Le nom '%s' est deja utilisé localement",
+                throw new ContextualError(String.format("Le nom '%s' est deja déclaré localement",
                         this.name), this.getLocation()); // Rule 2.6
             }
 
             // C'est une redefinition !
             MethodDefinition overridedMethod = superClassDef.getMembers().get(this.name.getName())
-                    .asMethodDefinition(errorDef, getLocation()); // Rule 2.7
+                    .asMethodDefinition(String.format("Le nom '%s' est deja déclaré dans l'environnment",
+                    this.name), getLocation()); // Rule 2.7
 
             if (!overridedMethod.getSignature().differentThan(sig)) {
-                throw new ContextualError(errorSig, this.getLocation()); // Rule 2.7
+                throw new ContextualError(String.format(
+                        "La signature de la méthode '%s' n'est pas conforme pour une redefinition", this.name),
+                        this.getLocation()); // Rule 2.7
             }
 
             if (!returnMethodType.sameType(overridedMethod.getType())) {
-                ClassType returnClass = returnMethodType.asClassType(errorType, this.getLocation()); // Rule 2.7
+                
+                ClassType returnClass = returnMethodType.asClassType(String.format(
+                        "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition", 
+                        this.name), this.getLocation()); // Rule 2.7
+                
                 if (!returnClass.isSubClassOf(overridedMethod.getType().asClassType(null, null))) {
-                    throw new ContextualError(errorType, this.getLocation()); // Rule 2.7
+                    
+                    throw new ContextualError(String.format(
+                            "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition",
+                            this.name), this.getLocation()); // Rule 2.7
                 }
             }
 
@@ -131,7 +142,12 @@ public class DeclMethod extends AbstractDeclMethod {
 
         EnvironmentExp localEnv = new EnvironmentExp(currentClassDef.getMembers());
         this.parameters.verifyEnvParams(compiler, localEnv);
-        Type returnTypeNonVoid = this.returnType.verifyType(compiler, false, "un return de méthode"); // Rule 3.24
+        Type returnTypeNonVoid = this.returnType.verifyType(compiler, false, "un return de méthode");
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
+    }
+
+    protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+        this.body.codeGenInstBody(compiler, name);
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 }

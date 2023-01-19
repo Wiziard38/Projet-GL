@@ -1,7 +1,13 @@
 package fr.ensimag.deca.context;
 
+import fr.ensimag.deca.tree.AbstractDeclMethod;
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Label;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -12,6 +18,15 @@ import org.apache.commons.lang.Validate;
  */
 public class ClassDefinition extends TypeDefinition {
 
+    private DAddr operand;
+
+    public DAddr getOperand(){
+        return operand;
+    }
+
+    public void setOperand(DAddr operand){
+        this.operand = operand;
+    }
 
     public void setNumberOfFields(int numberOfFields) {
         this.numberOfFields = numberOfFields;

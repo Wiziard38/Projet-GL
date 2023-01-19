@@ -164,6 +164,9 @@ public class DeclClass extends AbstractDeclClass {
 
         ClassDefinition currentClassDef = (ClassDefinition) (compiler.environmentType.defOfType(this.name.getName()));
 
+        currentClassDef.setNumberOfFields(currentClassDef.getSuperClass().getNumberOfFields());
+        currentClassDef.setNumberOfMethods(currentClassDef.getSuperClass().getNumberOfMethods());
+
         this.fields.verifyListDeclFieldMembers(compiler, currentClassDef, this.superclass);
         this.methods.verifyListDeclMethodMembers(compiler, currentClassDef, this.superclass);
     }

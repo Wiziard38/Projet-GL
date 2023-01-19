@@ -109,11 +109,9 @@ public class DeclMethod extends AbstractDeclMethod {
                         this.name), this.getLocation()); // Rule 2.7
             }
 
-            // On diminue le nombre de method de 1, car si c'est une redefinition alors on
-            // ajoute pas de nombre de methode.
-            // Le -1 vient donc se compenser avec l'incrémentation qui suit ci-dessous
-            currentClassDef.setNumberOfMethods(index - 2);
             index = overridedMethod.getIndex();
+        } else {
+            currentClassDef.incNumberOfMethods();
         }
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);

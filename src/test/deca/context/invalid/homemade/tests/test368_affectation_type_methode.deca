@@ -9,7 +9,7 @@ class A{
     }
 
     void calcul2(){
-        calcul = 2
+        calcul = 2;
     }
 }
 

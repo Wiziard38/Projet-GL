@@ -17,13 +17,6 @@ import org.apache.log4j.Logger;
  */
 public class ClassDefinition extends TypeDefinition {
     private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
-    private String name;
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getNmae(){
-        return this.name;
-    }
     private DAddr operand;
 
     public DAddr getOperand(){
@@ -83,7 +76,7 @@ public class ClassDefinition extends TypeDefinition {
     private final ClassDefinition superClass; 
 
     public MethodDefinition getMethod(int index) {
-        LOG.debug(this.name);
+        LOG.debug(this.getType().getName().getName());
         LOG.debug("index" + index);
         LOG.debug("numberOfMethod" + numberOfMethods);
         assert(index <= numberOfMethods);

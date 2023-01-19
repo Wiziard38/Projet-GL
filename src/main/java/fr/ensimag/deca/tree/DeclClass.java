@@ -55,7 +55,7 @@ public class DeclClass extends AbstractDeclClass {
         methods = functions;
     }
 
-    protected void codeGenClass(DecacCompiler compiler){
+    protected void codeGenClass(DecacCompiler compiler) {
         LOG.debug(this.name.getName().getName());
         LOG.debug(this.name.getClassDefinition().getNumberOfMethods());
         int nActual = compiler.getN() + 1;
@@ -69,22 +69,14 @@ public class DeclClass extends AbstractDeclClass {
         for (int i = 1; i <= this.name.getClassDefinition().getNumberOfMethods(); i++) {
             MethodDefinition expDef = this.name.getClassDefinition().getMethod(i);
             compiler.addInstruction(
-                new LOAD(new LabelOperand(
-                    expDef.getLabel()),
-                    Register.getR(nActual)));
+                new LOAD(new LabelOperand(expDef.getLabel()),Register.getR(nActual)));
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(expDef.getIndex(), Register.SP), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
             }
-
-        compiler.addInstruction(SuperADDSP.main(new ImmediateInteger(this.name.getClassDefinition().getNumberOfMethods()), compiler.compileInArm()));
-        // for (AbstractDeclMethod method : methods.getList()){
-        //     compiler.addInstruction(
-        //         new LOAD(new LabelOperand(
-        //             new Label(this.name.getName().toString() + '.' + method.getName().getName())),
-        //             Register.getR(nActual)));
-        //     compiler.addInstruction(new PUSH(Register.getR(nActual)));
-        //     compiler.setSP(compiler.getSP() + 1);
-        // }
+        compiler.addInstruction(
+            SuperADDSP.main(
+                new ImmediateInteger(
+                    this.name.getClassDefinition().getNumberOfMethods()), compiler.compileInArm()));
         compiler.add(new Line(""));
     }
 
@@ -149,7 +141,6 @@ public class DeclClass extends AbstractDeclClass {
         }
 
         ClassDefinition superDef = (ClassDefinition) (compiler.environmentType.defOfType(this.superclass.getName()));
-        superDef.setName(this.name.getName().getName());
         try {
             compiler.environmentType.addNewClass(compiler, this.name.getName(),
                     this.getLocation(), superDef);

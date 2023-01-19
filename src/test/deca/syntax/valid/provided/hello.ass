@@ -1,27 +1,109 @@
-	TSTO #0
-	BOV ErreurPile
 ; start main program
-	LOAD Test, R1
 ; Class declaration
+; Class object
+	LOAD #null, R1
+	PUSH R1
+; 
+; class A
+	LEA 1(GB), R2
+	PUSH R2
+	LOAD A.somme, R2
+	PUSH R2
+; 
 ; Main program
+; int b = 1;
+	TSTO #4
+	LOAD #1, R2
+	PUSH R2
+; 
+; A a = new A();
+	NEW #3, R2
+	LEA 2(GB), R3
+	STORE R3, 0(R2)
+	PUSH R2
+	BSR init.A
+	POP R2
+	PUSH R2
+; 
+; int c = 1;
+	LOAD #1, R2
+	PUSH R2
+; 
+; int z = (b + c);
+	LOAD 4(GB), R2
+	LOAD 6(GB), R3
+	ADD R3, R2
+	PUSH R2
+; 
 ; Beginning of main instructions:
-	HALT
+	LOAD 7(GB), R1
+	WINT
+; 
+	LOAD 5(GB), R3
+	PUSH R3
+	LOAD 0(R3), R3
+	BSR 2(R3)
+	LOAD R0, R3
+	LOAD R2, R1
+	WINT
+; 
 ; End of the main program
+	HALT
+; 
+; Method declaration
+init.A:
+	TSTO #0
+	PUSH R5
+	PUSH R4
+	PUSH R3
+	PUSH R2
+	LOAD #0, R3
+	LOAD -2(LB), R4
+	STORE R3, 1(R4)
+	LOAD #0, R3
+	LOAD -2(LB), R4
+	STORE R3, 2(R4)
+	RTS
+	POP R2
+	POP R3
+	POP R4
+	POP R5
+; 
+A.somme:
+	TSTO #0
+	PUSH R4
+	PUSH R3
+	PUSH R2
+	LOAD -2(LB), R3
+	LOAD 2(R3), R3
+	LOAD -2(LB), R4
+	LOAD 3(R4), R4
+	ADD R4, R3
+	LOAD R3, R0
+; 
+	POP R2
+	POP R3
+	POP R4
+	RTS
+; 
 ErreurPile:
 	WSTR "Erreur de débordement de pile dans le programme"
 	WNL
 	ERROR
+; 
 overflof_error:
 	WSTR "Erreur 'overflow' pendant une opération arithmétique"
 	WNL
 	ERROR
+; 
 io_error:
 	WSTR "Erreur lors d'une entrée/sortie"
 	WNL
 	ERROR
+; 
 ErreurArrondi:
 	WSTR "Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini"
 	WNL
 	ERROR
-	HALT
+; 
 ; end main program

@@ -15,6 +15,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Label;
 import fr.ensimag.superInstructions.SuperRTS;
 
 import org.apache.log4j.Logger;
@@ -102,30 +103,19 @@ public class DeclMethod extends AbstractDeclMethod {
                         this.getLocation()); // Rule 2.7
             }
 
-            if (!returnMethodType.sameType(overridedMethod.getType())) {
-                
-                ClassType returnClass = returnMethodType.asClassType(String.format(
-                        "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition", 
+            if (!returnMethodType.subType(overridedMethod.getType())) {
+                throw new ContextualError(String.format(
+                        "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition",
                         this.name), this.getLocation()); // Rule 2.7
-                
-                if (!returnClass.isSubClassOf(overridedMethod.getType().asClassType(null, null))) {
-                    
-                    throw new ContextualError(String.format(
-                            "Le type de retour de la methode '%s' n'est pas conforme pour une redefinition",
-                            this.name), this.getLocation()); // Rule 2.7
-                }
             }
 
-            // On diminue le nombre de method de 1, car si c'est une redefinition alors on
-            // ajoute pas de nombre de methode.
-            // Le -1 vient donc se compenser avec l'incrémentation qui suit ci-dessous
-            currentClassDef.setNumberOfMethods(index - 2);
             index = overridedMethod.getIndex();
+        } else {
+            currentClassDef.incNumberOfMethods();
         }
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);
-        currentClassDef.incNumberOfMethods();
-
+        current.setLabel(new Label(currentClassDef.getType().getName().getName() + "." + this.name.getName().getName()));
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);
         } catch (DoubleDefException e) {
@@ -148,6 +138,5 @@ public class DeclMethod extends AbstractDeclMethod {
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
         this.body.codeGenInstBody(compiler, name);
-        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 }

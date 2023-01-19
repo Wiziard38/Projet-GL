@@ -28,15 +28,6 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         }
     }
 
-    /**
-     * Pass 1 of [SyntaxeContextuelle]
-     */
-    void verifyListClass(DecacCompiler compiler) throws ContextualError {
-        for (AbstractDeclClass currentClass : this.getList()) {
-            currentClass.verifyClass(compiler);
-        }
-    }
-
     protected void codeGenListClass(DecacCompiler compiler){
         compiler.setSP(compiler.getSP() + 1);
         compiler.addComment("Class object");
@@ -52,6 +43,15 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
         for(AbstractDeclClass a : this.getList()){
             a.codeGenCorpMethod(compiler, name);
+        }
+    }
+
+    /**
+     * Pass 1 of [SyntaxeContextuelle]
+     */
+    void verifyListClass(DecacCompiler compiler) throws ContextualError {
+        for (AbstractDeclClass currentClass : this.getList()) {
+            currentClass.verifyClass(compiler);
         }
     }
 

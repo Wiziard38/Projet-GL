@@ -9,6 +9,7 @@ import java.util.Map;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.pseudocode.Label;
 
 // TODO: étendre cette classe pour traiter la partie "avec objet" de Déca
 /**
@@ -53,7 +54,7 @@ public class EnvironmentType {
         Signature equalsSignature = new Signature();
         equalsSignature.add(OBJECT);
         MethodDefinition equalsDef = new MethodDefinition(BOOLEAN, Location.BUILTIN, equalsSignature, 1);
-
+        equalsDef.setLabel(new Label("object.equals"));
         // Add the method to Object environment
         try {
             OBJECT.getDefinition().getMembers().declare(equalsMethod, equalsDef);
@@ -61,6 +62,11 @@ public class EnvironmentType {
             throw new DecacInternalError("Should not happen, contact developpers please.");
         }
         OBJECT.getDefinition().incNumberOfMethods();
+
+        // Add the null type
+        Symbol nullSymb = compiler.createSymbol("null");
+        NULL = new NullType(nullSymb);
+        envTypes.put(nullSymb, new TypeDefinition(NULL, Location.BUILTIN));
     }
 
     private final Map<Symbol, TypeDefinition> envTypes;
@@ -81,6 +87,7 @@ public class EnvironmentType {
     public final StringType  STRING;
     public final BooleanType BOOLEAN;
     public final ClassType   OBJECT;
+    public final NullType    NULL;
 
     /**
      * TODO

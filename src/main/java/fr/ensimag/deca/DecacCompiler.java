@@ -12,6 +12,7 @@ import fr.ensimag.pseudocode.AbstractLine;
 import fr.ensimag.pseudocode.IMAProgram;
 import fr.ensimag.pseudocode.Instruction;
 import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.Line;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -99,8 +100,8 @@ public class DecacCompiler implements Runnable {
         return program.getLastLineIndex();
     }
 
-    public void addIndexLine(int index, AbstractLine line){
-        program.addIndex(line, index);
+    public void addIndexLine(int index, Instruction inst){
+        program.addIndex(inst, index);
     }
 
     public boolean compileInArm() {

@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -96,20 +97,10 @@ public abstract class AbstractExpr extends AbstractInst {
             return newTreeNode;
         }
 
-        if (expectedType.sameType(exprType)) {
+        if (expectedType.subType(exprType)) {
             return this;
         }
-        // LOG.debug("Verify RValue - not same type");
-
-        if (exprType.isClass() && expectedType.isClass()) {
-            LOG.debug("Verify RValue - not classes type");
-
-            if (exprType.asClassType(null, null).isSubClassOf(expectedType.asClassType(
-                    null, null))) {
-                return this;
-
-            }
-        }
+        
         throw new ContextualError(String.format("Cette expression devrait être de type '%s'",
                 expectedType.toString()), this.getLocation()); // Rule 3.28
     }
@@ -147,19 +138,16 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
+        int nActual = compiler.getN() + 1;
+        compiler.setN(nActual);
+        this.codeGenInst(compiler, name);
         if (this.getType().isInt()) {
-            compiler.setN(compiler.getN() + 1);
-            IntLiteral intExpr = (IntLiteral) this;
-            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()), Register.getR(1),
-                    compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
             compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         }
         if (this.getType().isFloat()) {
-            compiler.setN(compiler.getN() + 1);
-            FloatLiteral intExpr = (FloatLiteral) this;
-            compiler.addInstruction(
-                    SuperLOAD.main(new ImmediateFloat(intExpr.getValue()), Register.getR(1), compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
             if (!printHex) {
                 compiler.addInstruction(SuperWFLOAT.main(compiler.compileInArm()));
             } else {
@@ -170,8 +158,8 @@ public abstract class AbstractExpr extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
-
         compiler.setN(compiler.getN() + 1);
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
         if (this.getType().sameType(compiler.environmentType.INT)) {
             IntLiteral intExpr = (IntLiteral) this;
             compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()),

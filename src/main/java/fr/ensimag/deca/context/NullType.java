@@ -30,5 +30,9 @@ public class NullType extends Type {
         return true;
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return otherType.isClassOrNull();
+    }
 
 }

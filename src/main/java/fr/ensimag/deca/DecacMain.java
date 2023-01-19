@@ -69,7 +69,9 @@ public class DecacMain {
                     error = true;
                 }
             }
-            LOG.info("Time Taken by normal compiling :: "+(System.currentTimeMillis()-start) + " ms ");
+            if (!error) {
+                LOG.info("Time Taken by normal compiling :: "+(System.currentTimeMillis()-start) + " ms ");
+            }
         } 
 
         System.exit(error ? 1 : 0);

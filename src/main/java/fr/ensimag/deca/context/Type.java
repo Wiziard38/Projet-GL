@@ -22,6 +22,13 @@ public abstract class Type {
      */
     public abstract boolean sameType(Type otherType);
 
+    /**
+     * TODO
+     * @param otherType
+     * @return
+     */
+    public abstract boolean subType(Type otherType);
+
     private final Symbol name;
 
     public Type(Symbol name) {

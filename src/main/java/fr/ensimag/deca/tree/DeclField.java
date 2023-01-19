@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.FieldDefinition;
@@ -41,16 +42,25 @@ public class DeclField extends AbstractDeclField {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
 
+        if (currentClassDef.getMembers().get(this.name.getName()) != null && 
+                !currentClassDef.getMembers().get(this.name.getName()).isField()) {
+            
+            throw new ContextualError(String.format("Le champ '%s' est déjà défini dans une class mère en tant que méthode",
+                    this.name), this.getLocation()); // Rule 2.5
+        } else {
+            currentClassDef.incNumberOfFields();
+        }
+
         FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
                 currentClassDef, currentClassDef.getNumberOfFields() + 1);
-
+        
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);
         } catch (DoubleDefException e) {
             throw new ContextualError(String.format("Le champ '%s' est deja déclaré localement",
                     this.name), this.getLocation()); // Rule 2.4
         }
-        currentClassDef.incNumberOfFields();
+
         this.name.setDefinition(currentField);
     }
 
@@ -104,6 +114,7 @@ public class DeclField extends AbstractDeclField {
         initialization.codeGenInst(compiler, this.name.getDefinition(), name);
         int nThis = compiler.getN() + 1;
         compiler.setN(nThis);
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
         compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
         compiler.setN(nActual - 1);

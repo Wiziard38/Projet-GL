@@ -311,7 +311,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         int nActualLeft = compiler.getN() + 1;
         this.codeGenInst(compiler, "");
         if (this.getType().isInt()) {

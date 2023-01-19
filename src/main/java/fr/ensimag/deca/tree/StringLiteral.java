@@ -42,7 +42,7 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         compiler.addInstruction(SuperWSTR.main(this.value, compiler.compileInArm()));
     }
 

@@ -115,7 +115,6 @@ public class DeclMethod extends AbstractDeclMethod {
         }
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);
-        currentClassDef.incNumberOfMethods();
         current.setLabel(new Label(currentClassDef.getType().getName().getName() + "." + this.name.getName().getName()));
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);

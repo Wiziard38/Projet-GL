@@ -161,8 +161,12 @@ public class DeclClass extends AbstractDeclClass {
         currentClassDef.setNumberOfFields(currentClassDef.getSuperClass().getNumberOfFields());
         currentClassDef.setNumberOfMethods(currentClassDef.getSuperClass().getNumberOfMethods());
 
-        this.fields.verifyListDeclFieldMembers(compiler, currentClassDef, this.superclass);
+        LOG.debug("NumberOfMethods " + this.name + " before: " + currentClassDef.getNumberOfMethods());
+
+        this.fields.verifyListDeclFieldMembers(compiler, currentClassDef, this.superclass);        
         this.methods.verifyListDeclMethodMembers(compiler, currentClassDef, this.superclass);
+
+        LOG.debug("NumberOfMethods " + this.name + " after: " + currentClassDef.getNumberOfMethods());
     }
 
     @Override

@@ -41,6 +41,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         compiler.setSP(compiler.getSP() + 1);
         compiler.addComment("Class object");
         compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.environmentType.OBJECT.getDefinition().setName("object");
         compiler.addInstruction(new LOAD(new NullOperand(), Register.getR(compiler.getN())));
         compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
         compiler.add(new Line(""));

@@ -5,6 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
@@ -12,15 +14,18 @@ import fr.ensimag.pseudocode.LabelOperand;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperADDSP;
 import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperRTS;
+import fr.ensimag.superInstructions.SuperSTORE;
 import fr.ensimag.superInstructions.SuperTSTO;
 import fr.ensimag.ima.instructions.LEA;
 import fr.ensimag.ima.instructions.LOAD;
 import fr.ensimag.ima.instructions.PUSH;
 
 import java.io.PrintStream;
+import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
 
@@ -58,14 +63,25 @@ public class DeclClass extends AbstractDeclClass {
         compiler.setSP(compiler.getSP() + 1);
         compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
         compiler.setN(nActual - 1);
-        for (AbstractDeclMethod method : methods.getList()){
+        for (int i = 1; i <= this.name.getClassDefinition().getNumberOfMethods(); i++) {
+            MethodDefinition expDef = this.name.getClassDefinition().getMethod(i);
             compiler.addInstruction(
                 new LOAD(new LabelOperand(
-                    new Label(this.name.getName().toString() + '.' + method.getName().getName().toString())),
+                    expDef.getLabel()),
                     Register.getR(nActual)));
-            compiler.addInstruction(new PUSH(Register.getR(nActual)));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(expDef.getIndex(), Register.SP), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
-        }
+            }
+
+        compiler.addInstruction(SuperADDSP.main(new ImmediateInteger(this.name.getClassDefinition().getNumberOfMethods()), compiler.compileInArm()));
+        // for (AbstractDeclMethod method : methods.getList()){
+        //     compiler.addInstruction(
+        //         new LOAD(new LabelOperand(
+        //             new Label(this.name.getName().toString() + '.' + method.getName().getName())),
+        //             Register.getR(nActual)));
+        //     compiler.addInstruction(new PUSH(Register.getR(nActual)));
+        //     compiler.setSP(compiler.getSP() + 1);
+        // }
         compiler.add(new Line(""));
     }
 
@@ -83,18 +99,22 @@ public class DeclClass extends AbstractDeclClass {
             compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
         }
         compiler.addComment("");
-        for (AbstractDeclMethod method : methods.getList()) {
-            blockName = this.name.getName().getName() + '.' + method.getName().getName();
-            BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
-            compiler.addLabel(new Label(blockName));
-            method.codeGenCorpMethod(compiler, blockName);
-            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
-            for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
-                compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
-                compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
+        for (int j = 1; j < this.name.getClassDefinition().getNumberOfMethods(); j++) {
+            for (AbstractDeclMethod method : methods.getList()) {
+                if (method.getName().getMethodDefinition().getIndex() == j){
+                        blockName = this.name.getName().getName() + '.' + method.getName().getName();
+                        BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
+                        compiler.addLabel(new Label(blockName));
+                        method.codeGenCorpMethod(compiler, blockName);
+                        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
+                        for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
+                            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+                            compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
+                        }
+                        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+                        compiler.addComment("");
+                }
             }
-            compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
-            compiler.addComment("");
         }
     }
 
@@ -126,7 +146,7 @@ public class DeclClass extends AbstractDeclClass {
         }
 
         ClassDefinition superDef = (ClassDefinition) (compiler.environmentType.defOfType(this.superclass.getName()));
-
+        superDef.setName(this.name.getName().getName());
         try {
             compiler.environmentType.addNewClass(compiler, this.name.getName(),
                     this.getLocation(), superDef);

@@ -1,11 +1,8 @@
 package fr.ensimag.deca.context;
-
-import fr.ensimag.deca.tree.AbstractDeclMethod;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Label;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
@@ -18,6 +15,13 @@ import org.apache.commons.lang.Validate;
  */
 public class ClassDefinition extends TypeDefinition {
 
+    private String name;
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getNmae(){
+        return this.name;
+    }
     private DAddr operand;
 
     public DAddr getOperand(){
@@ -76,9 +80,28 @@ public class ClassDefinition extends TypeDefinition {
     private final EnvironmentExp members;
     private final ClassDefinition superClass; 
 
+    public MethodDefinition getMethod(int index) {
+        assert(index <= numberOfMethods);
+        assert(index >= 1);
+        Iterator<ExpDefinition> exps = members.getLocalEnv().values().iterator();
+        while (exps.hasNext()) {
+            ExpDefinition exp = exps.next();
+            if (exp.isMethod()) {
+                if (((MethodDefinition)exp).getIndex() == index) {
+                    return (MethodDefinition)exp;
+                }
+            }
+        }
+        return superClass.getMethod(index);
+    }
+
     public EnvironmentExp getMembers() {
         return members;
     }
+
+    // public EnvironmentExp getMembersFamily() {
+        
+    // }
 
     public ClassDefinition(ClassType type, Location location, ClassDefinition superClass) {
         super(type, location);

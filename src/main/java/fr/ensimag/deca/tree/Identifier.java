@@ -249,7 +249,8 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public void verifyLValue(EnvironmentExp localEnv) throws ContextualError {
 
-        if (localEnv.get(this.getName()).isMethod()) {
+        if (!localEnv.get(this.getName()).isField() || !localEnv.get(this.getName()).isParam()
+                || !localEnv.get(this.getName()).isExpression()) {
             throw new ContextualError("La valeur de gauche doit être une variable, un paramètre ou un champ",
                     this.getLocation()); // Rule 3.67 // Rule 3.68 // Rule 3.69
         }

@@ -470,7 +470,7 @@ literal
         }
 	| fd = FLOAT {
                 try {
-                        if (Float.valueOf($fd.text) < Float.MIN_VALUE) {
+                        if (!Float.valueOf($fd.text).equals(Float.valueOf("0.0")) && Float.valueOf($fd.text) < Float.MIN_VALUE) {
                                 throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.LOW);
                         }
                         if (Float.valueOf($fd.text) > Float.MAX_VALUE) {

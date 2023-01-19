@@ -17,4 +17,4 @@ public class QUO extends BinaryInstructionDValToReg {
 
 }
 
-// SDIV c'est QUO???
+// ici SDIV c'est QUO???

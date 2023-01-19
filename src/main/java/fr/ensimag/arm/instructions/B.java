@@ -8,9 +8,9 @@ import fr.ensimag.pseudocode.Label;
  * @author Ensimag
  * @date 01/01/2023
  */
-public class BRA extends BranchInstruction {
+public class B extends BranchInstruction {
 
-    public BRA(Label op) {
+    public B(Label op) {
         super(op);
     }
 

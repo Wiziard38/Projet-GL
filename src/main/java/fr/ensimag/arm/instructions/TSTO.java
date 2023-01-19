@@ -1,15 +1,13 @@
 package fr.ensimag.arm.instructions;
 
-import java.io.PrintStream;
-
 import fr.ensimag.pseudocode.ImmediateInteger;
-import fr.ensimag.pseudocode.InstructionArm;
+import fr.ensimag.pseudocode.InstructionVideArm;
 
 /**
  * @author Ensimag
  * @date 01/01/2023
  */
-public class TSTO extends InstructionArm {
+public class TSTO extends InstructionVideArm {
     private ImmediateInteger val;
 
     public TSTO(ImmediateInteger i) {
@@ -20,8 +18,4 @@ public class TSTO extends InstructionArm {
         this(new ImmediateInteger(i));
     }
 
-    @Override
-    public void displayInstructions(PrintStream s) {
-        // idk
-    }
 }

@@ -9,16 +9,14 @@ import fr.ensimag.pseudocode.ImmediateInteger;
  * @author Ensimag
  * @date 01/01/2023
  */
-public class NEW extends BinaryInstructionDValToReg {
+public class VLDR extends BinaryInstructionDValToReg {
 
-    public NEW(DVal size, GPRegister destination) {
-        super(size, destination);
+    public VLDR(DVal op1, GPRegister op2) {
+        super(op1, op2);
     }
 
-    public NEW(int size, GPRegister op2) {
-        super(new ImmediateInteger(size), op2);
+    public VLDR(int i, GPRegister r) {
+        this(new ImmediateInteger(i), r);
     }
 
 }
-
-// ici

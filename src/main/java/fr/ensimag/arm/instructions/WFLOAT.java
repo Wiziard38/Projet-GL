@@ -1,12 +1,12 @@
 package fr.ensimag.arm.instructions;
 
-import fr.ensimag.pseudocode.NullaryInstruction;
+import fr.ensimag.pseudocode.InstructionVideArm;
 
 /**
  *
  * @author Ensimag
  * @date 01/01/2023
  */
-public class WFLOAT extends NullaryInstruction {
+public class WFLOAT extends InstructionVideArm {
 
 }

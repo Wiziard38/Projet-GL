@@ -16,10 +16,10 @@ import org.mockito.MockitoAnnotations;
 public class TestReadInt {
 
     DecacCompiler compiler;
-    
+
     @BeforeEach
     public void setup() throws ContextualError {
-        //MockitoAnnotations.initMocks(this);
+        // MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
         compiler = new DecacCompiler(null, null, false);
     }

@@ -201,7 +201,6 @@ public class Identifier extends AbstractIdentifier {
         this.name = name;
     }
 
-
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
@@ -223,7 +222,6 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
-        LOG.debug("xxxx " + localEnv.get(this.name));
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name);
     }
@@ -242,11 +240,22 @@ public class Identifier extends AbstractIdentifier {
         }
         if (checkVoid && thisTypeDef.getType().isVoid()) {
             throw new ContextualError(String.format("Le type void ne peut etre affecté pour %s",
-                    message), this.getLocation()); // Rule 3.17 // Rule 2.5 // Rule 2.9
+                    message), this.getLocation()); // Rule 2.5 // Rule 2.9 // Rule 3.17
         }
 
         this.setDefinition(compiler.environmentType.defOfType(this.getName()));
         return thisTypeDef.getType();
+    }
+
+    @Override
+    public void verifyLValue(EnvironmentExp localEnv) throws ContextualError {
+
+        if (!localEnv.get(this.getName()).isField() && !localEnv.get(this.getName()).isParam()
+                && !localEnv.get(this.getName()).isExpression()) {
+            LOG.debug(localEnv.get(this.getName()).isExpression());
+            throw new ContextualError("La valeur de gauche doit être une variable, un paramètre ou un champ",
+                    this.getLocation()); // Rule 3.67 // Rule 3.68 // Rule 3.69
+        }
     }
 
     private Definition definition;

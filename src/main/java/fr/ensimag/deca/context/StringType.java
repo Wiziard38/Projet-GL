@@ -25,4 +25,9 @@ public class StringType extends Type {
         return otherType.isString();
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
+    }
+
 }

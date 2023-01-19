@@ -97,22 +97,12 @@ public abstract class AbstractExpr extends AbstractInst {
             return newTreeNode;
         }
 
-        if (expectedType.sameType(exprType)) {
+        if (expectedType.subType(exprType)) {
             return this;
         }
-        // LOG.debug("Verify RValue - not same type");
-
-        if (exprType.isClass() && expectedType.isClass()) {
-            LOG.debug("Verify RValue - not classes type");
-
-            if (exprType.asClassType(null, null).isSubClassOf(expectedType.asClassType(
-                    null, null))) {
-                return this;
-
-            }
-        }
-        throw new ContextualError(String.format("'%s' is not of type %s",
-                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
+        
+        throw new ContextualError(String.format("Cette expression devrait être de type '%s'",
+                expectedType.toString()), this.getLocation()); // Rule 3.28
     }
 
 

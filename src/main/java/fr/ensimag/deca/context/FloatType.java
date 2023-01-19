@@ -25,5 +25,9 @@ public class FloatType extends Type {
         return otherType.isFloat();
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
+    }
 
 }

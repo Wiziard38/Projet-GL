@@ -26,7 +26,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
 
     @Override
     protected void checkDecoration() {
-        LOG.debug(this + this.getLocation().toString());
+        // LOG.debug(this + this.getLocation().toString());
         Validate.notNull(this.getDefinition());
     }
 

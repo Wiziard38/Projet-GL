@@ -57,25 +57,13 @@ public class DeclParam extends AbstractDeclParam {
 
         Type paramType = this.type.verifyType(compiler, true, "un parametre");
         try {
-            localEnv.declare(this.name.getName(), new ParamDefinition(paramType, this.getLocation()));
+            localEnv.declare(this.name.getName(), new ParamDefinition(paramType, this.getLocation(), paramIndex));
         } catch (DoubleDefException e) {
             throw new ContextualError(String.format("Le nom '%s' apparait dans plusieurs paramètres",
                     this.name), this.getLocation()); // Rule 3.12
         }
 
         this.name.setDefinition(localEnv.get(this.name.getName()).asParamDefinition(null, null));
-        this.setIndex(paramIndex);
-    }
-
-
-    private int index;
-
-    public int getIndex() {
-        return this.index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
 }

@@ -1,0 +1,1 @@
+Le champ 'calcul' est déjà défini dans une class mère en tant que méthode

@@ -3,11 +3,6 @@
 class A  {
     int x = 3;
     void calcul(){
-        this.x = 4;
+        void y;
     }
-}
-
-class B extends A{
-
-    int calcul = 8;
 }

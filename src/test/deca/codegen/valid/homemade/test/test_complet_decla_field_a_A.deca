@@ -1,0 +1,6 @@
+//distinction des majuscule/minuscule dans les nom de champ
+
+class test{
+    int a = 8;
+    boolean A = true;
+}

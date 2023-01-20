@@ -470,19 +470,23 @@ literal
                 }
         }
 	| fd = FLOAT {
-                try {                        
-                        BigDecimal parsedBigDecimal = new BigDecimal($fd.text);
-                        if (!(parsedBigDecimal.compareTo(BigDecimal.ZERO) == 0) && 
+                LOG.debug(Float.parseFloat($fd.text));
+                try {        
+                        LOG.debug(1);
+                        try {
+                                BigDecimal parsedBigDecimal = new BigDecimal($fd.text);
+                                if (!(parsedBigDecimal.compareTo(BigDecimal.ZERO) == 0) && 
                                         (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) < 0)) {
                                 throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.LOW);
-                        }
+                                }
 
-                        if (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
-                                throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.HIGH);
-                        }
-
-                        $tree = new FloatLiteral(Float.parseFloat($fd.text));
-                        setLocation($tree, $fd);
+                                if (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
+                                        throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.HIGH);
+                                }
+                        } catch (NumberFormatException e) {
+                                $tree = new FloatLiteral(Float.parseFloat($fd.text));
+                                setLocation($tree, $fd);               
+                        }                             
                 } catch (NumberFormatException e) {
                         // The integer could not be parsed (probably it's too large).
                         // set $tree to null, and then fail with the semantic predicate

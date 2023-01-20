@@ -52,7 +52,7 @@ public class DeclParam extends AbstractDeclParam {
     }
 
     @Override
-    public void verifyEnvParam(DecacCompiler compiler, EnvironmentExp localEnv)
+    public void verifyEnvParam(DecacCompiler compiler, EnvironmentExp localEnv, int paramIndex)
             throws ContextualError {
 
         Type paramType = this.type.verifyType(compiler, true, "un parametre");
@@ -64,7 +64,18 @@ public class DeclParam extends AbstractDeclParam {
         }
 
         this.name.setDefinition(localEnv.get(this.name.getName()).asParamDefinition(null, null));
+        this.setIndex(paramIndex);
     }
 
+
+    private int index;
+
+    public int getIndex() {
+        return this.index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
 }

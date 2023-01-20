@@ -1,5 +1,7 @@
 package fr.ensimag.deca.context;
 
+import org.apache.log4j.Logger;
+
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -10,7 +12,8 @@ import fr.ensimag.deca.tree.Location;
  * @date 01/01/2023
  */
 public class ClassType extends Type {
-    
+    private static final Logger LOG = Logger.getLogger(ClassType.class);
+
     protected ClassDefinition definition;
     
     public ClassDefinition getDefinition() {
@@ -60,6 +63,7 @@ public class ClassType extends Type {
 
     @Override
     public boolean subType(Type otherType) {
+        LOG.debug(otherType);
         if (this.sameType(otherType)) {
             return true;
         }

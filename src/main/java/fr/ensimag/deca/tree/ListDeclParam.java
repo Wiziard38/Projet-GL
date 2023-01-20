@@ -42,8 +42,10 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
 
     public void verifyEnvParams(DecacCompiler compiler, EnvironmentExp localEnv)
             throws ContextualError {
+        int paramIndex = 1;
         for (AbstractDeclParam signatureParam : this.getList()) {
-            signatureParam.verifyEnvParam(compiler, localEnv);
+            signatureParam.verifyEnvParam(compiler, localEnv, paramIndex);
+            paramIndex++;
         }
     }
 

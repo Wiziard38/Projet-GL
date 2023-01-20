@@ -140,7 +140,6 @@ public abstract class AbstractExpr extends AbstractInst {
      */
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         int nActual = compiler.getN() + 1;
-        compiler.setN(nActual);
         this.codeGenInst(compiler, name);
         if (this.getType().isInt()) {
             compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));

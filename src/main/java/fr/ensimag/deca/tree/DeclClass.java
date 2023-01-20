@@ -105,7 +105,7 @@ public class DeclClass extends AbstractDeclClass {
             compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
             compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
         }
-        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
+        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
         compiler.addComment("");
 

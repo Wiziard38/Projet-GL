@@ -2,14 +2,19 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperSTORE;
 
 import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 
 /**
@@ -36,10 +41,20 @@ public class Assign extends AbstractBinaryExpr {
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActualRight = compiler.getN() + 1;
         getRightOperand().codeGenInst(compiler, name);
-        VariableDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getVariableDefinition();
-        compiler.addInstruction(
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualRight);
+        ExpDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getExpDefinition();
+        if (varDef.isField()) {
+            int nActualAddr = compiler.getN() + 1;
+            BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualAddr);
+            FieldDefinition fieldDef = (FieldDefinition) varDef;
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActualAddr), compiler.compileInArm()));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight), new RegisterOffset(fieldDef.getIndex(), Register.getR(nActualAddr)), compiler.compileInArm()));
+        }
+        else {
+            compiler.addInstruction(
                 SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
         compiler.setN(nActualRight - 1);
+        }
     }
 
     @Override

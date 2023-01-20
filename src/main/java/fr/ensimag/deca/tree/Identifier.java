@@ -10,6 +10,7 @@ import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.ParamDefinition;
 import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -53,6 +54,8 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
+        LOG.debug("Nom de la méthode:" + name);
+        LOG.debug("Type: " + this.getDefinition().getNature());
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
@@ -65,7 +68,11 @@ public class Identifier extends AbstractIdentifier {
             case "field":
                 FieldDefinition defField = (FieldDefinition) this.getDefinition();
                 compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual),compiler.compileInArm()));
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex() + 1, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+                break;
+            case "parameter":
+                ParamDefinition defParam = (ParamDefinition)this.getDefinition();
+                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-defParam.getIndex()-2, Register.LB), Register.getR(nActual), compiler.compileInArm()));
         }
     }
 

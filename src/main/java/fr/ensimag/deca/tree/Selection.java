@@ -13,6 +13,9 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLOAD;
 
 /*
  * Selection of a field
@@ -84,6 +87,17 @@ public class Selection extends AbstractLValue {
     protected void iterChildren(TreeFunction f) {
         this.expr.iter(f);
         this.name.iter(f);
+    }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler, String name) {
+        int nActual = compiler.getN() + 1;
+        compiler.setN(nActual);
+        Identifier className = (Identifier)this.expr;
+        Identifier fieldName = (Identifier)this.name;
+        compiler.addInstruction(SuperLOAD.main(className.getExpDefinition().getOperand(), Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+
     }
 
 }

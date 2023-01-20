@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Print statement (print, println, ...).
@@ -16,6 +17,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public abstract class AbstractPrint extends AbstractInst {
+    private static final Logger LOG = Logger.getLogger(AbstractPrint.class);
 
     private boolean printHex;
     private ListExpr arguments = new ListExpr();
@@ -39,6 +41,7 @@ public abstract class AbstractPrint extends AbstractInst {
         Validate.notNull(localEnv);
 
         for (AbstractExpr myExpr : this.arguments.getList()) {
+            LOG.debug(myExpr);
             Type myExprType = myExpr.verifyExpr(compiler, localEnv, currentClass);
             if (!myExprType.isFloat() && !myExprType.isInt() && !myExprType.isString()) {
 

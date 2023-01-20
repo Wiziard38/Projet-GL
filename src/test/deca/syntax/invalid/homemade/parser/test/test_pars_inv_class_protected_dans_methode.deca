@@ -2,7 +2,7 @@
 //    tests de programme incorrect class protected
 //
 // Resultats:
-//    Ligne 12 : Erreur (oubli condition)
+//    Ligne 12 : Erreur (no protected in a method)
 //    
 //
 // Historique:

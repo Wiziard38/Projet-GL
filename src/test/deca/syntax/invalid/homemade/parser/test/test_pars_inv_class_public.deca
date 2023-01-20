@@ -2,7 +2,7 @@
 //    tests de programme incorrect class protected
 //
 // Resultats:
-//    Ligne 12 : Erreur (oubli condition)
+//    Ligne 12 : Erreur (no visisbility public)
 //    
 //
 // Historique:

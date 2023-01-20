@@ -14,8 +14,18 @@ public class ImmediateString extends Operand {
         this.value = value;
     }
 
+    public String stripped() {
+        if (value == "\n") {
+            return "retourLigne";
+        }
+        return value.replaceAll("[^a-zA-Z0-9]", "");
+    }
+
     @Override
     public String toString() {
+        if (value == "\n") {
+            return "\"\\n\"";
+        }
         return "\"" + value.replace("\"", "\"\"") + "\"";
     }
 }

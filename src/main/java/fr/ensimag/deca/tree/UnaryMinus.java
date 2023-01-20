@@ -35,7 +35,6 @@ public class UnaryMinus extends AbstractUnaryExpr {
         throw new ContextualError("Négation arithmétique sur un non-nombre", this.getLocation()); // Rule 3.37
     }
 
-
     @Override
     protected String getOperatorName() {
         return "-";

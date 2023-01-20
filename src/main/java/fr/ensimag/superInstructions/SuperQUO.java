@@ -13,7 +13,7 @@ public class SuperQUO {
 
     public static Instruction main(DVal op1, GPRegister op2, boolean arm) {
         if (arm) {
-            return new fr.ensimag.arm.instructions.QUO(op1, op2);
+            return new fr.ensimag.arm.instructions.SDIV(op1, op2);
         } else {
             return new fr.ensimag.ima.instructions.QUO(op1, op2);
         }

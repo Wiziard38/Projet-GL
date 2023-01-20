@@ -33,16 +33,17 @@ public class NoInitialization extends AbstractInitialization {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, Definition def, String name){
+    protected void codeGenInst(DecacCompiler compiler, Definition def, String name) {
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
-        if (def.getNature().equals("field")){
+        if (def.getNature().equals("field")) {
             if (def.getType().isBoolean() || def.getType().isInt()) {
-                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(nActual), compiler.compileInArm()));
-            }
-            else if (def.getType().isFloat()) {
-                compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(0), Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(
+                        SuperLOAD.main(new ImmediateInteger(0), Register.getR(nActual), compiler.compileInArm()));
+            } else if (def.getType().isFloat()) {
+                compiler.addInstruction(
+                        SuperLOAD.main(new ImmediateFloat(0), Register.getR(nActual), compiler.compileInArm()));
             }
         }
     }

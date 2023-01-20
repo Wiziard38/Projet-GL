@@ -25,7 +25,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 
         Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
-        
+
         if (typeLeft.isFloat()) {
             if (typeRight.isInt()) {
                 // Case where Float OP Int

@@ -32,7 +32,6 @@ public class IntLiteral extends AbstractExpr {
         return compiler.environmentType.INT;
     }
 
-
     @Override
     String prettyPrintNode() {
         return "Int (" + getValue() + ")";

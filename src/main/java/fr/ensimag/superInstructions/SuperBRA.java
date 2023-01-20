@@ -12,7 +12,7 @@ public class SuperBRA {
 
     public static Instruction main(Label op, boolean arm) {
         if (arm) {
-            return new fr.ensimag.arm.instructions.BRA(op);
+            return new fr.ensimag.arm.instructions.B(op);
         } else {
             return new fr.ensimag.ima.instructions.BRA(op);
         }

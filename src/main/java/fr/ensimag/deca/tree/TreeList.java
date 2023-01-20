@@ -84,4 +84,8 @@ public abstract class TreeList<TreeType extends Tree> extends Tree {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.list.toString();
+    }
 }

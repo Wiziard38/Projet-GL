@@ -87,8 +87,8 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
-        // LOG.debug("Verify RValue - begin");
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
+        LOG.debug(exprType);
 
         // Vérification de assign_compatible
         if (expectedType.isFloat() && exprType.isInt()) {
@@ -97,7 +97,7 @@ public abstract class AbstractExpr extends AbstractInst {
             return newTreeNode;
         }
 
-        if (expectedType.subType(exprType)) {
+        if (exprType.subType(expectedType)) {
             return this;
         }
         

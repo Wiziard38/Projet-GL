@@ -3,10 +3,17 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.NullOperand;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperPOP;
+import fr.ensimag.superInstructions.SuperPUSH;
+import fr.ensimag.superInstructions.SuperRTS;
+import fr.ensimag.superInstructions.SuperSEQ;
 import fr.ensimag.ima.instructions.LOAD;
 import fr.ensimag.ima.instructions.PUSH;
 
@@ -41,6 +48,17 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     }
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+        compiler.addLabel(new Label("object.equals"));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-3, Register.LB), Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperCMP.main(Register.getR(2), Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperSEQ.main(Register.R0, compiler.compileInArm()));
+        compiler.addInstruction(SuperPOP.main(Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(SuperPOP.main(Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        compiler.addComment("");
         for(AbstractDeclClass a : this.getList()){
             a.codeGenCorpMethod(compiler, name);
         }

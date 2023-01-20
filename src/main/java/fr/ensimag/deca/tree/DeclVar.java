@@ -45,7 +45,7 @@ public class DeclVar extends AbstractDeclVar {
         initialization.codeGenInst(compiler, varName.getDefinition(), name);
         compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
-        varDef.setOperand(new RegisterOffset(spActual, Register.GB));
+        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
         compiler.setN(nAct - 1);
         compiler.addComment("");
     }

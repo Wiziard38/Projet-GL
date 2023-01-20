@@ -52,7 +52,7 @@ public class DeclField extends AbstractDeclField {
         }
 
         FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
-                currentClassDef, currentClassDef.getNumberOfFields() + 1);
+                currentClassDef, currentClassDef.getNumberOfFields());
         
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);

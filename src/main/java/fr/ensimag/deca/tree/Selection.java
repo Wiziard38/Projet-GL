@@ -62,8 +62,11 @@ public class Selection extends AbstractLValue {
                 this.name.getName()), this.getLocation()); // Rule 3.70
                 
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
+            this.setType(fieldDef.getType());
             return fieldDef.getType();
         }
+
+
         if (selectClass.subType(currentClass.getType())) {
             if (currentClass.getType().subType(fieldDef.getContainingClass().getType())) {
                 this.setType(fieldDef.getType());

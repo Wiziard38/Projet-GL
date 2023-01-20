@@ -2,11 +2,11 @@
 
 
 
-class A {
+class int {
     int x;
 }
 
 {
-    int x = 2;
-    A a = new x();
+    
+    int a = new int();
 }

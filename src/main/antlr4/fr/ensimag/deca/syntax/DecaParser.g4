@@ -19,6 +19,7 @@ options {
         import fr.ensimag.deca.tree.*;
         import java.io.PrintStream;
         import fr.ensimag.deca.syntax.InvalidFloatInput;
+        import java.math.BigDecimal;
 }
 
 @members {
@@ -469,13 +470,17 @@ literal
                 }
         }
 	| fd = FLOAT {
-                try {
-                        if (!Float.valueOf($fd.text).equals(Float.valueOf("0.0")) && Float.valueOf($fd.text) < Float.MIN_VALUE) {
+                try {                        
+                        BigDecimal parsedBigDecimal = new BigDecimal($fd.text);
+                        if (!(parsedBigDecimal.compareTo(BigDecimal.ZERO) == 0) && 
+                                        (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) < 0)) {
                                 throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.LOW);
                         }
-                        if (Float.valueOf($fd.text) > Float.MAX_VALUE) {
+
+                        if (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
                                 throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.HIGH);
                         }
+
                         $tree = new FloatLiteral(Float.parseFloat($fd.text));
                         setLocation($tree, $fd);
                 } catch (NumberFormatException e) {

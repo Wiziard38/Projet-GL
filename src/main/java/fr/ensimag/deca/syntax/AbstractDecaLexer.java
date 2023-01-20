@@ -213,7 +213,7 @@ public abstract class AbstractDecaLexer extends Lexer {
         }
         for (IncludeSaveStruct s : includes) {
             if (newInput.getSourceName().equals(s.input.getSourceName())) {
-                throw new CircularInclude(name, this, this.getInputStream());
+                throw new CircularInclude(this.source.getName(), this, this.getInputStream());
             }
         }
         IncludeSaveStruct ss = new IncludeSaveStruct(getInputStream(),

@@ -1,0 +1,6 @@
+// Test d'un commentaire
+
+{
+    /*test*/
+    println("test");
+}

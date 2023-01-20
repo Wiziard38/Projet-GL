@@ -1,0 +1,2 @@
+// Test circular include
+#include "test_lex_inv_circular_include3-3.deca"

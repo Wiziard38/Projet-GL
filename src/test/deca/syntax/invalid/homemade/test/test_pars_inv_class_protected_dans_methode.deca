@@ -1,0 +1,17 @@
+// Description:
+//    tests de programme incorrect class protected
+//
+// Resultats:
+//    Ligne 12 : Erreur (no protected in a method)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class A{
+    int x = 8;
+    void calcul(){
+        protected y = 6;
+        this.x = y;
+    } 
+}

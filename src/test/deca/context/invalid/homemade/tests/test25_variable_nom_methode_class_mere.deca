@@ -1,0 +1,14 @@
+// test invalide de la règle 2.5
+
+class A  {
+    int x = 3;
+    void calcul(){
+        this.x = 4;
+    }
+}
+
+
+class B extends A{
+
+    int calcul = 8;
+}

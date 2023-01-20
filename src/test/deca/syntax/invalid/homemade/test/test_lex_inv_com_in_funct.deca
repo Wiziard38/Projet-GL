@@ -1,0 +1,4 @@
+// Test commentaire dans un mot reservé
+{
+    prin/*test*/tln();
+}

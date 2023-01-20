@@ -1,0 +1,1 @@
+L’appel méthode sur a.x doit se faire sur un Type class

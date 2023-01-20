@@ -1,0 +1,16 @@
+// test valide de la règle 3.74
+
+
+class A{
+    int x = 3;
+    void calcul(int valeur, int valeur2){
+        this.x = valeur *valeur2;
+    }
+}
+
+{
+    A a = new A();
+    boolean v = true;
+    a.calcul(3, 5);
+    println("a.x = ", "x");
+}

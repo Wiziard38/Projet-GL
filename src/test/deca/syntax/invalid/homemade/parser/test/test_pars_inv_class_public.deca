@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect class protected
+//
+// Resultats:
+//    Ligne 12 : Erreur (oubli condition)
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class A{
+    public int x = 8;
+}

@@ -13,6 +13,7 @@ class A{
 
 
 {
+    int v;
     A a = new A();
-    a.x.calcul(3);
+    v.calcul(3);
 }

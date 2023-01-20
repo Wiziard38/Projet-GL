@@ -1,0 +1,1 @@
+L'appel méthode 'calcul' doit se faire sur une class

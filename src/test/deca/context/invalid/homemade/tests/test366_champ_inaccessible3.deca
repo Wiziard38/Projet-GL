@@ -1,0 +1,18 @@
+// test invalide de la règle 3.66
+
+
+class A{
+
+    void calcul(int valeur){
+        int x = 8;
+        
+    }
+    
+    
+}
+
+
+{
+    A a = new A();
+    a.x = 5;
+}

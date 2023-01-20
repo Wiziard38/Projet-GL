@@ -1,11 +1,11 @@
-#include "PrintInt.decah"
+// #include "PrintInt.decah"
 
 class Float {
     protected float x;
     protected boolean isNeg;
 
     void setX(float val){
-        this.x = val;
+        x = val;
         if (x < 0) {
             isNeg = true;
             x = -x;
@@ -18,10 +18,11 @@ class Float {
     int chercheEnt(float a){
         int bornInf = 0;
         int bornSup = 10;
+        int m;
         while (bornSup < a) {
             bornSup = bornSup * 10;
         }
-        int m = (bornInf + bornSup) / 2;
+        m = (bornInf + bornSup) / 2;
         while (bornInf + 1 != bornSup) {
             if (m < a) {
                 bornInf = m;
@@ -34,22 +35,25 @@ class Float {
         return bornInf;
     }
 
-    void print(float y){
+    void printFloat(float y){
+        int partieEnt;
+        int partieVirg;
+        float a;
         setX(y);
-        int partieEnt = chercheEnt(x);
+        partieEnt = chercheEnt(x);
         x = (x - partieEnt) * 10;
-        int partieVirg = chercheEnt(x);
-        float a = x - chercheEnt(x);
+        partieVirg = chercheEnt(x);
+        a = x - chercheEnt(x);
         while (a != 0) {
             x = a * 10;
             partieVirg = partieVirg * 10 + chercheEnt(x);
-            a = x - chercheEnt(x)
+            a = x - chercheEnt(x);
         }
         if(isNeg) {
             print("-");
         }
-        partieEnt.print();
+        PrintInt.printInt(partieEnt);
         print(".");
-        partieVirg.print();
+        PrintInt.printInt(partieVirg);
     }
 }

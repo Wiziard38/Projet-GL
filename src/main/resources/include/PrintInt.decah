@@ -25,19 +25,19 @@ class PrintInt {
         this.reverse();
 
         this.printReversed();
-        }
     }
 
     void reverse() {
+        int tmp;
         while (this.x != 0) {
-            int tmp = x % 10;
+            tmp = x % 10;
             x = x / 10;
             if ((reversedNumber == 0) && (tmp == 0)) {
                 numberZeros = numberZeros + 1;
             } else {
-                reversed = reversed + tmp;
+                reversedNumber = reversedNumber + tmp;
                 if (x != 0) {
-                    reversed = reversed * 10;
+                    reversedNumber = reversedNumber * 10;
                 }
             }
         }
@@ -45,7 +45,7 @@ class PrintInt {
 
     void printReversed() {
         while (reversedNumber != 0) {
-            printDigit(reversedNumber % 10);
+            printDigit((reversedNumber % 10));
             reversedNumber = reversedNumber / 10;
         }
 

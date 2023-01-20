@@ -24,8 +24,8 @@ public class INT extends InstructionArm {
     @Override
     public void displayInstructions(PrintStream s) {
         // les jsp sont le registre pour le floatant
-        s.println("vcvt..f32 s32 " + jsp + ", " + jsp);
-        s.println("vmov " + op2 + ", " + jsp);
+        // s.println("vcvt..f32 s32 " + jsp + ", " + jsp);
+        // s.println("vmov " + op2 + ", " + jsp);
     }
 
 }

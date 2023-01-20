@@ -12,6 +12,8 @@ public class HALT extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        s.print("\t" + "bx lr");
+        s.println("mov r7, #1");
+        s.println("swi 0");
+        s.println("\t" + "bx lr");
     }
 }

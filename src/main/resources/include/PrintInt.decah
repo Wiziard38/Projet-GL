@@ -3,11 +3,11 @@
 
 class PrintInt {
     protected int x;
-    protected reversedNumber = 0;
-    protected numberZeros = 0;
+    protected int reversedNumber = 0;
+    protected int numberZeros = 0;
 
-    void setX(int x) {
-        this.x = x;
+    void setX(int y) {
+        x = y;
     }
 
     int getX() {
@@ -17,9 +17,9 @@ class PrintInt {
     void printX(int input) {
         if (input < 0) {
             print("-");
-            this.x = - input;
+            x = - input;
         } else {
-            this.x = input;
+            x = input;
         }
 
         this.reverse();

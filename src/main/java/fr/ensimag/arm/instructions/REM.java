@@ -23,9 +23,9 @@ public class REM extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        s.println("sdiv " + registreTMP + ", " + op1 + ", " + op2);
-        s.println("mul " + registreTMP + ", " + op1 + ", " + registreTMP);
-        s.println("sub " + op2 + ", " + op2 + ", " + registreTMP);
+        // s.println("sdiv " + registreTMP + ", " + op1 + ", " + op2);
+        // s.println("mul " + registreTMP + ", " + op1 + ", " + registreTMP);
+        // s.println("sub " + op2 + ", " + op2 + ", " + registreTMP);
     }
 
 }

@@ -24,19 +24,18 @@ public class WSTR extends InstructionArm {
     @Override
     public void displayInstructions(PrintStream s) {
         s.println("mov r0, #1");
-        s.println("adr r1, msg_" + op.stripped());
-        s.println("mov r2, #len");
+        s.println("ldr r1, =msg_" + op.stripped());
+        s.println("ldr r2, =len" + op.stripped());
         s.println("mov r7, #4");
-        s.println("svc #0");
-        s.print("\n");
-        s.println("mov r0, #0");
-        s.println("mov r7, #1");
-        s.println("svc #0");
-        s.print("\n");
+        s.println("swi 0");
+        s.println();
+        s.println(".data");
+        s.println();
         s.println("msg_" + op.stripped() + ":");
-        s.println(".ascii " + op);
-        s.println("len = . - msg_" + op.stripped());
+        s.println(".asciz " + op);
+        s.println("len" + op.stripped() + " = . - msg_" + op.stripped());
         s.print("\n");
+        s.println(".text");
     }
 
 }

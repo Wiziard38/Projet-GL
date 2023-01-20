@@ -1,14 +1,11 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.FloatType;
-import fr.ensimag.deca.context.IntType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.Label;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -52,9 +49,9 @@ public abstract class AbstractPrint extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler, String name) {
         for (AbstractExpr a : getArguments().getList()) {
-            a.codeGenPrint(compiler, printHex);
+            a.codeGenPrint(compiler, printHex, name);
         }
     }
 

@@ -4,4 +4,4 @@
       +> ListDeclVar [List with 0 elements]
       `> ListInst [List with 1 elements]
          []> [12, 4] Return
-             +> [12, 11] Int (3)
+             `> [12, 11] Int (3)

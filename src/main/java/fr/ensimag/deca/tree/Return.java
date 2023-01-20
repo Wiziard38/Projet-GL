@@ -10,6 +10,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.DVal;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.superInstructions.SuperLOAD;
 
 /*
  * Return keyword
@@ -31,16 +34,21 @@ public class Return extends AbstractInst {
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType) throws ContextualError {
-        // Already verified non void for return type
-
+        // On verifie si le type de retour n'est pas void
+        if (returnType.isVoid()) {
+            throw new ContextualError("Le type void ne peut pas etre affecté pour un return de méthode",
+                    this.getLocation()); // Rule 3.24
+        }
         // On set si jamais y'a un ConvFloat a ajouter
         this.setExpression(this.expr.verifyRValue(compiler, localEnv, currentClass, returnType));
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        // TODO Auto-generated method stub
-
+    protected void codeGenInst(DecacCompiler compiler, String name) {
+        int nActual = compiler.getN() + 1;
+        expr.codeGenInst(compiler, name);
+        compiler.addInstruction(SuperLOAD.main(Register.getR(nActual),Register.R0, compiler.compileInArm()));
+        
     }
 
     @Override
@@ -52,7 +60,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s, prefix, false);
+        expr.prettyPrint(s, prefix, true);
     }
 
     @Override

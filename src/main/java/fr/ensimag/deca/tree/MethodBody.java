@@ -40,8 +40,7 @@ public class MethodBody extends AbstractMethodBody {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         variables.prettyPrint(s, prefix, false);
-        instructions.prettyPrint(s, prefix, false);
-
+        instructions.prettyPrint(s, prefix, true);
     }
 
     @Override
@@ -56,6 +55,13 @@ public class MethodBody extends AbstractMethodBody {
 
         this.variables.verifyListDeclVariable(compiler, localEnv, currentClassDef);
         this.instructions.verifyListInst(compiler, localEnv, currentClassDef, returnType);
+    }
+
+    @Override
+    protected void codeGenInstBody(DecacCompiler compiler, String name) {
+        this.variables.codeGenListVar(compiler, name);
+        this.instructions.codeGenListInst(compiler, name);
+        
     }
 
 }

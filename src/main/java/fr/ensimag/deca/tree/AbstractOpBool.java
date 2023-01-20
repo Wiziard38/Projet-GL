@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.tools.DecacInternalError;
 
 import org.apache.commons.lang.Validate;
 

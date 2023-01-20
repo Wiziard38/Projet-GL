@@ -26,8 +26,6 @@ public class FloatLiteral extends AbstractExpr {
     private float value;
 
     public FloatLiteral(float value) {
-        LOG.debug(value);
-        LOG.debug(Float.MIN_VALUE);
 
         Validate.isTrue(!Float.isInfinite(value),
                 "literal values cannot be infinite");

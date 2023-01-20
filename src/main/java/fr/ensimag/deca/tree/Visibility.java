@@ -1,7 +1,5 @@
 package fr.ensimag.deca.tree;
 
-import java.io.PrintStream;
-
 /**
  * Visibility of a field.
  *

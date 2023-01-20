@@ -1,11 +1,15 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.ClassType;
+
+import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.ExpDefinition;
@@ -18,7 +22,15 @@ import fr.ensimag.deca.tools.SymbolTable;
  * @date 01/01/2023
  */
 public abstract class AbstractIdentifier extends AbstractLValue {
+    private static final Logger LOG = Logger.getLogger(AbstractIdentifier.class);
 
+    @Override
+    protected void checkDecoration() {
+        // LOG.debug(this + this.getLocation().toString());
+        Validate.notNull(this.getDefinition());
+    }
+
+    
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
      * ClassDefinition.
@@ -94,4 +106,10 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      */
     public abstract Type verifyType(DecacCompiler compiler, boolean checkVoid,
             String message) throws ContextualError;
+
+    /**
+     * TODO
+     */
+    public abstract Definition verifyDefinition(DecacCompiler compiler, EnvironmentExp localEnv)
+            throws ContextualError;
 }

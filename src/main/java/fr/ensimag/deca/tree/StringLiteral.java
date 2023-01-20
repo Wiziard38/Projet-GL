@@ -30,7 +30,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     public StringLiteral(String value) {
         Validate.notNull(value);
-        this.value = value;
+        this.value = value.replaceAll("\"", "");
     }
 
     @Override
@@ -42,13 +42,15 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
-        compiler.addInstruction(SuperWSTR.main(this.value.replaceAll("\"", ""), compiler.compileInArm()));
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
+        compiler.addInstruction(SuperWSTR.main(this.value, compiler.compileInArm()));
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
+        s.print("\"");
         s.print(value);
+        s.print("\"");
     }
 
     @Override
@@ -63,7 +65,7 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     String prettyPrintNode() {
-        return "StringLiteral (" + value + ")";
+        return String.format("StringLiteral (%s)", this.value);
     }
 
 }

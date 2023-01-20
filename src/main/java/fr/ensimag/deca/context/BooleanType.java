@@ -26,5 +26,9 @@ public class BooleanType extends Type {
         return otherType.isBoolean();
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
+    }
 
 }

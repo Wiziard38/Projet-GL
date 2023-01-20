@@ -1,8 +1,5 @@
 package fr.ensimag.deca.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -10,7 +7,6 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 /**
  * List of declarations (e.g. int x; float y,z).
@@ -28,9 +24,9 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
         }
     }
 
-    public void codeGenListVar(DecacCompiler compiler) {
+    public void codeGenListVar(DecacCompiler compiler, String name) {
         for (AbstractDeclVar i : getList()) {
-            i.codeGenVar(compiler);
+            i.codeGenVar(compiler, name);
         }
     }
 

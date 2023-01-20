@@ -37,5 +37,4 @@ public class WSTR extends InstructionArm {
         s.print("\n");
         s.println(".text");
     }
-
 }

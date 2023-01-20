@@ -1,9 +1,9 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.context.ClassDefinition;
+import org.apache.log4j.Logger;
+
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
-import org.apache.commons.lang.Validate;
 
 /**
  * Type defined by a class.
@@ -12,16 +12,12 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public class ClassType extends Type {
-    
+    private static final Logger LOG = Logger.getLogger(ClassType.class);
+
     protected ClassDefinition definition;
     
     public ClassDefinition getDefinition() {
         return this.definition;
-    }
-            
-    @Override
-    public ClassType asClassType(String errorMessage, Location l) {
-        return this;
     }
 
     @Override
@@ -53,23 +49,30 @@ public class ClassType extends Type {
 
     @Override
     public boolean sameType(Type otherType) {
-        return otherType.isClass();
+        return otherType.isClass() && (this.getName().equals(otherType.getName()));
     }
 
-    /**
-     * Return true if potentialSuperClass is a superclass of this class.
-     */
-    public boolean isSubClassOf(ClassType potentialSuperClass) {
-        if (this.asClassType(null, null).sameType(potentialSuperClass)) {
+    @Override 
+    public boolean equals(Object obj) {
+        if (obj instanceof ClassType) {
+            ClassType anOtherClass = (ClassType) obj;
+            return this.getName().getName().equals(anOtherClass.getName().getName());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean subType(Type otherType) {
+        LOG.debug(otherType);
+        if (this.sameType(otherType)) {
             return true;
         }
-        ClassType superClass = this.getDefinition().getSuperClass().getType();
-        if (superClass.getName().getName() == "Object") {
-            return superClass.sameType(potentialSuperClass);
-        } else {
-            return superClass.isSubClassOf(potentialSuperClass);
+
+        if (this.getName().getName() == "Object") {
+            return false;
         }
+
+        ClassType superClass = this.getDefinition().getSuperClass().getType();
+        return superClass.subType(otherType);
     }
-
-
 }

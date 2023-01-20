@@ -1,6 +1,8 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.pseudocode.DAddr;
+import fr.ensimag.pseudocode.Operand;
 
 /**
  * Definition of an identifier.
@@ -78,6 +80,21 @@ public abstract class Definition {
      */
     public FieldDefinition asFieldDefinition(String errorMessage, Location l)
             throws ContextualError {
+        if (this.isField()) {
+            return (FieldDefinition) (this);
+        }
+        throw new ContextualError(errorMessage, l);
+    }
+
+    /**
+     * Return the same object, as type ParamDefinition, if possible. Throws
+     * ContextualError(errorMessage, l) otherwise.
+     */
+    public ParamDefinition asParamDefinition(String errorMessage, Location l)
+            throws ContextualError {
+        if (this.isParam()) {
+            return (ParamDefinition) (this);
+        }
         throw new ContextualError(errorMessage, l);
     }
 

@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
  * @author gl39
  * @date 01/01/2023
  */
-public class DecacCompiler {
+public class DecacCompiler implements Runnable {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
 
     /**
@@ -47,7 +47,6 @@ public class DecacCompiler {
     private static final String nl = System.getProperty("line.separator", "\n");
     private int n = 1;
     private int SP = 0;
-    private int d = 0;
     private Label erreurPile = new Label("ErreurPile");
 
     public Label getErreurPile() {
@@ -70,14 +69,6 @@ public class DecacCompiler {
 
     public Label getErreurinOut() {
         return erreurInOut;
-    }
-
-    public int getD() {
-        return d;
-    }
-
-    public void setD(int d) {
-        this.d = d;
     }
 
     public int getN() {
@@ -103,6 +94,14 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         compileInArm = arm;
+    }
+
+    public int getLastLineIndex() {
+        return program.getLastLineIndex();
+    }
+
+    public void addIndexLine(int index, Instruction inst){
+        program.addIndex(inst, index);
     }
 
     public boolean compileInArm() {
@@ -198,6 +197,11 @@ public class DecacCompiler {
     public Symbol createSymbol(String name) {
         return symbolTable.create(name);
     }
+
+    @Override
+        public void run() {
+            this.compile();
+        }
 
     /**
      * Run the compiler (parse source file, generate code)

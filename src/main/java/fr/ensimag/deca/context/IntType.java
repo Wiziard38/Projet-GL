@@ -25,5 +25,9 @@ public class IntType extends Type {
         return otherType.isInt();
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
+    }
 
 }

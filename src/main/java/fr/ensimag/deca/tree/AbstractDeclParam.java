@@ -28,5 +28,4 @@ public abstract class AbstractDeclParam extends Tree {
      */
     public abstract void verifyEnvParam(DecacCompiler compiler, EnvironmentExp localEnv)
             throws ContextualError;
-
 }

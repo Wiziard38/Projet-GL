@@ -1,0 +1,13 @@
+// test invalide de la règle 3.72
+
+
+class A{
+
+    int x = 3;
+}
+
+{
+    int c = 3;
+    A a = new A();
+    a.c(3);
+}

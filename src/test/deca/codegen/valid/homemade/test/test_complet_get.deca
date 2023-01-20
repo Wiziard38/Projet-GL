@@ -1,0 +1,15 @@
+// test valide pour un get protected
+
+
+class A{
+    protected int x = 5;
+    int getX(){
+        return this.x;
+    }
+}
+
+
+{
+    A a = new A();
+    println("x = ", a.getX());
+}

@@ -1,0 +1,12 @@
+// test invalide de la règle 3.68
+
+
+class A{
+
+    
+}
+
+{   
+    A a = new A();
+    a = 2;
+}

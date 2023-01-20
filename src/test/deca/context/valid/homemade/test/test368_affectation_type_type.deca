@@ -1,0 +1,10 @@
+// test valid de la règle 3.68
+class A{
+    int calcul(){
+        int int;
+        int =8;
+        return int; 
+    }
+    
+}
+

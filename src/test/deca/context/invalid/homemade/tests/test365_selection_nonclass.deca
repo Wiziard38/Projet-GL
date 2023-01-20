@@ -1,0 +1,7 @@
+// test invalide de la règle 3.65
+
+
+class A{
+    int livre;
+    livre.nombre_pages = 50;
+}

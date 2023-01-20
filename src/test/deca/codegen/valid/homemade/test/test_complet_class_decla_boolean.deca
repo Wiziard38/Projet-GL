@@ -1,0 +1,11 @@
+class A{
+    public boolean x = true;
+}
+
+
+{
+    A a = new A();
+    if (A.x){
+        println("x = true");
+    }
+}

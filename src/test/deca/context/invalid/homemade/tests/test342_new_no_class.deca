@@ -1,0 +1,11 @@
+// test invalide de la règle 3.42
+
+
+
+class A {
+}
+
+{
+    int x = 2;
+    x a = new x();
+}

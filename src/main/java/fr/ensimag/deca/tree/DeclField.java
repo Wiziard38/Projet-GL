@@ -15,6 +15,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperSTORE;
 
 public class DeclField extends AbstractDeclField {
@@ -42,18 +43,20 @@ public class DeclField extends AbstractDeclField {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
 
-        if (currentClassDef.getMembers().get(this.name.getName()) != null && 
+        if (currentClassDef.getMembers().get(this.name.getName()) != null &&
                 !currentClassDef.getMembers().get(this.name.getName()).isField()) {
-            
-            throw new ContextualError(String.format("Le champ '%s' est déjà défini dans une class mère en tant que méthode",
-                    this.name), this.getLocation()); // Rule 2.5
+
+            throw new ContextualError(
+                    String.format("Le champ '%s' est déjà défini dans une class mère en tant que méthode",
+                            this.name),
+                    this.getLocation()); // Rule 2.5
         } else {
             currentClassDef.incNumberOfFields();
         }
 
         FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
                 currentClassDef, currentClassDef.getNumberOfFields());
-        
+
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);
         } catch (DoubleDefException e) {
@@ -73,7 +76,7 @@ public class DeclField extends AbstractDeclField {
 
         this.initialization.verifyInitialization(compiler, thisDef.getType(),
                 currentClassDef.getMembers(), currentClassDef);
-        
+
     }
 
     @Override
@@ -87,7 +90,6 @@ public class DeclField extends AbstractDeclField {
         initialization.decompile(s);
         s.print(";");
     }
-
 
     @Override
     String prettyPrintNode() {
@@ -108,15 +110,18 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
-    protected void codeGenDeclFiedl(DecacCompiler compiler, String name){
-        FieldDefinition defField = (FieldDefinition)this.name.getDefinition();
+    protected void codeGenDeclFiedl(DecacCompiler compiler, String name) {
+        FieldDefinition defField = (FieldDefinition) this.name.getDefinition();
         int nActual = compiler.getN() + 1;
         initialization.codeGenInst(compiler, this.name.getDefinition(), name);
         int nThis = compiler.getN() + 1;
         compiler.setN(nThis);
         BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
-        compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
+                Register.getR(nThis), compiler.compileInArm()));
+        compiler.addInstruction(SuperSTORE.main(Register.getR(nActual),
+                SuperOffset.main(defField.getIndex(), Register.getR(nThis), compiler.compileInArm()),
+                compiler.compileInArm()));
         compiler.setN(nActual - 1);
     }
 

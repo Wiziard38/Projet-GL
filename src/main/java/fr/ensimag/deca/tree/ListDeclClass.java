@@ -10,6 +10,7 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperCMP;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperRTS;
@@ -38,7 +39,8 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     protected void codeGenListClass(DecacCompiler compiler) {
         compiler.setSP(compiler.getSP() + 1);
         compiler.addComment("Class object");
-        compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.environmentType.OBJECT.getDefinition()
+                .setOperand(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()));
         compiler.addInstruction(
                 SuperLOAD.main(new NullOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
@@ -53,9 +55,11 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         compiler.addInstruction(SuperPUSH.main(Register.getR(3), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(2), compiler.compileInArm()));
         compiler.addInstruction(
-                SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(2), compiler.compileInArm()));
+                SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()), Register.getR(2),
+                        compiler.compileInArm()));
         compiler.addInstruction(
-                SuperLOAD.main(new RegisterOffset(-3, Register.LB), Register.getR(3), compiler.compileInArm()));
+                SuperLOAD.main(SuperOffset.main(-3, Register.LB, compiler.compileInArm()), Register.getR(3),
+                        compiler.compileInArm()));
         compiler.addInstruction(SuperCMP.main(Register.getR(2), Register.getR(3), compiler.compileInArm()));
         compiler.addInstruction(SuperSEQ.main(Register.R0, compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(2), compiler.compileInArm()));

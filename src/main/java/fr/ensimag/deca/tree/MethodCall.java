@@ -18,6 +18,7 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperBSR;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 
 /*
@@ -49,14 +50,13 @@ public class MethodCall extends AbstractExpr {
         return args;
     }
 
-
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
         ClassType callerClass;
         if (this.expr != null) {
-            // On verifie que l'expr est de type class 
+            // On verifie que l'expr est de type class
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
             if (!exprType.isClass()) {
                 throw new ContextualError(String.format("L'appel méthode '%s' doit se faire sur une class",
@@ -67,7 +67,7 @@ public class MethodCall extends AbstractExpr {
             callerClass = currentClass.getType();
         }
 
-        // On verifie que le ident est bien une méthode 
+        // On verifie que le ident est bien une méthode
         MethodDefinition methodDef = this.name.verifyDefinition(compiler, callerClass.getDefinition().getMembers())
                 .asMethodDefinition(String.format("'%s' n'est pas une méthode", this.name), getLocation()); // Rule 3.72
 
@@ -80,7 +80,7 @@ public class MethodCall extends AbstractExpr {
 
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {
-        
+
         LOG.debug("Signature: " + sig);
         LOG.debug("Caller: " + this.args);
 
@@ -97,7 +97,6 @@ public class MethodCall extends AbstractExpr {
                     this.getLocation()); // Rule 3.73 // Rule 3.74
         }
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -152,10 +151,14 @@ public class MethodCall extends AbstractExpr {
             compiler.setN(nActual - 1);
         }
         int nActual = compiler.getN() + 1;
-        compiler.addInstruction(SuperLOAD.main(((Identifier)(this.expr)).getExpDefinition().getOperand(), Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(((Identifier) (this.expr)).getExpDefinition().getOperand(),
+                Register.getR(nActual), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
-        compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nActual)), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(SuperOffset.main(0, Register.getR(nActual), compiler.compileInArm()),
+                Register.getR(nActual),
+                compiler.compileInArm()));
+        compiler.addInstruction(SuperBSR.main(SuperOffset.main(this.name.getMethodDefinition().getIndex(),
+                Register.getR(nActual), compiler.compileInArm()), compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nActual), compiler.compileInArm()));
     }
 

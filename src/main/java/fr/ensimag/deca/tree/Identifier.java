@@ -19,6 +19,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperWFLOAT;
 import fr.ensimag.superInstructions.SuperWFLOATX;
 import fr.ensimag.superInstructions.SuperWINT;
@@ -59,7 +60,7 @@ public class Identifier extends AbstractIdentifier {
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
-        switch (this.getDefinition().getNature()){
+        switch (this.getDefinition().getNature()) {
             case "variable":
                 VariableDefinition defVar = (VariableDefinition) this.getDefinition();
                 compiler.addInstruction(
@@ -67,12 +68,17 @@ public class Identifier extends AbstractIdentifier {
                 break;
             case "field":
                 FieldDefinition defField = (FieldDefinition) this.getDefinition();
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual),compiler.compileInArm()));
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
+                        Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(
+                        SuperOffset.main(defField.getIndex(), Register.getR(nActual), compiler.compileInArm()),
+                        Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "parameter":
-                ParamDefinition defParam = (ParamDefinition)this.getDefinition();
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-defParam.getIndex()-2, Register.LB), Register.getR(nActual), compiler.compileInArm()));
+                ParamDefinition defParam = (ParamDefinition) this.getDefinition();
+                compiler.addInstruction(
+                        SuperLOAD.main(SuperOffset.main(-defParam.getIndex() - 2, Register.LB, compiler.compileInArm()),
+                                Register.getR(nActual), compiler.compileInArm()));
         }
     }
 
@@ -215,7 +221,7 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
-        
+
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name).getType();
     }

@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperSTORE;
 
 import org.apache.log4j.Logger;
@@ -47,13 +48,15 @@ public class Assign extends AbstractBinaryExpr {
             int nActualAddr = compiler.getN() + 1;
             BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualAddr);
             FieldDefinition fieldDef = (FieldDefinition) varDef;
-            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActualAddr), compiler.compileInArm()));
-            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight), new RegisterOffset(fieldDef.getIndex(), Register.getR(nActualAddr)), compiler.compileInArm()));
-        }
-        else {
+            compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
+                    Register.getR(nActualAddr), compiler.compileInArm()));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
+                    SuperOffset.main(fieldDef.getIndex(), Register.getR(nActualAddr), compiler.compileInArm()),
+                    compiler.compileInArm()));
+        } else {
             compiler.addInstruction(
-                SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
-        compiler.setN(nActualRight - 1);
+                    SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
+            compiler.setN(nActualRight - 1);
         }
     }
 

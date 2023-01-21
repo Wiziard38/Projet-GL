@@ -16,6 +16,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 
 /*
  * Selection of a field
@@ -54,18 +55,17 @@ public class Selection extends AbstractLValue {
             throws ContextualError {
 
         ClassType selectClass = this.expr.verifyExpr(compiler, localEnv, currentClass)
-                .asClassType("La sélection doit se faire sur une class", 
-                this.getLocation()); // Rule 3.65 // Rule 3.66
+                .asClassType("La sélection doit se faire sur une class",
+                        this.getLocation()); // Rule 3.65 // Rule 3.66
 
-        FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().
-                getMembers()).asFieldDefinition(String.format("'%s' n'est pas un champ de class",
-                this.name.getName()), this.getLocation()); // Rule 3.70
-                
+        FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().getMembers())
+                .asFieldDefinition(String.format("'%s' n'est pas un champ de class",
+                        this.name.getName()), this.getLocation()); // Rule 3.70
+
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
             this.setType(fieldDef.getType());
             return fieldDef.getType();
         }
-
 
         if (selectClass.subType(currentClass.getType())) {
             if (currentClass.getType().subType(fieldDef.getContainingClass().getType())) {
@@ -93,10 +93,12 @@ public class Selection extends AbstractLValue {
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
-        Identifier className = (Identifier)this.expr;
-        Identifier fieldName = (Identifier)this.name;
-        compiler.addInstruction(SuperLOAD.main(className.getExpDefinition().getOperand(), Register.getR(nActual), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        Identifier className = (Identifier) this.expr;
+        Identifier fieldName = (Identifier) this.name;
+        compiler.addInstruction(SuperLOAD.main(className.getExpDefinition().getOperand(), Register.getR(nActual),
+                compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(SuperOffset.main(fieldName.getFieldDefinition().getIndex(),
+                Register.getR(nActual), compiler.compileInArm()), Register.getR(nActual), compiler.compileInArm()));
 
     }
 

@@ -18,6 +18,7 @@ import fr.ensimag.superInstructions.SuperADDSP;
 import fr.ensimag.superInstructions.SuperBSR;
 import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperRTS;
@@ -71,7 +72,7 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
         compiler.setSP(compiler.getSP() + 1);
         compiler.environmentType.getClass(this.name.getName())
-                .setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+                .setOperand(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()));
         compiler.setN(nActual - 1);
         for (int i = 1; i <= this.name.getClassDefinition().getNumberOfMethods(); i++) {
             MethodDefinition expDef = this.name.getClassDefinition().getMethod(i);
@@ -79,7 +80,8 @@ public class DeclClass extends AbstractDeclClass {
                     SuperLOAD.main(new LabelOperand(expDef.getLabel()), Register.getR(nActual),
                             compiler.compileInArm()));
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActual),
-                    new RegisterOffset(expDef.getIndex(), Register.SP), compiler.compileInArm()));
+                    SuperOffset.main(expDef.getIndex(), Register.SP, compiler.compileInArm()),
+                    compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
         }
         compiler.addInstruction(
@@ -98,7 +100,7 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addLabel(new Label(blockName));
         // On regarde si la super class à des champs, il faut alors les initier avant
         if (superclass.getClassDefinition().getNumberOfFields() != 0) {
-            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB),
+            compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
                     Register.getR(compiler.getN() + 1), compiler.compileInArm()));
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
             compiler.addInstruction(

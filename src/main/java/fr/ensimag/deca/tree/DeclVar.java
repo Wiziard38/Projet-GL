@@ -13,6 +13,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 
 /**
@@ -45,7 +46,7 @@ public class DeclVar extends AbstractDeclVar {
         initialization.codeGenInst(compiler, varName.getDefinition(), name);
         compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
-        varDef.setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        varDef.setOperand(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()));
         compiler.setN(nAct - 1);
         compiler.addComment("");
     }

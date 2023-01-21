@@ -1,0 +1,20 @@
+// test valide pour un set protected
+
+
+class A{
+    protected int x;
+    int getX(){
+        return this.x;
+    }
+    void setX(){
+        this.x = 5;
+    }
+
+}
+
+
+{
+    A a = new A();
+    a.setX(5)
+    println("x = ", a.getX());
+}

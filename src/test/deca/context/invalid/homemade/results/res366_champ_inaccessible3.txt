@@ -1,0 +1,1 @@
+Identificateur 'x' non déclaré dans l'environnement

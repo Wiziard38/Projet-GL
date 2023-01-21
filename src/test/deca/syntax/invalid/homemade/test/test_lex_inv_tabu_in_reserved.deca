@@ -1,0 +1,4 @@
+// Test tabulation au sein d'un mot reservé
+{
+    prin    tln();
+}

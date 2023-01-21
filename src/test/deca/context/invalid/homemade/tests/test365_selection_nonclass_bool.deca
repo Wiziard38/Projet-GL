@@ -1,0 +1,11 @@
+// test invalide de la règle 3.65
+
+
+class A{
+    int livre;
+}
+
+{
+    boolean x;
+    x.livre = 8;
+}

@@ -1,0 +1,5 @@
+// Test avec retour a la ligne au sein d'un mot reservé
+{
+    prin
+    tln();
+}

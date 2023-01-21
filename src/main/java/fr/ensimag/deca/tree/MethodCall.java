@@ -67,6 +67,10 @@ public class MethodCall extends AbstractExpr {
             }
             callerClass = exprType.asClassType(null, null);
         } else {
+            if (currentClass == null) {
+                throw new ContextualError("L'appel méthode avec 'this.' implicite en dehors d'une class impossible",
+                        this.getLocation()); // Rule 3.71
+            }
             callerClass = currentClass.getType();
         }
 

@@ -1,0 +1,12 @@
+// test invalide de la règle 3.65
+
+
+class A{
+    int livre;
+    
+}
+
+{
+    int livre;
+    livre.livre = 8;
+}

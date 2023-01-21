@@ -1,26 +1,8 @@
 class Case {
-    protected int column;
-    protected int row;
     protected int player = 0;
-
-    void setCol(int col) {
-        this.column = col;
-    }
-
-    void setRow(int row) {
-        this.row = row;
-    }
 
     void setPlayer(int player) {
         this.player = player;
-    }
-
-    int getRow() {
-        return this.row;
-    }
-
-    int getCol() {
-        return this.column;
     }
 
     int getPlayer() {
@@ -57,7 +39,7 @@ class BoardColumn {
     }
 
     boolean isFull() {
-        return (currentHeight == 7;)
+        return (currentHeight == 7);
     }
 
     Case getCase(int caseNumber) {
@@ -77,7 +59,7 @@ class BoardColumn {
     }
 }
 
-class Board() {
+class Board {
     protected BoardColumn col1 = new BoardColumn();
     protected BoardColumn col2 = new BoardColumn();
     protected BoardColumn col3 = new BoardColumn();

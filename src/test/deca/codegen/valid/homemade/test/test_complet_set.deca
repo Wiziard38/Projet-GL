@@ -15,6 +15,6 @@ class A{
 
 {
     A a = new A();
-    a.setX(5)
+    a.setX();
     println("x = ", a.getX());
 }

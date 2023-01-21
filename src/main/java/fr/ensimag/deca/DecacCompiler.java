@@ -100,7 +100,7 @@ public class DecacCompiler implements Runnable {
         return program.getLastLineIndex();
     }
 
-    public void addIndexLine(int index, Instruction inst){
+    public void addIndexLine(int index, Instruction inst) {
         program.addIndex(inst, index);
     }
 
@@ -199,9 +199,9 @@ public class DecacCompiler implements Runnable {
     }
 
     @Override
-        public void run() {
-            this.compile();
-        }
+    public void run() {
+        this.compile();
+    }
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -290,6 +290,7 @@ public class DecacCompiler implements Runnable {
         addComment("start main program");
         prog.codeGenProgram(this);
         if (compileInArm) {
+            program.writePrintLabel();
             program.addFirst(new Line("_start:"));
             program.addFirst(new Line(".global _start"));
             program.addFirst(new Line(".text"));

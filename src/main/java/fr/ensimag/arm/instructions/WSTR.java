@@ -31,8 +31,6 @@ public class WSTR extends InstructionArm {
         s.println("mov r7, #4");
         s.println("swi 0");
         s.println();
-        s.println(".data");
-        s.println();
         if (op.stripped() == "retourLigne") {
             if (!retourLigne) {
                 retourLigne = true;
@@ -40,6 +38,8 @@ public class WSTR extends InstructionArm {
                 return;
             }
         }
+        s.println(".data");
+        s.println();
         s.println("msg_" + op.stripped() + ":");
         s.println(".asciz " + op);
         s.println("len" + op.stripped() + " = . - msg_" + op.stripped());

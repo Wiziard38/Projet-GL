@@ -21,7 +21,7 @@ public class SuperLOAD {
 
     public static Instruction main(int i, GPRegister r, boolean arm) {
         if (arm) {
-            return new fr.ensimag.arm.instructions.LDR(new ImmediateInteger(i), r);
+            return new fr.ensimag.arm.instructions.mov(i, r);
         } else {
             return new fr.ensimag.ima.instructions.LOAD(new ImmediateInteger(i), r);
         }

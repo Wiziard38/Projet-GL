@@ -100,11 +100,10 @@ public abstract class AbstractExpr extends AbstractInst {
         if (exprType.subType(expectedType)) {
             return this;
         }
-        
+
         throw new ContextualError(String.format("Cette expression devrait être de type '%s'",
                 expectedType.toString()), this.getLocation()); // Rule 3.28
     }
-
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
@@ -161,7 +160,7 @@ public abstract class AbstractExpr extends AbstractInst {
         BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
         if (this.getType().sameType(compiler.environmentType.INT)) {
             IntLiteral intExpr = (IntLiteral) this;
-            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()),
+            compiler.addInstruction(SuperLOAD.main(intExpr.getValue(),
                     Register.getR(compiler.getN()), compiler.compileInArm()));
         }
         if (this.getType().sameType(compiler.environmentType.FLOAT)) {

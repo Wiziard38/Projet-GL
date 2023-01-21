@@ -82,36 +82,16 @@ decac [[-p | -v | -arm] [-n] [-r X] [-d]* [-P] [file.deca]*]
 ```
 
 | Option              | Description                                                | Default | Required?  |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-p` (banner)       | affiche une bannière indiquant le nom de l'équipe          | `false` | No         |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-p` (parse)        | arrête decac après l'étape de construction de l'arbre,     | `false` | No         |
-|                     | et affiche la décompilation de ce dernier (i.e. s'il n'y a |         |            |
-|                     | qu'un fichier source à compiler, la sortie doit être un    |         |            |
-|                     | programme deca syntaxiquement correct)                     |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-v` (verification) | arrête decac après l'étape de vérifications (ne produit    | `false` | No         |
-|                     | aucune sortie en l'absence d'erreur)                       |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-n` (no check)     | supprime les tests à l'exécution spécifiés dans les points | `false` | No         |
-|                     | 11.1 et 11.3 de la sémantique de Deca.                     |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-r X` (registers)  | limite les registres banalisés disponibles à R0 ... R{X-1},| `16`    | No         |
-|                     | avec 4 <= X <= 16                                          |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-d` (debug)        | active les traces de debug. Répéter l'option plusieurs fois| `false` | No         |
-|                     | pour avoir plus de traces.                                 |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-P` (parallel)     | s'il y a plusieurs fichiers sources, lance la compilation  | `false` | No         |
-|                     | des fichiers en parallèle (pour accélérer la compilation)  |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `-arm` (ARM)        | génère du code assembleur qui sera executable sur un       | `false` | No         |
-|                     | processeur ARM-v6                                          |         |            |
-|---------------------|------------------------------------------------------------|---------|------------|
-| `<file>.deca`       | Liste des fichiers deca qui vont être compilés (Si le nom  | `empty` | Yes        |
-|                     | file revient plusieurs fois, il ne sera compilé qu'une     |         | (except if |
-|                     | seule fois                                                 |         | `-b`)      |
-|---------------------|------------------------------------------------------------|---------|------------|
+|---------------------|------------------------------------------------------------| :------:|:----------:|
+| `-p` (banner)       | Affiche une bannière indiquant le nom de l'équipe          | `false` | No         |
+| `-p` (parse)        | Arrête decac après l'étape de construction de l'arbre, <br> et affiche la décompilation de ce dernier (i.e. s'il n'y a <br> qu'un fichier source à compiler, la sortie doit être un <br> programme deca syntaxiquement correct)  | `false` | No         |
+| `-v` (verification) | Arrête decac après l'étape de vérifications (ne produit <br> aucune sortie en l'absence d'erreur)   | `false` | No         |
+| `-n` (no check)     | Supprime les tests à l'exécution spécifiés dans les points <br> 11.1 et 11.3 de la sémantique de Deca.| `false` | No         |
+| `-r X` (registers)  | Limite les registres banalisés disponibles à R0 ... R{X-1}, <br> avec 4 <= X <= 16 | `16`    | No         |
+| `-d` (debug)        | Active les traces de debug. Répéter l'option plusieurs fois <br>  pour avoir plus de traces.| `false` | No         |
+| `-P` (parallel)     | S'il y a plusieurs fichiers sources, lance la compilation <br> des fichiers en parallèle (pour accélérer la compilation) | `false` | No         |
+| `-arm` (ARM)        | Génère du code assembleur qui sera executable sur un <br> processeur ARM-v6 | `false` | No         |
+| `<file>.deca`       | Liste des fichiers deca qui vont être compilés (Si le nom <br> file revient plusieurs fois, il ne sera compilé qu'une <br> seule fois | `empty` | Yes <br> (except if `-b`)       |
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

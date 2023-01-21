@@ -20,8 +20,9 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
 
     /**
      * TODO
-     */    
-    public void verifyListDeclFieldMembers(DecacCompiler compiler, ClassDefinition currentClassDef, AbstractIdentifier superClass)
+     */
+    public void verifyListDeclFieldMembers(DecacCompiler compiler, ClassDefinition currentClassDef,
+            AbstractIdentifier superClass)
             throws ContextualError {
 
         for (AbstractDeclField myDeclField : this.getList()) {
@@ -31,7 +32,7 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
 
     public void verifyListDeclFieldBody(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {
-        
+
         for (AbstractDeclField myDeclField : this.getList()) {
             myDeclField.verifyInitField(compiler, currentClassDef);
         }

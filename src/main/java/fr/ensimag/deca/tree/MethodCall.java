@@ -14,11 +14,14 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperBSR;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
+import fr.ensimag.superInstructions.SuperSUBSP;
 
 /*
  * Call of a method function on an expression
@@ -160,6 +163,7 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
         compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nActual)), compiler.compileInArm()));
+        compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(args.size() + 1), compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nActual), compiler.compileInArm()));
     }
 

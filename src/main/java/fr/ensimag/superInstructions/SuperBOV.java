@@ -12,7 +12,7 @@ public class SuperBOV {
 
     public static Instruction main(Label op, boolean arm) {
         if (arm) {
-            return new fr.ensimag.arm.instructions.BOV(op);
+            return new fr.ensimag.arm.instructions.BVS(op);
         } else {
             return new fr.ensimag.ima.instructions.BOV(op);
         }

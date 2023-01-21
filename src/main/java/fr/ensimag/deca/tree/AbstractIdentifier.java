@@ -39,7 +39,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a class definition.
+     *                            if the definition is not a class definition.
      */
     public abstract ClassDefinition getClassDefinition();
 
@@ -53,7 +53,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     public abstract FieldDefinition getFieldDefinition();
 
@@ -65,20 +65,21 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a method definition.
+     *                            if the definition is not a method definition.
      */
     public abstract MethodDefinition getMethodDefinition();
 
     public abstract SymbolTable.Symbol getName();
 
     /**
-     * Like {@link #getDefinition()}, but works only if the definition is a ExpDefinition.
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ExpDefinition.
      *
      * This method essentially performs a cast, but throws an explicit exception
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     public abstract ExpDefinition getExpDefinition();
 
@@ -90,16 +91,15 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     public abstract VariableDefinition getVariableDefinition();
 
     public abstract void setDefinition(Definition definition);
 
-
-
     /**
      * Implements non-terminal "type" of [SyntaxeContextuelle] in the 3 passes
+     * 
      * @param compiler contains "env_types" attribute
      * @return the type corresponding to this identifier
      *         (corresponds to the "type" attribute)

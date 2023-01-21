@@ -12,7 +12,8 @@ import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
 /**
- * Test for the GreaterOrEqual node using mockito, using @Mock and @Before annotations.
+ * Test for the GreaterOrEqual node using mockito, using @Mock and @Before
+ * annotations.
  *
  * @author Mathis
  * @date 09/01/2023
@@ -32,10 +33,10 @@ public class TestGreaterOrEqual {
     AbstractExpr floatexpr2;
 
     DecacCompiler compiler;
-    
+
     @BeforeEach
     public void setup() throws ContextualError {
-        //MockitoAnnotations.initMocks(this);
+        // MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
         compiler = new DecacCompiler(null, null, false);
         when(intexpr1.verifyExpr(compiler, null, null)).thenReturn(INT);

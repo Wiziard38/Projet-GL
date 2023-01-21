@@ -1,14 +1,25 @@
 package fr.ensimag.arm.instructions;
 
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.UnaryInstruction;
+
+import java.io.PrintStream;
+
+import fr.ensimag.pseudocode.InstructionArm;
 
 /**
  * @author Ensimag
  * @date 01/01/2023
  */
-public class PUSH extends UnaryInstruction {
-    public PUSH(Register op1) {
-        super(op1);
+public class PUSH extends InstructionArm {
+
+    private Register op;
+
+    public PUSH(Register op) {
+        this.op = op;
+    }
+
+    @Override
+    public void displayInstructions(PrintStream s) {
+        s.print("PUSH [" + op + "]");
     }
 }

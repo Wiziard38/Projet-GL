@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Script pour compiler et lancer un programme avec l'option -arm
+
+# cd "$(dirname "$0")"/../../.. || exit 1
+# source_dir=$(pwd)
+# PATH=$source_dir/src/test/script/launchers:"$PATH"
+
+# # On recupere le directory d'entree
+# input_dir="$source_dir/test/deca/codegen/valid/homemade/test"
+
+nom=${1##*/}
+decac -arm "$1" 2>&1 
+arm-linux-gnueabihf-as -o "${nom%.deca}.o" "${nom%.deca}.S"
+arm-linux-gnueabihf-ld -o "${nom%.deca}" "${nom%.deca}.o"
+qemu-arm-static "${nom%.deca}"

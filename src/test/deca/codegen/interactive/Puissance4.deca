@@ -90,26 +90,17 @@ class Board {
     void displayBoard() {
         int indexCol = 1;
         int indexRow = 6;
-        int indexInRow = 1;
 
         while (indexRow > 0) {
             println(" --- --- --- --- --- --- --- ");
             print("|");
             while (indexCol < 8) {
-                if (indexInRow == 2) {
-                    this.getColumn(indexCol).getCase(indexRow).displayCase();
-                } else {
-                    print("   ");
-                }
+                this.getColumn(indexCol).getCase(indexRow).displayCase();
                 print("|");
                 indexCol = indexCol + 1;
             }
             println();
-
-            indexInRow = indexInRow + 1;
-            if (indexInRow == 4) {
-                indexInRow = 1;
-                indexRow = indexRow - 1;
+            indexRow = indexRow + 1;
             }
         }
         println(" --- --- --- --- --- --- --- ");
@@ -219,9 +210,10 @@ class Play {
         }        
     }
     
-    int playMoove() {
+    void playMoove() {
         int chosenColumn;
         int nextPlayer;
+        boolean flagWhile = false;
         
         playBoard.displayBoard();
 
@@ -233,14 +225,14 @@ class Play {
             nextPlayer = 1;
         }
 
-        while (true) {
+        while (flagWhile) {
             print("choisissez votre colonne : ");
             chosenColumn = readInt();
             if ((chosenColumn > 8) || (chosenColumn < 1) || (playBoard.getColumn(chosenColumn).isFull())) {
                 println("Mauvais numero de colonne");
             } else {
                 println();
-                return 1;
+                flagWhile = true;
             }
         }
 

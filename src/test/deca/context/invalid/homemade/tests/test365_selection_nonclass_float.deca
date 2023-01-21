@@ -3,10 +3,9 @@
 
 class A{
     int livre;
-    
 }
 
 {
-    int livre;
-    livre.livre = 8;
+    float x;
+    x.livre = 8;
 }

@@ -1,0 +1,1 @@
+'New' ne peut etre affecté que pour une class

@@ -33,15 +33,16 @@ public class MethodCall extends AbstractExpr {
     public MethodCall(AbstractExpr e, AbstractIdentifier name, ListExpr args) {
         Validate.notNull(e);
         Validate.notNull(name);
-        this.name = name;
         this.expr = e;
+        this.name = name;
         this.args = args;
     }
 
     public MethodCall(AbstractIdentifier name, ListExpr args) {
         Validate.notNull(name);
-        this.name = name;
         this.expr = null;
+        this.name = name;
+        this.args = args;
     }
 
     public ListExpr getArgs() {
@@ -52,7 +53,6 @@ public class MethodCall extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        LOG.debug(this.expr);
 
         ClassType callerClass;
         if (this.expr != null) {

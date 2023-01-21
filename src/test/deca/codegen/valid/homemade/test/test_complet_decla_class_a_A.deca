@@ -1,0 +1,10 @@
+// test distinction des majuscule/minuscule dans les nom de class
+
+
+class A{
+    int x = 3;
+}
+
+class a{
+    
+}

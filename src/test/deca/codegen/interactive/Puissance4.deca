@@ -199,10 +199,12 @@ class Play {
                     print("2");
                 }
                 println(" a gagne !");
+                return 0;
             }
             
             if (nbMooves == 42) {
                 println("C'est une egalité");
+                return 0;
             }
 
             playMoove();
@@ -212,7 +214,7 @@ class Play {
     void playMoove() {
         int chosenColumn;
         int nextPlayer;
-        boolean flagWhile = false;
+        boolean flagWhile = true;
         
         playBoard.displayBoard();
 
@@ -231,7 +233,7 @@ class Play {
                 println("Mauvais numero de colonne");
             } else {
                 println();
-                flagWhile = true;
+                flagWhile = false;
             }
         }
 

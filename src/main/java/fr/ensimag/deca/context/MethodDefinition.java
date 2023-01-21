@@ -27,16 +27,6 @@ public class MethodDefinition extends ExpDefinition {
         this.label = label;
     }
 
-    // private String className;
-
-    // public String getClassName() {
-    //     return className;
-    // }
-
-    // public void setClassName(String nameClass) {
-    //     this.className = nameClass;
-    // }
-
     public int getIndex() {
         return index;
     }

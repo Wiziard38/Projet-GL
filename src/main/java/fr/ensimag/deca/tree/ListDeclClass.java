@@ -3,10 +3,18 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.LabelOperand;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.NullOperand;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperCMP;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperPOP;
+import fr.ensimag.superInstructions.SuperPUSH;
+import fr.ensimag.superInstructions.SuperRTS;
+import fr.ensimag.superInstructions.SuperSEQ;
 import fr.ensimag.ima.instructions.LOAD;
 import fr.ensimag.ima.instructions.PUSH;
 
@@ -19,7 +27,7 @@ import org.apache.log4j.Logger;
  */
 public class ListDeclClass extends TreeList<AbstractDeclClass> {
     private static final Logger LOG = Logger.getLogger(ListDeclClass.class);
-    
+
     @Override
     public void decompile(IndentPrintStream s) {
         for (AbstractDeclClass c : getList()) {
@@ -29,11 +37,13 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     }
 
     protected void codeGenListClass(DecacCompiler compiler){
-        compiler.setSP(compiler.getSP() + 1);
+        compiler.setSP(compiler.getSP() + 2);
         compiler.addComment("Class object");
-        compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(1, Register.GB));
         compiler.addInstruction(new LOAD(new NullOperand(), Register.getR(compiler.getN())));
         compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
+        compiler.addInstruction(SuperLOAD.main(new LabelOperand(new Label("object.equals")), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
         compiler.add(new Line(""));
         for(AbstractDeclClass a : this.getList()){
             a.codeGenClass(compiler);
@@ -41,6 +51,17 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     }
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+        compiler.addLabel(new Label("object.equals"));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-3, Register.LB), Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperCMP.main(Register.getR(2), Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperSEQ.main(Register.R0, compiler.compileInArm()));
+        compiler.addInstruction(SuperPOP.main(Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(SuperPOP.main(Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        compiler.addComment("");
         for(AbstractDeclClass a : this.getList()){
             a.codeGenCorpMethod(compiler, name);
         }
@@ -63,7 +84,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             currentClass.verifyClassMembers(compiler);
         }
     }
-    
+
     /**
      * Pass 3 of [SyntaxeContextuelle]
      */
@@ -72,6 +93,5 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             currentClass.verifyClassBody(compiler);
         }
     }
-
 
 }

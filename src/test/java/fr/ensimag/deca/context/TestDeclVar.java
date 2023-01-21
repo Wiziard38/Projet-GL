@@ -47,10 +47,10 @@ public class TestDeclVar {
     AbstractInitialization init;
 
     DecacCompiler compiler;
-    
+
     @BeforeEach
     public void setup() throws ContextualError {
-        //MockitoAnnotations.initMocks(this);
+        // MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
         compiler = new DecacCompiler(null, null, false);
         when(intexpr1.verifyExpr(compiler, null, null)).thenReturn(INT);
@@ -65,9 +65,9 @@ public class TestDeclVar {
     public void testIntInt() throws ContextualError {
         DeclVar t = new DeclVar(ident1, ident2, init);
         // check the result
-        //assertTrue(t.verifyExpr(compiler, null, null).isInt());
+        // assertTrue(t.verifyExpr(compiler, null, null).isInt());
         // check that the mocks have been called properly.
-        //verify(intexpr1).verifyExpr(compiler, null, null);
-        //verify(intexpr2).verifyExpr(compiler, null, null);
+        // verify(intexpr1).verifyExpr(compiler, null, null);
+        // verify(intexpr2).verifyExpr(compiler, null, null);
     }
 }

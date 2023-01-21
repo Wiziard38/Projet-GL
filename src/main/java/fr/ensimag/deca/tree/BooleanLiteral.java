@@ -32,7 +32,6 @@ public class BooleanLiteral extends AbstractExpr {
         return compiler.environmentType.BOOLEAN;
     }
 
-
     @Override
     public void decompile(IndentPrintStream s) {
         s.print(Boolean.toString(value));

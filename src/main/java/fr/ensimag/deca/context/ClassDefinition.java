@@ -4,6 +4,7 @@ import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Label;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
@@ -86,7 +87,7 @@ public class ClassDefinition extends TypeDefinition {
             ExpDefinition exp = exps.next();
             LOG.debug(exp.isMethod());
             if (exp.isMethod()) {
-                LOG.debug(((MethodDefinition)exp).getIndex());
+                LOG.debug("index method: " + ((MethodDefinition)exp).getIndex());
                 if (((MethodDefinition)exp).getIndex() == index) {
                     return (MethodDefinition)exp;
                 }

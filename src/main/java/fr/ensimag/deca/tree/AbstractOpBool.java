@@ -23,18 +23,18 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        
+
         Type typeLeft = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type typeRight = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
-        
+
         if (typeLeft.isBoolean() && typeRight.isBoolean()) {
-            
+
             this.setType(compiler.environmentType.BOOLEAN);
             return compiler.environmentType.BOOLEAN;
         }
 
         throw new ContextualError("Comparaison logique sur des non-booleans", this.getLocation()); // Rule 3.33
-    
+
     }
 
     @Override

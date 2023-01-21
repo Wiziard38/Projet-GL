@@ -19,4 +19,5 @@ docker/*
 **/.antlr/*
 target/*
 *.ass
+*.S
 !target/site/*

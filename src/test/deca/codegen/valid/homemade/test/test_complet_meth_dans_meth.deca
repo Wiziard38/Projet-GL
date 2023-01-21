@@ -1,0 +1,22 @@
+// test valide appelle de methode dans methode
+
+
+class A{
+
+    int x = 8;
+    void calcul(int valeur){
+        this.x = this.x + 2;
+    }
+    void calcul1(){
+        calcul(3);
+    }
+    
+    
+}
+
+
+{
+    A a = new A();
+    a.calcul1();
+    println("a.x = ", a.x);
+}

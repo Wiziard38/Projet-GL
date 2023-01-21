@@ -1,5 +1,5 @@
 class A{
-    public float x = 8.1;
+    float x = 8.1;
 }
 
 

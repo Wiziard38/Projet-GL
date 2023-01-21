@@ -1,5 +1,5 @@
 class A{
-    public int x = 8;
+    int x = 8;
 }
 
 

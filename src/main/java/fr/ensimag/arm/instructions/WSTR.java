@@ -11,6 +11,8 @@ import fr.ensimag.pseudocode.InstructionArm;
  */
 public class WSTR extends InstructionArm {
 
+    private static boolean retourLigne = false;
+
     private ImmediateString op;
 
     public WSTR(ImmediateString op) {
@@ -31,6 +33,13 @@ public class WSTR extends InstructionArm {
         s.println();
         s.println(".data");
         s.println();
+        if (op.stripped() == "retourLigne") {
+            if (!retourLigne) {
+                retourLigne = true;
+            } else {
+                return;
+            }
+        }
         s.println("msg_" + op.stripped() + ":");
         s.println(".asciz " + op);
         s.println("len" + op.stripped() + " = . - msg_" + op.stripped());

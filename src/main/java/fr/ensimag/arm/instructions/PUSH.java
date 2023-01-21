@@ -20,6 +20,6 @@ public class PUSH extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        s.print("PUSH [" + op + "]");
+        s.print("PUSH {" + op + "}");
     }
 }

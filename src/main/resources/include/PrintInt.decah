@@ -14,7 +14,7 @@ class PrintInt {
         return this.x;
     }
 
-    void printX(int input) {
+    void printInt(int input) {
         if (input < 0) {
             print("-");
             x = - input;

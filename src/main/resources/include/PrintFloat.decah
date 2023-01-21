@@ -1,4 +1,4 @@
-// #include "PrintInt.decah"
+#include "PrintInt.decah"
 
 class Float {
     protected float x;
@@ -39,6 +39,7 @@ class Float {
         int partieEnt;
         int partieVirg;
         float a;
+        PrintInt flow = new PrintInt();
         setX(y);
         partieEnt = chercheEnt(x);
         x = (x - partieEnt) * 10;
@@ -52,8 +53,8 @@ class Float {
         if(isNeg) {
             print("-");
         }
-        PrintInt.printInt(partieEnt);
+        flow.printInt(partieEnt);
         print(".");
-        PrintInt.printInt(partieVirg);
+        flow.printInt(partieVirg);
     }
 }

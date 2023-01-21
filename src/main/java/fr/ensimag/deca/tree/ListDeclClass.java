@@ -35,31 +35,34 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         }
     }
 
-    protected void codeGenListClass(DecacCompiler compiler){
+    protected void codeGenListClass(DecacCompiler compiler) {
         compiler.setSP(compiler.getSP() + 1);
         compiler.addComment("Class object");
         compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
-        compiler.addInstruction(new LOAD(new NullOperand(), Register.getR(compiler.getN())));
-        compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
+        compiler.addInstruction(
+                SuperLOAD.main(new NullOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
         compiler.add(new Line(""));
-        for(AbstractDeclClass a : this.getList()){
+        for (AbstractDeclClass a : this.getList()) {
             a.codeGenClass(compiler);
         }
     }
 
-    protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+    protected void codeGenCorpMethod(DecacCompiler compiler, String name) {
         compiler.addLabel(new Label("object.equals"));
         compiler.addInstruction(SuperPUSH.main(Register.getR(3), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(2), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(2), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-3, Register.LB), Register.getR(3), compiler.compileInArm()));
+        compiler.addInstruction(
+                SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(2), compiler.compileInArm()));
+        compiler.addInstruction(
+                SuperLOAD.main(new RegisterOffset(-3, Register.LB), Register.getR(3), compiler.compileInArm()));
         compiler.addInstruction(SuperCMP.main(Register.getR(2), Register.getR(3), compiler.compileInArm()));
         compiler.addInstruction(SuperSEQ.main(Register.R0, compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(2), compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(3), compiler.compileInArm()));
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
         compiler.addComment("");
-        for(AbstractDeclClass a : this.getList()){
+        for (AbstractDeclClass a : this.getList()) {
             a.codeGenCorpMethod(compiler, name);
         }
     }

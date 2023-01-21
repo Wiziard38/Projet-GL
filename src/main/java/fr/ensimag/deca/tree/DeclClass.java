@@ -16,6 +16,7 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperADDSP;
 import fr.ensimag.superInstructions.SuperBSR;
+import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
@@ -63,53 +64,65 @@ public class DeclClass extends AbstractDeclClass {
         LOG.debug(this.name.getClassDefinition().getNumberOfMethods());
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
-        compiler.addComment("class "+this.name.getName().getName());
-        compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
-        compiler.addInstruction(new PUSH(Register.getR(nActual)));
+        compiler.addComment("class " + this.name.getName().getName());
+        compiler.addInstruction(
+                SuperLEA.main(compiler.environmentType.getClass(superclass.getName()).getOperand(),
+                        Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
         compiler.setSP(compiler.getSP() + 1);
-        compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.environmentType.getClass(this.name.getName())
+                .setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
         compiler.setN(nActual - 1);
         for (int i = 1; i <= this.name.getClassDefinition().getNumberOfMethods(); i++) {
             MethodDefinition expDef = this.name.getClassDefinition().getMethod(i);
             compiler.addInstruction(
-                new LOAD(new LabelOperand(expDef.getLabel()),Register.getR(nActual)));
-            compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(expDef.getIndex(), Register.SP), compiler.compileInArm()));
+                    SuperLOAD.main(new LabelOperand(expDef.getLabel()), Register.getR(nActual),
+                            compiler.compileInArm()));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActual),
+                    new RegisterOffset(expDef.getIndex(), Register.SP), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
-            }
+        }
         compiler.addInstruction(
-            SuperADDSP.main(
-                new ImmediateInteger(
-                    this.name.getClassDefinition().getNumberOfMethods()), compiler.compileInArm()));
+                SuperADDSP.main(
+                        new ImmediateInteger(
+                                this.name.getClassDefinition().getNumberOfMethods()),
+                        compiler.compileInArm()));
         compiler.add(new Line(""));
     }
 
-    protected void codeGenCorpMethod(DecacCompiler compiler, String name){
-        //Génération du code pour l'initialisation des instances de la class
+    protected void codeGenCorpMethod(DecacCompiler compiler, String name) {
+        // Génération du code pour l'initialisation des instances de la class
         compiler.setN(1);
         String blockName = "init." + this.name.getName().getName();
         BlocInProg.addBloc(blockName, compiler.getLastLineIndex(), 0, 0);
         compiler.addLabel(new Label(blockName));
-        //On regarde si la super class à des champs, il faut alors les initier avant
+        // On regarde si la super class à des champs, il faut alors les initier avant
         if (superclass.getClassDefinition().getNumberOfFields() != 0) {
-            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB),
+                    Register.getR(compiler.getN() + 1), compiler.compileInArm()));
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
-            compiler.addInstruction(SuperBSR.main(new LabelOperand(new Label("init."+superclass.getType().getName().getName())), compiler.compileInArm()));
+            compiler.addInstruction(
+                    SuperBSR.main(new LabelOperand(new Label("init." + superclass.getType().getName().getName())),
+                            compiler.compileInArm()));
             compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(1), compiler.compileInArm()));
         }
         // On déclare les champs de la class
         for (AbstractDeclField field : fields.getList()) {
             field.codeGenDeclFiedl(compiler, blockName);
         }
-        // On test la pile en début de bloc et on remet l'environement dans l'état où il était avant l'appel à cette "méthode"
+        // On test la pile en début de bloc et on remet l'environement dans l'état où il
+        // était avant l'appel à cette "méthode"
         for (int i = 2; i < BlocInProg.getBlock(blockName).getnbRegisterNeeded() + 2; i++) {
-            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1,
+                    SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
             compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
         }
-        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
+        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1,
+                SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
         compiler.addComment("");
 
-        //On genere le code pour les méthodes de la class
+        // On genere le code pour les méthodes de la class
         for (AbstractDeclMethod method : methods.getList()) {
             compiler.setN(1);
             LOG.debug("Nom de la méthode: " + method.getName().getName().getName());
@@ -118,9 +131,12 @@ public class DeclClass extends AbstractDeclClass {
             BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
             compiler.addLabel(new Label(blockName));
             method.codeGenCorpMethod(compiler, blockName);
-            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(),
+                    SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()),
+                            compiler.compileInArm()));
             for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
-                compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+                compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(),
+                        SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
                 compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
             }
         }
@@ -177,9 +193,9 @@ public class DeclClass extends AbstractDeclClass {
         currentClassDef.setNumberOfMethods(currentClassDef.getSuperClass().getNumberOfMethods());
 
         LOG.debug("NumberOfFields " + this.name + " before: " + currentClassDef.getNumberOfFields());
-        this.fields.verifyListDeclFieldMembers(compiler, currentClassDef, this.superclass);        
+        this.fields.verifyListDeclFieldMembers(compiler, currentClassDef, this.superclass);
         LOG.debug("NumberOfFields " + this.name + " after: " + currentClassDef.getNumberOfFields());
-        
+
         LOG.debug("NumberOfMethods " + this.name + " before: " + currentClassDef.getNumberOfMethods());
         this.methods.verifyListDeclMethodMembers(compiler, currentClassDef, this.superclass);
         LOG.debug("NumberOfMethods " + this.name + " after: " + currentClassDef.getNumberOfMethods());

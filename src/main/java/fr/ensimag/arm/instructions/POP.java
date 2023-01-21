@@ -20,7 +20,7 @@ public class POP extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        s.print("POP [" + op + "]");
+        s.print("POP {" + op + "}");
     }
 
 }

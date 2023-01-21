@@ -1,0 +1,188 @@
+class Piece {
+    protected int colonne;
+    protected int ligne;
+
+    void setCol(int x) {
+        this.colonne = x;
+    }
+
+    void setLig(int y) {
+        this.ligne = y;
+    }
+
+    int getCol() {
+        return this.colonne;
+    }
+
+    int getLig() {
+        return this.ligne;
+    }
+
+    void possibleTiles() {
+        println("Piece indefinie");
+    }
+
+    void afficher() {
+        print("La piece de type ");
+        printName();
+        println(" est sur la case (", colonne, ",", ligne, ")");
+    }
+
+    void printName() {
+        println("Piece indefinie");
+    }
+
+    void possiblePlus1(int col, int lig) {
+        if (col > 0) {
+            if (col < 9) {
+                if (lig > 0) {
+                    if (lig < 9) {
+                        println("(", col, ",", lig, ")");
+                    }
+                }
+            }
+        }
+    }
+}
+
+class Fou extends Piece {
+    void printName() {
+        print("fou");
+    }
+
+    void possibleTiles() {
+        // println("Les deplacements possibles sont : ");
+        possibleTilesDiag(true, true);
+        possibleTilesDiag(true, false);
+        possibleTilesDiag(false, true);
+        possibleTilesDiag(false, false);
+    }
+
+    void possibleTilesDiag(boolean declineCol, boolean declineLig) {
+        int currentLig = this.ligne;
+        int currentCol = this.colonne;
+        while ((currentLig > 1) && (currentCol > 1) && (currentLig < 8) && (currentCol < 8)) {
+            if (declineCol) {
+                currentCol = currentCol - 1;
+            } else {
+                currentCol = currentCol + 1;
+            }
+            if (declineLig) {
+                currentLig = currentLig - 1;
+            } else {
+                currentLig = currentLig + 1;
+            }
+            println("(", currentCol, ",", currentLig, ")");
+        }
+    }
+}
+
+class Tour extends Piece {
+    void printName() {
+        print("tour");
+    }
+
+    void possibleTiles() {
+        // println("Les deplacements possibles sont : ");
+
+        possibleTilesLig(true);
+        possibleTilesLig(false);
+        possibleTilesCol(true);
+        possibleTilesCol(false);
+    }
+
+    void possibleTilesCol(boolean decline) {
+        int currentLig = this.ligne;
+        int currentCol = this.colonne;
+        while ((currentCol > 1) && (currentCol < 8)) {
+            if (decline) {
+                currentCol = currentCol - 1;
+            } else {
+                currentCol = currentCol + 1;
+            }
+            
+            println("(", currentCol, ",", currentLig, ")");
+        }
+    }
+    void possibleTilesLig(boolean decline) {
+        int currentLig = this.ligne;
+        int currentCol = this.colonne;
+        while ((currentLig > 1) && (currentLig < 8)) {
+            if (decline) {
+                currentLig = currentLig - 1;
+            } else {
+                currentLig = currentLig + 1;
+            }
+            
+            println("(", currentCol, ",", currentLig, ")");
+        }
+    }
+}
+
+class Reine extends Piece {
+    protected Fou ReineFou = new Fou();
+    protected Tour ReineTour = new Tour();
+
+    void printName() {
+        print("reine");
+    }
+
+    void possibleTiles() {
+        ReineFou.setCol(this.colonne);
+        ReineFou.setLig(this.ligne);
+        ReineTour.setCol(this.colonne);
+        ReineTour.setLig(this.ligne);
+
+        ReineFou.possibleTiles();
+        ReineTour.possibleTiles();
+    }
+}
+
+class Roi extends Piece {
+    void printName() {
+        print("roi");
+    }
+
+    void possibleTiles() {
+        possiblePlus1(this.colonne + 1, this.ligne + 1);
+        possiblePlus1(this.colonne + 1, this.ligne - 1);
+        possiblePlus1(this.colonne - 1, this.ligne + 1);
+        possiblePlus1(this.colonne - 1, this.ligne - 1);
+        possiblePlus1(this.colonne + 1, this.ligne);
+        possiblePlus1(this.colonne - 1, this.ligne);
+        possiblePlus1(this.colonne, this.ligne + 1);
+        possiblePlus1(this.colonne, this.ligne - 1);
+    }
+}
+
+class Pion extends Piece {
+    void printName() {
+        print("pion");
+    }
+
+    void possibleTiles() {
+        if (this.ligne == 1) {
+            println("(", this.colonne, ",", this.ligne + 2, ")");
+        }
+        if (this.ligne != 8) {
+            println("(", this.colonne, ",", this.ligne + 1, ")");
+        }
+    }
+}
+
+class Cavalier extends Piece {
+    void printName() {
+        print("roi");
+    }
+
+    void possibleTiles() {
+        possiblePlus1(this.colonne + 2, this.ligne + 1);
+        possiblePlus1(this.colonne + 2, this.ligne - 1);
+        possiblePlus1(this.colonne - 2, this.ligne + 1);
+        possiblePlus1(this.colonne - 2, this.ligne - 1);
+        possiblePlus1(this.colonne + 1, this.ligne + 2);
+        possiblePlus1(this.colonne + 1, this.ligne - 2);
+        possiblePlus1(this.colonne - 1, this.ligne + 2);
+        possiblePlus1(this.colonne - 1, this.ligne - 2);
+    }
+}

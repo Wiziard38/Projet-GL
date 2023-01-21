@@ -62,7 +62,6 @@ public class DeclClass extends AbstractDeclClass {
         LOG.debug(this.name.getName().getName());
         LOG.debug(this.name.getClassDefinition().getNumberOfMethods());
         int nActual = compiler.getN() + 1;
-        compiler.setN(nActual);
         compiler.addComment("class "+this.name.getName().getName());
         compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
         compiler.addInstruction(new PUSH(Register.getR(nActual)));

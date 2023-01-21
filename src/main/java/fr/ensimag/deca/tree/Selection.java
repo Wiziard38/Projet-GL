@@ -6,10 +6,12 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -26,6 +28,9 @@ public class Selection extends AbstractLValue {
     private AbstractExpr expr;
     private AbstractIdentifier name;
 
+    public ExpDefinition getExpDefinition() {
+        return (FieldDefinition)this.name.getFieldDefinition();
+    }
     public AbstractIdentifier getName() {
         return name;
     }
@@ -92,12 +97,11 @@ public class Selection extends AbstractLValue {
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
-        compiler.setN(nActual);
-        Identifier className = (Identifier)this.expr;
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(nActual);
+        expr.codeGenInst(compiler, name);
         Identifier fieldName = (Identifier)this.name;
-        compiler.addInstruction(SuperLOAD.main(className.getExpDefinition().getOperand(), Register.getR(nActual), compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
-
+        compiler.setN(nActual);
     }
 
 }

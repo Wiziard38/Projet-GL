@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.LabelOperand;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.NullOperand;
 import fr.ensimag.pseudocode.Register;
@@ -36,11 +37,13 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     }
 
     protected void codeGenListClass(DecacCompiler compiler){
-        compiler.setSP(compiler.getSP() + 1);
+        compiler.setSP(compiler.getSP() + 2);
         compiler.addComment("Class object");
-        compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(1, Register.GB));
         compiler.addInstruction(new LOAD(new NullOperand(), Register.getR(compiler.getN())));
         compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
+        compiler.addInstruction(SuperLOAD.main(new LabelOperand(new Label("object.equals")), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
         compiler.add(new Line(""));
         for(AbstractDeclClass a : this.getList()){
             a.codeGenClass(compiler);

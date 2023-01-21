@@ -23,11 +23,11 @@
       <a href="#pour-commencer">Pour commencer</a>
       <ul>
         <li><a href="#langage-deca">Langage Deca</a></li>
-        <li><a href="#machine-abstraite-ima">Machine abstraite IMA</a></li>
-        <li><a href="#extension-arm">Extention ARM</a></li>
+        <li><a href="#fichier-assembleur">Fichier assembleur</a></li>
       </ul>
     </li>
     <li><a href="#maven">Maven</a></li>
+    <li><a href="#utilisation">Utilisation</a></li>
     <li>
         <a href="#tests">Tests</a>
         <ul>
@@ -35,7 +35,6 @@
             <li><a href="#tests-manuels">Tests manuels</a></li>
         </ul>
     </li>
-    <li><a href="#utilisation">Utilisation</a></li>
   </ol>
 </details>
 
@@ -73,39 +72,6 @@ Notre projet compile sous maven, voici les principaux goals du projet.
 - `$ mvn test`         : permet de lancer automatiquement les scripts de tests détaillés <a href="#scripts-de-tests">ici</a>
 - `$ mvn -Djacoco.skip=false verify` : permet d'instrumenter les fichiers java pour obtenir une couverture jacoco de notre projet
 
-
-<!-- TESTS -->
-## Tests
-
-L'intégralité de nos tests se situe dans le répertoire src/tests/.
-Celui-ci contient des tests java, des tests deca et des scripts de tests.
-Les tests deca sont ordonnés de la manière suivante : `[partie]/[valid | invalid]/tests`, avec 
-1. [partie] = syntax pour les tests qui verifient la validité de la syntaxe du langage,
-2. [partie] = context pour les tests qui verifient la validité de la vérification contextuelle,
-3. [partie] = codegen pour les tests globaux qui visent a etre compilés entièrement.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Scripts de tests
-
-Les scripts de tests sont multiples, et nommés de la forme : `test-[partie]-[complet | valid | invalid].sh`.
-Une fois le script exécuté, il va vérifier pour la [partie] du langage concernée tous les tests soit valides, soit invalides, soit les deux.
-
-Il existe également d'autres fichiers de scripts bash, comme `basic-decac.sh` qui permet de vérifier que les commandes decac spécifiées <a href="#utilisation">ici</a> ont un bon fonctionnement.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Tests manuels
-
-Des scripts de tests manuels sont aussi présents.
-1. `test_lex` permet d'afficher a l'ecran le resultat de l'analyse lexicale du fichier deca
-2. `test_synt` permet d'afficher a l'ecran le resultat de l'analyse syntaxique du fichier deca
-3. `test_decompile` permet d'afficher a l'ecran le resultat de la décompilation qui suit l'analyse syntaxique du fichier deca
-4. `test_context` permet d'afficher a l'ecran le resultat de l'analyse contextuelle du fichier deca
-
-Il existe aussi des programmes deca de tests interactifs, se situant dans `src/test/codegen/interactive`, tels qu'un jeu de morpion ou de puissance 4. 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 ## Utilisation
@@ -147,5 +113,38 @@ decac [[-p | -v | -arm] [-n] [-r X] [-d]* [-P] [file.deca]*]
 |                     | seule fois                                                 |         | `-b`)      |
 |---------------------|------------------------------------------------------------|---------|------------|
 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- TESTS -->
+## Tests
+
+L'intégralité de nos tests se situe dans le répertoire src/tests/.
+Celui-ci contient des tests java, des tests deca et des scripts de tests.
+Les tests deca sont ordonnés de la manière suivante : `[partie]/[valid | invalid]/tests`, avec 
+1. [partie] = syntax pour les tests qui verifient la validité de la syntaxe du langage,
+2. [partie] = context pour les tests qui verifient la validité de la vérification contextuelle,
+3. [partie] = codegen pour les tests globaux qui visent a etre compilés entièrement.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Scripts de tests
+
+Les scripts de tests sont multiples, et nommés de la forme : `test-[partie]-[complet | valid | invalid].sh`.
+Une fois le script exécuté, il va vérifier pour la [partie] du langage concernée tous les tests soit valides, soit invalides, soit les deux.
+
+Il existe également d'autres fichiers de scripts bash, comme `basic-decac.sh` qui permet de vérifier que les commandes decac spécifiées <a href="#utilisation">ici</a> ont un bon fonctionnement.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Tests manuels
+
+Des scripts de tests manuels sont aussi présents.
+1. `test_lex` permet d'afficher a l'ecran le resultat de l'analyse lexicale du fichier deca
+2. `test_synt` permet d'afficher a l'ecran le resultat de l'analyse syntaxique du fichier deca
+3. `test_decompile` permet d'afficher a l'ecran le resultat de la décompilation qui suit l'analyse syntaxique du fichier deca
+4. `test_context` permet d'afficher a l'ecran le resultat de l'analyse contextuelle du fichier deca
+
+Il existe aussi des programmes deca de tests interactifs, se situant dans `src/test/codegen/interactive`, tels qu'un jeu de morpion ou de puissance 4. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

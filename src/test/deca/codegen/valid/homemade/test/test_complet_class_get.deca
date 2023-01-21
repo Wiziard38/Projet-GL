@@ -1,7 +1,7 @@
 class A{
     protected int x = 1;
     int getX(){
-        return x
+        return this.x;
     }
 }
 
@@ -9,5 +9,5 @@ class A{
 {
     A a = new A();
     int x  = a.getX();
-    println(x);
+    println("x = ",x);
 }

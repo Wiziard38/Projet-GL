@@ -1,11 +1,11 @@
 class A{
-    public boolean x = true;
+    boolean x = true;
 }
 
 
 {
     A a = new A();
-    if (A.x){
+    if (a.x){
         println("x = true");
     }
 }

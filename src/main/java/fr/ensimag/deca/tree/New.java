@@ -42,7 +42,7 @@ public class New extends AbstractExpr {
             throws ContextualError {
 
         TypeDefinition exprType = compiler.environmentType.defOfType(this.name.getName());
-        if (!exprType.isClass()) {
+        if (exprType == null || !exprType.isClass()) {
             throw new ContextualError("'New' ne peut etre affecté que pour une class",
                     this.getLocation()); // Rule 3.42
         }

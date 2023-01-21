@@ -197,4 +197,10 @@ public abstract class AbstractExpr extends AbstractInst {
             s.println();
         }
     }
+
+    @Override
+    protected void checkDecoration() {
+        LOG.debug(this.getLocation().toString());
+        Validate.notNull(this.getType());
+    }
 }

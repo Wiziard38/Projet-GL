@@ -291,6 +291,7 @@ public class DecacCompiler implements Runnable {
         prog.codeGenProgram(this);
         if (compileInArm) {
             program.writePrintLabel();
+            program.addFirst(new Line("ldr R10, [R11]"));
             program.addFirst(new Line("_start:"));
             program.addFirst(new Line(".global _start"));
             program.addFirst(new Line(".text"));

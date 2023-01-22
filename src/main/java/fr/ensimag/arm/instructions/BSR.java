@@ -27,11 +27,11 @@ public class BSR extends InstructionArm {
     public void displayInstructions(PrintStream s) {
         s.println("add R13, [R13], #2");
         s.println("mov [R13, #-1], [R15]");
-        s.println("mov [R13], [R11]");
-        s.println("mov R11, [R13]");
+        s.println("mov [R13], [R10]");
+        s.println("mov R10, [R13]");
         s.println("mov R15, [" + op + "]");
     }
 
 }
 
-// ici LB = FP??
+// ici

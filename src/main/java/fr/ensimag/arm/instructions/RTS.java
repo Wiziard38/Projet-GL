@@ -12,9 +12,9 @@ public class RTS extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        // s.println("mov R15, [[[R11], #-1]]");
-        // s.println("sub R13, R11, #-2");
-        // s.println("mov R11, [[R11]]");
+        s.println("ldr R15, [[R10], #-1]");
+        s.println("sub R13, R10, #-2");
+        s.println("ldr R10, [[R10]]");
     }
 
 }

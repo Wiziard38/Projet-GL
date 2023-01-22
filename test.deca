@@ -1,4 +1,4 @@
 {
-    println("wow je crois que je suis trop fort");
-    println("Hello world");
+    int x = 1;
+    while (x==1){x= 2;}
 }

@@ -60,7 +60,6 @@ public class DeclClass extends AbstractDeclClass {
 
     protected void codeGenClass(DecacCompiler compiler) {
         LOG.debug(this.name.getName().getName());
-        LOG.debug(this.name.getClassDefinition().getNumberOfMethods());
         int nActual = compiler.getN() + 1;
         compiler.addComment("class "+this.name.getName().getName());
         compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
@@ -108,11 +107,10 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
         compiler.addComment("");
 
-        //On genere le code pour les méthodes de la class
+        //On genere le code pour les méthodes de la classe
         for (AbstractDeclMethod method : methods.getList()) {
             compiler.setN(1);
             LOG.debug("Nom de la méthode: " + method.getName().getName().getName());
-            LOG.debug("Numéro de la méthode: " + method.getName().getMethodDefinition().getIndex());
             blockName = this.name.getName().getName() + '.' + method.getName().getName();
             BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
             compiler.addLabel(new Label(blockName));
@@ -123,7 +121,7 @@ public class DeclClass extends AbstractDeclClass {
                 compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
             }
         }
-        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        
         compiler.addComment("");
     }
 

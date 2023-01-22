@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.Register;

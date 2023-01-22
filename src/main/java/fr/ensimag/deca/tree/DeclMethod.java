@@ -15,6 +15,7 @@ import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Label;
+import fr.ensimag.superInstructions.SuperRTS;
 
 import org.apache.log4j.Logger;
 
@@ -136,5 +137,6 @@ public class DeclMethod extends AbstractDeclMethod {
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
         this.body.codeGenInstBody(compiler, name);
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 }

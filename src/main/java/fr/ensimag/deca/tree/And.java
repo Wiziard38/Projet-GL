@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperCMP;
@@ -92,5 +93,6 @@ public class And extends AbstractOpBool {
     protected String getOperatorName() {
         return "&&";
     }
+
 
 }

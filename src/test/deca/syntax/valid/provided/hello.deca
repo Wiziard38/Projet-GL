@@ -7,19 +7,15 @@
 // Historique:
 //    cree le 61/61/2623
 
-class A{
-    int x;
-    int getX(){
-        return this.x;
-    }
-    void setX(){
-        this.x = 5;
-    }
+class a {
+
 }
 
+class A{
+    float x = 8.1;
+}
 
 {
     A a = new A();
-    a.setX();
-    print("x =", a.getX());
+    print("x=", a.x);
 }

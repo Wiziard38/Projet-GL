@@ -13,6 +13,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperRTS;
 
 /*
  * Return keyword
@@ -48,7 +49,7 @@ public class Return extends AbstractInst {
         int nActual = compiler.getN() + 1;
         expr.codeGenInst(compiler, name);
         compiler.addInstruction(SuperLOAD.main(Register.getR(nActual),Register.R0, compiler.compileInArm()));
-        
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 
     @Override

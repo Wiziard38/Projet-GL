@@ -12,6 +12,7 @@ public class SuperFMA {
 
     public static Instruction main(DVal op1, GPRegister op2, boolean arm) {
         if (arm) {
+            op2 = op2.convertToArmRegister();
             return new fr.ensimag.arm.instructions.FMA(op1, op2);
         } else {
             return new fr.ensimag.ima.instructions.FMA(op1, op2);

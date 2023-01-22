@@ -20,4 +20,14 @@ public class GPRegister extends Register {
         super(name);
         this.number = number;
     }
+
+    @Override
+    public GPRegister convertToArmRegister() {
+        if (this == GB) {
+            return getR(11);
+        } else if (this == LB) {
+            return getR(10);
+        } else
+            return this;
+    }
 }

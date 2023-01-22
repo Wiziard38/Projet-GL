@@ -80,4 +80,13 @@ public class Register extends DVal {
         }
         return res;
     }
+
+    public Register convertToArmRegister() {
+        if (this == GB) {
+            return getR(11);
+        } else if (this == LB) {
+            return getR(10);
+        } else
+            return this;
+    }
 }

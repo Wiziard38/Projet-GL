@@ -12,6 +12,7 @@ public class SuperOPP {
 
     public static Instruction main(DVal op1, GPRegister op2, boolean arm) {
         if (arm) {
+            op2 = op2.convertToArmRegister();
             return new fr.ensimag.arm.instructions.NEG(op1, op2);
         } else {
             return new fr.ensimag.ima.instructions.OPP(op1, op2);

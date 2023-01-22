@@ -12,6 +12,7 @@ public class SuperPOP {
 
     public static Instruction main(GPRegister op, boolean arm) {
         if (arm) {
+            op = op.convertToArmRegister();
             return new fr.ensimag.arm.instructions.POP(op);
         } else {
             return new fr.ensimag.ima.instructions.POP(op);

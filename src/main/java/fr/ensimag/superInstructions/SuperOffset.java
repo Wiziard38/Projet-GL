@@ -9,6 +9,7 @@ public class SuperOffset {
 
     public static DAddr main(int offset, Register register, boolean arm) {
         if (arm) {
+            register = register.convertToArmRegister();
             return new RegisterOffsetArm(offset, register);
         }
         return new RegisterOffset(offset, register);

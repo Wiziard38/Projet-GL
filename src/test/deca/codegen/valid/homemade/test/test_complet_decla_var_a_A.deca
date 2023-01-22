@@ -1,0 +1,6 @@
+//distinction des majuscule/minuscule dans les nom de variable du main
+
+{
+    int a = 8;
+    boolean A = true;
+}

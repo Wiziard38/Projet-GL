@@ -1,0 +1,293 @@
+class Case {
+    protected int player = 0;
+
+    void setPlayer(int player) {
+        this.player = player;
+    }
+
+    int getPlayer() {
+        return this.player;
+    }
+
+    void displayCase() {
+        if (player == 0) {
+            print("   ");
+        } else if (player == 1) {
+            print(" X ");
+        } else if (player == 2) {
+            print(" O ");
+        }
+    }
+}
+
+class BoardColumn {
+    Case case1 = new Case();
+    Case case2 = new Case();
+    Case case3 = new Case();
+    Case case4 = new Case();
+    Case case5 = new Case();
+    Case case6 = new Case();
+    int currentHeight = 1;
+
+    void incrementHeight() {
+        this.currentHeight = currentHeight + 1;
+    }
+
+    void addChip(int player) {
+        getCase(currentHeight).setPlayer(player);
+        incrementHeight();
+    }
+
+    boolean isFull() {
+        return (currentHeight == 7);
+    }
+
+    Case getCase(int caseNumber) {
+        if (caseNumber == 1) {
+            return this.case1;
+        } else if (caseNumber == 2) {
+            return this.case2;
+        } else if (caseNumber == 3) {
+            return this.case3;
+        } else if (caseNumber == 4) {
+            return this.case4;
+        } else if (caseNumber == 5) {
+            return this.case5;
+        } else if (caseNumber == 6) {
+            return this.case6;
+        }
+    }
+}
+
+class Board {
+    protected BoardColumn col1 = new BoardColumn();
+    protected BoardColumn col2 = new BoardColumn();
+    protected BoardColumn col3 = new BoardColumn();
+    protected BoardColumn col4 = new BoardColumn();
+    protected BoardColumn col5 = new BoardColumn();
+    protected BoardColumn col6 = new BoardColumn();
+    protected BoardColumn col7 = new BoardColumn();
+    int winner;
+
+    BoardColumn getColumn(int colNumber) {
+        if (colNumber == 1) {
+            return this.col1;
+        } else if (colNumber == 2) {
+            return this.col2;
+        } else if (colNumber == 3) {
+            return this.col3;
+        } else if (colNumber == 4) {
+            return this.col4;
+        } else if (colNumber == 5) {
+            return this.col5;
+        } else if (colNumber == 6) {
+            return this.col6;
+        } else if (colNumber == 7) {
+            return this.col7;
+        }
+    }
+
+    void displayBoard() {
+        int indexCol;
+        int indexRow = 6;
+
+        while (indexRow > 0) {
+            println(" --- --- --- --- --- --- --- ");
+            print("|");
+            indexCol = 1;
+            while (indexCol < 8) {
+                this.getColumn(indexCol).getCase(indexRow).displayCase();
+                print("|");
+                indexCol = indexCol + 1;
+            }
+            println();
+            indexRow = indexRow - 1;
+        }
+        println(" --- --- --- --- --- --- --- ");
+        println("  1   2   3   4   5   6   7  ");
+    }
+
+    boolean checkColumn(int colNumber) {
+        int playerCurrent = 0;
+        int numberCurrent = 0;
+        BoardColumn currentCol = this.getColumn(colNumber);
+        int index = 1;
+        int casePlayer;
+
+        while (index < 7) {
+            casePlayer = currentCol.getCase(index).getPlayer();
+
+            if (casePlayer == 0) {
+                return false;
+            }
+            if (casePlayer == playerCurrent) {
+                numberCurrent = numberCurrent + 1;
+            } else {
+                numberCurrent = casePlayer;
+                numberCurrent = 1;
+            }
+            if (numberCurrent == 4) {
+                this.winner = playerCurrent;
+                return true;
+            }
+            index = index + 1;
+        }
+        return false;
+    }
+
+    boolean checkRow(int rowNumber) {
+        int playerCurrent = 0;
+        int numberCurrent = 0;
+        int index = 1;
+        int casePlayer;
+
+        while (index < 8) {
+            casePlayer = getColumn(index).getCase(rowNumber).getPlayer();
+            if (casePlayer == 0) {
+                return false;
+            }
+            if (casePlayer == playerCurrent) {
+                numberCurrent = numberCurrent + 1;
+            } else {
+                numberCurrent = casePlayer;
+                numberCurrent = 1;
+            }
+            if (numberCurrent == 4) {
+                this.winner = playerCurrent;
+                return true;
+            }
+            index = index + 1;
+        }
+        return false;
+    }
+
+    boolean checkDiag(int startCol, int startRow, boolean decline) {
+        int playerCurrent = 0;
+        int numberCurrent = 0;
+        int casePlayer;
+
+        while ((startCol < 8) && (startCol > 0) && (startRow < 7) && (startRow > 0)) {
+            casePlayer = getColumn(startCol).getCase(startRow).getPlayer();
+            if (casePlayer == 0) {
+                numberCurrent = 0;
+            }
+            else if (casePlayer == playerCurrent) {
+                numberCurrent = numberCurrent + 1;
+            } else {
+                numberCurrent = casePlayer;
+                numberCurrent = 1;
+            }
+            if (numberCurrent == 4) {
+                this.winner = playerCurrent;
+                return true;
+            }
+            print(startCol);
+            print(startRow);
+            if (decline) {
+                startCol = startCol + 1;
+                startRow = startRow - 1;
+            } else {
+                startCol = startCol - 1;
+                startRow = startRow + 1;
+            }
+            
+        }
+        return false;
+    }
+}
+
+class Play {
+    int currentPlayer = 1;
+    int nbMooves = 0;
+    Board playBoard = new Board();
+
+    int start() {
+        while (true) {
+            if (checkIfWinner()) {
+                print("Le joueur ");
+                if (playBoard.winner == 1) {
+                    print("1");
+                } else {
+                    print("2");
+                }
+                println(" a gagne !");
+                return 0;
+            }
+            
+            if (nbMooves == 42) {
+                println("C'est une egalité");
+                return 0;
+            }
+
+            playMoove();
+        }        
+    }
+    
+    void playMoove() {
+        int chosenColumn;
+        int nextPlayer;
+        boolean flagWhile = true;
+        
+        playBoard.displayBoard();
+
+        if (currentPlayer == 1) {
+            print("Joueur 1, ");
+            nextPlayer = 2;
+        } else {
+            print("Joueur 2, ");
+            nextPlayer = 1;
+        }
+
+        while (flagWhile) {
+            print("choisissez votre colonne : ");
+            chosenColumn = readInt();
+            if ((chosenColumn > 7) || (chosenColumn < 1) || (playBoard.getColumn(chosenColumn).isFull())) {
+                println("Mauvais numero de colonne");
+            } else {
+                println();
+                flagWhile = false;
+            }
+        }
+
+        playBoard.getColumn(chosenColumn).addChip(currentPlayer);
+
+        currentPlayer = nextPlayer;
+        nbMooves = nbMooves + 1;
+    }
+
+    boolean checkIfWinner() {
+        int colNumber = 1;
+        int rowNumber = 1;
+        boolean oui;
+
+        // Check columns
+        while (colNumber < 8) {
+            print(colNumber);
+            if (playBoard.checkColumn(colNumber)) {
+                return true;
+            }
+            colNumber = colNumber + 1;
+        }
+        // Check rows
+        while (rowNumber < 7) {
+            if (playBoard.checkRow(rowNumber)) {
+                return true;
+            }
+            rowNumber = rowNumber + 1;
+        }
+        // Check diagonals
+        oui = (playBoard.checkDiag(1,3,false) || playBoard.checkDiag(1,2,false) || playBoard.checkDiag(1,1,false) || 
+                playBoard.checkDiag(2,1,false) || playBoard.checkDiag(3,1,false) || playBoard.checkDiag(4,1,false) ||
+                playBoard.checkDiag(1,4,true) || playBoard.checkDiag(1,5,true) || playBoard.checkDiag(1,6,true) || 
+                playBoard.checkDiag(2,6,true) || playBoard.checkDiag(3,6,true) || playBoard.checkDiag(4,6,true));
+        return oui;
+
+    }
+}
+
+
+{
+    Play currentGame = new Play();
+    /*currentGame.playBoard.displayBoard();*/
+    currentGame.start();
+}

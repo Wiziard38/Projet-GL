@@ -7,18 +7,15 @@
 // Historique:
 //    cree le 61/61/2623
 
-class A{
-   int x;
-   int y;
-   int somme(){
-    return (x+y);
-   }
+class a {
+
 }
+
+class A{
+    float x = 8.1;
+}
+
 {
-    int b = 1;  
     A a = new A();
-    int c = 1;
-    int z = b + c;
-    print(z);
-    print(a.somme());
+    print("x=", a.x);
 }

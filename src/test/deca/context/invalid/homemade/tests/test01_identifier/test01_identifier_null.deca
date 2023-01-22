@@ -1,0 +1,7 @@
+// test invalide de la règle 0.1
+
+class A {}
+
+{
+    A a = Null;
+}

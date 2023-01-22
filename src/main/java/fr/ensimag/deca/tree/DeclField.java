@@ -6,6 +6,8 @@ import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.codegen.VariableAddr;
+import fr.ensimag.deca.codegen.VariableAddr.VarInClass;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.FieldDefinition;

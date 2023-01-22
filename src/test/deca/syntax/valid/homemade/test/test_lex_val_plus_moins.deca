@@ -1,0 +1,4 @@
+// Test d'un plus moins
+{
+    1+-100;
+}

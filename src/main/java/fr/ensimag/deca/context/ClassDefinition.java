@@ -77,17 +77,12 @@ public class ClassDefinition extends TypeDefinition {
     private final ClassDefinition superClass; 
 
     public MethodDefinition getMethod(int index) {
-        LOG.debug(this.getType().getName().getName());
-        LOG.debug("index" + index);
-        LOG.debug("numberOfMethod" + numberOfMethods);
         assert(index <= numberOfMethods);
         assert(index >= 1);
         Iterator<ExpDefinition> exps = members.getLocalEnv().values().iterator();
         while (exps.hasNext()) {
             ExpDefinition exp = exps.next();
-            LOG.debug(exp.isMethod());
             if (exp.isMethod()) {
-                LOG.debug("index method: " + ((MethodDefinition)exp).getIndex());
                 if (((MethodDefinition)exp).getIndex() == index) {
                     return (MethodDefinition)exp;
                 }

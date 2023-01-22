@@ -1,0 +1,59 @@
+#include "ChessPieces.decah"
+
+class Main {
+    Piece currentPiece;
+
+    void start() {
+        int read, col, lig, choixAction;
+        boolean stop1 = false, stop2 = false;
+
+        while (!stop1) {
+            println("1 : Tour  /  2 : Cavalier  /  3 : Fou  /  4 : Reine  /  5 : Roi  /  6 : Pion");
+            println("Quelle piece voulez vous choisir ?");
+            read = readInt();
+            if (read == 1) {
+                currentPiece = new Tour();
+            } else if (read == 2) {
+                currentPiece = new Cavalier();
+            } else if (read == 3) {
+                currentPiece = new Fou();
+            } else if (read == 4) {
+                currentPiece = new Reine();
+            } else if (read == 5) {
+                currentPiece = new Roi();
+            } else if (read == 6) {
+                currentPiece = new Pion();
+            }
+
+            println("Sur quelle colonne voulez-vous le placer ?");
+            col = readInt();
+            currentPiece.setCol(col);
+
+            println("Sur quelle ligne voulez-vous le placer ?");
+            lig = readInt();
+            currentPiece.setLig(lig);
+
+            while (!stop2) {
+                println("Voulez-vous : 1-Afficher la piece  2-Afficher les deplacements possibles  3-Changer de piece  4-Arreter  ?");
+                choixAction = readInt();
+                if (choixAction == 1) {
+                    currentPiece.afficher();
+                } else if (choixAction == 2) {
+                    currentPiece.possibleTiles();
+                } else if (choixAction == 3) {
+                    stop2 = true;
+                } else if (choixAction == 4) {
+                    stop2 = true;
+                    stop1 = true;
+                }
+            }
+        }
+    }
+}
+
+{
+    Main prog = new Main();
+    prog.start();
+    println();
+    println("Simulation Over");
+}

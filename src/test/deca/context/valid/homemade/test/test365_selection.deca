@@ -1,0 +1,12 @@
+// test valide de la règle 3.65
+
+
+class A{
+    int x;
+}
+
+{
+    A x = new A();
+    x.x = 8;
+    println("x.x = ", x.x);
+}

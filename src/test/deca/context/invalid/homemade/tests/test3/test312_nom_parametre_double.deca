@@ -1,0 +1,9 @@
+// test invalide de la règle 3.12
+
+
+class A {
+    int calcul(int a, int a){
+        int x = a + a;
+        return x; 
+    }
+}

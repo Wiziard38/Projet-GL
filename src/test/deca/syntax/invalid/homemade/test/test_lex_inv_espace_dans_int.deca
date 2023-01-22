@@ -1,0 +1,4 @@
+// Test d'un espace dans un entier
+{
+    int a = 1 2;
+}

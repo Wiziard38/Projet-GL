@@ -1,0 +1,12 @@
+// test invalide de la règle 3.66
+
+
+class A{
+    protected int x;
+}
+
+class B extends A {
+    int getX(A a) {
+        return a.x;
+    }
+}

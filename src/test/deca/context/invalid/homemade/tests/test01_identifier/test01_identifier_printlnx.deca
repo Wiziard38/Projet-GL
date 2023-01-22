@@ -1,0 +1,5 @@
+// test invalide de la règle 0.1
+
+{
+    printLn();
+}

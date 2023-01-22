@@ -1,4 +1,0 @@
-{
-    float x  = 0.7e-45;
-    println("x = ", (x));
-}

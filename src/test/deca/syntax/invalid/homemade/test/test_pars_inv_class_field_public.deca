@@ -1,0 +1,13 @@
+// Description:
+//    tests de programme incorrect syntaxiquement pour les class
+//
+// Resultats:
+//    Ligne 12 : Erreur (expected ";" before "}")
+//    
+//
+// Historique:
+//    cree le 04/01/2023
+
+class idaho {
+    public int x = 314;
+}

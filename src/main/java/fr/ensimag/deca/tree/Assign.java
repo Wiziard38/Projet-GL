@@ -16,6 +16,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
+import fr.ensimag.deca.context.ParamDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 
 /**
@@ -40,19 +41,27 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
+
         int nActualRight = compiler.getN() + 1;
         getRightOperand().codeGenInst(compiler, name);
         BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualRight);
-        ExpDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getExpDefinition();
+        int nActualLeft = compiler.getN() + 1;
+        this.getLeftOperand().codeGenInst(compiler, name);
+        ExpDefinition varDef = getLeftOperand().getExpDefinition();
         if (varDef.isField()) {
             int nActualAddr = compiler.getN() + 1;
             BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualAddr);
             FieldDefinition fieldDef = (FieldDefinition) varDef;
-            compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
-                    Register.getR(nActualAddr), compiler.compileInArm()));
-            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
-                    SuperOffset.main(fieldDef.getIndex(), Register.getR(nActualAddr), compiler.compileInArm()),
+            LOG.debug(fieldDef);
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActualAddr),
                     compiler.compileInArm()));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
+                    new RegisterOffset(fieldDef.getIndex(), Register.getR(nActualAddr)), compiler.compileInArm()));
+        } else if (varDef.isParam()) {
+            int nActualAddr = compiler.getN() + 1;
+            ParamDefinition defParam = (ParamDefinition) varDef;
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
+                    new RegisterOffset(-defParam.getIndex() - 2, Register.LB), compiler.compileInArm()));
         } else {
             compiler.addInstruction(
                     SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
@@ -64,8 +73,8 @@ public class Assign extends AbstractBinaryExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
 
-        Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         this.getLeftOperand().verifyLValue(localEnv);
+        Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
 
         // On set si jamais il y a un CovnFloat a appliquer
         this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));

@@ -6,6 +6,7 @@ import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.ImmediateFloat;
 import fr.ensimag.pseudocode.ImmediateInteger;
@@ -202,4 +203,6 @@ public abstract class AbstractExpr extends AbstractInst {
         LOG.debug(this.getLocation().toString());
         Validate.notNull(this.getType());
     }
+
+    //public abstract ExpDefinition getExpDefinition();
 }

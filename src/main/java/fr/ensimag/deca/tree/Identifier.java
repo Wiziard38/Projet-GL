@@ -39,8 +39,9 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
-        VariableDefinition defVar = this.getVariableDefinition();
-        compiler.addInstruction(SuperLOAD.main(defVar.getOperand(), Register.getR(1), compiler.compileInArm()));
+       int nActual = compiler.getN() + 1;
+       this.codeGenInst(compiler, name);
+       compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
         if (this.getType().isInt()) {
             compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         } else {
@@ -55,8 +56,6 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
-        LOG.debug("Nom de la méthode:" + name);
-        LOG.debug("Type: " + this.getDefinition().getNature());
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());

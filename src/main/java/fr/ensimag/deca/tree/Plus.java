@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.context.ExpDefinition;
+
 /**
  * @author gl39
  * @date 01/01/2023

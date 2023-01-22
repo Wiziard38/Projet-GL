@@ -1,0 +1,53 @@
+// LibrarreservedTmp2 for class PrintInt of Deca, coded in Deca
+// Used to print an Integer as String digit breservedTmp2 digit for further arm compiling
+
+
+if (reservedForPrintInt < 0) {
+    print("-");
+    reservedForPrintInt = - reservedForPrintInt;
+}
+
+
+while (reservedForPrintInt != 0) {
+    reservedTmp1 = reservedForPrintInt % 10;
+    reservedForPrintInt = reservedForPrintInt / 10;
+    if ((reservedReversedNumber == 0) && (reservedTmp1 == 0)) {
+        reservedNumberZeros = reservedNumberZeros + 1;
+    } else {
+       reservedReversedNumber = reservedReversedNumber + reservedTmp1;
+        if (reservedForPrintInt != 0) {
+            reservedReversedNumber = reservedReversedNumber * 10;
+        }
+    }
+}
+
+while (reservedReversedNumber != 0) {
+    reservedTmp2 = reservedReversedNumber % 10;
+    if (reservedTmp2 == 0) {
+        print("0");
+    } else if (reservedTmp2 == 1) {
+        print("1");
+    } else if (reservedTmp2 == 2) {
+        print("2");
+    } else if (reservedTmp2 == 3) {
+        print("3");
+    } else if (reservedTmp2 == 4) {
+        print("4");
+    } else if (reservedTmp2 == 5) {
+        print("5");
+    } else if (reservedTmp2 == 6) {
+        print("6");
+    } else if (reservedTmp2 == 7) {
+        print("7");
+    } else if (reservedTmp2 == 8) {
+        print("8");
+    } else if (reservedTmp2 == 9) {
+        print("9");
+    }
+   reservedReversedNumber = reservedReversedNumber / 10;
+}
+
+while (reservedNumberZeros != 0) {
+    print("0");
+    reservedNumberZeros = reservedNumberZeros - 1;
+}

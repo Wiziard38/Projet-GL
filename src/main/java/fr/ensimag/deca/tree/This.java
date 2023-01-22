@@ -13,6 +13,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 
 /*
@@ -48,13 +49,20 @@ public class This extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(nActual);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
         compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual), compiler.compileInArm()));
         //compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
 
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        compiler.addInstruction(SuperLEA.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+        compiler.setN(compiler.getN() + 1);
     }
 
 }

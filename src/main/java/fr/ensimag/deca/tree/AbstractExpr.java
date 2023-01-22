@@ -156,9 +156,9 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         compiler.setN(compiler.getN() + 1);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         if (this.getType().sameType(compiler.environmentType.INT)) {
             IntLiteral intExpr = (IntLiteral) this;
             compiler.addInstruction(SuperLOAD.main(intExpr.getValue(),
@@ -204,5 +204,6 @@ public abstract class AbstractExpr extends AbstractInst {
         Validate.notNull(this.getType());
     }
 
-    // public abstract ExpDefinition getExpDefinition();
+    public abstract void codeGenVarAddr(DecacCompiler compiler, String nameBloc);
+
 }

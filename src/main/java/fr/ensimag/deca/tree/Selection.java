@@ -17,6 +17,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperOffset;
 
@@ -96,10 +97,10 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(nActual);
-        expr.codeGenInst(compiler, name);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
+        expr.codeGenInst(compiler, nameBloc);
         Identifier fieldName = (Identifier) this.name;
         compiler.addInstruction(
                 SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)),
@@ -107,4 +108,16 @@ public class Selection extends AbstractLValue {
         compiler.setN(nActual);
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        int nActual = compiler.getN() + 1;
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
+        expr.codeGenInst(compiler, nameBloc);
+        Identifier fieldName = (Identifier) this.name;
+        compiler.addInstruction(
+                SuperLEA.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)),
+                        Register.getR(nActual), compiler.compileInArm()));
+        compiler.setN(nActual);
+
+    }
 }

@@ -44,4 +44,10 @@ public class Modulo extends AbstractOpArith {
         Validate.isTrue(this.getLeftOperand().getType().sameType(this.getRightOperand().getType()));
         Validate.isTrue(this.getLeftOperand().getType().isInt());
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

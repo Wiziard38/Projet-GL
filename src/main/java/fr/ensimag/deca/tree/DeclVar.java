@@ -38,14 +38,14 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
-    protected void codeGenVarMeth(DecacCompiler compiler, String name, int pos) {
+    protected void codeGenVarMeth(DecacCompiler compiler, String nameBloc, int pos) {
 
         compiler.addComment(this.decompile());
-        BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+        BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
         int spActual = compiler.getSP() + 1;
         compiler.setSP(spActual);
         int nAct = compiler.getN() + 1;
-        initialization.codeGenInst(compiler, varName.getDefinition(), name);
+        initialization.codeGenInst(compiler, varName.getDefinition(), nameBloc);
         compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(new RegisterOffset(pos, Register.SP));
@@ -58,9 +58,9 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addComment(this.decompile());
         BlocInProg.getBlock(name).incrnbPlacePileNeeded();
         int spActual = compiler.getSP() + 1;
-        compiler.setSP(spActual);
         int nAct = compiler.getN() + 1;
         initialization.codeGenInst(compiler, varName.getDefinition(), name);
+        compiler.setSP(spActual);
         compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()));

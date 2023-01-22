@@ -53,4 +53,10 @@ public class IntLiteral extends AbstractExpr {
         // leaf node => nothing to do
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

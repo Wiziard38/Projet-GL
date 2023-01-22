@@ -112,18 +112,17 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
-    protected void codeGenDeclFiedl(DecacCompiler compiler, String name) {
+    protected void codeGenDeclFiedl(DecacCompiler compiler, String nameBloc) {
         FieldDefinition defField = (FieldDefinition) this.name.getDefinition();
         int nActual = compiler.getN() + 1;
-        initialization.codeGenInst(compiler, this.name.getDefinition(), name);
+        initialization.codeGenInst(compiler, this.name.getDefinition(), nameBloc);
         int nThis = compiler.getN() + 1;
         compiler.setN(nThis);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
-        compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
-                Register.getR(nThis), compiler.compileInArm()));
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
+        compiler.addInstruction(
+                SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
         compiler.addInstruction(SuperSTORE.main(Register.getR(nActual),
-                SuperOffset.main(defField.getIndex(), Register.getR(nThis), compiler.compileInArm()),
-                compiler.compileInArm()));
+                new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
         compiler.setN(nActual - 1);
     }
 

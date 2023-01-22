@@ -40,23 +40,23 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
 
         int nActualRight = compiler.getN() + 1;
-        getRightOperand().codeGenInst(compiler, name);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualRight);
-        int nActualLeft = compiler.getN() + 1;
-        this.getLeftOperand().codeGenInst(compiler, name);
+        getRightOperand().codeGenInst(compiler, nameBloc);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualRight);
+
         ExpDefinition varDef = getLeftOperand().getExpDefinition();
         if (varDef.isField()) {
-            int nActualAddr = compiler.getN() + 1;
-            BlocInProg.getBlock(name).incrnbRegisterNeeded(nActualAddr);
+            int nActualLeft = compiler.getN() + 1;
+            this.getLeftOperand().codeGenVarAddr(compiler, nameBloc);
+            BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualLeft);
             FieldDefinition fieldDef = (FieldDefinition) varDef;
             LOG.debug(fieldDef);
-            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActualAddr),
-                    compiler.compileInArm()));
+            // compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB),
+            // Register.getR(nActualAddr), compiler.compileInArm()));
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
-                    new RegisterOffset(fieldDef.getIndex(), Register.getR(nActualAddr)), compiler.compileInArm()));
+                    new RegisterOffset(0, Register.getR(nActualLeft)), compiler.compileInArm()));
         } else if (varDef.isParam()) {
             int nActualAddr = compiler.getN() + 1;
             ParamDefinition defParam = (ParamDefinition) varDef;
@@ -86,6 +86,12 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     protected String getOperatorName() {
         return "=";
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+
     }
 
 }

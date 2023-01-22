@@ -1,0 +1,14 @@
+// test invalide de la règle instance of
+
+class A{
+
+}
+class B extends A{
+
+}
+
+{
+    A a = new A();
+    B b = new B();
+    println( B instanceof A);
+}

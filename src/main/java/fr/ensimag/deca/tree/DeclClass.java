@@ -48,6 +48,7 @@ public class DeclClass extends AbstractDeclClass {
         private ListDeclField fields;
         private ListDeclMethod methods;
 
+<<<<<<< HEAD
         public DeclClass(AbstractIdentifier nom, AbstractIdentifier mother, ListDeclField params,
                         ListDeclMethod functions) {
                 Validate.notNull(nom);
@@ -58,6 +59,107 @@ public class DeclClass extends AbstractDeclClass {
                 superclass = mother;
                 fields = params;
                 methods = functions;
+=======
+    public DeclClass(AbstractIdentifier nom, AbstractIdentifier mother, ListDeclField params,
+            ListDeclMethod functions) {
+        Validate.notNull(nom);
+        Validate.notNull(mother);
+        Validate.notNull(params);
+        Validate.notNull(functions);
+        name = nom;
+        superclass = mother;
+        fields = params;
+        methods = functions;
+    }
+
+    protected void codeGenClass(DecacCompiler compiler) {
+        LOG.debug(this.name.getName().getName());
+        int nActual = compiler.getN() + 1;
+        compiler.addComment("class "+this.name.getName().getName());
+        compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
+        compiler.addInstruction(new PUSH(Register.getR(nActual)));
+        compiler.setSP(compiler.getSP() + 1);
+        compiler.environmentType.getClass(this.name.getName()).setOperand(new RegisterOffset(compiler.getSP(), Register.GB));
+        compiler.setN(nActual - 1);
+        for (int i = 1; i <= this.name.getClassDefinition().getNumberOfMethods(); i++) {
+            MethodDefinition expDef = this.name.getClassDefinition().getMethod(i);
+            compiler.addInstruction(
+                new LOAD(new LabelOperand(expDef.getLabel()),Register.getR(nActual)));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(expDef.getIndex(), Register.SP), compiler.compileInArm()));
+            compiler.setSP(compiler.getSP() + 1);
+            }
+        compiler.addInstruction(
+            SuperADDSP.main(
+                new ImmediateInteger(
+                    this.name.getClassDefinition().getNumberOfMethods()), compiler.compileInArm()));
+        compiler.add(new Line(""));
+    }
+
+    protected void codeGenCorpMethod(DecacCompiler compiler, String nameBloc){
+        //Génération du code pour l'initialisation des instances de la class
+        compiler.setN(1);
+        String blockName = "init." + this.name.getName().getName();
+        BlocInProg.addBloc(blockName, compiler.getLastLineIndex(), 0, 0);
+        compiler.addLabel(new Label(blockName));
+        //On regarde si la super class à des champs, il faut alors les initier avant
+        if (superclass.getClassDefinition().getNumberOfFields() != 0) {
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+            compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+            compiler.addInstruction(SuperBSR.main(new LabelOperand(new Label("init."+superclass.getType().getName().getName())), compiler.compileInArm()));
+            compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(1), compiler.compileInArm()));
+        }
+        // On déclare les champs de la class
+        for (AbstractDeclField field : fields.getList()) {
+            field.codeGenDeclFiedl(compiler, blockName);
+        }
+        // On test la pile en début de bloc et on remet l'environement dans l'état où il était avant l'appel à cette "méthode"
+        for (int i = 2; i < BlocInProg.getBlock(blockName).getnbRegisterNeeded() + 2; i++) {
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+            compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
+        }
+        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        compiler.addComment("");
+
+        //On genere le code pour les méthodes de la classe
+        for (AbstractDeclMethod method : methods.getList()) {
+            compiler.setN(1);
+            LOG.debug("Nom de la méthode: " + method.getName().getName().getName());
+            blockName = this.name.getName().getName() + '.' + method.getName().getName();
+            BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
+            compiler.addLabel(new Label(blockName));
+            method.codeGenCorpMethod(compiler, blockName);
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
+            for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
+                compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+                compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
+            }
+        }
+        
+        compiler.addComment("");
+    }
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+        s.print("class ");
+        name.decompile(s);
+        s.print(" extends ");
+        superclass.decompile(s);
+        s.println(" {");
+        s.indent();
+        fields.decompile(s);
+        methods.decompile(s);
+        s.unindent();
+        s.println("}");
+    }
+
+    @Override
+    protected void verifyClass(DecacCompiler compiler) throws ContextualError {
+
+        if (compiler.environmentType.defOfType(this.superclass.getName()) == null) {
+            throw new ContextualError(String.format("La super classe '%s' n'existe pas",
+                    this.superclass), this.getLocation()); // Rule 1.3
+>>>>>>> 1626fe97dcf5be14c9daebd2598ba7620b3ce918
         }
 
         protected void codeGenClass(DecacCompiler compiler) {

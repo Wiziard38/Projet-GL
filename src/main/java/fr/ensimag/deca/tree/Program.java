@@ -56,18 +56,20 @@ public class Program extends AbstractProgram {
 
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
-        // Passe numéro 1 des classes déclaration des classes et méthodes
-        compiler.addComment("Class declaration");
-        classes.codeGenListClass(compiler);
+        if (!compiler.compileInArm()) {
+            // Passe numéro 1 des classes déclaration des classes et méthodes
+            compiler.addComment("Class declaration");
+            classes.codeGenListClass(compiler);
+        }
+
         // Passe sur le programme principal pour la génération de son code
-        compiler.addComment("Main program");
+        compiler.addComment("Main Program");
         main.codeGenMain(compiler);
         compiler.addInstruction(SuperHALT.main(compiler.compileInArm()));
         compiler.addComment("");
-        // Passe numéro 2 des classes, on code le corp des méthodes
-        compiler.addComment("Method declaration");
-        classes.codeGenCorpMethod(compiler, "");
         if (!compiler.compileInArm()) {
+            compiler.addComment("Method declaration");
+            classes.codeGenCorpMethod(compiler, "");
             compiler.addLabel(compiler.getErreurPile());
             compiler.addInstruction(
                     SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
@@ -99,6 +101,8 @@ public class Program extends AbstractProgram {
             // compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(),
             // compiler.compileInArm()));
         }
+        // Passe numéro 2 des classes, on code le corp des méthodes
+
     }
 
     @Override

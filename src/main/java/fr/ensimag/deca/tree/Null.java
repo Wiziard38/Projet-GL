@@ -36,4 +36,10 @@ public class Null extends AbstractExpr {
     protected void iterChildren(TreeFunction f) {
         // nothing to do here
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

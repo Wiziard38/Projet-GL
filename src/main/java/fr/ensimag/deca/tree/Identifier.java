@@ -18,6 +18,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperWFLOAT;
@@ -39,9 +40,9 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
-       int nActual = compiler.getN() + 1;
-       this.codeGenInst(compiler, name);
-       compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
+        int nActual = compiler.getN() + 1;
+        this.codeGenInst(compiler, name);
+        compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
         if (this.getType().isInt()) {
             compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         } else {
@@ -55,10 +56,11 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
+        LOG.debug("nom du bloc: " + nameBloc);
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         switch (this.getDefinition().getNature()) {
             case "variable":
                 VariableDefinition defVar = (VariableDefinition) this.getDefinition();
@@ -311,5 +313,13 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public String toString() {
         return this.getName().toString();
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        compiler.setN(compiler.getN() + 1);
+        compiler.addInstruction(SuperLEA.main(this.getExpDefinition().getOperand(), Register.getR(compiler.getN() + 1),
+                compiler.compileInArm()));
+
     }
 }

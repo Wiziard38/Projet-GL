@@ -69,4 +69,10 @@ public class StringLiteral extends AbstractStringLiteral {
         return String.format("StringLiteral (%s)", this.value);
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

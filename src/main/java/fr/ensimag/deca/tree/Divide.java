@@ -1,4 +1,7 @@
 package fr.ensimag.deca.tree;
+
+import fr.ensimag.deca.context.ExpDefinition;
+
 /**
  *
  * @author gl39
@@ -13,5 +16,4 @@ public class Divide extends AbstractOpArith {
     protected String getOperatorName() {
         return "/";
     }
-
 }

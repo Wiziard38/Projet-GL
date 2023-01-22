@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperBOV;
@@ -32,6 +33,7 @@ public class ReadFloat extends AbstractReadExpr {
         compiler.addInstruction(SuperRFLOAT.main(compiler.compileInArm()));
         int nActual = compiler.getN() + 1;
         compiler.addInstruction(SuperLOAD.main(Register.getR(1), Register.getR(nActual), compiler.compileInArm()));
+        compiler.setN(nActual);
         compiler.addInstruction(SuperBOV.main(compiler.getErreurinOut(), compiler.compileInArm()));
     }
 

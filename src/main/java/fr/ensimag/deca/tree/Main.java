@@ -45,7 +45,7 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         // Déclaration des variables
-        BlocInProg.addBloc("main", compiler.getLastLineIndex() + 1, 0, 0);
+        BlocInProg.addBloc("main", compiler.getLastLineIndex(), 0, 0);
         this.declVariables.codeGenListVar(compiler, "main");
         compiler.addIndexLine(BlocInProg.getBlock("main").getLineStart(),
                 SuperTSTO.main(BlocInProg.getBlock("main").getnbPlacePileNeeded(), compiler.compileInArm()));

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.context.ExpDefinition;
 
 /**
  *
@@ -17,5 +18,4 @@ public class Lower extends AbstractOpIneq {
     protected String getOperatorName() {
         return "<";
     }
-
 }

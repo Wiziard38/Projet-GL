@@ -56,12 +56,12 @@ public class Assign extends AbstractBinaryExpr {
             // compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB),
             // Register.getR(nActualAddr), compiler.compileInArm()));
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
-                    new RegisterOffset(0, Register.getR(nActualLeft)), compiler.compileInArm()));
+                    SuperOffSet.main(0, Register.getR(nActualLeft)), compiler.compileInArm()));
         } else if (varDef.isParam()) {
             int nActualAddr = compiler.getN() + 1;
             ParamDefinition defParam = (ParamDefinition) varDef;
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
-                    new RegisterOffset(-defParam.getIndex() - 2, Register.LB), compiler.compileInArm()));
+                    SuperOffSet.main(-defParam.getIndex() - 2, Register.LB), compiler.compileInArm()));
         } else {
             compiler.addInstruction(
                     SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));

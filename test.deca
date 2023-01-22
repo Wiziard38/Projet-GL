@@ -1,5 +1,4 @@
 {
     int x = 1;
-    boolean b = false;
-    if(7==x){;}
+    #include "test.decah"
 }

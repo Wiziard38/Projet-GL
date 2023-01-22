@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Script pour compiler et lancer un programme 
+
+# cd "$(dirname "$0")"/../../.. || exit 1
+# source_dir=$(pwd)
+# PATH=$source_dir/src/test/script/launchers:"$PATH"
+
+# # On recupere le directory d'entree
+# input_dir="$source_dir/test/deca/codegen/valid/homemade/test"
+
+nom=${1##*/}
+decac "$1" 2>&1 
+ima "${nom%.deca}.ass"

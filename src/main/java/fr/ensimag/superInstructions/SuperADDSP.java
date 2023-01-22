@@ -13,7 +13,7 @@ public class SuperADDSP {
 
     public static Instruction main(ImmediateInteger operand, boolean arm) {
         if (arm) {
-            return new fr.ensimag.arm.instructions.ADDSP(operand);
+            return new fr.ensimag.arm.instructions.ADD(operand, fr.ensimag.pseudocode.Register.SP);
         } else {
             return new fr.ensimag.ima.instructions.ADDSP(operand);
         }

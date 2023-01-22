@@ -120,9 +120,9 @@ public class DeclField extends AbstractDeclField {
         compiler.setN(nThis);
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(
-                SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
+                SuperLOAD.main(SuperOffSet.main(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
         compiler.addInstruction(SuperSTORE.main(Register.getR(nActual),
-                new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
+                SuperOffSet.main(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
         compiler.setN(nActual - 1);
     }
 

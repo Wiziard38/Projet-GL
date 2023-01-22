@@ -1,8 +1,6 @@
 // Library for class PrintInt of Deca, coded in Deca
 // Used to print an Integer as String digit by digit for further arm compiling
 
-class PrintInt {
-    protected int x;
     protected int reversedNumber = 0;
     protected int numberZeros = 0;
 
@@ -78,4 +76,3 @@ class PrintInt {
             print("9");
         }
     }
-}

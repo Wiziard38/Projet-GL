@@ -6,7 +6,6 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperBNE;
@@ -53,7 +52,7 @@ public class IfThenElse extends AbstractInst {
         int nActual = compiler.getN() + 1;
         condition.codeGenInst(compiler, name);
         compiler.addInstruction(
-                SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
+                SuperCMP.main(1, Register.getR(nActual), compiler.compileInArm()));
         Label labelIf = new Label("If" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelElse = new Label("Else" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("Fin" + this.getLocation().getLine() + this.getLocation().getPositionInLine());

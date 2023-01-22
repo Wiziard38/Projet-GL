@@ -25,11 +25,11 @@ public class BSR extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        s.println("add R13, [R13], #2");
-        s.println("mov [R13, #-1], [R15]");
-        s.println("mov [R13], [R10]");
-        s.println("mov R10, [R13]");
-        s.println("mov R15, [" + op + "]");
+        s.println("add R13, R13, #8"); // SP <- V[SP] + 2
+        s.println("ldr [R13, #-4], [R15]"); // V[SP]-1 <- V[PC]
+        s.println("ldr [R13], [R10]"); // V[SP] <- V[LB]
+        s.println("ldr R10, [R13]"); // LB <- V[SP]
+        s.println("ldr R15, [" + op + "]"); // PC <- V[dval]
     }
 
 }

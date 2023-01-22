@@ -2,6 +2,7 @@ package fr.ensimag.superInstructions;
 
 import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.GPRegister;
+import fr.ensimag.pseudocode.ImmediateFloat;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Instruction;
 
@@ -26,6 +27,15 @@ public class SuperLOAD {
             return new fr.ensimag.arm.instructions.mov(i, r);
         } else {
             return new fr.ensimag.ima.instructions.LOAD(new ImmediateInteger(i), r);
+        }
+    }
+
+    public static Instruction main(float f, GPRegister r, boolean arm) {
+        if (arm) {
+            r = r.convertToArmRegister();
+            return new fr.ensimag.arm.instructions.vmov(f, r);
+        } else {
+            return new fr.ensimag.ima.instructions.LOAD(new ImmediateFloat(f), r);
         }
     }
 

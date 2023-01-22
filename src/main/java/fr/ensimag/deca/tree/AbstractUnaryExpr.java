@@ -2,7 +2,6 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperCMP;
 import fr.ensimag.superInstructions.SuperFLOAT;
@@ -45,7 +44,7 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
                 break;
             case "!":
                 compiler.addInstruction(
-                        SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
+                        SuperCMP.main(1, Register.getR(nActual), compiler.compileInArm()));
                 compiler.addInstruction(SuperSNE.main(Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "-":

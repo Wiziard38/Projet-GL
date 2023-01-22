@@ -1,6 +1,5 @@
 #include "PrintInt.decah"
 
-class Float {
     protected float x;
     protected boolean isNeg;
 
@@ -57,4 +56,3 @@ class Float {
         print(".");
         flow.printInt(partieVirg);
     }
-}

@@ -10,17 +10,13 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperBSR;
 import fr.ensimag.superInstructions.SuperLOAD;
-import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperSUBSP;
@@ -154,7 +150,8 @@ public class MethodCall extends AbstractExpr {
         int nLeft = compiler.getN() + 1;
         if (this.expr == null) {
             compiler.addInstruction(
-                    SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nLeft), compiler.compileInArm()));
+                    SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()), Register.getR(nLeft),
+                            compiler.compileInArm()));
         } else {
             this.expr.codeGenInst(compiler, name);
         }
@@ -167,12 +164,15 @@ public class MethodCall extends AbstractExpr {
             compiler.setN(nActual - 1);
         }
         compiler.addInstruction(SuperPUSH.main(Register.getR(nLeft), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nLeft)), Register.getR(nLeft),
-                compiler.compileInArm()));
         compiler.addInstruction(
-                SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nLeft)),
+                SuperLOAD.main(SuperOffset.main(0, Register.getR(nLeft), compiler.compileInArm()), Register.getR(nLeft),
                         compiler.compileInArm()));
-        compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(args.size() + 1), compiler.compileInArm()));
+        compiler.addInstruction(
+                SuperBSR.main(
+                        SuperOffset.main(this.name.getMethodDefinition().getIndex(), Register.getR(nLeft),
+                                compiler.compileInArm()),
+                        compiler.compileInArm()));
+        compiler.addInstruction(SuperSUBSP.main(args.size() + 1, compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nLeft), compiler.compileInArm()));
         compiler.setN(nLeft);
     }
@@ -180,6 +180,6 @@ public class MethodCall extends AbstractExpr {
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         // TODO Auto-generated method stub
-        
+
     }
 }

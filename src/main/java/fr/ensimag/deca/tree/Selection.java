@@ -103,7 +103,7 @@ public class Selection extends AbstractLValue {
         expr.codeGenInst(compiler, nameBloc);
         Identifier fieldName = (Identifier) this.name;
         compiler.addInstruction(
-                SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)),
+                SuperLOAD.main(SuperOffSet.main(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)),
                         Register.getR(nActual), compiler.compileInArm()));
         compiler.setN(nActual);
     }
@@ -115,7 +115,7 @@ public class Selection extends AbstractLValue {
         expr.codeGenInst(compiler, nameBloc);
         Identifier fieldName = (Identifier) this.name;
         compiler.addInstruction(
-                SuperLEA.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)),
+                SuperLEA.main(SuperOffSet.main(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)),
                         Register.getR(nActual), compiler.compileInArm()));
         compiler.setN(nActual);
 

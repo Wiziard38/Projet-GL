@@ -184,7 +184,7 @@ public class DecacCompiler implements Runnable {
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
-    private final IMAProgram program = new IMAProgram();
+    private final IMAProgram program = new IMAProgram(compileInArm);
 
     /** The global environment for types (and the symbolTable) */
     public final SymbolTable symbolTable = new SymbolTable();
@@ -291,8 +291,8 @@ public class DecacCompiler implements Runnable {
         prog.codeGenProgram(this);
         if (compileInArm) {
             program.writePrintLabel();
-            program.addFirst(new Line("ldr R10, [sp]"));
-            program.addFirst(new Line("ldr R11, [sp]"));
+            program.addFirst(new Line("mov R10, sp"));
+            program.addFirst(new Line("mov R11, sp"));
             program.addFirst(new Line(""));
             program.addFirst(new Line("_start:"));
             program.addFirst(new Line(".global _start"));

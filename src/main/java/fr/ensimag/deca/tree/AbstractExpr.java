@@ -6,10 +6,7 @@ import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateFloat;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperWINT;
 import fr.ensimag.superInstructions.SuperLOAD;
@@ -166,7 +163,7 @@ public abstract class AbstractExpr extends AbstractInst {
         }
         if (this.getType().sameType(compiler.environmentType.FLOAT)) {
             FloatLiteral intExpr = (FloatLiteral) this;
-            compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(intExpr.getValue()),
+            compiler.addInstruction(SuperLOAD.main(intExpr.getValue(),
                     Register.getR(compiler.getN()), compiler.compileInArm()));
         }
         if (this.getType().sameType(compiler.environmentType.BOOLEAN)) {

@@ -40,9 +40,11 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     protected void codeGenListClass(DecacCompiler compiler) {
         compiler.setSP(compiler.getSP() + 2);
         compiler.addComment("Class object");
-        compiler.environmentType.OBJECT.getDefinition().setOperand(new RegisterOffset(1, Register.GB));
-        compiler.addInstruction(new LOAD(new NullOperand(), Register.getR(compiler.getN())));
-        compiler.addInstruction(new PUSH(Register.getR(compiler.getN())));
+        compiler.environmentType.OBJECT.getDefinition()
+                .setOperand(SuperOffset.main(1, Register.GB, compiler.compileInArm()));
+        compiler.addInstruction(
+                SuperLOAD.main(new NullOperand(), Register.getR(compiler.getN()), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(new LabelOperand(new Label("object.equals")),
                 Register.getR(compiler.getN() + 1), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));

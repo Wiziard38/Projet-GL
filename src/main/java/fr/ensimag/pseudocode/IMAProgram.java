@@ -75,16 +75,24 @@ public class IMAProgram {
         lines.addFirst(l);
     }
 
+    public IMAProgram(boolean arm) {
+        this.arm = arm;
+    }
+
+    private boolean arm;
+
     /**
      * Display the program in a textual form readable by IMA to stream s.
      */
     public void display(PrintStream s) {
-        s.println(".data");
-        s.println();
-        s.println("msg_retourLigne:");
-        s.println(".asciz \"\\n\"");
-        s.println("lenretourLigne = . - msg_retourLigne");
-        s.print("\n");
+        if (arm) {
+            s.println(".data");
+            s.println();
+            s.println("msg_retourLigne:");
+            s.println(".asciz \"\\n\"");
+            s.println("lenretourLigne = . - msg_retourLigne");
+            s.print("\n");
+        }
         for (AbstractLine l : lines) {
             l.display(s);
         }

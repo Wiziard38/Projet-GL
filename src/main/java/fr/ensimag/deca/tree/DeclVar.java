@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.codegen.VariableAddr;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -36,7 +37,24 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
+    protected void codeGenVarMeth(DecacCompiler compiler, String name, int pos) {
+
+        compiler.addComment(this.decompile());
+        BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+        int spActual = compiler.getSP() + 1;
+        compiler.setSP(spActual);
+        int nAct = compiler.getN() + 1;
+        initialization.codeGenInst(compiler, varName.getDefinition(), name);
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
+        VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
+        varDef.setOperand(new RegisterOffset(pos, Register.SP));
+        compiler.setN(nAct - 1);
+        compiler.addComment("");
+    }
+
+
     protected void codeGenVar(DecacCompiler compiler, String name) {
+
         compiler.addComment(this.decompile());
         BlocInProg.getBlock(name).incrnbPlacePileNeeded();
         int spActual = compiler.getSP() + 1;

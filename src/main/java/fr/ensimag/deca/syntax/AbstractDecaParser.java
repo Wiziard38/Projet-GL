@@ -17,7 +17,8 @@ import org.apache.log4j.Logger;
  * The super class of the generated parser. It is extended by the generated
  * code because of the superClass option in the .g file.
  *
- * @author gl39, Based on template by Jim Idle - Temporal Wave LLC - jimi@temporal-wave.com
+ * @author gl39, Based on template by Jim Idle - Temporal Wave LLC -
+ *         jimi@temporal-wave.com
  * @date 01/01/2023
  */
 public abstract class AbstractDecaParser extends Parser {
@@ -29,21 +30,21 @@ public abstract class AbstractDecaParser extends Parser {
         return decacCompiler;
     }
 
-    public void setDecacCompiler(DecacCompiler decacCompiler) {
-        this.decacCompiler = decacCompiler;
+    public void setDecacCompiler(DecacCompiler decacCompiler2) {
+        this.decacCompiler = decacCompiler2;
     }
 
     protected abstract AbstractProgram parseProgram();
-    
+
     public AbstractProgram parseProgramAndManageErrors(PrintStream err) {
         try {
             AbstractProgram result = parseProgram();
-            assert(result != null);
+            assert (result != null);
             return result;
         } catch (ParseCancellationException e) {
             LOG.debug("ParseCancellationException raised while compiling file:", e);
             if (e.getCause() instanceof LocationException) {
-                ((LocationException)e.getCause()).display(err);
+                ((LocationException) e.getCause()).display(err);
                 return null;
             } else {
                 throw new DecacInternalError("Parsing cancelled", e);
@@ -62,11 +63,12 @@ public abstract class AbstractDecaParser extends Parser {
                 token.getCharPositionInLine(),
                 token.getInputStream().getSourceName());
     }
-    
+
     /**
      * Sets the location of Tree to the one in Token.
      *
-     * This is a simple convenience wrapper around {@link Tree#setLocation(Location)}.
+     * This is a simple convenience wrapper around
+     * {@link Tree#setLocation(Location)}.
      */
     protected void setLocation(Tree tree, Token token) {
         tree.setLocation(tokenLocation(token));
@@ -82,12 +84,12 @@ public abstract class AbstractDecaParser extends Parser {
         setErrorHandler(new DefaultErrorStrategy() {
             @Override
             public void reportError(Parser recognizer,
-                                    RecognitionException e) {
+                    RecognitionException e) {
                 LOG.debug("Error found by ANTLR");
                 if (e instanceof DecaRecognitionException) {
                     Token offendingToken = e.getOffendingToken();
                     if (offendingToken == null) {
-                        offendingToken = recognizer.getCurrentToken();                        
+                        offendingToken = recognizer.getCurrentToken();
                     }
                     recognizer.notifyErrorListeners(offendingToken, e.getMessage(), e);
                 } else {
@@ -99,4 +101,3 @@ public abstract class AbstractDecaParser extends Parser {
         addErrorListener(new DecacErrorListner(input));
     }
 }
-

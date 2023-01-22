@@ -15,10 +15,13 @@ import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperADDSP;
+import fr.ensimag.superInstructions.SuperBSR;
+import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperRTS;
 import fr.ensimag.superInstructions.SuperSTORE;
+import fr.ensimag.superInstructions.SuperSUBSP;
 import fr.ensimag.superInstructions.SuperTSTO;
 import fr.ensimag.ima.instructions.LEA;
 import fr.ensimag.ima.instructions.LOAD;
@@ -59,7 +62,6 @@ public class DeclClass extends AbstractDeclClass {
         LOG.debug(this.name.getName().getName());
         LOG.debug(this.name.getClassDefinition().getNumberOfMethods());
         int nActual = compiler.getN() + 1;
-        compiler.setN(nActual);
         compiler.addComment("class "+this.name.getName().getName());
         compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
         compiler.addInstruction(new PUSH(Register.getR(nActual)));
@@ -81,36 +83,48 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+        //Génération du code pour l'initialisation des instances de la class
+        compiler.setN(1);
         String blockName = "init." + this.name.getName().getName();
-        BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
+        BlocInProg.addBloc(blockName, compiler.getLastLineIndex(), 0, 0);
         compiler.addLabel(new Label(blockName));
+        //On regarde si la super class à des champs, il faut alors les initier avant
+        if (superclass.getClassDefinition().getNumberOfFields() != 0) {
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+            compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+            compiler.addInstruction(SuperBSR.main(new LabelOperand(new Label("init."+superclass.getType().getName().getName())), compiler.compileInArm()));
+            compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(1), compiler.compileInArm()));
+        }
+        // On déclare les champs de la class
         for (AbstractDeclField field : fields.getList()) {
             field.codeGenDeclFiedl(compiler, blockName);
         }
-        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
-        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        // On test la pile en début de bloc et on remet l'environement dans l'état où il était avant l'appel à cette "méthode"
         for (int i = 2; i < BlocInProg.getBlock(blockName).getnbRegisterNeeded() + 2; i++) {
             compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
             compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
         }
+        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
         compiler.addComment("");
-        for (int j = 1; j < this.name.getClassDefinition().getNumberOfMethods(); j++) {
-            for (AbstractDeclMethod method : methods.getList()) {
-                if (method.getName().getMethodDefinition().getIndex() == j){
-                        blockName = this.name.getName().getName() + '.' + method.getName().getName();
-                        BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
-                        compiler.addLabel(new Label(blockName));
-                        method.codeGenCorpMethod(compiler, blockName);
-                        compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
-                        for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
-                            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
-                            compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
-                        }
-                        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
-                        compiler.addComment("");
-                }
+
+        //On genere le code pour les méthodes de la class
+        for (AbstractDeclMethod method : methods.getList()) {
+            compiler.setN(1);
+            LOG.debug("Nom de la méthode: " + method.getName().getName().getName());
+            LOG.debug("Numéro de la méthode: " + method.getName().getMethodDefinition().getIndex());
+            blockName = this.name.getName().getName() + '.' + method.getName().getName();
+            BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
+            compiler.addLabel(new Label(blockName));
+            method.codeGenCorpMethod(compiler, blockName);
+            compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
+            for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
+                compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+                compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
             }
         }
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
+        compiler.addComment("");
     }
 
     @Override

@@ -78,6 +78,5 @@ public class New extends AbstractExpr {
         compiler.setN(nActual);
         compiler.addInstruction(SuperBSR.main(new Label("init." + this.name.getName().getName()), compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(nActual), compiler.compileInArm()));
-
     }
 }

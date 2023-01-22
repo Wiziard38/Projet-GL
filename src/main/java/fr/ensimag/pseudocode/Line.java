@@ -44,6 +44,7 @@ public class Line extends AbstractLine {
             throw new IMAInternalError("Comment '" + s + "'contains carriage return character");
         }
     }
+
     private Instruction instruction;
     private String comment;
     private Label label;
@@ -63,9 +64,9 @@ public class Line extends AbstractLine {
         }
         if (comment != null) {
             if (tab) {
-                            s.print("\t");
-                        }
-            s.print("; " + comment);
+                s.print("\t");
+            }
+            s.print(comment);
         }
         s.println();
     }

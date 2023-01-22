@@ -8,6 +8,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+
 /**
  *
  * @author gl39
@@ -23,14 +24,13 @@ public class Modulo extends AbstractOpArith {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
 
-        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass).isInt()) 
+        if ((this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass).isInt())
                 && (this.getRightOperand().verifyExpr(compiler, localEnv, currentClass).isInt())) {
             this.setType(compiler.environmentType.INT);
             return compiler.environmentType.INT;
         }
         throw new ContextualError("Tentative de modulo sur des non-entiers", this.getLocation()); // Rule 3.33
     }
-
 
     @Override
     protected String getOperatorName() {

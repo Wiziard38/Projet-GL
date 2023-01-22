@@ -3,5 +3,10 @@
 
 class A{
     int livre;
-    livre.nombre_pages = 50;
+    
+}
+
+{
+    int livre;
+    livre.livre = 8;
 }

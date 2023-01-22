@@ -3,9 +3,12 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
@@ -47,8 +50,11 @@ public class This extends AbstractExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
+        compiler.setN(nActual);
+        BlocInProg.getBlock(name).incrnbRegisterNeeded(nActual);
         compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual), compiler.compileInArm()));
         //compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
 
     }
+
 }

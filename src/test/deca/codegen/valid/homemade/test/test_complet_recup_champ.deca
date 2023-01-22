@@ -1,0 +1,11 @@
+// test de lecture d'un champ accessible
+
+
+class A{
+    int x = 8;
+}
+
+{
+    A x = new A();
+    println("x.x = ", x.x);
+}

@@ -1,0 +1,8 @@
+// test invalide de la règle 2.5
+
+class A  {
+    int x = 3;
+    void calcul(){
+        void y;
+    }
+}

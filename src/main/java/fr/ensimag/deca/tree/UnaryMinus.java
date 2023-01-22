@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 
 import org.apache.commons.lang.Validate;
 
@@ -45,5 +46,4 @@ public class UnaryMinus extends AbstractUnaryExpr {
         Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat());
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
-
 }

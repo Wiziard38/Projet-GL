@@ -10,6 +10,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
@@ -67,6 +68,10 @@ public class MethodCall extends AbstractExpr {
             }
             callerClass = exprType.asClassType(null, null);
         } else {
+            if (currentClass == null) {
+                throw new ContextualError("L'appel méthode avec 'this.' implicite en dehors d'une class impossible",
+                        this.getLocation()); // Rule 3.71
+            }
             callerClass = currentClass.getType();
         }
 
@@ -147,6 +152,14 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
+        int nLeft = compiler.getN() + 1;
+        if (this.expr == null){
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nLeft), compiler.compileInArm()));
+        }
+        else {
+            this.expr.codeGenInst(compiler, name);
+        }
+        compiler.setN(nLeft);
         for (AbstractExpr expr : args.getList()) {
             int nActual = compiler.getN() + 1;
             expr.codeGenInst(compiler, name);
@@ -154,13 +167,11 @@ public class MethodCall extends AbstractExpr {
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(nActual - 1);
         }
-        int nActual = compiler.getN() + 1;
-        compiler.addInstruction(SuperLOAD.main(((Identifier)(this.expr)).getExpDefinition().getOperand(), Register.getR(nActual), compiler.compileInArm()));
-        compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
-        compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nActual)), compiler.compileInArm()));
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nLeft), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nLeft)), Register.getR(nLeft), compiler.compileInArm()));
+        compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nLeft)), compiler.compileInArm()));
         compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(args.size() + 1), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nActual), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nLeft), compiler.compileInArm()));
+        compiler.setN(nLeft);
     }
-
 }

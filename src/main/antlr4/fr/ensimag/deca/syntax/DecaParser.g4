@@ -458,6 +458,7 @@ type
 literal
 	returns[AbstractExpr tree]:
 	INT {
+                LOG.debug("It is an int: " + Integer.parseInt($INT.text));
                 try {
                         $tree = new IntLiteral(Integer.parseInt($INT.text));
                         setLocation($tree, $INT);
@@ -470,11 +471,11 @@ literal
                 }
         }
 	| fd = FLOAT {
-                LOG.debug(Float.parseFloat($fd.text));
+                LOG.debug("It is a float: " + Float.parseFloat($fd.text));
                 try {        
-                        LOG.debug(1);
                         try {
                                 BigDecimal parsedBigDecimal = new BigDecimal($fd.text);
+
                                 if (!(parsedBigDecimal.compareTo(BigDecimal.ZERO) == 0) && 
                                         (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) < 0)) {
                                 throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.LOW);
@@ -483,10 +484,12 @@ literal
                                 if (parsedBigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
                                         throw new InvalidFloatInput(this, $ctx, InvalidFloatTypes.invalidValue.HIGH);
                                 }
+
                         } catch (NumberFormatException e) {
-                                $tree = new FloatLiteral(Float.parseFloat($fd.text));
-                                setLocation($tree, $fd);               
-                        }                             
+                        }  
+                        $tree = new FloatLiteral(Float.parseFloat($fd.text));
+                        setLocation($tree, $fd);    
+                        
                 } catch (NumberFormatException e) {
                         // The integer could not be parsed (probably it's too large).
                         // set $tree to null, and then fail with the semantic predicate
@@ -496,22 +499,27 @@ literal
                 }
         }
 	| STRING {
+                LOG.debug("It is a String");
                 $tree = new StringLiteral($STRING.text);
                 setLocation($tree, $STRING);
         }
 	| TRUE {
+                LOG.debug("It is a true");
                 $tree = new BooleanLiteral(true);
                 setLocation($tree, $TRUE);
         }
 	| FALSE {
+                LOG.debug("It is a false");
                 $tree = new BooleanLiteral(false);
                 setLocation($tree, $FALSE);
         }
 	| THIS {
+                LOG.debug("It is a this");
                 $tree = new This();
                 setLocation($tree, $THIS);
         }
 	| NULL {
+                LOG.debug("It is a null");
                 $tree = new Null();
                 setLocation($tree, $NULL);
         };

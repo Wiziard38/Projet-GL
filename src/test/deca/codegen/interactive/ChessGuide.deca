@@ -25,11 +25,11 @@ class Main {
                 currentPiece = new Pion();
             }
 
-            println("Sur quelle colonne voulez-vous le placer ?");
+            println("Sur quelle colonne voulez-vous le placer (1 à 8) ?");
             col = readInt();
             currentPiece.setCol(col);
 
-            println("Sur quelle ligne voulez-vous le placer ?");
+            println("Sur quelle ligne voulez-vous le placer (1 à 8) ?");
             lig = readInt();
             currentPiece.setLig(lig);
 

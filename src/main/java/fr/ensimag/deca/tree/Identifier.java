@@ -210,11 +210,13 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
+        Validate.notNull(localEnv);
+    
         if (localEnv.get(this.name) == null) {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
-        
+
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name).getType();
     }
@@ -228,15 +230,11 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
         }
+
         this.setDefinition(localEnv.get(this.name));
         return localEnv.get(this.name);
     }
 
-    /**
-     * Implements non-terminal "type" of [SyntaxeContextuelle] in the 3 passes
-     * 
-     * @param compiler contains "env_types" attribute
-     */
     @Override
     public Type verifyType(DecacCompiler compiler, boolean checkVoid, String message) throws ContextualError {
         TypeDefinition thisTypeDef = compiler.environmentType.defOfType(this.getName());

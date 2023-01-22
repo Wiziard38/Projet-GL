@@ -86,6 +86,23 @@ public class MethodCall extends AbstractExpr {
         return methodDef.getType();
     }
 
+    /**
+     * Verify the expression for contextual error.
+     * 
+     * implements non-terminals "rvalue"
+     * of [SyntaxeContextuelle] in pass 3
+     *
+     * @param compiler
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_type" attribute)
+     * @param localEnv
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_exp" attribute)
+     * @param currentClass
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_exp" attribute)
+     * @param sig           Corresponds to the signature of the method called
+     */
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {
         

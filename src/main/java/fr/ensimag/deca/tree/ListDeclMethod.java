@@ -20,7 +20,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
     }
 
     /**
-     * TODO
+     * Pass 2 of [SyntaxeContextuelle]. Verify that the class methods are OK, without looking at methods bodies.
      */
     public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
@@ -31,12 +31,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
     }
 
     /**
-     * TODO
-     * 
-     * @param compiler
-     * @param currentClass
-     * @param superClass
-     * @throws ContextualError
+     * Pass 3 of [SyntaxeContextuelle]. Verify that the class methods are OK, includes looking at methods bodies.
      */
     public void verifyListDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {

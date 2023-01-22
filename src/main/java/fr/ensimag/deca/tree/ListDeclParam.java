@@ -25,11 +25,7 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
     }
 
     /**
-     * TODO
-     * 
-     * @param compiler
-     * @return
-     * @throws ContextualError
+     * Pass 2 of [SyntaxeContextuelle]. Verify that the params types are OK.
      */
     public Signature verifySignature(DecacCompiler compiler) throws ContextualError {
         Signature sig = new Signature();
@@ -40,6 +36,9 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
         return sig;
     }
 
+    /**
+     * Pass 3 of [SyntaxeContextuelle]. Verify that the signature environment exp is OK.
+     */
     public void verifyEnvParams(DecacCompiler compiler, EnvironmentExp localEnv)
             throws ContextualError {
         int paramIndex = 1;

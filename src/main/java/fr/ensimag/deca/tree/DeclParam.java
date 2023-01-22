@@ -55,7 +55,7 @@ public class DeclParam extends AbstractDeclParam {
     public void verifyEnvParam(DecacCompiler compiler, EnvironmentExp localEnv, int paramIndex)
             throws ContextualError {
 
-        Type paramType = this.type.verifyType(compiler, true, "un parametre");
+        Type paramType = this.type.getType();
         try {
             localEnv.declare(this.name.getName(), new ParamDefinition(paramType, this.getLocation(), paramIndex));
         } catch (DoubleDefException e) {

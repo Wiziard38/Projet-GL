@@ -160,6 +160,7 @@ public class DeclClass extends AbstractDeclClass {
             throw new ContextualError(String.format("Le nom '%s' est deja un nom de class ou de type",
                     this.name), this.getLocation()); // Rule 1.3
         }
+
         this.superclass.setDefinition(superDef);
         this.name.setDefinition(compiler.environmentType.getClass(this.name.getName()));
     }

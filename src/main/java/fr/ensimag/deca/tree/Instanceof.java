@@ -49,7 +49,6 @@ public class Instanceof extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }

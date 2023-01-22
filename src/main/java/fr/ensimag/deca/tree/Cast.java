@@ -52,4 +52,10 @@ public class Cast extends AbstractExpr {
         return null;
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

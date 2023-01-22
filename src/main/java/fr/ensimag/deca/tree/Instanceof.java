@@ -52,4 +52,10 @@ public class Instanceof extends AbstractExpr {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

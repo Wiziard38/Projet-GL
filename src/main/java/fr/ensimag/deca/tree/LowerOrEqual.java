@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
@@ -16,6 +17,13 @@ public class LowerOrEqual extends AbstractOpIneq {
     @Override
     protected String getOperatorName() {
         return "<=";
+    }
+
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

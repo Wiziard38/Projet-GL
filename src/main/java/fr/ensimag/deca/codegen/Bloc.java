@@ -34,4 +34,15 @@ public class Bloc {
     public int getnbPlacePileNeeded(){
         return placePileNeeded;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Bloc) {
+            Bloc bloc = (Bloc)o;
+            return bloc.getLineStart() == this.getLineStart();
+        }
+        else {
+            return false;
+        }
+    }
 }

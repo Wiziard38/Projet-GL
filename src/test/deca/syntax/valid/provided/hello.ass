@@ -18,9 +18,11 @@
 	PUSH R2
 	LOAD object.equals, R2
 	STORE R2, 1(SP)
-	ADDSP #1
+	LOAD A.setX, R2
+	STORE R2, 2(SP)
+	ADDSP #2
 
-; Main program
+; Main Program
 	TSTO #1
 ; A a = new A();
 	NEW #2, R2
@@ -33,7 +35,7 @@
 ; 
 ; Beginning of main instructions:
 	WSTR "x="
-	LOAD 7(GB), R2
+	LOAD 8(GB), R2
 	LOAD 1(R2), R2
 	LOAD R2, R1
 	WFLOAT
@@ -71,6 +73,18 @@ init.A:
 	POP R4
 	RTS
 ; 
+A.setX:
+	PUSH R3
+	PUSH R2
+	TSTO #0
+	LOAD -3(LB), R2
+	LOAD -3(LB), R3
+	STORE R2, -3(LB)
+; 
+	SUBSP #0
+	RTS
+	POP R2
+	POP R3
 ; 
 ErreurPile:
 	WSTR "Erreur de débordement de pile dans le programme"

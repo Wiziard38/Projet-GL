@@ -13,6 +13,9 @@ class a {
 
 class A{
     float x = 8.1;
+    void setX(int x) {
+        x = x;
+    }
 }
 
 {

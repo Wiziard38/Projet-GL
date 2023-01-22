@@ -174,4 +174,10 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nLeft), compiler.compileInArm()));
         compiler.setN(nLeft);
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

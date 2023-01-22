@@ -18,6 +18,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperWFLOAT;
 import fr.ensimag.superInstructions.SuperWFLOATX;
@@ -54,11 +55,12 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
+        LOG.debug("nom du bloc: " +nameBloc);
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
-        switch (this.getDefinition().getNature()){
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
+        switch (this.getDefinition().getNature()) {
             case "variable":
                 VariableDefinition defVar = (VariableDefinition) this.getDefinition();
                 compiler.addInstruction(
@@ -305,5 +307,11 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public String toString() {
         return this.getName().toString();
+    }
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        compiler.setN(compiler.getN() + 1);
+        compiler.addInstruction(SuperLEA.main(this.getExpDefinition().getOperand(), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+        
     }
 }

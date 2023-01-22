@@ -81,7 +81,7 @@ public class DeclClass extends AbstractDeclClass {
         compiler.add(new Line(""));
     }
 
-    protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+    protected void codeGenCorpMethod(DecacCompiler compiler, String nameBloc){
         //Génération du code pour l'initialisation des instances de la class
         compiler.setN(1);
         String blockName = "init." + this.name.getName().getName();

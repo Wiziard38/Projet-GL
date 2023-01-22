@@ -36,4 +36,10 @@ public class ConvFloat extends AbstractUnaryExpr {
         Validate.isTrue(this.getOperand().getType().isInt());
         Validate.isTrue(this.getType().isFloat());
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

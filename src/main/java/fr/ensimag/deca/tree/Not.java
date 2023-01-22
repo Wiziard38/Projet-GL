@@ -43,4 +43,10 @@ public class Not extends AbstractUnaryExpr {
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

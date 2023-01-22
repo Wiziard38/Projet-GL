@@ -56,44 +56,50 @@ public class Program extends AbstractProgram {
 
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
-        // Passe numéro 1 des classes déclaration des classes et méthodes
+        if (!compiler.compileInArm()) {
+            // Passe numéro 1 des classes déclaration des classes et méthodes
         compiler.addComment("Class declaration");
         classes.codeGenListClass(compiler);
+        }
+        
         // Passe sur le programme principal pour la génération de son code
-        compiler.addComment("Main program");
+        compiler.addComment("Main Program");
         main.codeGenMain(compiler);
         compiler.addInstruction(SuperHALT.main(compiler.compileInArm()));
         compiler.addComment("");
-        // Passe numéro 2 des classes, on code le corp des méthodes
-        compiler.addComment("Method declaration");
-        classes.codeGenCorpMethod(compiler, "");
-        compiler.addLabel(compiler.getErreurPile());
-        compiler.addInstruction(
+        if (!compiler.compileInArm()) {
+            compiler.addComment("Method declaration");
+            classes.codeGenCorpMethod(compiler, "");
+            compiler.addLabel(compiler.getErreurPile());
+            compiler.addInstruction(
                 SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addComment("");
-        compiler.addLabel(compiler.getErreurOverflow());
-        compiler.addInstruction(
+            compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+            compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+            compiler.addComment("");
+            compiler.addLabel(compiler.getErreurOverflow());
+            compiler.addInstruction(
                 SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique", compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addComment("");
-        compiler.addLabel(compiler.getErreurinOut());
-        compiler.addInstruction(SuperWSTR.main("Erreur lors d'une entrée/sortie", compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addComment("");
-        compiler.addLabel(compiler.getErreurArrondi());
-        compiler.addInstruction(
+            compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+            compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+            compiler.addComment("");
+            compiler.addLabel(compiler.getErreurinOut());
+            compiler.addInstruction(SuperWSTR.main("Erreur lors d'une entrée/sortie", compiler.compileInArm()));
+            compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+            compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+            compiler.addComment("");
+            compiler.addLabel(compiler.getErreurArrondi());
+            compiler.addInstruction(
                 SuperWSTR.main("Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini",
                         compiler.compileInArm()));
-        compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-        compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-        compiler.addComment("");
+            compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+            compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+            compiler.addComment("");
         //Gestion de la pile
         // compiler.addInstructionFirst(SuperBOV.main(compiler.getErreurPile(), compiler.compileInArm()));
         // compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(), compiler.compileInArm()));
+        }
+        // Passe numéro 2 des classes, on code le corp des méthodes
+        
         
     }
 

@@ -52,4 +52,10 @@ public class ReadInt extends AbstractReadExpr {
         // leaf node => nothing to do
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

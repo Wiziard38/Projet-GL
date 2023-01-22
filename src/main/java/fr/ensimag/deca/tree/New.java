@@ -66,10 +66,10 @@ public class New extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name){
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc){
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
-        BlocInProg.getBlock(name).incrnbRegisterNeeded(compiler.getN());
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(SuperNEW.main(compiler.environmentType.getClass(this.name.getName()).getNumberOfFields() + 1, Register.getR(nActual), compiler.compileInArm()));
         int nAdrr = compiler.getN() + 1;
         compiler.setN(nAdrr);
@@ -79,5 +79,11 @@ public class New extends AbstractExpr {
         compiler.setN(nActual);
         compiler.addInstruction(SuperBSR.main(new Label("init." + this.name.getName().getName()), compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(nActual), compiler.compileInArm()));
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 }

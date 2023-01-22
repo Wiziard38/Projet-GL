@@ -46,4 +46,10 @@ public class UnaryMinus extends AbstractUnaryExpr {
         Validate.isTrue(this.getOperand().getType().isInt() || this.getOperand().getType().isFloat());
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

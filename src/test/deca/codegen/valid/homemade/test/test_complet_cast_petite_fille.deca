@@ -1,0 +1,18 @@
+// test valide de la règle cast
+
+class A {
+
+}
+
+class B extends A{
+
+    int x = 1;
+}
+class C extends B{
+
+}
+
+{
+    C b = new C();
+    (A) (b);
+}

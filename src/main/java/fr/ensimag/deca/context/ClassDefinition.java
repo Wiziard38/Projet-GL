@@ -1,10 +1,7 @@
 package fr.ensimag.deca.context;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.pseudocode.DAddr;
-import fr.ensimag.pseudocode.Label;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
@@ -77,8 +74,8 @@ public class ClassDefinition extends TypeDefinition {
     private final ClassDefinition superClass; 
 
     public MethodDefinition getMethod(int index) {
-        assert(index <= numberOfMethods);
-        assert(index >= 1);
+        Validate.isTrue(index <= numberOfMethods);
+        Validate.isTrue(index >= 1);
         Iterator<ExpDefinition> exps = members.getLocalEnv().values().iterator();
         while (exps.hasNext()) {
             ExpDefinition exp = exps.next();

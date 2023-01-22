@@ -113,7 +113,7 @@ inst
 	e1 = expr SEMI {
                 assert($e1.tree != null);
                 $tree = $e1.tree;
-                setLocation($tree, $e1.start);
+                // setLocation($tree, $e1.start);
         }
 	| SEMI {
                 $tree = new NoOperation();
@@ -206,7 +206,7 @@ expr
 	assign_expr {
                 assert($assign_expr.tree != null);
                 $tree = $assign_expr.tree;
-                setLocation($tree, $assign_expr.start);
+                // setLocation($tree, $assign_expr.start);
         };
 
 assign_expr
@@ -226,7 +226,7 @@ assign_expr
 		| /* epsilon */ {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	);
 
@@ -235,7 +235,7 @@ or_expr
 	e = and_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = or_expr OR e2 = and_expr {
                 assert($e1.tree != null);
@@ -249,7 +249,7 @@ and_expr
 	e = eq_neq_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = and_expr AND e2 = eq_neq_expr {
                 assert($e1.tree != null);                         
@@ -263,7 +263,7 @@ eq_neq_expr
 	e = inequality_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = eq_neq_expr EQEQ e2 = inequality_expr {
                 assert($e1.tree != null);
@@ -283,7 +283,7 @@ inequality_expr
 	e = sum_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = inequality_expr LEQ e2 = sum_expr {
                 assert($e1.tree != null);
@@ -321,7 +321,7 @@ sum_expr
 	e = mult_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = sum_expr PLUS e2 = mult_expr {
                 assert($e1.tree != null);
@@ -341,7 +341,7 @@ mult_expr
 	e = unary_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = mult_expr TIMES e2 = unary_expr {
                 assert($e1.tree != null);                                         
@@ -377,7 +377,7 @@ unary_expr
 	| select_expr {
                 assert($select_expr.tree != null);
                 $tree = $select_expr.tree;
-                setLocation($tree, $select_expr.start);
+                // setLocation($tree, $select_expr.start);
         };
 
 select_expr
@@ -385,7 +385,7 @@ select_expr
 	e = primary_expr {
                 assert($e.tree != null);
                 $tree = $e.tree;
-                setLocation($tree, $e.start);
+                // setLocation($tree, $e.start);
         }
 	| e1 = select_expr DOT i = ident {
                 assert($e1.tree != null);
@@ -409,7 +409,7 @@ primary_expr
 	ident {
                 assert($ident.tree != null);
                 $tree = $ident.tree;
-                setLocation($tree, $ident.start);
+                // setLocation($tree, $ident.start);
         }
 	| m = ident OPARENT args = list_expr CPARENT {
                 assert($args.tree != null);
@@ -444,7 +444,7 @@ primary_expr
 	| literal {
                 assert($literal.tree != null);
                 $tree = $literal.tree;
-                setLocation($tree, $literal.start);
+                // setLocation($tree, $literal.start);
         };
 
 type
@@ -452,7 +452,7 @@ type
 	ident {
                 assert($ident.tree != null);
                 $tree = $ident.tree;
-                setLocation($tree, $ident.start);
+                // setLocation($tree, $ident.start);
         };
 
 literal

@@ -3,10 +3,8 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.superInstructions.SuperBOV;
 import fr.ensimag.superInstructions.SuperERROR;
 import fr.ensimag.superInstructions.SuperHALT;
-import fr.ensimag.superInstructions.SuperTSTO;
 import fr.ensimag.superInstructions.SuperWNL;
 import fr.ensimag.superInstructions.SuperWSTR;
 

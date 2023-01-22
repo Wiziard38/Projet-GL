@@ -174,7 +174,7 @@ class Board {
             else if (casePlayer == playerCurrent) {
                 numberCurrent = numberCurrent + 1;
             } else {
-                numberCurrent = casePlayer;
+                playerCurrent = casePlayer;
                 numberCurrent = 1;
             }
             if (numberCurrent == 4) {

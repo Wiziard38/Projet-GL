@@ -8,7 +8,7 @@ public class RegisterOffsetArm extends RegisterOffset {
 
     @Override
     public String toString() {
-        return "[" + getRegister() + ", #" + -getOffset() + "]";
+        return "[" + getRegister() + ", #" + -getOffset() * 4 + "]";
     }
 
 }

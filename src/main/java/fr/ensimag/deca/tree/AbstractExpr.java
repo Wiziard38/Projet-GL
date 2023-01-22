@@ -172,10 +172,10 @@ public abstract class AbstractExpr extends AbstractInst {
         if (this.getType().sameType(compiler.environmentType.BOOLEAN)) {
             BooleanLiteral intExpr = (BooleanLiteral) this;
             if (intExpr.getValue()) {
-                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(1), Register.getR(compiler.getN()),
+                compiler.addInstruction(SuperLOAD.main(1, Register.getR(compiler.getN()),
                         compiler.compileInArm()));
             } else {
-                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(compiler.getN()),
+                compiler.addInstruction(SuperLOAD.main(0, Register.getR(compiler.getN()),
                         compiler.compileInArm()));
             }
         }
@@ -204,5 +204,5 @@ public abstract class AbstractExpr extends AbstractInst {
         Validate.notNull(this.getType());
     }
 
-    //public abstract ExpDefinition getExpDefinition();
+    // public abstract ExpDefinition getExpDefinition();
 }

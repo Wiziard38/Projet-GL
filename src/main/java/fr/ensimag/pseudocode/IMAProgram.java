@@ -85,7 +85,6 @@ public class IMAProgram {
         s.println(".asciz \"\\n\"");
         s.println("lenretourLigne = . - msg_retourLigne");
         s.print("\n");
-        s.println(".text");
         for (AbstractLine l : lines) {
             l.display(s);
         }

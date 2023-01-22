@@ -40,6 +40,6 @@ public class TernaryInstruction extends Instruction {
         Validate.notNull(op3);
         this.operand1 = op1;
         this.operand2 = op2;
-        this.operand2 = op3;
+        this.operand3 = op3;
     }
 }

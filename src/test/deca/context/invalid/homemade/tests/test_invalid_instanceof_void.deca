@@ -1,0 +1,8 @@
+// test invalide de la règle instance of
+
+
+
+{
+    int a = 8;
+    println(a instanceof void);
+}

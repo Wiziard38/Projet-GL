@@ -10,12 +10,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperRTS;
-
-
 
 /**
  * Return keyword.
@@ -53,13 +50,13 @@ public class Return extends AbstractInst {
      * Genère le code d'un return d'une méthode. On met le résultat dans R0.
      *
      * @param compiler compilateur ou ajouter les instructions
-     * @param name le nom du bloc ou on gènere le code assembleur
+     * @param name     le nom du bloc ou on gènere le code assembleur
      */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
         expr.codeGenInst(compiler, name);
-        compiler.addInstruction(SuperLOAD.main(Register.getR(nActual),Register.R0, compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R0, compiler.compileInArm()));
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 

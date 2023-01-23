@@ -11,7 +11,6 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.InstructionArm;
 import fr.ensimag.pseudocode.Line;
 
 /**

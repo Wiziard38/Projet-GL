@@ -63,7 +63,6 @@ public class TestPlusWithoutMock {
         @Override
         public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
             // nothing to do
-
         }
     }
 

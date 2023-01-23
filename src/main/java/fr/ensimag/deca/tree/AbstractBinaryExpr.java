@@ -8,8 +8,6 @@ import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.pseudocode.*;
 import fr.ensimag.superInstructions.*;
 
-import org.apache.log4j.Logger;
-
 /**
  * Binary expressions.
  *
@@ -17,8 +15,6 @@ import org.apache.log4j.Logger;
  * @date 01/01/2023
  */
 public abstract class AbstractBinaryExpr extends AbstractExpr {
-    private static final Logger LOG = Logger.getLogger(AbstractBinaryExpr.class);
-
     public AbstractExpr getLeftOperand() {
         return leftOperand;
     }
@@ -73,13 +69,18 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     }
 
     /**
-    * Génère le code pour une expression binaire. il est factoriser dans cette classe et 
-    * donc la méthode finit sur un switch case sur le nom de l'opérateur pour ajouter l'instruction adéquate.
-    * On fait attention dans ce cas aux registres restant, s'il ne reste plus on push le dernier et on continue
-    * @param  compiler L'instance du compilateur ou rajouter le code assembleur
-    * @param  nameBloc Le nom du bloc actuel dans lequel on genère l'assembleur (bloc étant le main program ou une méthode)
-    * @return      void
-    */
+     * Génère le code pour une expression binaire. il est factoriser dans cette
+     * classe et
+     * donc la méthode finit sur un switch case sur le nom de l'opérateur pour
+     * ajouter l'instruction adéquate.
+     * On fait attention dans ce cas aux registres restant, s'il ne reste plus on
+     * push le dernier et on continue
+     * 
+     * @param compiler L'instance du compilateur ou rajouter le code assembleur
+     * @param nameBloc Le nom du bloc actuel dans lequel on genère l'assembleur
+     *                 (bloc étant le main program ou une méthode)
+     * @return void
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActualLeft;

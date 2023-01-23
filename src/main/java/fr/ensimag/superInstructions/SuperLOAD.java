@@ -1,7 +1,5 @@
 package fr.ensimag.superInstructions;
 
-import javax.swing.plaf.synth.Region;
-
 import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.GPRegister;

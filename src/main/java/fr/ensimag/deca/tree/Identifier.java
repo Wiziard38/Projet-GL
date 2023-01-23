@@ -17,7 +17,6 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperOffset;
@@ -43,7 +42,7 @@ public class Identifier extends AbstractIdentifier {
      *
      * @param compiler compilateur ou ajouter les instructions
      * @param printHex bollean qui dit si il faut print en héxadécimale
-     * @param name le nom du bloc ou on gènere le code assembleur
+     * @param name     le nom du bloc ou on gènere le code assembleur
      */
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
@@ -232,7 +231,7 @@ public class Identifier extends AbstractIdentifier {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         Validate.notNull(localEnv);
-    
+
         if (localEnv.get(this.name) == null) {
             throw new ContextualError(String.format("Identificateur '%s' non déclaré dans l'environnement",
                     this.name.getName()), this.getLocation()); // Rule 0.1
@@ -276,9 +275,9 @@ public class Identifier extends AbstractIdentifier {
     public Type verifyLValue(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         LOG.debug(this.getName());
-        
+
         Type requestedType = this.verifyExpr(compiler, localEnv, currentClass);
-        
+
         if (!localEnv.get(this.getName()).isField() && !localEnv.get(this.getName()).isParam()
                 && !localEnv.get(this.getName()).isExpression()) {
             LOG.debug(localEnv.get(this.getName()).isExpression());

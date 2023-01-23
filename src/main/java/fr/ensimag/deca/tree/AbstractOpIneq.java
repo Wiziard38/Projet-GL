@@ -2,9 +2,6 @@ package fr.ensimag.deca.tree;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.tools.DecacInternalError;
-
 /**
  *
  * @author gl39

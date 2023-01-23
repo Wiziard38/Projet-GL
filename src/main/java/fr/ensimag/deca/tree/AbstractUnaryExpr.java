@@ -34,6 +34,12 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
         this.operand = operand;
     }
 
+    /**
+     * Géneration d'une instruction, on différencie grace à l'opérator name
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;

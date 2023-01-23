@@ -36,6 +36,11 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         }
     }
 
+    /**
+     * Genère le code pour une liste de classe. On initilise ici la classe object et sa méthode equals
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     */
     protected void codeGenListClass(DecacCompiler compiler){
         compiler.setSP(compiler.getSP() + 2);
         compiler.addComment("Class object");

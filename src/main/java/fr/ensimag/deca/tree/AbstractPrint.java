@@ -51,6 +51,12 @@ public abstract class AbstractPrint extends AbstractInst {
         }
     }
 
+    /**
+     * Generation du code de la liste d'instructions
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         for (AbstractExpr a : getArguments().getList()) {

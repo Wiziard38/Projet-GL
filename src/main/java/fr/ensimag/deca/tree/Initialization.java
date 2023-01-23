@@ -21,6 +21,13 @@ public class Initialization extends AbstractInitialization {
         return expression;
     }
 
+    /**
+     * Genère le code d'une initialisation
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param def definition de la variable nécessitant l'initialisation
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, Definition def, String name) {
         this.getExpression().codeGenInst(compiler, name);

@@ -48,6 +48,12 @@ public class This extends AbstractExpr {
         // nothing to do here
     }
 
+    /**
+     * Genère le code d'un this
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;
@@ -58,6 +64,12 @@ public class This extends AbstractExpr {
 
     }
 
+    /**
+     * Genère le code d'un this
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         // TODO Auto-generated method stub

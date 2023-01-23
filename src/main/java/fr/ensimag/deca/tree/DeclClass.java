@@ -58,6 +58,12 @@ public class DeclClass extends AbstractDeclClass {
         methods = functions;
     }
 
+    /**
+    * Génère le code de la première passe sur les classes. On créer la table des méthodes.
+    * @param  compiler L'instance du compilateur ou rajouter le code assembleur
+    * @return      void
+    */
+
     protected void codeGenClass(DecacCompiler compiler) {
         LOG.debug(this.name.getName().getName());
         int nActual = compiler.getN() + 1;
@@ -81,6 +87,13 @@ public class DeclClass extends AbstractDeclClass {
         compiler.add(new Line(""));
     }
 
+    /**
+    * Génère le code de la deuxième passe sur les classes. On créer tout d'abord la méthode permettant l'initialisation, 
+    * ensuite on parcours toutes les méthodes déclarer par cette classe et on génère le code assembleur de celle-ci.
+    * @param  compiler L'instance du compilateur ou rajouter le code assembleur
+    * @param  nameBloc Le nom du bloc actuel dans lequel on genère l'assembleur (bloc étant le main program ou une méthode)
+    * @return      void
+    */
     protected void codeGenCorpMethod(DecacCompiler compiler, String nameBloc){
         //Génération du code pour l'initialisation des instances de la class
         compiler.setN(1); 
@@ -101,9 +114,12 @@ public class DeclClass extends AbstractDeclClass {
         }
         // On test la pile en début de bloc et on remet l'environement dans l'état où il était avant l'appel à cette "méthode"
         for (int i = 2; i < BlocInProg.getBlock(blockName).getnbRegisterNeeded() + 2; i++) {
+            //On push les registres qui seront nécessaires
             compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+            // On les remet en état à la fin
             compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
         }
+        // On test la place dans la pile nécessaire
         compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart() + 1, SuperTSTO.main(BlocInProg.getBlock(blockName).getnbPlacePileNeeded(), compiler.compileInArm()));
         compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
         compiler.addComment("");
@@ -118,7 +134,9 @@ public class DeclClass extends AbstractDeclClass {
             method.codeGenCorpMethod(compiler, blockName);
             compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperTSTO.main(new ImmediateInteger(BlocInProg.getBlock(blockName).getnbPlacePileNeeded()), compiler.compileInArm()));
             for (int i = 2; i <= BlocInProg.getBlock(blockName).getnbRegisterNeeded(); i++) {
+                //On push les registres qui seront nécessaires
                 compiler.addIndexLine(BlocInProg.getBlock(blockName).getLineStart(), SuperPUSH.main(Register.getR(i), compiler.compileInArm()));
+                // On les remet en état à la fin
                 compiler.addInstruction(SuperPOP.main(Register.getR(i), compiler.compileInArm()));
             }
         }

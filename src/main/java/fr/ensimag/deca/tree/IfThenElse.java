@@ -48,6 +48,13 @@ public class IfThenElse extends AbstractInst {
         this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 
+    /**
+     * Genère le code d'un if, on genère le code pour vérifier la condition ensuite l'étiquette if et les instructions dedans et ensin
+     * l'étiquette else et les instructions dedans.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;

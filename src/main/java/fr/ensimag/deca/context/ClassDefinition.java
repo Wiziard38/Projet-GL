@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
  */
 public class ClassDefinition extends TypeDefinition {
     private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
+    
+    // L'opérande représente l'adresse en mémoire de la table des méthodes
     private DAddr operand;
 
     public DAddr getOperand(){

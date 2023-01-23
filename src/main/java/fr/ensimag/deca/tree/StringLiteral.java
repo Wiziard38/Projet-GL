@@ -42,6 +42,12 @@ public class StringLiteral extends AbstractStringLiteral {
         return compiler.environmentType.STRING;
     }
 
+    /**
+     * Genère le code d'un print de StringLiteral
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         compiler.addInstruction(SuperWSTR.main(this.value, compiler.compileInArm()));

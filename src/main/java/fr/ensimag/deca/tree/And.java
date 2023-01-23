@@ -25,6 +25,13 @@ public class And extends AbstractOpBool {
         super(leftOperand, rightOperand);
     }
 
+    /**
+     * Genration d'un et, on fait attention au nombre de registre restant et dans le cas ou on en a plus on utilise la pile.
+     * On utilise deux étiquettes: si un et faux tout et faux et la fin de la comparaison
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         Label labelOneFalse = new Label(

@@ -32,6 +32,12 @@ public class NoInitialization extends AbstractInitialization {
         // throw new UnsupportedOperationException("not yet implemented");
     }
 
+    /**
+     * Genère le code d'une initialisation null, si ce sont des champs il faut les initier à une valeur particulière (0, false).
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, Definition def, String nameBloc) {
         int nActual = compiler.getN() + 1;

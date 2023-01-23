@@ -137,7 +137,9 @@ public abstract class AbstractExpr extends AbstractInst {
     /**
      * Generate code to print the expression
      *
-     * @param compiler
+     * @param compiler compilateur ou ajouter les instructions
+     * @param printHex boolean pour savoir si il faut print ou non en héxadécimal
+     * @param name le nom du bloc ou on gènere le code assembleur
      */
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         int nActual = compiler.getN() + 1;
@@ -156,6 +158,12 @@ public abstract class AbstractExpr extends AbstractInst {
         }
     }
 
+    /**
+     * Generation du code pour une AbstractExpr dans le cas ou ce n'est pas dans un print mais dans une expression.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         compiler.setN(compiler.getN() + 1);

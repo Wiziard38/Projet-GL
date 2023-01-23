@@ -1,5 +1,10 @@
 package fr.ensimag.deca.codegen;
 
+/**
+     * Classe représentant un bloc (méthode ou programme principale). Il y a l'indice de la ligne de début, le nombre de registres nécessaire et
+     * la place dans la pile nécessaire dans le bloc. Ainsi à la fin de l'assemblage du bloc on peut ajouter au début le test sur la pile,
+     * push les registres nécessaires et les pop à la fin
+     */
 public class Bloc {
 
     private int lineStart;

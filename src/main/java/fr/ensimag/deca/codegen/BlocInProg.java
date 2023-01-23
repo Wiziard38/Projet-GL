@@ -2,6 +2,9 @@ package fr.ensimag.deca.codegen;
 
 import java.util.HashMap;
 
+/**
+     * Class représentant tous les bloc du programme.
+     */
 public class BlocInProg {
     
     private static HashMap<String, Bloc> listBloc = new HashMap<String, Bloc>();

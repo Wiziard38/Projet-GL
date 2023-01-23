@@ -65,6 +65,12 @@ public class New extends AbstractExpr {
         this.name.iter(f);
     }
 
+    /**
+     * Genère le code d'un new
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc){
         int nActual = compiler.getN() + 1;

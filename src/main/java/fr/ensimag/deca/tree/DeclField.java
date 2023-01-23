@@ -6,8 +6,6 @@ import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
-import fr.ensimag.deca.codegen.VariableAddr;
-import fr.ensimag.deca.codegen.VariableAddr.VarInClass;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.FieldDefinition;
@@ -110,6 +108,12 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
+    /**
+     * Genère le code d'un champ de classe
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     protected void codeGenDeclFiedl(DecacCompiler compiler, String nameBloc){
         FieldDefinition defField = (FieldDefinition)this.name.getDefinition();
         int nActual = compiler.getN() + 1;

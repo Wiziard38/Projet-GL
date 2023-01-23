@@ -136,6 +136,12 @@ public class DeclMethod extends AbstractDeclMethod {
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
     }
 
+    /**
+     * Genère le code d'une méthoe i.e d'abord les variables locales et ensuite les instructions.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     protected void codeGenCorpMethod(DecacCompiler compiler, String name){
         this.body.codeGenInstBody(compiler, name);
     }

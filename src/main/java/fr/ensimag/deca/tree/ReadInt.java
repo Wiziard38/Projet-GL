@@ -28,6 +28,12 @@ public class ReadInt extends AbstractReadExpr {
         return compiler.environmentType.INT;
     }
 
+    /**
+     * Genère le code d'un readFloat
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         compiler.addInstruction(SuperRINT.main(compiler.compileInArm()));

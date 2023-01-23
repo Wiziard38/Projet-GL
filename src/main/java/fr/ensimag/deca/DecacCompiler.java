@@ -12,6 +12,7 @@ import fr.ensimag.pseudocode.AbstractLine;
 import fr.ensimag.pseudocode.IMAProgram;
 import fr.ensimag.pseudocode.Instruction;
 import fr.ensimag.pseudocode.Label;
+import fr.ensimag.pseudocode.Line;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -99,8 +100,8 @@ public class DecacCompiler implements Runnable {
         return program.getLastLineIndex();
     }
 
-    public void addIndexLine(int index, AbstractLine line){
-        program.addIndex(line, index);
+    public void addIndexLine(int index, Instruction inst){
+        program.addIndex(inst, index);
     }
 
     public boolean compileInArm() {
@@ -134,7 +135,11 @@ public class DecacCompiler implements Runnable {
      * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
      */
     public void addComment(String comment) {
-        program.addComment(comment);
+        if (compileInArm) {
+            program.addComment("/* " + comment + "*/");
+        } else {
+            program.addComment("; " + comment);
+        }
     }
 
     /**
@@ -211,7 +216,8 @@ public class DecacCompiler implements Runnable {
         String namePath = this.source.getAbsolutePath();
         String nameSource = this.source.getName();
         // destFile = nameSource.substring(0, nameSource.length()-5)+".ass";
-        String newName = nameSource.substring(0, nameSource.length() - 5) + ".ass";
+        String newName = compileInArm() ? nameSource.substring(0, nameSource.length() - 5) + ".S"
+                : nameSource.substring(0, nameSource.length() - 5) + ".ass";
         destFile = namePath.replaceAll(nameSource, "/" + newName);
         // destFile = nameSource.replaceAll(this.source.getName(),
         // "assembleur/"+this.getSource().getName().substring(0,
@@ -283,6 +289,11 @@ public class DecacCompiler implements Runnable {
 
         addComment("start main program");
         prog.codeGenProgram(this);
+        if (compileInArm) {
+            program.addFirst(new Line("_start:"));
+            program.addFirst(new Line(".global _start"));
+            program.addFirst(new Line(".text"));
+        }
         addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
@@ -328,5 +339,4 @@ public class DecacCompiler implements Runnable {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
-
 }

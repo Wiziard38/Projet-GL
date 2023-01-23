@@ -7,6 +7,7 @@ import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -26,7 +27,6 @@ public class ConvFloat extends AbstractUnaryExpr {
         return compiler.environmentType.FLOAT;
     }
 
-
     @Override
     protected String getOperatorName() {
         return "/* conv float */";
@@ -35,5 +35,11 @@ public class ConvFloat extends AbstractUnaryExpr {
     protected void checkDecoration() {
         Validate.isTrue(this.getOperand().getType().isInt());
         Validate.isTrue(this.getType().isFloat());
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 }

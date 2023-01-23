@@ -52,15 +52,17 @@ public class DecacMain {
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
             long start = System.currentTimeMillis();
-            ExecutorService executors = Executors.newFixedThreadPool(java.lang.Runtime.getRuntime().availableProcessors());
+            ExecutorService executors = Executors
+                    .newFixedThreadPool(java.lang.Runtime.getRuntime().availableProcessors());
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source, options.getCompileInARM());
                 executors.execute(compiler);
             }
             executors.shutdown();
-            while(!executors.isTerminated());
-            LOG.info("Time Taken by concurrent compiling :: "+(System.currentTimeMillis()-start) + " ms ");
-        
+            while (!executors.isTerminated())
+                ;
+            LOG.info("Time Taken by concurrent compiling :: " + (System.currentTimeMillis() - start) + " ms ");
+
         } else {
             long start = System.currentTimeMillis();
             for (File source : options.getSourceFiles()) {
@@ -69,8 +71,10 @@ public class DecacMain {
                     error = true;
                 }
             }
-            LOG.info("Time Taken by normal compiling :: "+(System.currentTimeMillis()-start) + " ms ");
-        } 
+            if (!error) {
+                LOG.info("Time Taken by normal compiling :: " + (System.currentTimeMillis() - start) + " ms ");
+            }
+        }
 
         System.exit(error ? 1 : 0);
     }

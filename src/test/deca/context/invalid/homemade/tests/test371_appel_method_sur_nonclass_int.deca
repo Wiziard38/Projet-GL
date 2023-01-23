@@ -1,0 +1,19 @@
+// test invalide de la règle 3.71
+
+
+class A{
+
+    int x = 8;
+    void calcul(int valeur){
+        this.x = this.x + 2;
+    }
+    
+    
+}
+
+
+{
+    int v;
+    A a = new A();
+    v.calcul(3);
+}

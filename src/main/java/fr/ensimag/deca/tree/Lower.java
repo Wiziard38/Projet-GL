@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ExpDefinition;
 
 /**
  *
@@ -18,4 +20,10 @@ public class Lower extends AbstractOpIneq {
         return "<";
     }
 
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

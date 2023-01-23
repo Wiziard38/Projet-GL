@@ -6,13 +6,19 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLEA;
+import fr.ensimag.superInstructions.SuperLOAD;
 
 /*
  * Selection of a field
@@ -23,6 +29,9 @@ public class Selection extends AbstractLValue {
     private AbstractExpr expr;
     private AbstractIdentifier name;
 
+    public ExpDefinition getExpDefinition() {
+        return (FieldDefinition)this.name.getFieldDefinition();
+    }
     public AbstractIdentifier getName() {
         return name;
     }
@@ -42,11 +51,17 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
+    public Type verifyLValue(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+        return this.verifyExpr(compiler, localEnv, currentClass);
+    }
+
+    @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
         ClassType selectClass = this.expr.verifyExpr(compiler, localEnv, currentClass)
-                .asClassType("La sélection doit se faire sur une classe", 
+                .asClassType("La sélection doit se faire sur une class", 
                 this.getLocation()); // Rule 3.65 // Rule 3.66
 
         FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().
@@ -54,15 +69,18 @@ public class Selection extends AbstractLValue {
                 this.name.getName()), this.getLocation()); // Rule 3.70
                 
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
+            this.setType(fieldDef.getType());
             return fieldDef.getType();
         }
-        if (selectClass.isSubClassOf(currentClass.getType())) {
-            if (currentClass.getType().isSubClassOf(fieldDef.getContainingClass().getType())) {
+
+
+        if (selectClass.subType(currentClass.getType())) {
+            if (currentClass.getType().subType(fieldDef.getContainingClass().getType())) {
                 this.setType(fieldDef.getType());
                 return fieldDef.getType();
             }
         }
-        throw new ContextualError(String.format("Le champ '%s' ne peut être accédé localement !",
+        throw new ContextualError(String.format("Le champ '%s' ne peut être accédé localement",
                 this.name), this.getLocation()); // Rule 3.66
     }
 
@@ -78,4 +96,23 @@ public class Selection extends AbstractLValue {
         this.name.iter(f);
     }
 
+    @Override
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
+        int nActual = compiler.getN() + 1;
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
+        expr.codeGenInst(compiler, nameBloc);
+        Identifier fieldName = (Identifier)this.name;
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        compiler.setN(nActual);
+    }
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        int nActual = compiler.getN() + 1;
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
+        expr.codeGenInst(compiler, nameBloc);
+        Identifier fieldName = (Identifier)this.name;
+        compiler.addInstruction(SuperLEA.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        compiler.setN(nActual);
+        
+    }
 }

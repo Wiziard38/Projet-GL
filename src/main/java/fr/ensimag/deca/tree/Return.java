@@ -13,6 +13,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperRTS;
 
 /*
  * Return keyword
@@ -36,8 +37,8 @@ public class Return extends AbstractInst {
             ClassDefinition currentClass, Type returnType) throws ContextualError {
         // On verifie si le type de retour n'est pas void
         if (returnType.isVoid()) {
-            throw new ContextualError("'Return' ne peut pas être appelé pour une fonction donc le type de retour est void",
-                    this.getLocation()); // Rule 
+            throw new ContextualError("Le type void ne peut pas etre affecté pour un return de méthode",
+                    this.getLocation()); // Rule 3.24
         }
         // On set si jamais y'a un ConvFloat a ajouter
         this.setExpression(this.expr.verifyRValue(compiler, localEnv, currentClass, returnType));
@@ -48,7 +49,7 @@ public class Return extends AbstractInst {
         int nActual = compiler.getN() + 1;
         expr.codeGenInst(compiler, name);
         compiler.addInstruction(SuperLOAD.main(Register.getR(nActual),Register.R0, compiler.compileInArm()));
-        
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 
     @Override

@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperCMP;
@@ -25,20 +26,20 @@ public class And extends AbstractOpBool {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         Label labelOneFalse = new Label(
                 "OneFalseAnd" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label(
                 "FinCompAnd" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         int nActualLeft;
         if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
-            BlocInProg.getBlock(name).incrnbPlacePileNeeded();
-            BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+            BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
+            BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(compiler.getN() - 1);
             nActualLeft = compiler.getN() + 1;
-            this.getLeftOperand().codeGenInst(compiler, name);
+            this.getLeftOperand().codeGenInst(compiler, nameBloc);
             compiler.addInstruction(
                     SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
             compiler.addInstruction(SuperBNE.main(labelOneFalse, compiler.compileInArm()));
@@ -46,7 +47,7 @@ public class And extends AbstractOpBool {
             compiler.setSP(compiler.getSP() + 1);
             compiler.setN(compiler.getN() - 1);
             int nActualRight = compiler.getN() + 1;
-            this.getRightOperand().codeGenInst(compiler, name);
+            this.getRightOperand().codeGenInst(compiler, nameBloc);
             compiler.addInstruction(
                     SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
             compiler.addInstruction(SuperBNE.main(labelOneFalse, compiler.compileInArm()));
@@ -55,17 +56,17 @@ public class And extends AbstractOpBool {
             compiler.setSP(compiler.getSP() - 1);
         } else {
             nActualLeft = compiler.getN() + 1;
-            this.getLeftOperand().codeGenInst(compiler, name);
+            this.getLeftOperand().codeGenInst(compiler, nameBloc);
             compiler.addInstruction(
                     SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualLeft), compiler.compileInArm()));
             compiler.addInstruction(SuperBNE.main(labelOneFalse, compiler.compileInArm()));
             if (compiler.getN() >= compiler.getCompilerOptions().getnumberRegisters()) {
                 compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN()), compiler.compileInArm()));
-                BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+                BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
                 compiler.setSP(compiler.getSP() + 1);
                 compiler.setN(compiler.getN() - 1);
                 int nActualRight = compiler.getN() + 1;
-                this.getRightOperand().codeGenInst(compiler, name);
+                this.getRightOperand().codeGenInst(compiler, nameBloc);
                 compiler.addInstruction(
                         SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
                 compiler.addInstruction(SuperBNE.main(labelOneFalse, compiler.compileInArm()));
@@ -74,7 +75,7 @@ public class And extends AbstractOpBool {
                 compiler.addInstruction(SuperPOP.main(Register.getR(0), compiler.compileInArm()));
             } else {
                 int nActualRight = compiler.getN() + 1;
-                this.getRightOperand().codeGenInst(compiler, name);
+                this.getRightOperand().codeGenInst(compiler, nameBloc);
                 compiler.addInstruction(
                         SuperCMP.main(new ImmediateInteger(1), Register.getR(nActualRight), compiler.compileInArm()));
                 compiler.addInstruction(SuperBNE.main(labelOneFalse, compiler.compileInArm()));
@@ -92,5 +93,12 @@ public class And extends AbstractOpBool {
     protected String getOperatorName() {
         return "&&";
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 
 }

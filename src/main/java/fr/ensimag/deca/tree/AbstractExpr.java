@@ -2,9 +2,11 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.ImmediateFloat;
 import fr.ensimag.pseudocode.ImmediateInteger;
@@ -86,8 +88,8 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass,
             Type expectedType)
             throws ContextualError {
-        // LOG.debug("Verify RValue - begin");
         Type exprType = this.verifyExpr(compiler, localEnv, currentClass);
+        LOG.debug(exprType);
 
         // Vérification de assign_compatible
         if (expectedType.isFloat() && exprType.isInt()) {
@@ -96,22 +98,12 @@ public abstract class AbstractExpr extends AbstractInst {
             return newTreeNode;
         }
 
-        if (expectedType.sameType(exprType)) {
+        if (exprType.subType(expectedType)) {
             return this;
         }
-        // LOG.debug("Verify RValue - not same type");
-
-        if (exprType.isClass() && expectedType.isClass()) {
-            LOG.debug("Verify RValue - not classes type");
-
-            if (exprType.asClassType(null, null).isSubClassOf(expectedType.asClassType(
-                    null, null))) {
-                return this;
-
-            }
-        }
-        throw new ContextualError(String.format("'%s' is not of type %s",
-                this.decompile(), expectedType.toString()), this.getLocation()); // Rule 3.28
+        
+        throw new ContextualError(String.format("Cette expression devrait être de type '%s'",
+                expectedType.toString()), this.getLocation()); // Rule 3.28
     }
 
 
@@ -147,19 +139,15 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
+        int nActual = compiler.getN() + 1;
+        this.codeGenInst(compiler, name);
         if (this.getType().isInt()) {
-            compiler.setN(compiler.getN() + 1);
-            IntLiteral intExpr = (IntLiteral) this;
-            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()), Register.getR(1),
-                    compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
             compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         }
         if (this.getType().isFloat()) {
-            compiler.setN(compiler.getN() + 1);
-            FloatLiteral intExpr = (FloatLiteral) this;
-            compiler.addInstruction(
-                    SuperLOAD.main(new ImmediateFloat(intExpr.getValue()), Register.getR(1), compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
             if (!printHex) {
                 compiler.addInstruction(SuperWFLOAT.main(compiler.compileInArm()));
             } else {
@@ -169,9 +157,9 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
-
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         compiler.setN(compiler.getN() + 1);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         if (this.getType().sameType(compiler.environmentType.INT)) {
             IntLiteral intExpr = (IntLiteral) this;
             compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()),
@@ -210,4 +198,12 @@ public abstract class AbstractExpr extends AbstractInst {
             s.println();
         }
     }
+
+    @Override
+    protected void checkDecoration() {
+        LOG.debug(this.getLocation().toString());
+        Validate.notNull(this.getType());
+    }
+    public abstract void codeGenVarAddr(DecacCompiler compiler, String nameBloc);
+
 }

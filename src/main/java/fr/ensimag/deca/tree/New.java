@@ -2,9 +2,11 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -41,7 +43,7 @@ public class New extends AbstractExpr {
             throws ContextualError {
 
         TypeDefinition exprType = compiler.environmentType.defOfType(this.name.getName());
-        if (!exprType.isClass()) {
+        if (exprType == null || !exprType.isClass()) {
             throw new ContextualError("'New' ne peut etre affecté que pour une class",
                     this.getLocation()); // Rule 3.42
         }
@@ -64,9 +66,10 @@ public class New extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name){
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc){
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(SuperNEW.main(compiler.environmentType.getClass(this.name.getName()).getNumberOfFields() + 1, Register.getR(nActual), compiler.compileInArm()));
         int nAdrr = compiler.getN() + 1;
         compiler.setN(nAdrr);
@@ -74,8 +77,13 @@ public class New extends AbstractExpr {
         compiler.addInstruction(SuperSTORE.main(Register.getR(nAdrr), new RegisterOffset(0, Register.getR(nActual)), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
         compiler.setN(nActual);
-        compiler.addInstruction(SuperBSR.main(new Label("init." + this.name.getName().getName()), compiler.compileInArm()));
+        compiler.addInstruction(SuperBSR.main(new Label("init." + this.name.getName().getName() + this.name.getClassDefinition().getLocation().getLine() + this.name.getClassDefinition().getLocation().getPositionInLine()), compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(nActual), compiler.compileInArm()));
+    }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 }

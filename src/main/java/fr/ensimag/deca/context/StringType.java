@@ -1,8 +1,6 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
-import fr.ensimag.pseudocode.DVal;
 
 /**
  *
@@ -23,6 +21,11 @@ public class StringType extends Type {
     @Override
     public boolean sameType(Type otherType) {
         return otherType.isString();
+    }
+
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
     }
 
 }

@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 
 import org.apache.commons.lang.Validate;
 
@@ -35,7 +36,6 @@ public class UnaryMinus extends AbstractUnaryExpr {
         throw new ContextualError("Négation arithmétique sur un non-nombre", this.getLocation()); // Rule 3.37
     }
 
-
     @Override
     protected String getOperatorName() {
         return "-";
@@ -47,4 +47,9 @@ public class UnaryMinus extends AbstractUnaryExpr {
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

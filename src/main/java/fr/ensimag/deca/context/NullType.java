@@ -1,12 +1,10 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
-import fr.ensimag.pseudocode.DVal;
 
 /**
  *
- * @author Ensimag
+ * @author gl39
  * @date 01/01/2023
  */
 public class NullType extends Type {
@@ -30,5 +28,9 @@ public class NullType extends Type {
         return true;
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return otherType.isClassOrNull();
+    }
 
 }

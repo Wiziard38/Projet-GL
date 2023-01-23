@@ -1,0 +1,13 @@
+// test invalide de la règle instance of
+
+class A {
+    int x =8;
+    void calcul(){
+        this.x = 3;
+    }
+}
+
+{
+    A a = new A();
+    println(a.calcul() instanceof A);
+}

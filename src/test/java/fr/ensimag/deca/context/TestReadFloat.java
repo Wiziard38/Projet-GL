@@ -8,7 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockitoAnnotations;
 
 /**
- * Test for the ReadFloat node using mockito, using @Mock and @Before annotations.
+ * Test for the ReadFloat node using mockito, using @Mock and @Before
+ * annotations.
  *
  * @author Mathis
  * @date 09/01/2023
@@ -16,10 +17,10 @@ import org.mockito.MockitoAnnotations;
 public class TestReadFloat {
 
     DecacCompiler compiler;
-    
+
     @BeforeEach
     public void setup() throws ContextualError {
-        //MockitoAnnotations.initMocks(this);
+        // MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
         compiler = new DecacCompiler(null, null, false);
     }

@@ -1,0 +1,1 @@
+'This' ne peut être appelé en dehors d'une class

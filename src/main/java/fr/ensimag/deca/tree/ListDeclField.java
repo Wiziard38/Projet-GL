@@ -19,19 +19,23 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     }
 
     /**
-     * TODO
-     */    
-    public void verifyListDeclFieldMembers(DecacCompiler compiler, ClassDefinition currentClassDef, AbstractIdentifier superClass)
+     * Pass 2 of [SyntaxeContextuelle]. Verify that the class fields are OK, without looking at field initialization.
+     */
+    public void verifyListDeclFieldMembers(DecacCompiler compiler, ClassDefinition currentClassDef,
+            AbstractIdentifier superClass)
             throws ContextualError {
 
         for (AbstractDeclField myDeclField : this.getList()) {
-            myDeclField.verifyEnvField(compiler, currentClassDef, superClass);
+            myDeclField.verifyEnvField(compiler, currentClassDef);
         }
     }
 
+    /**
+     * Pass 3 of [SyntaxeContextuelle]. Verify that the class fields are OK, includes looking at field initialization.
+     */
     public void verifyListDeclFieldBody(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {
-        
+
         for (AbstractDeclField myDeclField : this.getList()) {
             myDeclField.verifyInitField(compiler, currentClassDef);
         }

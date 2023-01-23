@@ -9,9 +9,11 @@ import fr.ensimag.deca.tree.Location;
  * @date 01/01/2023
  */
 public class ParamDefinition extends ExpDefinition {
+    private int index;
 
-    public ParamDefinition(Type type, Location location) {
+    public ParamDefinition(Type type, Location location, int index) {
         super(type, location);
+        this.index = index;
     }
 
     @Override
@@ -27,6 +29,10 @@ public class ParamDefinition extends ExpDefinition {
     @Override
     public boolean isParam() {
         return true;
+    }
+
+    public int getIndex() {
+        return this.index;
     }
 
 }

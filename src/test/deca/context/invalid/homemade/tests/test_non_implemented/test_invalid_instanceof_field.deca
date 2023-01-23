@@ -1,0 +1,10 @@
+// test invalide de la règle instance of
+
+class A {
+    int x =8;
+}
+
+{
+    A a = new A();
+    println(a.x instanceof A);
+}

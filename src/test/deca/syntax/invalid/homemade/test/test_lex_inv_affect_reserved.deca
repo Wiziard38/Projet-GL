@@ -1,0 +1,4 @@
+// Test en remplacant identifier par un mot resevé
+{
+    int print = 10;
+}

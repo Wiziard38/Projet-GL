@@ -5,6 +5,7 @@ import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.superInstructions.SuperTSTO;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -43,14 +44,44 @@ public class Main extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
-        //Déclaration des variables
+        // Déclaration des variables
         BlocInProg.addBloc("main", compiler.getLastLineIndex(), 0, 0);
         this.declVariables.codeGenListVar(compiler, "main");
-        //Instructions du programme principal
+        compiler.addIndexLine(BlocInProg.getBlock("main").getLineStart(),
+                SuperTSTO.main(BlocInProg.getBlock("main").getnbPlacePileNeeded(), compiler.compileInArm()));
+        // Instructions du programme principal
         compiler.addComment("Beginning of main instructions:");
         insts.codeGenListInst(compiler, "main");
-        //Début des gestions des erreurs
+        // Début des gestions des erreurs
         compiler.addComment("End of the main program");
+        // compiler.addLabel(compiler.getErreurPile());
+        // compiler.addInstruction(
+        // SuperWSTR.main("Erreur de débordement de pile dans le programme",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurOverflow());
+        // compiler.addInstruction(
+        // SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurinOut());
+        // compiler.addInstruction(SuperWSTR.main("Erreur lors d'une entrée/sortie",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addLabel(compiler.getErreurArrondi());
+        // compiler.addInstruction(
+        // SuperWSTR.main("Erreur lors d'une opération arithmétique sur des flottant,
+        // arrondi vers 0 ou l'infini",
+        // compiler.compileInArm()));
+        // compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
+        // compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
+        // compiler.addInstructionFirst(SuperBOV.main(compiler.getErreurPile(),
+        // compiler.compileInArm()));
+        // compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(),
+        // compiler.compileInArm()));
     }
 
     @Override

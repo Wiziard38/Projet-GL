@@ -1,14 +1,11 @@
 package fr.ensimag.deca.context;
-
-import fr.ensimag.deca.tree.AbstractDeclMethod;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.pseudocode.DAddr;
-import fr.ensimag.pseudocode.Label;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Definition of a class.
@@ -17,7 +14,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2023
  */
 public class ClassDefinition extends TypeDefinition {
-
+    private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
     private DAddr operand;
 
     public DAddr getOperand(){
@@ -76,17 +73,34 @@ public class ClassDefinition extends TypeDefinition {
     private final EnvironmentExp members;
     private final ClassDefinition superClass; 
 
+    public MethodDefinition getMethod(int index) {
+        Validate.isTrue(index <= numberOfMethods);
+        Validate.isTrue(index >= 1);
+        Iterator<ExpDefinition> exps = members.getLocalEnv().values().iterator();
+        while (exps.hasNext()) {
+            ExpDefinition exp = exps.next();
+            if (exp.isMethod()) {
+                if (((MethodDefinition)exp).getIndex() == index) {
+                    return (MethodDefinition)exp;
+                }
+            }
+        }
+        return superClass.getMethod(index);
+    }
+
     public EnvironmentExp getMembers() {
         return members;
     }
+
+    // public EnvironmentExp getMembersFamily() {
+        
+    // }
 
     public ClassDefinition(ClassType type, Location location, ClassDefinition superClass) {
         super(type, location);
         EnvironmentExp parent = null;
         if (superClass != null) {
             parent = superClass.getMembers();
-            this.setNumberOfFields(superClass.getNumberOfFields());
-            this.setNumberOfMethods(superClass.getNumberOfMethods());
         }
         members = new EnvironmentExp(parent);
         this.superClass = superClass;

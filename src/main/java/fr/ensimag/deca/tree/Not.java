@@ -8,6 +8,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 
 /**
  *
@@ -41,4 +42,11 @@ public class Not extends AbstractUnaryExpr {
         Validate.isTrue(this.getOperand().getType().isBoolean());
         Validate.isTrue(this.getType().sameType(this.getOperand().getType()));
     }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

@@ -1,5 +1,8 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ExpDefinition;
+
 /**
  *
  * @author gl39
@@ -14,6 +17,12 @@ public class Greater extends AbstractOpIneq {
     @Override
     protected String getOperatorName() {
         return ">";
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

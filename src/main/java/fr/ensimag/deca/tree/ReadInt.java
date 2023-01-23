@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperBOV;
@@ -31,8 +32,9 @@ public class ReadInt extends AbstractReadExpr {
     protected void codeGenInst(DecacCompiler compiler, String name) {
         compiler.addInstruction(SuperRINT.main(compiler.compileInArm()));
         int nActual = compiler.getN() + 1;
-        compiler.addInstruction(SuperLOAD.main(Register.getR(1), Register.getR(nActual), compiler.compileInArm()));
         compiler.addInstruction(SuperBOV.main(compiler.getErreurinOut(), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(Register.R1, Register.getR(nActual), compiler.compileInArm()));
+        compiler.setN(nActual);
     }
 
     @Override
@@ -48,6 +50,12 @@ public class ReadInt extends AbstractReadExpr {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -2,14 +2,20 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperSTORE;
 
 import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.FieldDefinition;
+import fr.ensimag.deca.context.ParamDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 
 /**
@@ -33,20 +39,39 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, String name) {
+    protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
+        
         int nActualRight = compiler.getN() + 1;
-        getRightOperand().codeGenInst(compiler, name);
-        VariableDefinition varDef = ((AbstractIdentifier) getLeftOperand()).getVariableDefinition();
-        compiler.addInstruction(
+        getRightOperand().codeGenInst(compiler, nameBloc);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualRight);
+        
+        ExpDefinition varDef = getLeftOperand().getExpDefinition();
+        if (varDef.isField()) {
+            int nActualLeft = compiler.getN() + 1;
+            this.getLeftOperand().codeGenVarAddr(compiler, nameBloc);
+            BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualLeft);
+            FieldDefinition fieldDef = (FieldDefinition) varDef;
+            LOG.debug(fieldDef);
+            //compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActualAddr), compiler.compileInArm()));
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight), new RegisterOffset(0, Register.getR(nActualLeft)), compiler.compileInArm()));
+        }
+        else if (varDef.isParam()) {
+            int nActualAddr = compiler.getN() + 1;
+            ParamDefinition defParam = (ParamDefinition) varDef;
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight), new RegisterOffset(-defParam.getIndex() - 2, Register.LB), compiler.compileInArm()));
+        }
+        else {
+            compiler.addInstruction(
                 SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
-        compiler.setN(nActualRight - 1);
+            compiler.setN(nActualRight - 1);
+        }
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
 
-        Type requestedType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type requestedType = this.getLeftOperand().verifyLValue(compiler, localEnv, currentClass);
 
         // On set si jamais il y a un CovnFloat a appliquer
         this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, requestedType));
@@ -58,6 +83,12 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     protected String getOperatorName() {
         return "=";
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

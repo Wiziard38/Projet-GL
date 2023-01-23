@@ -5,6 +5,9 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.codegen.VariableAddr;
+import fr.ensimag.deca.codegen.VariableAddr.VarInClass;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.FieldDefinition;
@@ -36,21 +39,30 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
-            AbstractIdentifier superClass) throws ContextualError {
+    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef) 
+            throws ContextualError {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
 
-        FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
-                currentClassDef, currentClassDef.getNumberOfFields() + 1);
+        if (currentClassDef.getMembers().get(this.name.getName()) != null && 
+                !currentClassDef.getMembers().get(this.name.getName()).isField()) {
+            
+            throw new ContextualError(String.format("Le champ '%s' est déjà défini dans une class mère en tant que méthode",
+                    this.name), this.getLocation()); // Rule 2.5
+        } else {
+            currentClassDef.incNumberOfFields();
+        }
 
+        FieldDefinition currentField = new FieldDefinition(fieldType, getLocation(), visibility,
+                currentClassDef, currentClassDef.getNumberOfFields());
+        
         try {
             currentClassDef.getMembers().declare(this.name.getName(), currentField);
         } catch (DoubleDefException e) {
-            throw new ContextualError(String.format("Champ '%s' deja declare localement",
+            throw new ContextualError(String.format("Le champ '%s' est deja déclaré localement",
                     this.name), this.getLocation()); // Rule 2.4
         }
-        currentClassDef.incNumberOfFields();
+
         this.name.setDefinition(currentField);
     }
 
@@ -98,12 +110,13 @@ public class DeclField extends AbstractDeclField {
         initialization.iter(f);
     }
 
-    protected void codeGenDeclFiedl(DecacCompiler compiler, String name){
+    protected void codeGenDeclFiedl(DecacCompiler compiler, String nameBloc){
         FieldDefinition defField = (FieldDefinition)this.name.getDefinition();
         int nActual = compiler.getN() + 1;
-        initialization.codeGenInst(compiler, this.name.getDefinition(), name);
+        initialization.codeGenInst(compiler, this.name.getDefinition(), nameBloc);
         int nThis = compiler.getN() + 1;
         compiler.setN(nThis);
+        BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
         compiler.addInstruction(SuperSTORE.main(Register.getR(nActual), new RegisterOffset(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
         compiler.setN(nActual - 1);

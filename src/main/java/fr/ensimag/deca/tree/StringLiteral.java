@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.superInstructions.SuperWSTR;
 import java.io.PrintStream;
@@ -42,7 +43,7 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         compiler.addInstruction(SuperWSTR.main(this.value, compiler.compileInArm()));
     }
 
@@ -66,6 +67,12 @@ public class StringLiteral extends AbstractStringLiteral {
     @Override
     String prettyPrintNode() {
         return String.format("StringLiteral (%s)", this.value);
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

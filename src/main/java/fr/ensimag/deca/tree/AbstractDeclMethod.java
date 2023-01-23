@@ -10,22 +10,31 @@ import fr.ensimag.deca.context.ContextualError;
 public abstract class AbstractDeclMethod extends Tree {
 
     /**
-     * TODO
+     * Verify the method declaration for contextual error.
+     * 
+     * implements non-terminals "decl_method"
+     * of [SyntaxeContextuelle] in pass 2
      * @param compiler
-     * @param currentClass
-     * @param superClass
-     * @throws ContextualError
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_type" attribute)
+     * @param currentClassDef
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_exp" attribute)
      */
-    public abstract void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef, 
+    public abstract void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError;
-          
-    
+
     /**
-     * TODO
+     * Verify the method declaration for contextual error.
+     * 
+     * implements non-terminals "decl_method"
+     * of [SyntaxeContextuelle] in pass 3
      * @param compiler
-     * @param currentClass
-     * @param superClass
-     * @throws ContextualError
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_type" attribute)
+     * @param currentClassDef
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_exp" attribute)
      */
     public abstract void verifyBodyMethod(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError;

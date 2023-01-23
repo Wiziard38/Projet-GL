@@ -20,26 +20,22 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
     }
 
     /**
-     * TODO
-     */    
-    public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef, 
+     * Pass 2 of [SyntaxeContextuelle]. Verify that the class methods are OK, without looking at methods bodies.
+     */
+    public void verifyListDeclMethodMembers(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
-        
+
         for (AbstractDeclMethod myMethod : this.getList()) {
             myMethod.verifyEnvMethod(compiler, currentClassDef, superClass);
         }
     }
 
     /**
-     * TODO
-     * @param compiler
-     * @param currentClass
-     * @param superClass
-     * @throws ContextualError
+     * Pass 3 of [SyntaxeContextuelle]. Verify that the class methods are OK, includes looking at methods bodies.
      */
     public void verifyListDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {
-        
+
         for (AbstractDeclMethod myMethod : this.getList()) {
             myMethod.verifyBodyMethod(compiler, currentClassDef);
         }

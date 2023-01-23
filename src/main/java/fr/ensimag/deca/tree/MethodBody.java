@@ -10,6 +10,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.superInstructions.SuperRTS;
+import fr.ensimag.superInstructions.SuperSUBSP;
 
 /*
  * Method body when the body is traditional deca
@@ -59,9 +61,11 @@ public class MethodBody extends AbstractMethodBody {
 
     @Override
     protected void codeGenInstBody(DecacCompiler compiler, String name) {
-        this.variables.codeGenListVar(compiler, name);
+        this.variables.codeGenListVarMeth(compiler, name);
         this.instructions.codeGenListInst(compiler, name);
-        
+        compiler.addInstruction(SuperSUBSP.main(this.variables.size(), compiler.compileInArm()));
+        compiler.setSP(compiler.getSP() - this.variables.size());
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 
 }

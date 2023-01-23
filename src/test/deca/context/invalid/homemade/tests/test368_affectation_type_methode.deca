@@ -1,0 +1,16 @@
+// test invalide de la règle 3.68
+
+
+class A{
+
+    int x;
+    void calcul(){
+        this.x = x +2;
+    }
+
+    void calcul2(){
+        calcul = 2;
+    }
+}
+
+

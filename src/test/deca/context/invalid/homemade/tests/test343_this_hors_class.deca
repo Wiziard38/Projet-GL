@@ -1,0 +1,7 @@
+// test invalide de la règle 3.43
+
+
+{
+    int x;
+    this.x = x + 1; 
+}

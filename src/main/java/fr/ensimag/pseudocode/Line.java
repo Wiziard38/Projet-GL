@@ -17,6 +17,13 @@ public class Line extends AbstractLine {
         this.comment = comment;
     }
 
+    private boolean codeASM = false;
+
+    public Line(String textASM, boolean codeASM) {
+        this.comment = textASM;
+        this.codeASM = codeASM;
+    }
+
     public Line(Instruction instruction) {
         super();
         this.instruction = instruction;
@@ -44,30 +51,39 @@ public class Line extends AbstractLine {
             throw new IMAInternalError("Comment '" + s + "'contains carriage return character");
         }
     }
+
     private Instruction instruction;
     private String comment;
     private Label label;
 
+    void displayASM(PrintStream s) {
+        s.println(comment);
+    }
     @Override
     void display(PrintStream s) {
-        boolean tab = false;
-        if (label != null) {
-            s.print(label);
-            s.print(":");
-            tab = true;
+        if (codeASM) {
+            displayASM(s);
         }
-        if (instruction != null) {
-            s.print("\t");
-            instruction.display(s);
-            tab = true;
+        else {
+            boolean tab = false;
+            if (label != null) {
+                s.print(label);
+                s.print(":");
+                tab = true;
+            }
+            if (instruction != null) {
+                s.print("\t");
+                instruction.display(s);
+                tab = true;
+            }
+            if (comment != null) {
+                if (tab) {
+                    s.print("\t");
+                }
+                s.print(comment);
+            }
+            s.println();
         }
-        if (comment != null) {
-            if (tab) {
-                            s.print("\t");
-                        }
-            s.print("; " + comment);
-        }
-        s.println();
     }
 
     public void setInstruction(Instruction instruction) {

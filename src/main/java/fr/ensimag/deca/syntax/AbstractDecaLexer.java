@@ -43,8 +43,8 @@ public abstract class AbstractDecaLexer extends Lexer {
         return decacCompiler;
     }
 
-    public void setDecacCompiler(DecacCompiler decacCompiler) {
-        this.decacCompiler = decacCompiler;
+    public void setDecacCompiler(DecacCompiler decacCompiler2) {
+        this.decacCompiler = decacCompiler2;
     }
 
     /**
@@ -213,7 +213,7 @@ public abstract class AbstractDecaLexer extends Lexer {
         }
         for (IncludeSaveStruct s : includes) {
             if (newInput.getSourceName().equals(s.input.getSourceName())) {
-                throw new CircularInclude(name, this, this.getInputStream());
+                throw new CircularInclude(this.source.getName(), this, this.getInputStream());
             }
         }
         IncludeSaveStruct ss = new IncludeSaveStruct(getInputStream(),

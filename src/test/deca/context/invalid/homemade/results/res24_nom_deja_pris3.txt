@@ -1,0 +1,1 @@
+Le nom 'float' est deja un nom de class ou de type

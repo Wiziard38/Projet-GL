@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
+import fr.ensimag.deca.codegen.VariableAddr;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -36,13 +37,30 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
-    protected void codeGenVar(DecacCompiler compiler, String name) {
+    protected void codeGenVarMeth(DecacCompiler compiler, String nameBloc, int pos) {
+
         compiler.addComment(this.decompile());
-        BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+        BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
         int spActual = compiler.getSP() + 1;
         compiler.setSP(spActual);
         int nAct = compiler.getN() + 1;
+        initialization.codeGenInst(compiler, varName.getDefinition(), nameBloc);
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
+        VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
+        varDef.setOperand(new RegisterOffset(pos, Register.SP));
+        compiler.setN(nAct - 1);
+        compiler.addComment("");
+    }
+
+
+    protected void codeGenVar(DecacCompiler compiler, String name) {
+
+        compiler.addComment(this.decompile());
+        BlocInProg.getBlock(name).incrnbPlacePileNeeded();
+        int spActual = compiler.getSP() + 1;
+        int nAct = compiler.getN() + 1;
         initialization.codeGenInst(compiler, varName.getDefinition(), name);
+        compiler.setSP(spActual);
         compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
         varDef.setOperand(new RegisterOffset(spActual, Register.GB));
@@ -67,10 +85,8 @@ public class DeclVar extends AbstractDeclVar {
             this.varName.setDefinition(new VariableDefinition(initializationType, this.getLocation()));
             localEnv.declare(this.varName.getName(), this.varName.getExpDefinition());
         } catch (Exception DoubleDefException) {
-            throw new ContextualError(
-                    String.format("Le nom de variable '%s' est déjà déclaré dans l'environnement local",
-                            this.varName.getName().getName()),
-                    this.getLocation()); // Rule 3.17
+            throw new ContextualError(String.format("Le nom de variable '%s' est deja déclaré dans l'environnement",
+                    this.varName.getName()), this.getLocation()); // Rule 3.17
         }
 
         // LOG.debug("Verify Decl Var - initialization");

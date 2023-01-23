@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * write using a mock-up framework like Mockito.
  *
  * @see TestPlusPlain to see how the Mockito library can help writing this kind
- * of tests.
+ *      of tests.
  *
  * @author Ensimag
  * @date 01/01/2023
@@ -58,6 +58,12 @@ public class TestPlusWithoutMock {
          */
         public void checkProperUse() {
             assertTrue(hasBeenVerified, "verifyExpr has not been called");
+        }
+
+        @Override
+        public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+            // TODO Auto-generated method stub
+            
         }
     }
 

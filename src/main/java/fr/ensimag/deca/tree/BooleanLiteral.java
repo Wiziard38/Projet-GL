@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -32,7 +33,6 @@ public class BooleanLiteral extends AbstractExpr {
         return compiler.environmentType.BOOLEAN;
     }
 
-
     @Override
     public void decompile(IndentPrintStream s) {
         s.print(Boolean.toString(value));
@@ -51,6 +51,12 @@ public class BooleanLiteral extends AbstractExpr {
     @Override
     String prettyPrintNode() {
         return "BooleanLiteral (" + value + ")";
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

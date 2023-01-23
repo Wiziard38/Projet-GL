@@ -1,8 +1,6 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tools.SymbolTable;
-import fr.ensimag.pseudocode.DVal;
-import fr.ensimag.pseudocode.ImmediateInteger;
 
 /**
  *
@@ -25,5 +23,9 @@ public class IntType extends Type {
         return otherType.isInt();
     }
 
+    @Override
+    public boolean subType(Type otherType) {
+        return this.sameType(otherType);
+    }
 
 }

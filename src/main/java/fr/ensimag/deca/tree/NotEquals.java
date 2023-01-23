@@ -1,5 +1,8 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ExpDefinition;
+
 /**
  *
  * @author gl39
@@ -16,4 +19,9 @@ public class NotEquals extends AbstractOpExactCmp {
         return "!=";
     }
 
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

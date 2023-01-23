@@ -10,10 +10,19 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.ImmediateInteger;
+import fr.ensimag.pseudocode.Register;
+import fr.ensimag.pseudocode.RegisterOffset;
+import fr.ensimag.superInstructions.SuperBSR;
+import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperPOP;
+import fr.ensimag.superInstructions.SuperPUSH;
+import fr.ensimag.superInstructions.SuperSUBSP;
 
 /*
  * Call of a method function on an expression
@@ -28,15 +37,16 @@ public class MethodCall extends AbstractExpr {
     public MethodCall(AbstractExpr e, AbstractIdentifier name, ListExpr args) {
         Validate.notNull(e);
         Validate.notNull(name);
-        this.name = name;
         this.expr = e;
+        this.name = name;
         this.args = args;
     }
 
     public MethodCall(AbstractIdentifier name, ListExpr args) {
         Validate.notNull(name);
-        this.name = name;
         this.expr = null;
+        this.name = name;
+        this.args = args;
     }
 
     public ListExpr getArgs() {
@@ -47,18 +57,21 @@ public class MethodCall extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        LOG.debug(this.expr);
 
         ClassType callerClass;
         if (this.expr != null) {
             // On verifie que l'expr est de type class 
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
             if (!exprType.isClass()) {
-                throw new ContextualError(String.format("L'appel méthode sur '%s' doit se faire sur un Type class",
-                        this.name), this.getLocation()); // Rule 3.70
+                throw new ContextualError(String.format("L'appel méthode '%s' doit se faire sur une class",
+                        this.name), this.getLocation()); // Rule 3.71
             }
             callerClass = exprType.asClassType(null, null);
         } else {
+            if (currentClass == null) {
+                throw new ContextualError("L'appel méthode avec 'this.' implicite en dehors d'une class impossible",
+                        this.getLocation()); // Rule 3.71
+            }
             callerClass = currentClass.getType();
         }
 
@@ -73,6 +86,23 @@ public class MethodCall extends AbstractExpr {
         return methodDef.getType();
     }
 
+    /**
+     * Verify the expression for contextual error.
+     * 
+     * implements non-terminals "rvalue"
+     * of [SyntaxeContextuelle] in pass 3
+     *
+     * @param compiler
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_type" attribute)
+     * @param localEnv
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_exp" attribute)
+     * @param currentClass
+     *                     Environment in which the expression should be checked
+     *                     (corresponds to the "env_exp" attribute)
+     * @param sig           Corresponds to the signature of the method called
+     */
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {
         
@@ -89,7 +119,7 @@ public class MethodCall extends AbstractExpr {
 
         if (index != sig.size()) {
             throw new ContextualError("Le nombre de paramètres ne correspond pas",
-                    this.getLocation()); // Rule 3.74
+                    this.getLocation()); // Rule 3.73 // Rule 3.74
         }
     }
 
@@ -137,4 +167,34 @@ public class MethodCall extends AbstractExpr {
         }
     }
 
+    @Override
+    protected void codeGenInst(DecacCompiler compiler, String name) {
+        int nLeft = compiler.getN() + 1;
+        if (this.expr == null){
+            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nLeft), compiler.compileInArm()));
+        }
+        else {
+            this.expr.codeGenInst(compiler, name);
+        }
+        compiler.setN(nLeft);
+        for (AbstractExpr expr : args.getList()) {
+            int nActual = compiler.getN() + 1;
+            expr.codeGenInst(compiler, name);
+            compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
+            compiler.setSP(compiler.getSP() + 1);
+            compiler.setN(nActual - 1);
+        }
+        compiler.addInstruction(SuperPUSH.main(Register.getR(nLeft), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nLeft)), Register.getR(nLeft), compiler.compileInArm()));
+        compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nLeft)), compiler.compileInArm()));
+        compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(args.size() + 1), compiler.compileInArm()));
+        compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nLeft), compiler.compileInArm()));
+        compiler.setN(nLeft);
+    }
+
+    @Override
+    public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
+        // TODO Auto-generated method stub
+        
+    }
 }

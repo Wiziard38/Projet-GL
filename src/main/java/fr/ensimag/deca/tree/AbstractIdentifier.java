@@ -29,7 +29,6 @@ public abstract class AbstractIdentifier extends AbstractLValue {
         LOG.debug(this + this.getLocation().toString());
         Validate.notNull(this.getDefinition());
     }
-
     
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
@@ -39,7 +38,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a class definition.
+     *                            if the definition is not a class definition.
      */
     public abstract ClassDefinition getClassDefinition();
 
@@ -53,7 +52,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     public abstract FieldDefinition getFieldDefinition();
 
@@ -65,20 +64,21 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a method definition.
+     *                            if the definition is not a method definition.
      */
     public abstract MethodDefinition getMethodDefinition();
 
     public abstract SymbolTable.Symbol getName();
 
     /**
-     * Like {@link #getDefinition()}, but works only if the definition is a ExpDefinition.
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ExpDefinition.
      *
      * This method essentially performs a cast, but throws an explicit exception
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     public abstract ExpDefinition getExpDefinition();
 
@@ -90,17 +90,19 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *                            if the definition is not a field definition.
      */
     public abstract VariableDefinition getVariableDefinition();
 
     public abstract void setDefinition(Definition definition);
 
-
-
     /**
      * Implements non-terminal "type" of [SyntaxeContextuelle] in the 3 passes
-     * @param compiler contains "env_types" attribute
+     * 
+     * @param compiler  contains "env_types" attribute
+     * @param checkVoid if true, verifies that the returned type is not Void
+     * @param message   if checkVoid is true, specifies the message to be displayed if
+     *                  the Type is indeed Void
      * @return the type corresponding to this identifier
      *         (corresponds to the "type" attribute)
      */
@@ -108,7 +110,19 @@ public abstract class AbstractIdentifier extends AbstractLValue {
             String message) throws ContextualError;
 
     /**
-     * TODO
+     * Verify the ident declaration for contextual error.
+     * 
+     * implements non-terminals "ident"
+     * of [SyntaxeContextuelle] in pass 3
+     * @param compiler
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_type" attribute)
+     * @param localEnv
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_exp" attribute)
+     * @return              
+     *                      The Definition corresponding to this identifier
+     *                      (corresponds to the "definition" attribute)
      */
     public abstract Definition verifyDefinition(DecacCompiler compiler, EnvironmentExp localEnv)
             throws ContextualError;

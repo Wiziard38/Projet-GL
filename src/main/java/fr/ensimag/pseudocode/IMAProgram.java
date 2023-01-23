@@ -15,22 +15,6 @@ public class IMAProgram {
     private Label erreurPile = new Label("ErreurPile");
     private boolean ln = false;
 
-    public Label getErreurPile() {
-        return erreurPile;
-    }
-
-    private Label erreurOverflow = new Label("overflow_error");
-
-    public Label getErreurOverflow() {
-        return erreurOverflow;
-    }
-
-    private Label erreurInOut = new Label("io_error");
-
-    public Label getErreurinOut() {
-        return erreurInOut;
-    }
-
     public void addIndex(Instruction inst, int i) {
         lines.add(i, new Line(inst));
     }

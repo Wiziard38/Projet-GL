@@ -84,25 +84,46 @@ public class CompilerOptions {
                 case "-p": // parse
                     this.parsing = true;
                     if (this.verification || this.compileInARM) {
-                        throw new CLIException("Cannot use options '-p' and '-v' and '-arm' together");
+                        throw new CLIException("Cannot use options '-p' and '-v' together");
+                    }
+                    if (this.compileInARM) {
+                        throw new CLIException("Cannot use option '-arm' with '-p'");
                     }
                     break;
 
                 case "-v": // verification
                     this.verification = true;
                     if (this.parsing || this.compileInARM) {
-                        throw new CLIException("Cannot use options '-p' and '-v' and '-arm' together");
+                        throw new CLIException("Cannot use options '-p' and '-v' together");
+                    }
+                    if (this.compileInARM) {
+                        throw new CLIException("Cannot use option '-arm' with '-v'");
                     }
                     break;
 
                 case "-n": // no check
+                    if (this.compileInARM) {
+                        throw new CLIException("Cannot use option '-arm' with '-n'");
+                    }
                     this.check = true;
                     break;
 
                 case "-arm": // ARM
                     this.compileInARM = true;
-                    if (this.parsing || this.verification) {
-                        throw new CLIException("Cannot use options '-p' and '-v' and '-arm' together");
+                    if (this.check) {
+                        throw new CLIException("Cannot use option '-arm' with '-n'");
+                    }
+                    if (this.parsing) {
+                        throw new CLIException("Cannot use option '-arm' with '-p'");
+                    }
+                    if (this.verification) {
+                        throw new CLIException("Cannot use option '-arm' with '-v'");
+                    }
+                    if (this.parallel) {
+                        throw new CLIException("Cannot use option '-arm' with '-P'");
+                    }
+                    if (this.numberRegisters != 16) {
+                        throw new CLIException("Cannot use option '-arm' with '-r X'");
                     }
                     break;
 
@@ -111,10 +132,16 @@ public class CompilerOptions {
                     break;
 
                 case "-P": // parallele
+                    if (this.compileInARM) {
+                        throw new CLIException("Cannot use option '-arm' with '-P'");
+                    }
                     this.parallel = true;
                     break;
 
                 case "-r": // registers
+                    if (this.compileInARM) {
+                        throw new CLIException("Cannot use option '-arm' with '-r X'");
+                    }
                     index++;
                     int number;
                     try {
@@ -127,8 +154,6 @@ public class CompilerOptions {
                     }
                     numberRegisters = number;
                     break;
-
-                case "-w": // pas pour l'instant
 
                 default:
                     if (!arg.matches("(.)*.deca")) {
@@ -182,9 +207,8 @@ public class CompilerOptions {
     protected void displayUsage() {
         String usage = String.join(
                 System.getProperty("line.separator"),
-                "usage: decac [[-p | -v | -arm] [-n] [-r X] [-d]* [-P] <fichier deca>...]",
-                "             | [-b]");
-        // TODO add -w option ?
+                "usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] <fichier deca>...]",
+                "             | [-b] | [-arm] [-d]* <fichier deca>...");
         System.out.println(usage);
 
         String options = String.join(

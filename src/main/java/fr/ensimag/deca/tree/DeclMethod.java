@@ -115,7 +115,7 @@ public class DeclMethod extends AbstractDeclMethod {
         }
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);
-        current.setLabel(new Label(currentClassDef.getType().getName().getName() + "." + this.name.getName().getName() + currentClassDef.getLocation().getLine() + (this.getLocation().getPositionInLine()-4)));
+        current.setLabel(new Label(currentClassDef.getType().getName().getName() + currentClassDef.getLocation().getLine() + (currentClassDef.getLocation().getPositionInLine() + "." + this.name.getName().getName() + this.getLocation().getLine() + this.getLocation().getPositionInLine())));
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);
         } catch (DoubleDefException e) {

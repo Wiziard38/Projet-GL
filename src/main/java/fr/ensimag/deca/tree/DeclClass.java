@@ -128,7 +128,7 @@ public class DeclClass extends AbstractDeclClass {
         for (AbstractDeclMethod method : methods.getList()) {
             compiler.setN(1);
             LOG.debug("Nom de la méthode: " + method.getName().getName().getName());
-            blockName = this.name.getName().getName() + '.' + method.getName().getName() + this.getLocation().getLine() + this.getLocation().getPositionInLine();
+            blockName = this.name.getName().getName() + this.getLocation().getLine() + this.getLocation().getPositionInLine() + '.' + method.getName().getName() + method.getLocation().getLine() + method.getLocation().getPositionInLine();
             BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
             compiler.addLabel(new Label(blockName));
             method.codeGenCorpMethod(compiler, blockName);

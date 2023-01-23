@@ -6,7 +6,6 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperBNE;
@@ -48,12 +47,19 @@ public class IfThenElse extends AbstractInst {
         this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 
+    /**
+     * Genère le code d'un if, on genère le code pour vérifier la condition ensuite l'étiquette if et les instructions dedans et ensin
+     * l'étiquette else et les instructions dedans.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
         condition.codeGenInst(compiler, name);
         compiler.addInstruction(
-                SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
+                SuperCMP.main(1, Register.getR(nActual), compiler.compileInArm()));
         Label labelIf = new Label("If" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelElse = new Label("Else" + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         Label labelFin = new Label("Fin" + this.getLocation().getLine() + this.getLocation().getPositionInLine());

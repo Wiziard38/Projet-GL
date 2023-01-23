@@ -2,7 +2,6 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperCMP;
 import fr.ensimag.superInstructions.SuperFLOAT;
@@ -34,6 +33,12 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
         this.operand = operand;
     }
 
+    /**
+     * Géneration d'une instruction, on différencie grace à l'opérator name
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;
@@ -45,7 +50,7 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
                 break;
             case "!":
                 compiler.addInstruction(
-                        SuperCMP.main(new ImmediateInteger(1), Register.getR(nActual), compiler.compileInArm()));
+                        SuperCMP.main(1, Register.getR(nActual), compiler.compileInArm()));
                 compiler.addInstruction(SuperSNE.main(Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "-":

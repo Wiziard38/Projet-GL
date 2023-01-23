@@ -8,8 +8,6 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateFloat;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperLOAD;
 
@@ -32,6 +30,12 @@ public class NoInitialization extends AbstractInitialization {
         // throw new UnsupportedOperationException("not yet implemented");
     }
 
+    /**
+     * Genère le code d'une initialisation null, si ce sont des champs il faut les initier à une valeur particulière (0, false).
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, Definition def, String nameBloc) {
         int nActual = compiler.getN() + 1;
@@ -40,10 +44,10 @@ public class NoInitialization extends AbstractInitialization {
         if (def.getNature().equals("field")) {
             if (def.getType().isBoolean() || def.getType().isInt()) {
                 compiler.addInstruction(
-                        SuperLOAD.main(new ImmediateInteger(0), Register.getR(nActual), compiler.compileInArm()));
+                        SuperLOAD.main(0, Register.getR(nActual), compiler.compileInArm()));
             } else if (def.getType().isFloat()) {
                 compiler.addInstruction(
-                        SuperLOAD.main(new ImmediateFloat(0), Register.getR(nActual), compiler.compileInArm()));
+                        SuperLOAD.main(0, Register.getR(nActual), compiler.compileInArm()));
             }
         }
     }

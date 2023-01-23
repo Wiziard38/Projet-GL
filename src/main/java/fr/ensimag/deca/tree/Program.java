@@ -52,32 +52,39 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: end");
     }
 
+    /**
+     * Genère le code u programme. On fait deux passes sur les classes et une sur le programme principal.
+     * On ajoute aussi les erreurs à la fin
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
         if (!compiler.compileInArm()) {
             // Passe numéro 1 des classes déclaration des classes et méthodes
-        compiler.addComment("Class declaration");
-        classes.codeGenListClass(compiler);
+            compiler.addComment("Class declaration");
+            classes.codeGenListClass(compiler);
         }
-        
+
         // Passe sur le programme principal pour la génération de son code
         compiler.addComment("Main Program");
         main.codeGenMain(compiler);
         compiler.addInstruction(SuperHALT.main(compiler.compileInArm()));
         compiler.addComment("");
-        if (!compiler.compileInArm()) {
-            compiler.addComment("Method declaration");
-            classes.codeGenCorpMethod(compiler, "");
-            if (!compiler.getCompilerOptions().getCheck()){
-                compiler.addLabel(compiler.getErreurPile());
+        // if (!compiler.compileInArm()) {
+        compiler.addComment("Method declaration");
+        classes.codeGenCorpMethod(compiler, "");
+        if (!compiler.getCompilerOptions().getCheck()) {
+            compiler.addLabel(compiler.getErreurPile());
             compiler.addInstruction(
-                SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
+                    SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
             compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
             compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
             compiler.addComment("");
             compiler.addLabel(compiler.getErreurOverflow());
             compiler.addInstruction(
-                SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique", compiler.compileInArm()));
+                    SuperWSTR.main("Erreur 'overflow' pendant une opération arithmétique", compiler.compileInArm()));
             compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
             compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
             compiler.addComment("");
@@ -86,10 +93,9 @@ public class Program extends AbstractProgram {
             compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
             compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
             compiler.addComment("");
-            }
         }
-        
-        
+        // }
+
     }
 
     @Override

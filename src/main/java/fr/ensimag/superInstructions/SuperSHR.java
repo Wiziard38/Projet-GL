@@ -11,6 +11,7 @@ public class SuperSHR {
 
     public static Instruction main(GPRegister op, boolean arm) {
         if (arm) {
+            op = op.convertToArmRegister();
             return new fr.ensimag.arm.instructions.SHR(op);
         } else {
             return new fr.ensimag.ima.instructions.SHR(op);

@@ -10,17 +10,14 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperBSR;
 import fr.ensimag.superInstructions.SuperLOAD;
-import fr.ensimag.superInstructions.SuperPOP;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperSUBSP;
 
@@ -53,14 +50,13 @@ public class MethodCall extends AbstractExpr {
         return args;
     }
 
-
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
 
         ClassType callerClass;
         if (this.expr != null) {
-            // On verifie que l'expr est de type class 
+            // On verifie que l'expr est de type class
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
             if (!exprType.isClass()) {
                 throw new ContextualError(String.format("L'appel méthode '%s' doit se faire sur une class",
@@ -75,7 +71,7 @@ public class MethodCall extends AbstractExpr {
             callerClass = currentClass.getType();
         }
 
-        // On verifie que le ident est bien une méthode 
+        // On verifie que le ident est bien une méthode
         MethodDefinition methodDef = this.name.verifyDefinition(compiler, callerClass.getDefinition().getMembers())
                 .asMethodDefinition(String.format("'%s' n'est pas une méthode", this.name), getLocation()); // Rule 3.72
 
@@ -105,7 +101,7 @@ public class MethodCall extends AbstractExpr {
      */
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {
-        
+
         LOG.debug("Signature: " + sig);
         LOG.debug("Caller: " + this.args);
 
@@ -122,7 +118,6 @@ public class MethodCall extends AbstractExpr {
                     this.getLocation()); // Rule 3.73 // Rule 3.74
         }
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -167,13 +162,20 @@ public class MethodCall extends AbstractExpr {
         }
     }
 
+    /**
+     * Genère le code pour un appel de méthode
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nLeft = compiler.getN() + 1;
-        if (this.expr == null){
-            compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nLeft), compiler.compileInArm()));
-        }
-        else {
+        if (this.expr == null) {
+            compiler.addInstruction(
+                    SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()), Register.getR(nLeft),
+                            compiler.compileInArm()));
+        } else {
             this.expr.codeGenInst(compiler, name);
         }
         compiler.setN(nLeft);
@@ -185,9 +187,15 @@ public class MethodCall extends AbstractExpr {
             compiler.setN(nActual - 1);
         }
         compiler.addInstruction(SuperPUSH.main(Register.getR(nLeft), compiler.compileInArm()));
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0, Register.getR(nLeft)), Register.getR(nLeft), compiler.compileInArm()));
-        compiler.addInstruction(SuperBSR.main(new RegisterOffset(this.name.getMethodDefinition().getIndex(), Register.getR(nLeft)), compiler.compileInArm()));
-        compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(args.size() + 1), compiler.compileInArm()));
+        compiler.addInstruction(
+                SuperLOAD.main(SuperOffset.main(0, Register.getR(nLeft), compiler.compileInArm()), Register.getR(nLeft),
+                        compiler.compileInArm()));
+        compiler.addInstruction(
+                SuperBSR.main(
+                        SuperOffset.main(this.name.getMethodDefinition().getIndex(), Register.getR(nLeft),
+                                compiler.compileInArm()),
+                        compiler.compileInArm()));
+        compiler.addInstruction(SuperSUBSP.main(args.size() + 1, compiler.compileInArm()));
         compiler.addInstruction(SuperLOAD.main(Register.R0, Register.getR(nLeft), compiler.compileInArm()));
         compiler.setN(nLeft);
     }
@@ -195,6 +203,6 @@ public class MethodCall extends AbstractExpr {
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         // TODO Auto-generated method stub
-        
+
     }
 }

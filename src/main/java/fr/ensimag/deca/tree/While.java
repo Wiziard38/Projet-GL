@@ -6,7 +6,6 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperBNE;
@@ -40,6 +39,12 @@ public class While extends AbstractInst {
         this.body = body;
     }
 
+    /**
+     * Genère le code d'un while. on génere le code pour tester la conditions, ensuite les instructions et on boucle sur la condition.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         Label labelCondition = new Label(
@@ -50,7 +55,7 @@ public class While extends AbstractInst {
         compiler.addLabel(labelCondition);
         this.getCondition().codeGenInst(compiler, name);
         compiler.addInstruction(
-                SuperCMP.main(new ImmediateInteger(1), Register.getR(nCondition), compiler.compileInArm()));
+                SuperCMP.main(1, Register.getR(nCondition), compiler.compileInArm()));
         compiler.addInstruction(SuperBNE.main(labelFin, compiler.compileInArm()));
         compiler.setN(nCondition - 1);
         this.getBody().codeGenListInst(compiler, name);

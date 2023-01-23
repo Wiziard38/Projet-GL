@@ -38,10 +38,12 @@ do
     else
         ima "$input_dir/test/${nom%.deca}.ass" 2>&1 > actuel
         echo ""
+
         if ! diff -Z actuel "$input_dir/resultat/${nom%.deca}_resultat.txt"
         then
-            printf "\033[1A"
-            echo -e "${RED}Succes inattendu de compilation pour ${NC} $fichier"
+            # printf "\033[1A"
+            echo -e "${RED}Echec inattendu pour${NC} $fichier"
+            # echo -e "${RED}Echec inattendu de compilation pour ${NC} $fichier"
             # echo -n "Resultat attendu : "
             # $(cat "$input_dir/resultat/${nom%.deca}_resultat.txt")
             # echo -n "Resultat obtenu : "
@@ -52,8 +54,8 @@ do
             total_failed=$((total_failed+1))
         else
             total_valid=$((total_valid+1))
+            rm "$input_dir/test/${nom%.deca}.ass"
         fi
-        rm "$input_dir/test/${nom%.deca}.ass"
     fi
 
 

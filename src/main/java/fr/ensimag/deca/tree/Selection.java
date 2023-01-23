@@ -19,6 +19,7 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 
 /*
  * Selection of a field
@@ -30,8 +31,9 @@ public class Selection extends AbstractLValue {
     private AbstractIdentifier name;
 
     public ExpDefinition getExpDefinition() {
-        return (FieldDefinition)this.name.getFieldDefinition();
+        return (FieldDefinition) this.name.getFieldDefinition();
     }
+
     public AbstractIdentifier getName() {
         return name;
     }
@@ -61,18 +63,17 @@ public class Selection extends AbstractLValue {
             throws ContextualError {
 
         ClassType selectClass = this.expr.verifyExpr(compiler, localEnv, currentClass)
-                .asClassType("La sélection doit se faire sur une class", 
-                this.getLocation()); // Rule 3.65 // Rule 3.66
+                .asClassType("La sélection doit se faire sur une class",
+                        this.getLocation()); // Rule 3.65 // Rule 3.66
 
-        FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().
-                getMembers()).asFieldDefinition(String.format("'%s' n'est pas un champ de class",
-                this.name.getName()), this.getLocation()); // Rule 3.70
-                
+        FieldDefinition fieldDef = this.name.verifyDefinition(compiler, selectClass.getDefinition().getMembers())
+                .asFieldDefinition(String.format("'%s' n'est pas un champ de class",
+                        this.name.getName()), this.getLocation()); // Rule 3.70
+
         if (fieldDef.getVisibility() == Visibility.PUBLIC) {
             this.setType(fieldDef.getType());
             return fieldDef.getType();
         }
-
 
         if (selectClass.subType(currentClass.getType())) {
             if (currentClass.getType().subType(fieldDef.getContainingClass().getType())) {
@@ -96,23 +97,47 @@ public class Selection extends AbstractLValue {
         this.name.iter(f);
     }
 
+    /**
+     * Genère le code d'une séléction en dehors d'un assign, on accède à la valeur
+     * de la séléction et non pas l'adresse où est stocké
+     * la séléction.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name     le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
         expr.codeGenInst(compiler, nameBloc);
-        Identifier fieldName = (Identifier)this.name;
-        compiler.addInstruction(SuperLOAD.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        Identifier fieldName = (Identifier) this.name;
+        compiler.addInstruction(
+                SuperLOAD.main(
+                        SuperOffset.main(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual),
+                                compiler.compileInArm()),
+                        Register.getR(nActual), compiler.compileInArm()));
         compiler.setN(nActual);
     }
+
+    /**
+     * Genère le code d'une séléction où on retourne l'adresse mémoire, pour
+     * assigner dans celle-ci.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name     le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActual);
         expr.codeGenInst(compiler, nameBloc);
-        Identifier fieldName = (Identifier)this.name;
-        compiler.addInstruction(SuperLEA.main(new RegisterOffset(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+        Identifier fieldName = (Identifier) this.name;
+        compiler.addInstruction(
+                SuperLEA.main(
+                        SuperOffset.main(fieldName.getFieldDefinition().getIndex(), Register.getR(nActual),
+                                compiler.compileInArm()),
+                        Register.getR(nActual), compiler.compileInArm()));
         compiler.setN(nActual);
-        
+
     }
 }

@@ -1,11 +1,12 @@
 {
-    boolean x;
+    boolean x = true;
     boolean y;
-    int entree = readInt();
+    int entree = 53252;
     float testFloat = 1;
 
     int compteur = 0;
     while( compteur!= 10){
+        y = false;
         if(compteur == 2){
             x = true;
         }

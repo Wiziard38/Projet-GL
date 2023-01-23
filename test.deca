@@ -1,6 +1,0 @@
-#include "PrintInt.decah"
-
-{
-    int x = 8473700;
-    PrintInt.printX(x);
-}

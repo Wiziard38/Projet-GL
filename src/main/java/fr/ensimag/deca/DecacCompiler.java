@@ -94,13 +94,14 @@ public class DecacCompiler implements Runnable {
         this.compilerOptions = compilerOptions;
         this.source = source;
         compileInArm = arm;
+        program = new IMAProgram(compileInArm);
     }
 
     public int getLastLineIndex() {
         return program.getLastLineIndex();
     }
 
-    public void addIndexLine(int index, Instruction inst){
+    public void addIndexLine(int index, Instruction inst) {
         program.addIndex(inst, index);
     }
 
@@ -184,7 +185,7 @@ public class DecacCompiler implements Runnable {
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
-    private final IMAProgram program = new IMAProgram();
+    private final IMAProgram program;
 
     /** The global environment for types (and the symbolTable) */
     public final SymbolTable symbolTable = new SymbolTable();
@@ -199,9 +200,9 @@ public class DecacCompiler implements Runnable {
     }
 
     @Override
-        public void run() {
-            this.compile();
-        }
+    public void run() {
+        this.compile();
+    }
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -290,6 +291,10 @@ public class DecacCompiler implements Runnable {
         addComment("start main program");
         prog.codeGenProgram(this);
         if (compileInArm) {
+            program.writePrintLabel();
+            program.addFirst(new Line("mov R10, sp"));
+            program.addFirst(new Line("mov R11, sp"));
+            program.addFirst(new Line(""));
             program.addFirst(new Line("_start:"));
             program.addFirst(new Line(".global _start"));
             program.addFirst(new Line(".text"));

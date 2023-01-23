@@ -25,8 +25,11 @@ public class BSR extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        s.println("add " + fr.ensimag.pseudocode.Register.SP + ", " + fr.ensimag.pseudocode.Register.SP + ", #2");
-
+        s.println("add R13, R13, #8"); // SP <- V[SP] + 2
+        s.println("ldr [R13, #-4], [R15]"); // V[SP]-1 <- V[PC]
+        s.println("ldr [R13], [R10]"); // V[SP] <- V[LB]
+        s.println("ldr R10, [R13]"); // LB <- V[SP]
+        s.println("ldr R15, [" + op + "]"); // PC <- V[dval]
     }
 
 }

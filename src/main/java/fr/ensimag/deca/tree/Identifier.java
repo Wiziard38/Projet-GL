@@ -20,6 +20,7 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperWFLOAT;
 import fr.ensimag.superInstructions.SuperWFLOATX;
 import fr.ensimag.superInstructions.SuperWINT;
@@ -37,11 +38,18 @@ import org.apache.log4j.Logger;
 public class Identifier extends AbstractIdentifier {
     private static final Logger LOG = Logger.getLogger(Identifier.class);
 
+    /**
+     * Genère le code pour print un identifier.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param printHex bollean qui dit si il faut print en héxadécimale
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
-       int nActual = compiler.getN() + 1;
-       this.codeGenInst(compiler, name);
-       compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
+        int nActual = compiler.getN() + 1;
+        this.codeGenInst(compiler, name);
+        compiler.addInstruction(SuperLOAD.main(Register.getR(nActual), Register.R1, compiler.compileInArm()));
         if (this.getType().isInt()) {
             compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         } else {
@@ -54,9 +62,15 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
+    /**
+     * Genère le code d'un identifier hors d'un print
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
-        LOG.debug("nom du bloc: " +nameBloc);
+        LOG.debug("nom du bloc: " + nameBloc);
         int nActual = compiler.getN() + 1;
         compiler.setN(nActual);
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
@@ -68,12 +82,17 @@ public class Identifier extends AbstractIdentifier {
                 break;
             case "field":
                 FieldDefinition defField = (FieldDefinition) this.getDefinition();
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActual),compiler.compileInArm()));
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(defField.getIndex(), Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
+                        Register.getR(nActual), compiler.compileInArm()));
+                compiler.addInstruction(SuperLOAD.main(
+                        SuperOffset.main(defField.getIndex(), Register.getR(nActual), compiler.compileInArm()),
+                        Register.getR(nActual), compiler.compileInArm()));
                 break;
             case "parameter":
-                ParamDefinition defParam = (ParamDefinition)this.getDefinition();
-                compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-defParam.getIndex()-2, Register.LB), Register.getR(nActual), compiler.compileInArm()));
+                ParamDefinition defParam = (ParamDefinition) this.getDefinition();
+                compiler.addInstruction(
+                        SuperLOAD.main(SuperOffset.main(-defParam.getIndex() - 2, Register.LB, compiler.compileInArm()),
+                                Register.getR(nActual), compiler.compileInArm()));
         }
     }
 
@@ -311,10 +330,12 @@ public class Identifier extends AbstractIdentifier {
     public String toString() {
         return this.getName().toString();
     }
+
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         compiler.setN(compiler.getN() + 1);
-        compiler.addInstruction(SuperLEA.main(this.getExpDefinition().getOperand(), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
-        
+        compiler.addInstruction(SuperLEA.main(this.getExpDefinition().getOperand(), Register.getR(compiler.getN() + 1),
+                compiler.compileInArm()));
+
     }
 }

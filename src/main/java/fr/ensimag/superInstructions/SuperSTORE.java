@@ -12,6 +12,7 @@ public class SuperSTORE {
 
     public static Instruction main(Register op1, DAddr op2, boolean arm) {
         if (arm) {
+            op1 = op1.convertToArmRegister();
             return new fr.ensimag.arm.instructions.STR(op1, op2);
         } else {
             return new fr.ensimag.ima.instructions.STORE(op1, op2);

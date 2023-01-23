@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
+import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperSTORE;
 
 import org.apache.log4j.Logger;
@@ -38,13 +39,19 @@ public class Assign extends AbstractBinaryExpr {
         super(leftOperand, rightOperand);
     }
 
+    /**
+     * Genère le code d'une assignation.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
-        
+
         int nActualRight = compiler.getN() + 1;
         getRightOperand().codeGenInst(compiler, nameBloc);
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualRight);
-        
+
         ExpDefinition varDef = getLeftOperand().getExpDefinition();
         if (varDef.isField()) {
             int nActualLeft = compiler.getN() + 1;
@@ -52,17 +59,16 @@ public class Assign extends AbstractBinaryExpr {
             BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualLeft);
             FieldDefinition fieldDef = (FieldDefinition) varDef;
             LOG.debug(fieldDef);
-            //compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(nActualAddr), compiler.compileInArm()));
-            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight), new RegisterOffset(0, Register.getR(nActualLeft)), compiler.compileInArm()));
-        }
-        else if (varDef.isParam()) {
-            int nActualAddr = compiler.getN() + 1;
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
+                    new RegisterOffset(0, Register.getR(nActualLeft)), compiler.compileInArm()));
+        } else if (varDef.isParam()) {
             ParamDefinition defParam = (ParamDefinition) varDef;
-            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight), new RegisterOffset(-defParam.getIndex() - 2, Register.LB), compiler.compileInArm()));
-        }
-        else {
+            compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
+                    SuperOffset.main(-defParam.getIndex() - 2, Register.LB, compiler.compileInArm()),
+                    compiler.compileInArm()));
+        } else {
             compiler.addInstruction(
-                SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
+                    SuperSTORE.main(Register.getR(nActualRight), varDef.getOperand(), compiler.compileInArm()));
             compiler.setN(nActualRight - 1);
         }
     }
@@ -88,7 +94,7 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

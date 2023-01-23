@@ -6,10 +6,7 @@ import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.pseudocode.ImmediateFloat;
-import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperWINT;
 import fr.ensimag.superInstructions.SuperLOAD;
@@ -101,11 +98,10 @@ public abstract class AbstractExpr extends AbstractInst {
         if (exprType.subType(expectedType)) {
             return this;
         }
-        
+
         throw new ContextualError(String.format("Cette expression devrait être de type '%s'",
                 expectedType.toString()), this.getLocation()); // Rule 3.28
     }
-
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
@@ -137,7 +133,9 @@ public abstract class AbstractExpr extends AbstractInst {
     /**
      * Generate code to print the expression
      *
-     * @param compiler
+     * @param compiler compilateur ou ajouter les instructions
+     * @param printHex boolean pour savoir si il faut print ou non en héxadécimal
+     * @param name le nom du bloc ou on gènere le code assembleur
      */
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         int nActual = compiler.getN() + 1;
@@ -156,27 +154,33 @@ public abstract class AbstractExpr extends AbstractInst {
         }
     }
 
+    /**
+     * Generation du code pour une AbstractExpr dans le cas ou ce n'est pas dans un print mais dans une expression.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         compiler.setN(compiler.getN() + 1);
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         if (this.getType().sameType(compiler.environmentType.INT)) {
             IntLiteral intExpr = (IntLiteral) this;
-            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(intExpr.getValue()),
+            compiler.addInstruction(SuperLOAD.main(intExpr.getValue(),
                     Register.getR(compiler.getN()), compiler.compileInArm()));
         }
         if (this.getType().sameType(compiler.environmentType.FLOAT)) {
             FloatLiteral intExpr = (FloatLiteral) this;
-            compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(intExpr.getValue()),
+            compiler.addInstruction(SuperLOAD.main(intExpr.getValue(),
                     Register.getR(compiler.getN()), compiler.compileInArm()));
         }
         if (this.getType().sameType(compiler.environmentType.BOOLEAN)) {
             BooleanLiteral intExpr = (BooleanLiteral) this;
             if (intExpr.getValue()) {
-                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(1), Register.getR(compiler.getN()),
+                compiler.addInstruction(SuperLOAD.main(1, Register.getR(compiler.getN()),
                         compiler.compileInArm()));
             } else {
-                compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(compiler.getN()),
+                compiler.addInstruction(SuperLOAD.main(0, Register.getR(compiler.getN()),
                         compiler.compileInArm()));
             }
         }
@@ -204,6 +208,7 @@ public abstract class AbstractExpr extends AbstractInst {
         LOG.debug(this.getLocation().toString());
         Validate.notNull(this.getType());
     }
+
     public abstract void codeGenVarAddr(DecacCompiler compiler, String nameBloc);
 
 }

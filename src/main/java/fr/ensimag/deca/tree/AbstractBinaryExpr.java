@@ -72,6 +72,14 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+    /**
+    * Génère le code pour une expression binaire. il est factoriser dans cette classe et 
+    * donc la méthode finit sur un switch case sur le nom de l'opérateur pour ajouter l'instruction adéquate.
+    * On fait attention dans ce cas aux registres restant, s'il ne reste plus on push le dernier et on continue
+    * @param  compiler L'instance du compilateur ou rajouter le code assembleur
+    * @param  nameBloc Le nom du bloc actuel dans lequel on genère l'assembleur (bloc étant le main program ou une méthode)
+    * @return      void
+    */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActualLeft;
@@ -87,72 +95,74 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             compiler.setN(compiler.getN() - 1);
             int nActualRight = compiler.getN() + 1;
             this.getRightOperand().codeGenInst(compiler, nameBloc);
-           BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
+            BlocInProg.getBlock(nameBloc).incrnbPlacePileNeeded();
             compiler.setSP(compiler.getSP() + 1);
             compiler.addInstruction(SuperPUSH.main(Register.getR(nActualRight), compiler.compileInArm()));
             switch (getOperatorName()) {
                 case "+":
                     compiler.addInstruction(
-                            SuperADD.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperADD.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "-":
                     compiler.addInstruction(
-                            SuperSUB.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperSUB.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "/":
                     if (getLeftOperand().getType().isFloat()) {
-                        compiler.addInstruction(SuperDIV.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperDIV.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                     } else {
-                        compiler.addInstruction(SuperQUO.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperQUO.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                     }
                     break;
                 case "%":
                     compiler.addInstruction(
-                            SuperREM.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperREM.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "*":
                     compiler.addInstruction(
-                            SuperMUL.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperMUL.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "!=":
                     compiler.addInstruction(
-                            SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     compiler.addInstruction(SuperSNE.main(Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "==":
                     compiler.addInstruction(
-                            SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     compiler.addInstruction(SuperSEQ.main(Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case ">":
                     compiler.addInstruction(
-                            SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     compiler.addInstruction(SuperSGT.main(Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case ">=":
                     compiler.addInstruction(
-                            SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     compiler.addInstruction(SuperSGE.main(Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "<":
                     compiler.addInstruction(
-                            SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     compiler.addInstruction(SuperSLT.main(Register.getR(nActualRight), compiler.compileInArm()));
                     break;
                 case "<=":
                     compiler.addInstruction(
-                            SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                     compiler.addInstruction(SuperSLE.main(Register.getR(nActualRight), compiler.compileInArm()));
                     break;
@@ -174,62 +184,75 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 compiler.setSP(compiler.getSP() + 1);
                 compiler.addInstruction(SuperPUSH.main(Register.getR(nActualRight), compiler.compileInArm()));
                 compiler.addInstruction(
-                        SuperLOAD.main(new RegisterOffset(compiler.getSP() - 1, Register.GB),
+                        SuperLOAD.main(SuperOffset.main(compiler.getSP() - 1, Register.GB, compiler.compileInArm()),
                                 Register.getR(nActualRight), compiler.compileInArm()));
                 switch (getOperatorName()) {
                     case "+":
-                        compiler.addInstruction(SuperADD.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperADD.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "-":
-                        compiler.addInstruction(SuperSUB.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperSUB.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "/":
                         if (getLeftOperand().getType().isFloat()) {
-                            compiler.addInstruction(SuperDIV.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            compiler.addInstruction(SuperDIV.main(
+                                    SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                         } else {
-                            compiler.addInstruction(SuperQUO.main(new RegisterOffset(compiler.getSP(), Register.GB),
+                            compiler.addInstruction(SuperQUO.main(
+                                    SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                         }
+                        compiler.addInstruction(SuperBOV.main(compiler.getErreurOverflow(), compiler.compileInArm()));
                         break;
                     case "%":
-                        compiler.addInstruction(SuperREM.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperREM.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "*":
-                        compiler.addInstruction(SuperMUL.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperMUL.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "!=":
-                        compiler.addInstruction(SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         compiler.addInstruction(SuperSNE.main(Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "==":
-                        compiler.addInstruction(SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         compiler.addInstruction(SuperSEQ.main(Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case ">":
-                        compiler.addInstruction(SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         compiler.addInstruction(SuperSGT.main(Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case ">=":
-                        compiler.addInstruction(SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         compiler.addInstruction(SuperSGE.main(Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "<":
-                        compiler.addInstruction(SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         compiler.addInstruction(SuperSLT.main(Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                     case "<=":
-                        compiler.addInstruction(SuperCMP.main(new RegisterOffset(compiler.getSP(), Register.GB),
-                                Register.getR(nActualRight), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                SuperCMP.main(SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
+                                        Register.getR(nActualRight), compiler.compileInArm()));
                         compiler.addInstruction(SuperSLE.main(Register.getR(nActualRight), compiler.compileInArm()));
                         break;
                 }
@@ -257,6 +280,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                             compiler.addInstruction(SuperQUO.main(Register.getR(nActualRight),
                                     Register.getR(nActualLeft), compiler.compileInArm()));
                         }
+                        compiler.addInstruction(SuperBOV.main(compiler.getErreurOverflow(), compiler.compileInArm()));
                         break;
                     case "%":
                         compiler.addInstruction(SuperREM.main(Register.getR(nActualRight), Register.getR(nActualLeft),
@@ -311,12 +335,12 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         int nActualLeft = compiler.getN() + 1;
         this.codeGenInst(compiler, nameBloc);
         if (this.getType().isInt()) {
-            compiler.addInstruction(SuperLOAD.main(new ImmediateInteger(0), Register.getR(1), compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(0, Register.getR(1), compiler.compileInArm()));
             compiler.addInstruction(
                     SuperLOAD.main(Register.getR(nActualLeft), Register.getR(1), compiler.compileInArm()));
             compiler.addInstruction(SuperWINT.main(compiler.compileInArm()));
         } else {
-            compiler.addInstruction(SuperLOAD.main(new ImmediateFloat(0), Register.getR(1), compiler.compileInArm()));
+            compiler.addInstruction(SuperLOAD.main(0, Register.getR(1), compiler.compileInArm()));
             compiler.addInstruction(
                     SuperLOAD.main(Register.getR(nActualLeft), Register.getR(1), compiler.compileInArm()));
             compiler.addInstruction(SuperWFLOAT.main(compiler.compileInArm()));

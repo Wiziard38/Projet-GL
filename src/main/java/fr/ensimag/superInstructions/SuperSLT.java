@@ -12,6 +12,7 @@ public class SuperSLT {
 
     public static Instruction main(GPRegister op, boolean arm) {
         if (arm) {
+            op = op.convertToArmRegister();
             return new fr.ensimag.arm.instructions.SLT(op);
         } else {
             return new fr.ensimag.ima.instructions.SLT(op);

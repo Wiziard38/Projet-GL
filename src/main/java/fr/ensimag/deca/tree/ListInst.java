@@ -40,6 +40,13 @@ public class ListInst extends TreeList<AbstractInst> {
         }
     }
 
+
+    /**
+     * Genère le code d'une liste d'instructions
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     public void codeGenListInst(DecacCompiler compiler, String name) {
         for (AbstractInst i : getList()) {
             //compiler.addComment(i.decompile());;

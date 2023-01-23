@@ -12,7 +12,7 @@ public class SuperSUBSP {
 
     public static Instruction main(ImmediateInteger operand, boolean arm) {
         if (arm) {
-            return new fr.ensimag.arm.instructions.SUBSP(operand);
+            return new fr.ensimag.arm.instructions.SUB(operand, fr.ensimag.pseudocode.Register.SP);
         } else {
             return new fr.ensimag.ima.instructions.SUBSP(operand);
         }

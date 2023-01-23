@@ -55,6 +55,13 @@ public class MethodAsmBody extends AbstractMethodBody {
         // nothing to do here
     }
 
+
+    /**
+     * Genère le code d'une méthode écrite en assembleur, un constructeur de Line a été rajouté pour cela.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInstBody(DecacCompiler compiler, String name) {
         compiler.add(new Line(textAsm.replaceAll("\"", ""), true));

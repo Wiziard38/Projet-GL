@@ -13,28 +13,29 @@ import java.util.LinkedList;
 public class IMAProgram {
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
     private Label erreurPile = new Label("ErreurPile");
+    private boolean ln = false;
 
-    public Label getErreurPile(){
+    public Label getErreurPile() {
         return erreurPile;
     }
 
-    private Label erreurOverflow = new Label("overflof_error");
+    private Label erreurOverflow = new Label("overflow_error");
 
-    public Label getErreurOverflow(){
+    public Label getErreurOverflow() {
         return erreurOverflow;
     }
 
     private Label erreurInOut = new Label("io_error");
 
-    public Label getErreurinOut(){
+    public Label getErreurinOut() {
         return erreurInOut;
     }
 
-    public void addIndex(Instruction inst, int i){
+    public void addIndex(Instruction inst, int i) {
         lines.add(i, new Line(inst));
     }
 
-    public int getLastLineIndex(){
+    public int getLastLineIndex() {
         return lines.size();
     }
 
@@ -66,7 +67,7 @@ public class IMAProgram {
     public void append(IMAProgram p) {
         lines.addAll(p.lines);
     }
-    
+
     /**
      * Add a line at the front of the program.
      */
@@ -74,11 +75,25 @@ public class IMAProgram {
         lines.addFirst(l);
     }
 
+    public IMAProgram(boolean arm) {
+        this.arm = arm;
+    }
+
+    private boolean arm;
+
     /**
      * Display the program in a textual form readable by IMA to stream s.
      */
     public void display(PrintStream s) {
-        for (AbstractLine l: lines) {
+        if (arm) {
+            s.println(".data");
+            s.println();
+            s.println("msg_retourLigne:");
+            s.println(".asciz \"\\n\"");
+            s.println("lenretourLigne = . - msg_retourLigne");
+            s.print("\n");
+        }
+        for (AbstractLine l : lines) {
             l.display(s);
         }
     }
@@ -96,8 +111,12 @@ public class IMAProgram {
     public void addFirst(Instruction i) {
         addFirst(new Line(i));
     }
-    
+
     public void addFirst(Instruction i, String comment) {
         addFirst(new Line(null, i, comment));
+    }
+
+    public void writePrintLabel() {
+        ln = true;
     }
 }

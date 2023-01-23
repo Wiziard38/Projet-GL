@@ -1,13 +1,20 @@
 package fr.ensimag.arm.instructions;
 
-import fr.ensimag.pseudocode.NullaryInstruction;
+import java.io.PrintStream;
+
+import fr.ensimag.pseudocode.InstructionArm;
 
 /**
  * @author Ensimag
  * @date 01/01/2023
  */
-public class RTS extends NullaryInstruction {
+public class RTS extends InstructionArm {
+
+    @Override
+    public void displayInstructions(PrintStream s) {
+        s.println("ldr R15, [[R10], #-4]"); // PC <- C[V[LB]-1]
+        s.println("sub R13, R10, #8"); // SP <- V[LB]-2
+        s.println("ldr R10, [R10]"); // LB <- C[V[LB]]
+    }
 
 }
-
-// ici

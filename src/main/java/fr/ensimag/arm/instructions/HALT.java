@@ -5,8 +5,9 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * HALT instruction pour arm
+ * 
+ * @author gl39
  */
 public class HALT extends InstructionArm {
 

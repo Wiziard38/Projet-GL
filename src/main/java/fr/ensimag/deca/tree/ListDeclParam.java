@@ -7,8 +7,13 @@ import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * List of parameters' declaration
+
+
+/**
+ * List of parameters declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class ListDeclParam extends TreeList<AbstractDeclParam> {
 

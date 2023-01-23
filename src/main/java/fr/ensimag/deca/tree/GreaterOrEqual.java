@@ -15,17 +15,13 @@ public class GreaterOrEqual extends AbstractOpIneq {
         super(leftOperand, rightOperand);
     }
 
-
     @Override
     protected String getOperatorName() {
         return ">=";
     }
 
-
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

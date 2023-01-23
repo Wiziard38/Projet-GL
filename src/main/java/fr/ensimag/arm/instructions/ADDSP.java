@@ -4,10 +4,9 @@ import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.TernaryInstruction;
 
 /**
- * Add a value to stack pointer.
+ * ADDSP instruction pour arm
  * 
- * @author Ensimag
- * @date 01/01/2023
+ * @author gl39
  */
 public class ADDSP extends TernaryInstruction {
 

@@ -15,7 +15,6 @@ import fr.ensimag.deca.tree.Location;
 public abstract class Type {
     private static final Logger LOG = Logger.getLogger(Type.class);
 
-
     /**
      * True if this and otherType represent the same type (in the case of
      * classes, this means they represent the same class).
@@ -23,9 +22,10 @@ public abstract class Type {
     public abstract boolean sameType(Type otherType);
 
     /**
-     * TODO
-     * @param otherType
-     * @return
+     * Methode pour comparer deux Types, et verifier les propriétés de sous-type
+     * 
+     * @param otherType autre type a comparer
+     * @return true si otherType est un sous type de this
      */
     public abstract boolean subType(Type otherType);
 

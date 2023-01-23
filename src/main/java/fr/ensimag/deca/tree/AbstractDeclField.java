@@ -4,6 +4,12 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 
+/**
+ * Field declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
 public abstract class AbstractDeclField extends Tree {
 
     /**
@@ -11,31 +17,34 @@ public abstract class AbstractDeclField extends Tree {
      * 
      * implements non-terminals "decl_field"
      * of [SyntaxeContextuelle] in pass 2
+     * 
      * @param compiler
-     *                      Environment in which the expression should be checked
-     *                      (corresponds to the "env_type" attribute)
+     *                        Environment in which the expression should be checked
+     *                        (corresponds to the "env_type" attribute)
      * @param currentClassDef
-     *                      Environment in which the expression should be checked
-     *                      (corresponds to the "env_exp" attribute)
+     *                        Environment in which the expression should be checked
+     *                        (corresponds to the "env_exp" attribute)
      */
-    public abstract void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef) 
-                    throws ContextualError;
+    public abstract void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef)
+            throws ContextualError;
 
     /**
      * Verify the field declaration for contextual error.
      * 
      * implements non-terminals "decl_field"
      * of [SyntaxeContextuelle] in pass 3
+     * 
      * @param compiler
-     *                      Environment in which the expression should be checked
-     *                      (corresponds to the "env_type" attribute)
+     *                        Environment in which the expression should be checked
+     *                        (corresponds to the "env_type" attribute)
      * @param currentClassDef
-     *                      Environment in which the expression should be checked
-     *                      (corresponds to the "env_exp" attribute)
+     *                        Environment in which the expression should be checked
+     *                        (corresponds to the "env_exp" attribute)
      */
     public abstract void verifyInitField(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError;
 
     protected abstract void codeGenDeclFiedl(DecacCompiler compiler, String name);
+
     public abstract AbstractIdentifier getName();
 }

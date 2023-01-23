@@ -12,6 +12,12 @@ import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+/**
+ * Cast an expression to a compatible type
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
 public class Cast extends AbstractExpr {
 
     private AbstractIdentifier type;
@@ -54,7 +60,7 @@ public class Cast extends AbstractExpr {
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

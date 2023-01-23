@@ -5,6 +5,11 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
+/**
+ * MUL instruction pour floatant arm
+ * 
+ * @author gl39
+ */
 public class MULf extends InstructionArm {
 
     private GPRegister op1;

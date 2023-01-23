@@ -10,10 +10,6 @@ NC='\033[0m'
 # On refait l'étape au-dessus avec le programme généré par decompile
 # On compare les 2 fichiers
 
-# De plus, on peut donner une option aux scripts (doit être le 2ème argument de la commande shell):
-# -d : delete -> supprime les fichiers textes générés s'ils sont identiques
-# -da : delete all -> supprime tous les fichiers textes générés, qu'ils soient identiques ou pas
-
 # Obtenir le chemin absolu du répertoire du script
 cd "$(dirname "$0")"/../../.. || exit 1
 source_dir=$(pwd)

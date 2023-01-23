@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
+ * Test différent
  *
  * @author gl39
  * @date 01/01/2023
@@ -21,7 +22,5 @@ public class NotEquals extends AbstractOpExactCmp {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 }

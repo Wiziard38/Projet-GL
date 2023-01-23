@@ -13,6 +13,7 @@ import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 
 /**
+ * Et logique
  *
  * @author gl39
  * @date 01/01/2023
@@ -101,8 +102,6 @@ public class And extends AbstractOpBool {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-
     }
 
 }

@@ -16,6 +16,8 @@ import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 
 /**
+ * Variable declaration
+ * 
  * @author gl39
  * @date 01/01/2023
  */

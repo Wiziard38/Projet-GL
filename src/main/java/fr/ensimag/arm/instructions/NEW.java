@@ -6,8 +6,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.ImmediateInteger;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * NEW instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class NEW extends BinaryInstructionDValToReg {
 
@@ -20,5 +21,3 @@ public class NEW extends BinaryInstructionDValToReg {
     }
 
 }
-
-// ici

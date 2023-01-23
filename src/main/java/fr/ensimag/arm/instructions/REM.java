@@ -7,9 +7,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * REM instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class REM extends InstructionArm {
 
@@ -23,13 +23,6 @@ public class REM extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        // s.println("sdiv " + registreTMP + ", " + op1 + ", " + op2);
-        // s.println("mul " + registreTMP + ", " + op1 + ", " + registreTMP);
-        // s.println("sub " + op2 + ", " + op2 + ", " + registreTMP);
     }
 
 }
-
-// RM / Dval -> R?
-// R? * DVAl -> R?
-// RM - R? -> Rm

@@ -3,12 +3,10 @@ package fr.ensimag.arm.instructions;
 import fr.ensimag.pseudocode.NullaryInstruction;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * SETROUND_TOWARDZERO instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class SETROUND_TOWARDZERO extends NullaryInstruction {
 
 }
-
-// ici

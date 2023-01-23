@@ -5,6 +5,11 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
+/**
+ * LOAD instruction pour floatant immediat arm
+ * 
+ * @author gl39
+ */
 public class vmov extends InstructionArm {
 
     private float val;

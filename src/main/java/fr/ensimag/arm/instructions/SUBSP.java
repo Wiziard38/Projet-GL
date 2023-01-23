@@ -3,10 +3,11 @@ package fr.ensimag.arm.instructions;
 import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.TernaryInstruction;
 
+
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * SUBSP instruction pour arm
+ * 
+ * @author gl39
  */
 public class SUBSP extends TernaryInstruction {
 

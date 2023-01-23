@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
+ * Test de supériorité strict
  *
  * @author gl39
  * @date 01/01/2023
@@ -12,7 +13,7 @@ public class Greater extends AbstractOpIneq {
 
     public Greater(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
-    }   
+    }
 
     @Override
     protected String getOperatorName() {
@@ -21,8 +22,6 @@ public class Greater extends AbstractOpIneq {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

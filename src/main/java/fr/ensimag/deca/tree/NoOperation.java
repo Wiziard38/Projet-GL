@@ -9,6 +9,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
 /**
+ * Pas d'operation: ';'
  * 
  * @author gl39
  * @date 01/01/2023
@@ -19,7 +20,6 @@ public class NoOperation extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        // throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override

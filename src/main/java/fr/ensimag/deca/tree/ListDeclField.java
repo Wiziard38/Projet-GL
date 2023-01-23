@@ -5,8 +5,13 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * List of fields' declaration
+
+
+/**
+ * List of field declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class ListDeclField extends TreeList<AbstractDeclField> {
 

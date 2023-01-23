@@ -7,9 +7,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * FLOAT instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class FLOAT extends InstructionArm {
 
@@ -23,10 +23,6 @@ public class FLOAT extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        // s.println("mov " + op2 + ", " + op1);
-        // // les jsp sont le registre pour le floatant
-        // s.println("vmov " + jsp + ", " + op2);
-        // s.println("vcvt.f32.s32 " + jsp + ", " + jsp);
     }
 
 }

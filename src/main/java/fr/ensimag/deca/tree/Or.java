@@ -12,6 +12,7 @@ import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 
 /**
+ * Ou logique
  *
  * @author gl39
  * @date 01/01/2023
@@ -23,7 +24,8 @@ public class Or extends AbstractOpBool {
     }
 
     /**
-     * Genère le code d'un ou, on fait attention aux registres s'il n'en reste plus alors on utilise la pile.
+     * Genère le code d'un ou, on fait attention aux registres s'il n'en reste plus
+     * alors on utilise la pile.
      *
      * @param compiler compilateur ou ajouter les instructions
      * @param nameBloc le nom du bloc ou on gènere le code assembleur
@@ -98,8 +100,6 @@ public class Or extends AbstractOpBool {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-
     }
 
 }

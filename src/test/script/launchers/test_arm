@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Script pour compiler et lancer un programme avec l'option -arm
+# Commande pour compiler et lancer un programme avec l'option -arm
 
 # cd "$(dirname "$0")"/../../.. || exit 1
 # source_dir=$(pwd)

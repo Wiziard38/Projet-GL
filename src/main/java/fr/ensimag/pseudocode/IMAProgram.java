@@ -86,6 +86,7 @@ public class IMAProgram {
      */
     public void display(PrintStream s) {
         if (arm) {
+            // on écrit les données nécessaires à arm pour faire des retours à la ligne
             s.println(".data");
             s.println();
             s.println("msg_retourLigne:");
@@ -116,6 +117,13 @@ public class IMAProgram {
         addFirst(new Line(null, i, comment));
     }
 
+    /**
+     * Sert à savoir s'il faut écrire les données utiles pour faire des retours à la
+     * ligne.
+     *
+     * @author gl39
+     * @date 01/01/2023
+     */
     public void writePrintLabel() {
         ln = true;
     }

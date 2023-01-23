@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
+ * Inférieur strict operation
  *
  * @author gl39
  * @date 01/01/2023
@@ -14,16 +15,12 @@ public class Lower extends AbstractOpIneq {
         super(leftOperand, rightOperand);
     }
 
-
     @Override
     protected String getOperatorName() {
         return "<";
     }
 
-
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 }

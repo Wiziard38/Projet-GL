@@ -7,8 +7,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * LOAD instruction pour arm, avec immediat ou registre
+ * 
+ * @author gl39
  */
 public class mov extends InstructionArm {
 

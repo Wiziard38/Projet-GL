@@ -5,9 +5,9 @@ import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.GPRegister;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * QUO instruction pour arm
+ * 
+ * @author gl39
  */
 public class QUO extends BinaryInstructionDValToReg {
 
@@ -16,5 +16,3 @@ public class QUO extends BinaryInstructionDValToReg {
     }
 
 }
-
-// ici SDIV c'est QUO???

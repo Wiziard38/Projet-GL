@@ -2,14 +2,15 @@ package fr.ensimag.arm.instructions;
 
 import java.io.PrintStream;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 import fr.ensimag.pseudocode.ImmediateString;
 import fr.ensimag.pseudocode.InstructionArm;
 
+
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * WSTR instruction pour arm
+ * 
+ * @author gl39
  */
 public class WSTR extends InstructionArm {
 

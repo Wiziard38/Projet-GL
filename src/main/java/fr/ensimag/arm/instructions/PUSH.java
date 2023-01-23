@@ -7,8 +7,9 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * PUSH instruction pour arm
+ * 
+ * @author gl39
  */
 public class PUSH extends InstructionArm {
 

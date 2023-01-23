@@ -11,6 +11,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
+ * Non logique
  *
  * @author gl39
  * @date 01/01/2023
@@ -45,8 +46,6 @@ public class Not extends AbstractUnaryExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

@@ -6,8 +6,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.ImmediateInteger;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * LOAD instruction pour arm
+ * 
+ * @author gl39
  */
 public class LDR extends BinaryInstructionDValToRegArm {
 

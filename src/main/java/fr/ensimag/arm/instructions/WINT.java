@@ -5,15 +5,14 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * WINT instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class WINT extends InstructionArm {
 
     @Override
     public void displayInstructions(PrintStream s) {
-        // TODO Auto-generated method stub
-
     }
 
 }

@@ -15,8 +15,13 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperRTS;
 
-/*
- * Return keyword
+
+
+/**
+ * Return keyword.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class Return extends AbstractInst {
 

@@ -5,6 +5,11 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
+/**
+ * ADD instruction pour floatant arm
+ * 
+ * @author gl39
+ */
 public class ADDf extends InstructionArm {
 
     private GPRegister op1;

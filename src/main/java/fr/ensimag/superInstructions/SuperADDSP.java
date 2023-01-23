@@ -4,8 +4,10 @@ import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.Instruction;
 
 /**
- * Add a value to stack pointer.
- * 
+ * Class used to send the ADDSP instruction depending on wether we compile in
+ * ARM
+ * or IMA.
+ *
  * @author Ensimag
  * @date 01/01/2023
  */

@@ -8,9 +8,9 @@ import java.io.IOException;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
- * Driver to test the Parser (and lexer).
+ * Driver to test the decompile function.
  *
- * @author Ensimag
+ * @author gl39
  * @date 01/01/2023
  */
 public class ManualTestDecompile {

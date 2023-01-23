@@ -13,8 +13,13 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.superInstructions.SuperRTS;
 import fr.ensimag.superInstructions.SuperSUBSP;
 
-/*
- * Method body when the body is traditional deca
+
+
+/**
+ * Method body declaration pour deca.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class MethodBody extends AbstractMethodBody {
 

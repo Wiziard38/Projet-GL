@@ -19,6 +19,7 @@ import fr.ensimag.superInstructions.SuperSEQ;
 import org.apache.log4j.Logger;
 
 /**
+ * List of class declaration
  *
  * @author gl39
  * @date 01/01/2023

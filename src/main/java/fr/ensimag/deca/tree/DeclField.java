@@ -18,6 +18,13 @@ import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperSTORE;
 
+
+/**
+ * Field declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
 public class DeclField extends AbstractDeclField {
 
     private Visibility visibility;

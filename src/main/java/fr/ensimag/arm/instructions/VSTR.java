@@ -4,9 +4,11 @@ import fr.ensimag.pseudocode.BinaryInstruction;
 import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Register;
 
+
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * STORE instruction pour floatant arm
+ * 
+ * @author gl39
  */
 public class VSTR extends BinaryInstruction {
 
@@ -14,5 +16,3 @@ public class VSTR extends BinaryInstruction {
         super(op1, op2);
     }
 }
-
-// STORE

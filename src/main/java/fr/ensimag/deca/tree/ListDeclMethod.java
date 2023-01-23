@@ -5,8 +5,13 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * List of methods' declaration
+
+
+/**
+ * List of method declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
 

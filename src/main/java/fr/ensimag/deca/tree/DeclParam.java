@@ -12,8 +12,11 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.EnvironmentExp.DoubleDefException;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * Declaration of a parameter
+/**
+ * Parameter declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class DeclParam extends AbstractDeclParam {
 

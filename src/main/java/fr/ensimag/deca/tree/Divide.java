@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
+ * Divide operation
  *
  * @author gl39
  * @date 01/01/2023
@@ -20,7 +21,5 @@ public class Divide extends AbstractOpArith {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 }

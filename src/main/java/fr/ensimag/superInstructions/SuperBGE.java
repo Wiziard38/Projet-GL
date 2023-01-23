@@ -4,6 +4,8 @@ import fr.ensimag.pseudocode.Instruction;
 import fr.ensimag.pseudocode.Label;
 
 /**
+ * Class used to send the BGE instruction depending on wether we compile in ARM
+ * or IMA.
  *
  * @author Ensimag
  * @date 01/01/2023

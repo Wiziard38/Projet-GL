@@ -14,8 +14,11 @@ import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperLOAD;
 
-/*
- * This keyword
+/**
+ * This keyword.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class This extends AbstractExpr {
 
@@ -61,8 +64,6 @@ public class This extends AbstractExpr {
         compiler.addInstruction(
                 SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()), Register.getR(nActual),
                         compiler.compileInArm()));
-        // compiler.addInstruction(SuperLOAD.main(new RegisterOffset(0,
-        // Register.getR(nActual)), Register.getR(nActual), compiler.compileInArm()));
 
     }
 

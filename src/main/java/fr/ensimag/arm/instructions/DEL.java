@@ -4,8 +4,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.UnaryInstructionToReg;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * DEL instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class DEL extends UnaryInstructionToReg {
 
@@ -14,5 +15,3 @@ public class DEL extends UnaryInstructionToReg {
     }
 
 }
-
-// ici

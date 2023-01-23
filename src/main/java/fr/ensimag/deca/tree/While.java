@@ -16,7 +16,8 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 /**
- *
+ * Boucle while
+ * 
  * @author gl39
  * @date 01/01/2023
  */
@@ -40,7 +41,8 @@ public class While extends AbstractInst {
     }
 
     /**
-     * Genère le code d'un while. on génere le code pour tester la conditions, ensuite les instructions et on boucle sur la condition.
+     * Genère le code d'un while. on génere le code pour tester la conditions,
+     * ensuite les instructions et on boucle sur la condition.
      *
      * @param compiler compilateur ou ajouter les instructions
      * @param nameBloc le nom du bloc ou on gènere le code assembleur

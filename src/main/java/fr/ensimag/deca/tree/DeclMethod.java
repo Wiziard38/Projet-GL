@@ -19,6 +19,12 @@ import fr.ensimag.superInstructions.SuperRTS;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Method declaration.
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
 public class DeclMethod extends AbstractDeclMethod {
     private static final Logger LOG = Logger.getLogger(Program.class);
 

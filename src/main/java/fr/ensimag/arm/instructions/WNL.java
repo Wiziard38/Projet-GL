@@ -1,8 +1,10 @@
 package fr.ensimag.arm.instructions;
 
+
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * WNL instruction pour arm
+ * 
+ * @author gl39
  */
 public class WNL extends WSTR {
 

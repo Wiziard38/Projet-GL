@@ -15,6 +15,7 @@ import fr.ensimag.superInstructions.SuperRINT;
 import java.io.PrintStream;
 
 /**
+ * ReadInt instruction
  *
  * @author gl39
  * @date 01/01/2023

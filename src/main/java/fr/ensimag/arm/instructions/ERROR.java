@@ -5,9 +5,9 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * Error instruction pour arm
+ * 
+ * @author gl39
  */
 public class ERROR extends InstructionArm {
 

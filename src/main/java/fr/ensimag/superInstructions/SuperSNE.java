@@ -4,6 +4,8 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.Instruction;
 
 /**
+ * Class used to send the SNE instruction depending on wether we compile in ARM
+ * or IMA.
  *
  * @author Ensimag
  * @date 01/01/2023

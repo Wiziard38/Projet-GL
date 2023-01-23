@@ -21,8 +21,11 @@ import fr.ensimag.superInstructions.SuperLEA;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperOffset;
 
-/*
- * Selection of a field
+/**
+ * Selection d'un champ.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class Selection extends AbstractLValue {
     private static final Logger LOG = Logger.getLogger(Selection.class);

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Script pour tester tous les test de syntaxe
+# Script pour tester tous les tests de syntaxe
 
 # On lance test_syntax sur les tests et on vérifie qu'ils sont bien valides ou invalides
 

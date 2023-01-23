@@ -6,9 +6,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * SLE instruction pour arm
+ * 
+ * @author gl39
  */
 public class SLE extends InstructionArm {
 

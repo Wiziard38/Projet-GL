@@ -15,6 +15,7 @@ import fr.ensimag.superInstructions.SuperRFLOAT;
 import java.io.PrintStream;
 
 /**
+ * ReadFloat instruction
  *
  * @author gl39
  * @date 01/01/2023

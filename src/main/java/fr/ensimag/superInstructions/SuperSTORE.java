@@ -4,7 +4,11 @@ import fr.ensimag.pseudocode.DAddr;
 import fr.ensimag.pseudocode.Instruction;
 import fr.ensimag.pseudocode.Register;
 
+
 /**
+ * Class used to send the STORE instruction depending on wether we compile in ARM
+ * or IMA.
+ *
  * @author Ensimag
  * @date 01/01/2023
  */

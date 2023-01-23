@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Script pour tester tous les test de contextes qui sont valides
+# Script pour tester tous les tests de contextes qui sont valides
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'

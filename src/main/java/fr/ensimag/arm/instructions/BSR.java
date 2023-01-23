@@ -8,8 +8,9 @@ import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.LabelOperand;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * BSR instruction pour arm
+ * 
+ * @author gl39
  */
 public class BSR extends InstructionArm {
 

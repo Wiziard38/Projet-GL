@@ -12,6 +12,8 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 /**
+ * Main
+ * 
  * @author gl39
  * @date 01/01/2023
  */
@@ -44,7 +46,8 @@ public class Main extends AbstractMain {
 
     @Override
     /**
-     * Genère le code du main, génération du code pour les variables et génération des instructions.
+     * Genère le code du main, génération du code pour les variables et génération
+     * des instructions.
      *
      * @param compiler compilateur ou ajouter les instructions
      */

@@ -5,8 +5,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.TernaryInstructionDValToReg;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * MUL instruction pour arm
+ * 
+ * @author gl39
  */
 public class MUL extends TernaryInstructionDValToReg {
     public MUL(DVal op1, GPRegister op2) {

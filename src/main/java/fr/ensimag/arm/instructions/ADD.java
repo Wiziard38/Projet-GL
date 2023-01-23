@@ -5,8 +5,9 @@ import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.Register;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * ADD instruction pour arm
+ * 
+ * @author gl39
  */
 public class ADD extends TernaryInstructionDValToReg {
     public ADD(DVal op1, Register op2) {

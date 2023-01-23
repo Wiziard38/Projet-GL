@@ -4,9 +4,9 @@ import fr.ensimag.pseudocode.GPRegister;
 import fr.ensimag.pseudocode.UnaryInstructionToReg;
 
 /**
- *
- * @author Ensimag
- * @date 01/01/2023
+ * SOV instruction pour arm, pas implémenté
+ * 
+ * @author gl39
  */
 public class SOV extends UnaryInstructionToReg {
 
@@ -15,5 +15,3 @@ public class SOV extends UnaryInstructionToReg {
     }
 
 }
-
-// ici jsp pas tester l'overflow...

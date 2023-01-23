@@ -21,8 +21,13 @@ import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperSUBSP;
 
-/*
- * Call of a method function on an expression
+
+
+/**
+ * Appel d'une méthode.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class MethodCall extends AbstractExpr {
     private static final Logger LOG = Logger.getLogger(MethodCall.class);

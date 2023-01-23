@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Commande pour afficher le résultat de la fonction decompile
+
 DECAC_HOME=$(cd "$(dirname "$0")"/../../../../ && pwd)
 CP_FILE="$DECAC_HOME"/target/generated-sources/classpath.txt
 

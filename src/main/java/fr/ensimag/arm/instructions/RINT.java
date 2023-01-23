@@ -5,8 +5,10 @@ import java.io.PrintStream;
 import fr.ensimag.pseudocode.InstructionArm;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * RINT instruction pour arm, implémenté mais non fonctionnel car récupère une
+ * chaine de caractère
+ * 
+ * @author gl39
  */
 public class RINT extends InstructionArm {
     private static int num = 0;

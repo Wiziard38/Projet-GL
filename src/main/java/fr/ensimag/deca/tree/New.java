@@ -19,8 +19,11 @@ import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperSTORE;
 
-/*
- * Call a constructor via keyword 'new'
+/**
+ * Appel du constructeur pour instancier un objet.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class New extends AbstractExpr {
 
@@ -95,7 +98,5 @@ public class New extends AbstractExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-
     }
 }

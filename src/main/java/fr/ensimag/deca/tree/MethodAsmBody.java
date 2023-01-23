@@ -14,8 +14,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.InstructionArm;
 import fr.ensimag.pseudocode.Line;
 
-/*
- * Method body when the body is assembler lines of code
+/**
+ * Method body declaration pour assembleur
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class MethodAsmBody extends AbstractMethodBody {
     private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
@@ -55,9 +58,9 @@ public class MethodAsmBody extends AbstractMethodBody {
         // nothing to do here
     }
 
-
     /**
-     * Genère le code d'une méthode écrite en assembleur, un constructeur de Line a été rajouté pour cela.
+     * Genère le code d'une méthode écrite en assembleur, un constructeur de Line a
+     * été rajouté pour cela.
      *
      * @param compiler compilateur ou ajouter les instructions
      * @param nameBloc le nom du bloc ou on gènere le code assembleur
@@ -66,5 +69,5 @@ public class MethodAsmBody extends AbstractMethodBody {
     protected void codeGenInstBody(DecacCompiler compiler, String name) {
         compiler.add(new Line(textAsm.replaceAll("\"", ""), true));
     }
-    
+
 }

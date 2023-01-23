@@ -2,6 +2,12 @@ package fr.ensimag.pseudocode;
 
 import java.io.PrintStream;
 
+/**
+ * Instruction ARM, used to display specific arm instructions
+ *
+ * @author gl39
+ * @date 01/01/2023
+ */
 public abstract class InstructionArm extends Instruction {
 
     @Override

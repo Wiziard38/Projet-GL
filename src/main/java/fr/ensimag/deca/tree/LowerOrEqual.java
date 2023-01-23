@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ExpDefinition;
 
 /**
+ * Inférieur ou égal operation
  *
  * @author gl39
  * @date 01/01/2023
@@ -22,8 +23,6 @@ public class LowerOrEqual extends AbstractOpIneq {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

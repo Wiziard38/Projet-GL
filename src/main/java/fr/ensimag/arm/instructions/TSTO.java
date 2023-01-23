@@ -4,8 +4,9 @@ import fr.ensimag.pseudocode.ImmediateInteger;
 import fr.ensimag.pseudocode.InstructionVideArm;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * TSTO instruction pour arm
+ * 
+ * @author gl39
  */
 public class TSTO extends InstructionVideArm {
     private ImmediateInteger val;

@@ -5,8 +5,9 @@ import fr.ensimag.pseudocode.DVal;
 import fr.ensimag.pseudocode.GPRegister;
 
 /**
- * @author Ensimag
- * @date 01/01/2023
+ * OPP instruction pour arm
+ * 
+ * @author gl39
  */
 public class NEG extends BinaryInstructionDValToReg {
     public NEG(DVal op1, GPRegister op2) {

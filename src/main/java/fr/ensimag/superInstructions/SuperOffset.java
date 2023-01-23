@@ -5,6 +5,13 @@ import fr.ensimag.pseudocode.Register;
 import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.pseudocode.RegisterOffsetArm;
 
+/**
+ * Class used to send an Offset depending on wether we compile in ARM
+ * or IMA.
+ *
+ * @author Ensimag
+ * @date 01/01/2023
+ */
 public class SuperOffset {
 
     public static DAddr main(int offset, Register register, boolean arm) {

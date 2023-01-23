@@ -33,7 +33,10 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
             return compiler.environmentType.BOOLEAN;
         }
 
-        // TODO rajouter pour les classes
+        if (typeLeft.isClassOrNull() && typeLeft.isClassOrNull()) {
+            this.setType(compiler.environmentType.BOOLEAN);
+            return compiler.environmentType.BOOLEAN;
+        }
 
         Type returnType;
         try {

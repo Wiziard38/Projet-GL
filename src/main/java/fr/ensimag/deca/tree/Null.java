@@ -10,8 +10,13 @@ import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
-/*
- * Null keyword
+
+
+/**
+ * Null keyword.
+ *
+ * @author gl39
+ * @date 01/01/2023
  */
 public class Null extends AbstractExpr {
 
@@ -39,7 +44,5 @@ public class Null extends AbstractExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 }

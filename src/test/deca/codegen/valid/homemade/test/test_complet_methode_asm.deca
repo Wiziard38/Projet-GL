@@ -1,0 +1,12 @@
+class Print{
+    void methodASM() asm("
+        LOAD #2, R1
+        WINT
+        RTS
+    ");
+}
+
+{
+    Print p = new Print();
+    p.methodASM();
+}

@@ -19,7 +19,7 @@ public class IMAProgram {
         return erreurPile;
     }
 
-    private Label erreurOverflow = new Label("overflof_error");
+    private Label erreurOverflow = new Label("overflow_error");
 
     public Label getErreurOverflow() {
         return erreurOverflow;

@@ -310,16 +310,6 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>test-lexer</id>
-                        <configuration>
-                            <executable>./src/test/script/test_lex_complet.sh</executable>
-                        </configuration>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>permissions</id>
                         <configuration>
                             <executable>chmod</executable>

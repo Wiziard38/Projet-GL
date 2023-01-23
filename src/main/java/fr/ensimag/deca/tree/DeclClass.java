@@ -171,8 +171,26 @@ public class DeclClass extends AbstractDeclClass {
 
                 if (compiler.environmentType.defOfType(this.superclass.getName()) == null) {
                         throw new ContextualError(String.format("La super classe '%s' n'existe pas",
-                                        this.superclass), this.getLocation());
-                } // Rule 1.3
+                                        this.superclass), this.getLocation()); // Rule 1.3
+                }
+
+                if (!compiler.environmentType.defOfType(this.superclass.getName()).isClass()) {
+                        throw new ContextualError(String.format("'%s' n'est pas une class",
+                                        this.superclass), this.getLocation()); // Rule 1.3
+                }
+
+                ClassDefinition superDef = (ClassDefinition) (compiler.environmentType
+                                .defOfType(this.superclass.getName()));
+                try {
+                        compiler.environmentType.addNewClass(this.name.getName(),
+                                        this.getLocation(), superDef);
+                } catch (EnvironmentExp.DoubleDefException e) {
+                        throw new ContextualError(String.format("Le nom '%s' est deja un nom de class ou de type",
+                                        this.name), this.getLocation()); // Rule 1.3
+                }
+
+                this.superclass.setDefinition(superDef);
+                this.name.setDefinition(compiler.environmentType.getClass(this.name.getName()));
         }
 
         @Override

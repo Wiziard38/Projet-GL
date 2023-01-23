@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 public class DeclMethod extends AbstractDeclMethod {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
-    public AbstractIdentifier getName(){
+    public AbstractIdentifier getName() {
         return name;
     }
 
@@ -95,7 +95,7 @@ public class DeclMethod extends AbstractDeclMethod {
             // C'est une redefinition !
             MethodDefinition overridedMethod = superClassDef.getMembers().get(this.name.getName())
                     .asMethodDefinition(String.format("Le nom '%s' est deja déclaré dans l'environnment",
-                    this.name), getLocation()); // Rule 2.7
+                            this.name), getLocation()); // Rule 2.7
 
             if (!overridedMethod.getSignature().differentThan(sig)) {
                 throw new ContextualError(String.format(
@@ -115,7 +115,9 @@ public class DeclMethod extends AbstractDeclMethod {
         }
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);
-        current.setLabel(new Label(currentClassDef.getType().getName().getName() + "." + this.name.getName().getName() + currentClassDef.getLocation().getLine() + (this.getLocation().getPositionInLine()-4)));
+        LOG.debug(this.getLocation());
+        current.setLabel(new Label(currentClassDef.getType().getName().getName() + "." + this.name.getName().getName()
+                + currentClassDef.getLocation().getLine() + (this.getLocation().getPositionInLine())));
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);
         } catch (DoubleDefException e) {
@@ -136,7 +138,7 @@ public class DeclMethod extends AbstractDeclMethod {
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
     }
 
-    protected void codeGenCorpMethod(DecacCompiler compiler, String name){
+    protected void codeGenCorpMethod(DecacCompiler compiler, String name) {
         this.body.codeGenInstBody(compiler, name);
     }
 }

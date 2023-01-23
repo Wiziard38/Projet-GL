@@ -1,6 +1,0 @@
-{
-	#include "PrintIntSansObjetInit.decah"
-
-	reservedForPrintInt = 141;
-	#include "PrintIntSansObjet.decah"
-}

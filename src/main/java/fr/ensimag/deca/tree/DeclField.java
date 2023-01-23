@@ -40,8 +40,8 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef,
-            AbstractIdentifier superClass) throws ContextualError {
+    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef) 
+            throws ContextualError {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
 

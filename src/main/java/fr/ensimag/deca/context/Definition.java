@@ -1,8 +1,6 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
-import fr.ensimag.pseudocode.DAddr;
-import fr.ensimag.pseudocode.Operand;
 
 /**
  * Definition of an identifier.

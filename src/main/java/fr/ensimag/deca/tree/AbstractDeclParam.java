@@ -11,20 +11,28 @@ import fr.ensimag.deca.context.Type;
 public abstract class AbstractDeclParam extends Tree {
 
     /**
-     * TODO
+     * Verify the param declaration for contextual error.
      * 
+     * implements non-terminals "decl_param"
+     * of [SyntaxeContextuelle] in pass 2
      * @param compiler
-     * @return
-     * @throws ContextualError
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_type" attribute)
      */
     public abstract Type verifySigParam(DecacCompiler compiler) throws ContextualError;
 
     /**
-     * TODO
+     * Verify the param declaration for contextual error.
      * 
+     * implements non-terminals "decl_param"
+     * of [SyntaxeContextuelle] in pass 3
      * @param compiler
-     * @return
-     * @throws ContextualError
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_type" attribute)
+     * @param localEnv
+     *                      Environment in which the expression should be checked
+     *                      (corresponds to the "env_exp" attribute)
+     * @param paramIndex    Index that represent the position of the parameter in signature
      */
     public abstract void verifyEnvParam(DecacCompiler compiler, EnvironmentExp localEnv, int paramIndex)
             throws ContextualError;

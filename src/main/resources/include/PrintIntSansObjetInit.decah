@@ -1,0 +1,8 @@
+// LibrarreservedTmp2 for class PrintInt of Deca, coded in Deca
+// Used to print an Integer as String digit breservedTmp2 digit for further arm compiling
+
+int reservedForPrintInt;
+int reservedReversedNumber = 0;
+int reservedNumberZeros = 0;
+int reservedTmp1;
+int reservedTmp2;

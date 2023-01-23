@@ -11,7 +11,6 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.pseudocode.Label;
 
-// TODO: étendre cette classe pour traiter la partie "avec objet" de Déca
 /**
  * Environment containing types. Initially contains predefined identifiers, more
  * classes can be added with declareClass().
@@ -72,10 +71,10 @@ public class EnvironmentType {
     private final Map<Symbol, TypeDefinition> envTypes;
 
     /**
-     * TODO
+     * Method to get a Type definition
      * 
-     * @param s
-     * @return
+     * @param s reprensents the symbol
+     * @return TypeDefinition if the symbol has a Type attached, null othrewise
      */
     public TypeDefinition defOfType(Symbol s) {
         return envTypes.get(s);
@@ -90,15 +89,14 @@ public class EnvironmentType {
     public final NullType NULL;
 
     /**
-     * TODO
+     * Adds a new class to the dictionnary of existing types.
      * 
-     * @param compiler
-     * @param className
-     * @param classLocation
-     * @param superClass
-     * @throws DoubleDefException
+     * @param className symbol reresenting the name of the class
+     * @param classLocation location of said class in the deca file
+     * @param superClass superclass, defaulted to Object if not specified in input file
+     * @throws DoubleDefException if the givent symbol already refers to a declared type
      */
-    public void addNewClass(DecacCompiler compiler, Symbol className, Location classLocation,
+    public void addNewClass(Symbol className, Location classLocation,
             ClassDefinition superClass) throws DoubleDefException {
 
         if (envTypes.containsKey(className)) {
@@ -111,10 +109,11 @@ public class EnvironmentType {
     }
 
     /**
-     * TODO
+     * Function that returns a ClassDefinition, provided that the symbol 
+     * is indeed of ClassType.
      * 
-     * @param className
-     * @return
+     * @param className the symbol from which we need to get the definition
+     * @return the ClassDefinition
      */
     public ClassDefinition getClass(Symbol className) {
         TypeDefinition def = this.defOfType(className);

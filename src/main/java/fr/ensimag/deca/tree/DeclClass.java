@@ -85,7 +85,9 @@ public class DeclClass extends AbstractDeclClass {
                         compiler.setSP(compiler.getSP() + 1);
                 }
                 compiler.addInstruction(
-                                SuperADDSP.main(this.name.getClassDefinition().getNumberOfMethods()),
+                                SuperADDSP.main(new ImmediateInteger(
+                                                this.name.getClassDefinition().getNumberOfMethods()),
+                                                compiler.compileInArm()),
                                 compiler.compileInArm());
                 compiler.add(new Line(""));
         }
@@ -98,8 +100,9 @@ public class DeclClass extends AbstractDeclClass {
                 compiler.addLabel(new Label(blockName));
                 // On regarde si la super class à des champs, il faut alors les initier avant
                 if (superclass.getClassDefinition().getNumberOfFields() != 0) {
-                        compiler.addInstruction(SuperLOAD.main(SuperOffSet.main(-2, Register.LB),
-                                        Register.getR(compiler.getN() + 1), compiler.compileInArm()));
+                        compiler.addInstruction(
+                                        SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()),
+                                                        Register.getR(compiler.getN() + 1), compiler.compileInArm()));
                         compiler.addInstruction(
                                         SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
                         compiler.addInstruction(SuperBSR.main(

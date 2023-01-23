@@ -71,6 +71,7 @@ public class DeclMethod extends AbstractDeclMethod {
         body.iter(f);
     }
 
+    @Override
     public void verifyEnvMethod(DecacCompiler compiler, ClassDefinition currentClassDef,
             AbstractIdentifier superClass) throws ContextualError {
 

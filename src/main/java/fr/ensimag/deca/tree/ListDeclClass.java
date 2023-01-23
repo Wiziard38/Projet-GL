@@ -8,7 +8,6 @@ import fr.ensimag.pseudocode.LabelOperand;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.NullOperand;
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperCMP;
 import fr.ensimag.superInstructions.SuperLOAD;
 import fr.ensimag.superInstructions.SuperOffset;
@@ -16,8 +15,6 @@ import fr.ensimag.superInstructions.SuperPOP;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperRTS;
 import fr.ensimag.superInstructions.SuperSEQ;
-import fr.ensimag.ima.instructions.LOAD;
-import fr.ensimag.ima.instructions.PUSH;
 
 import org.apache.log4j.Logger;
 

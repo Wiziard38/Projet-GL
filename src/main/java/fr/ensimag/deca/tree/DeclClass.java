@@ -5,7 +5,6 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.pseudocode.ImmediateInteger;
@@ -13,7 +12,6 @@ import fr.ensimag.pseudocode.Label;
 import fr.ensimag.pseudocode.LabelOperand;
 import fr.ensimag.pseudocode.Line;
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperADDSP;
 import fr.ensimag.superInstructions.SuperBSR;
 import fr.ensimag.superInstructions.SuperLEA;
@@ -25,9 +23,6 @@ import fr.ensimag.superInstructions.SuperRTS;
 import fr.ensimag.superInstructions.SuperSTORE;
 import fr.ensimag.superInstructions.SuperSUBSP;
 import fr.ensimag.superInstructions.SuperTSTO;
-import fr.ensimag.ima.instructions.LEA;
-import fr.ensimag.ima.instructions.LOAD;
-import fr.ensimag.ima.instructions.PUSH;
 
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -87,8 +82,7 @@ public class DeclClass extends AbstractDeclClass {
                 compiler.addInstruction(
                                 SuperADDSP.main(new ImmediateInteger(
                                                 this.name.getClassDefinition().getNumberOfMethods()),
-                                                compiler.compileInArm()),
-                                compiler.compileInArm());
+                                                compiler.compileInArm()));
                 compiler.add(new Line(""));
         }
 
@@ -178,7 +172,7 @@ public class DeclClass extends AbstractDeclClass {
                 ClassDefinition superDef = (ClassDefinition) (compiler.environmentType
                                 .defOfType(this.superclass.getName()));
                 try {
-                        compiler.environmentType.addNewClass(compiler, this.name.getName(),
+                        compiler.environmentType.addNewClass(this.name.getName(),
                                         this.getLocation(), superDef);
                 } catch (EnvironmentExp.DoubleDefException e) {
                         throw new ContextualError(String.format("Le nom '%s' est deja un nom de class ou de type",

@@ -4,7 +4,6 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.BlocInProg;
-import fr.ensimag.deca.codegen.VariableAddr;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -13,7 +12,6 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import fr.ensimag.pseudocode.Register;
-import fr.ensimag.pseudocode.RegisterOffset;
 import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 
@@ -48,7 +46,7 @@ public class DeclVar extends AbstractDeclVar {
         initialization.codeGenInst(compiler, varName.getDefinition(), nameBloc);
         compiler.addInstruction(SuperPUSH.main(Register.getR(nAct), compiler.compileInArm()));
         VariableDefinition varDef = (VariableDefinition) varName.getDefinition();
-        varDef.setOperand(SuperOffSet.main(pos, Register.SP, compiler.compileInArm()));
+        varDef.setOperand(SuperOffset.main(pos, Register.SP, compiler.compileInArm()));
         compiler.setN(nAct - 1);
         compiler.addComment("");
     }

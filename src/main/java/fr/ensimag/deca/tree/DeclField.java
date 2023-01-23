@@ -40,7 +40,7 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef) 
+    public void verifyEnvField(DecacCompiler compiler, ClassDefinition currentClassDef)
             throws ContextualError {
 
         Type fieldType = this.type.verifyType(compiler, true, "un champ");
@@ -120,9 +120,11 @@ public class DeclField extends AbstractDeclField {
         compiler.setN(nThis);
         BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(compiler.getN());
         compiler.addInstruction(
-                SuperLOAD.main(SuperOffSet.main(-2, Register.LB), Register.getR(nThis), compiler.compileInArm()));
+                SuperLOAD.main(SuperOffset.main(-2, Register.LB, compiler.compileInArm()), Register.getR(nThis),
+                        compiler.compileInArm()));
         compiler.addInstruction(SuperSTORE.main(Register.getR(nActual),
-                SuperOffSet.main(defField.getIndex(), Register.getR(nThis)), compiler.compileInArm()));
+                SuperOffset.main(defField.getIndex(), Register.getR(nThis), compiler.compileInArm()),
+                compiler.compileInArm()));
         compiler.setN(nActual - 1);
     }
 

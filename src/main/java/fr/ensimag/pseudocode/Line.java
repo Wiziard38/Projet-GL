@@ -17,6 +17,13 @@ public class Line extends AbstractLine {
         this.comment = comment;
     }
 
+    private boolean codeASM = false;
+
+    public Line(String textASM, boolean codeASM) {
+        this.comment = textASM;
+        this.codeASM = codeASM;
+    }
+
     public Line(Instruction instruction) {
         super();
         this.instruction = instruction;
@@ -49,26 +56,34 @@ public class Line extends AbstractLine {
     private String comment;
     private Label label;
 
+    void displayASM(PrintStream s) {
+        s.println(comment);
+    }
     @Override
     void display(PrintStream s) {
-        boolean tab = false;
-        if (label != null) {
-            s.print(label);
-            s.print(":");
-            tab = true;
+        if (codeASM) {
+            displayASM(s);
         }
-        if (instruction != null) {
-            s.print("\t");
-            instruction.display(s);
-            tab = true;
-        }
-        if (comment != null) {
-            if (tab) {
-                s.print("\t");
+        else {
+            boolean tab = false;
+            if (label != null) {
+                s.print(label);
+                s.print(":");
+                tab = true;
             }
-            s.print(comment);
+            if (instruction != null) {
+                s.print("\t");
+                instruction.display(s);
+                tab = true;
+            }
+            if (comment != null) {
+                if (tab) {
+                    s.print("\t");
+                }
+                s.print(comment);
+            }
+            s.println();
         }
-        s.println();
     }
 
     public void setInstruction(Instruction instruction) {

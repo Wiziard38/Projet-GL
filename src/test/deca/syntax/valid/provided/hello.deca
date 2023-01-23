@@ -6,19 +6,17 @@
 //
 // Historique:
 //    cree le 61/61/2623
-
 class a {
-
+    int x = 6;
+    void testASM() asm("REM R1 R0 
+    REM R1 R0");
 }
 
-class A{
-    float x = 8.1;
-    void setX(int x) {
-        x = x;
-    }
+class A {
+    int x = 8;
 }
-
 {
-    A a = new A();
-    print("x=", a.x);
+    A x = new A();
+    a y = new a();
+    println(x.x, y.x);
 }

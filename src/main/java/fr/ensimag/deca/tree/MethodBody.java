@@ -10,6 +10,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.superInstructions.SuperRTS;
 import fr.ensimag.superInstructions.SuperSUBSP;
 
 /*
@@ -64,6 +65,7 @@ public class MethodBody extends AbstractMethodBody {
         this.instructions.codeGenListInst(compiler, name);
         compiler.addInstruction(SuperSUBSP.main(this.variables.size(), compiler.compileInArm()));
         compiler.setSP(compiler.getSP() - this.variables.size());
+        compiler.addInstruction(SuperRTS.main(compiler.compileInArm()));
     }
 
 }

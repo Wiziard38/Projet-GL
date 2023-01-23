@@ -339,5 +339,4 @@ public class DecacCompiler implements Runnable {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
-
 }

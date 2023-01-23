@@ -61,7 +61,7 @@ public class DeclClass extends AbstractDeclClass {
     protected void codeGenClass(DecacCompiler compiler) {
         LOG.debug(this.name.getName().getName());
         int nActual = compiler.getN() + 1;
-        compiler.addComment("class "+this.name.getName().getName());
+        compiler.addComment("class "+this.name.getName().getName() + this.getLocation().getLine() + this.getLocation().getPositionInLine());
         compiler.addInstruction(new LEA(compiler.environmentType.getClass(superclass.getName()).getOperand(), Register.getR(nActual)));
         compiler.addInstruction(new PUSH(Register.getR(nActual)));
         compiler.setSP(compiler.getSP() + 1);
@@ -83,15 +83,16 @@ public class DeclClass extends AbstractDeclClass {
 
     protected void codeGenCorpMethod(DecacCompiler compiler, String nameBloc){
         //Génération du code pour l'initialisation des instances de la class
-        compiler.setN(1);
-        String blockName = "init." + this.name.getName().getName();
+        compiler.setN(1); 
+        LOG.debug(compiler.environmentType.getClass(this.name.getName()).getLocation().getPositionInLine());
+        String blockName = "init." + this.name.getName().getName() + this.getLocation().getLine() + this.getLocation().getPositionInLine();
         BlocInProg.addBloc(blockName, compiler.getLastLineIndex(), 0, 0);
         compiler.addLabel(new Label(blockName));
         //On regarde si la super class à des champs, il faut alors les initier avant
         if (superclass.getClassDefinition().getNumberOfFields() != 0) {
             compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB), Register.getR(compiler.getN() + 1), compiler.compileInArm()));
             compiler.addInstruction(SuperPUSH.main(Register.getR(compiler.getN() + 1), compiler.compileInArm()));
-            compiler.addInstruction(SuperBSR.main(new LabelOperand(new Label("init."+superclass.getType().getName().getName())), compiler.compileInArm()));
+            compiler.addInstruction(SuperBSR.main(new LabelOperand(new Label("init."+superclass.getType().getName().getName() + superclass.getClassDefinition().getLocation().getLine() + superclass.getClassDefinition().getLocation().getPositionInLine())), compiler.compileInArm()));
             compiler.addInstruction(SuperSUBSP.main(new ImmediateInteger(1), compiler.compileInArm()));
         }
         // On déclare les champs de la class
@@ -111,7 +112,7 @@ public class DeclClass extends AbstractDeclClass {
         for (AbstractDeclMethod method : methods.getList()) {
             compiler.setN(1);
             LOG.debug("Nom de la méthode: " + method.getName().getName().getName());
-            blockName = this.name.getName().getName() + '.' + method.getName().getName();
+            blockName = this.name.getName().getName() + '.' + method.getName().getName() + this.getLocation().getLine() + this.getLocation().getPositionInLine();
             BlocInProg.addBloc(blockName, compiler.getLastLineIndex() + 1, 0, 0);
             compiler.addLabel(new Label(blockName));
             method.codeGenCorpMethod(compiler, blockName);

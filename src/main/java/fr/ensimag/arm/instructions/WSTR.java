@@ -43,7 +43,7 @@ public class WSTR extends InstructionArm {
             }
         }
 
-        System.out.println(1 + s.toString());
+        // System.out.println(1 + s.toString());
         // if (stringDico.contains(op.stripped())) {
         // return;
         // }
@@ -57,7 +57,7 @@ public class WSTR extends InstructionArm {
         s.println(".text");
         // s.flush(); // <-- peut etre essaye avec ca apres
         stringDico.add(op.stripped());
-        System.out.println(2 + s.toString());
+        // System.out.println(2 + s.toString());
 
     }
 }

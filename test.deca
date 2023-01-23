@@ -1,4 +1,6 @@
 {
-    int x = 1;
-    #include "test.decah"
+    int x = 4;
+    while (2*x-1<8){
+        x = x + 1;
+    }
 }

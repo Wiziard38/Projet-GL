@@ -94,6 +94,7 @@ public class DecacCompiler implements Runnable {
         this.compilerOptions = compilerOptions;
         this.source = source;
         compileInArm = arm;
+        program = new IMAProgram(compileInArm);
     }
 
     public int getLastLineIndex() {
@@ -184,7 +185,7 @@ public class DecacCompiler implements Runnable {
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
-    private final IMAProgram program = new IMAProgram(compileInArm);
+    private final IMAProgram program;
 
     /** The global environment for types (and the symbolTable) */
     public final SymbolTable symbolTable = new SymbolTable();

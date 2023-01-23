@@ -1,0 +1,14 @@
+class A{
+    int a;
+}
+
+class B{
+}
+
+{
+    A a = new A();
+    A b = new A();
+    if (a == b){
+        println("(a == b)");
+    }
+}

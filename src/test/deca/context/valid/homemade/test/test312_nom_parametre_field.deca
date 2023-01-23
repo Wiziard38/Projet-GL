@@ -1,0 +1,9 @@
+// test valide de la règle 3.12
+
+class Pinguin {
+    float a;
+    
+    int calcul(int a) {
+    }
+}
+

@@ -1,0 +1,5 @@
+class A {
+    void somme() {
+        x = 1 + 1;
+    }
+}

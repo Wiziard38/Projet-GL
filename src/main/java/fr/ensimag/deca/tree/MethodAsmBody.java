@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -10,12 +11,14 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.pseudocode.InstructionArm;
+import fr.ensimag.pseudocode.Line;
 
 /*
  * Method body when the body is assembler lines of code
  */
 public class MethodAsmBody extends AbstractMethodBody {
-
+    private static final Logger LOG = Logger.getLogger(ClassDefinition.class);
     private String textAsm;
     private Location location;
 
@@ -54,7 +57,7 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     protected void codeGenInstBody(DecacCompiler compiler, String name) {
-        // TODO Auto-generated method stub
+        compiler.add(new Line(textAsm.replaceAll("\"", ""), true));
     }
-
+    
 }

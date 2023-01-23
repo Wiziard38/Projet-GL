@@ -79,8 +79,11 @@ public class New extends AbstractExpr {
                 SuperOffset.main(0, Register.getR(nActual), compiler.compileInArm()), compiler.compileInArm()));
         compiler.addInstruction(SuperPUSH.main(Register.getR(nActual), compiler.compileInArm()));
         compiler.setN(nActual);
-        compiler.addInstruction(
-                SuperBSR.main(new Label("init." + this.name.getName().getName()), compiler.compileInArm()));
+        compiler.addInstruction(SuperBSR.main(
+                new Label(
+                        "init." + this.name.getName().getName() + this.name.getClassDefinition().getLocation().getLine()
+                                + this.name.getClassDefinition().getLocation().getPositionInLine()),
+                compiler.compileInArm()));
         compiler.addInstruction(SuperPOP.main(Register.getR(nActual), compiler.compileInArm()));
     }
 

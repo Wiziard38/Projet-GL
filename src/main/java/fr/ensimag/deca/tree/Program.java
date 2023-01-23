@@ -54,11 +54,11 @@ public class Program extends AbstractProgram {
 
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
-        // if (!compiler.compileInArm()) {
-        // Passe numéro 1 des classes déclaration des classes et méthodes
-        compiler.addComment("Class declaration");
-        classes.codeGenListClass(compiler);
-        // }
+        if (!compiler.compileInArm()) {
+            // Passe numéro 1 des classes déclaration des classes et méthodes
+            compiler.addComment("Class declaration");
+            classes.codeGenListClass(compiler);
+        }
 
         // Passe sur le programme principal pour la génération de son code
         compiler.addComment("Main Program");

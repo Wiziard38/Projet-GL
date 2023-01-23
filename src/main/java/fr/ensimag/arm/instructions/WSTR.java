@@ -1,6 +1,8 @@
 package fr.ensimag.arm.instructions;
 
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 import fr.ensimag.pseudocode.ImmediateString;
 import fr.ensimag.pseudocode.InstructionArm;
@@ -12,6 +14,8 @@ import fr.ensimag.pseudocode.InstructionArm;
 public class WSTR extends InstructionArm {
 
     private static boolean retourLigne = false;
+
+    private HashSet<String> stringDico = new HashSet<String>();
 
     private ImmediateString op;
 
@@ -38,6 +42,12 @@ public class WSTR extends InstructionArm {
                 return;
             }
         }
+
+        System.out.println(1 + s.toString());
+        // if (stringDico.contains(op.stripped())) {
+        // return;
+        // }
+
         s.println(".data");
         s.println();
         s.println("msg_" + op.stripped() + ":");
@@ -45,5 +55,9 @@ public class WSTR extends InstructionArm {
         s.println("len" + op.stripped() + " = . - msg_" + op.stripped());
         s.print("\n");
         s.println(".text");
+        // s.flush(); // <-- peut etre essaye avec ca apres
+        stringDico.add(op.stripped());
+        System.out.println(2 + s.toString());
+
     }
 }

@@ -1,0 +1,1 @@
+class a{int x, y = 8; boolean g = true, h; float t = 81.2, v = 98.5}

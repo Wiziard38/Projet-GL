@@ -1,0 +1,16 @@
+// test invalide de la règle cast
+
+class A {
+
+}
+
+class B {
+
+    int x = 1;
+}
+
+
+{
+    B b = new B();
+    (A) (b);
+}

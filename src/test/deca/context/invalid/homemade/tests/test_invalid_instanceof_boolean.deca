@@ -1,0 +1,8 @@
+// test invalide de la règle instance of
+
+
+
+{
+    boolean a = true;
+    println(a instanceof boolean);
+}

@@ -1,0 +1,8 @@
+// test invalide de la règle cast
+
+
+
+{
+    int a = 8;
+    (void) (a);
+}

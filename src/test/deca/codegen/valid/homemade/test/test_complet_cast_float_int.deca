@@ -1,0 +1,8 @@
+// test valide de la règle cast
+
+
+
+{
+    int a = 8;
+    (float) (a);
+}

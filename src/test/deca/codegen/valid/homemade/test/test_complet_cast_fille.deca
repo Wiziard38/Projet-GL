@@ -1,0 +1,14 @@
+// test valide de la règle cast
+
+class A {
+
+}
+
+class B{
+    protected int x = 8;
+}
+
+{
+    A a = new A();
+    (B) (a);
+}

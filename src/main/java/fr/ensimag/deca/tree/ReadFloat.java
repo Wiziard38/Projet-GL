@@ -28,6 +28,12 @@ public class ReadFloat extends AbstractReadExpr {
         return compiler.environmentType.FLOAT;
     }
 
+    /**
+     * Genère le code d'un readFloat
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         compiler.addInstruction(SuperRFLOAT.main(compiler.compileInArm()));

@@ -36,6 +36,13 @@ public class DeclVar extends AbstractDeclVar {
         this.initialization = initialization;
     }
 
+    /**
+     * Genère le code d'une variable locale d'une méthodes
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     * @pos la position de la variable, on la trouve en décrementant sp de cette pos
+     */
     protected void codeGenVarMeth(DecacCompiler compiler, String nameBloc, int pos) {
 
         compiler.addComment(this.decompile());
@@ -51,6 +58,12 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addComment("");
     }
 
+    /**
+     * Genère le code d'une déclaration de variable globale.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name     le nom du bloc ou on gènere le code assembleur
+     */
     protected void codeGenVar(DecacCompiler compiler, String name) {
 
         compiler.addComment(this.decompile());

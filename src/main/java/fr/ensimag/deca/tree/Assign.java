@@ -39,6 +39,12 @@ public class Assign extends AbstractBinaryExpr {
         super(leftOperand, rightOperand);
     }
 
+    /**
+     * Genère le code d'une assignation.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
 
@@ -53,12 +59,9 @@ public class Assign extends AbstractBinaryExpr {
             BlocInProg.getBlock(nameBloc).incrnbRegisterNeeded(nActualLeft);
             FieldDefinition fieldDef = (FieldDefinition) varDef;
             LOG.debug(fieldDef);
-            // compiler.addInstruction(SuperLOAD.main(new RegisterOffset(-2, Register.LB),
-            // Register.getR(nActualAddr), compiler.compileInArm()));
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
-                    SuperOffset.main(0, Register.getR(nActualLeft), compiler.compileInArm()), compiler.compileInArm()));
+                    new RegisterOffset(0, Register.getR(nActualLeft)), compiler.compileInArm()));
         } else if (varDef.isParam()) {
-            int nActualAddr = compiler.getN() + 1;
             ParamDefinition defParam = (ParamDefinition) varDef;
             compiler.addInstruction(SuperSTORE.main(Register.getR(nActualRight),
                     SuperOffset.main(-defParam.getIndex() - 2, Register.LB, compiler.compileInArm()),

@@ -22,6 +22,12 @@ public class Or extends AbstractOpBool {
         super(leftOperand, rightOperand);
     }
 
+    /**
+     * Genère le code d'un ou, on fait attention aux registres s'il n'en reste plus alors on utilise la pile.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         Label labelOneTrue = new Label(
                 "OneTrueOr" + this.getLocation().getLine() + this.getLocation().getPositionInLine());

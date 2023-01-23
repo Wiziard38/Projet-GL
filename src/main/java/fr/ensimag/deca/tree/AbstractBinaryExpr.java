@@ -72,6 +72,14 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+    /**
+    * Génère le code pour une expression binaire. il est factoriser dans cette classe et 
+    * donc la méthode finit sur un switch case sur le nom de l'opérateur pour ajouter l'instruction adéquate.
+    * On fait attention dans ce cas aux registres restant, s'il ne reste plus on push le dernier et on continue
+    * @param  compiler L'instance du compilateur ou rajouter le code assembleur
+    * @param  nameBloc Le nom du bloc actuel dans lequel on genère l'assembleur (bloc étant le main program ou une méthode)
+    * @return      void
+    */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActualLeft;
@@ -199,6 +207,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                                     SuperOffset.main(compiler.getSP(), Register.GB, compiler.compileInArm()),
                                     Register.getR(nActualRight), compiler.compileInArm()));
                         }
+                        compiler.addInstruction(SuperBOV.main(compiler.getErreurOverflow(), compiler.compileInArm()));
                         break;
                     case "%":
                         compiler.addInstruction(
@@ -271,6 +280,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                             compiler.addInstruction(SuperQUO.main(Register.getR(nActualRight),
                                     Register.getR(nActualLeft), compiler.compileInArm()));
                         }
+                        compiler.addInstruction(SuperBOV.main(compiler.getErreurOverflow(), compiler.compileInArm()));
                         break;
                     case "%":
                         compiler.addInstruction(SuperREM.main(Register.getR(nActualRight), Register.getR(nActualLeft),

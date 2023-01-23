@@ -18,6 +18,12 @@ public class Println extends AbstractPrint {
         super(printHex, arguments);
     }
 
+    /**
+     * Genère le code pour un print ln, on génére le code pour un print et on, print un \n
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         super.codeGenInst(compiler, name);

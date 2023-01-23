@@ -44,6 +44,12 @@ public class Return extends AbstractInst {
         this.setExpression(this.expr.verifyRValue(compiler, localEnv, currentClass, returnType));
     }
 
+    /**
+     * Genère le code d'un return d'une méthode. On met le résultat dans R0.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nActual = compiler.getN() + 1;

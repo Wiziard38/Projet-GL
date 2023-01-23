@@ -59,6 +59,13 @@ public class MethodBody extends AbstractMethodBody {
         this.instructions.verifyListInst(compiler, localEnv, currentClassDef, returnType);
     }
 
+
+    /**
+     * Genère le code du corp d'une méthode
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInstBody(DecacCompiler compiler, String name) {
         this.variables.codeGenListVarMeth(compiler, name);

@@ -162,6 +162,12 @@ public class MethodCall extends AbstractExpr {
         }
     }
 
+    /**
+     * Genère le code pour un appel de méthode
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         int nLeft = compiler.getN() + 1;

@@ -1,4 +1,4 @@
 {
-    float x  = 3.48e39;
+    int x  = 2147483648;
     println("x = ", (x));
 }

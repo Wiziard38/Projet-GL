@@ -97,6 +97,14 @@ public class Selection extends AbstractLValue {
         this.name.iter(f);
     }
 
+    /**
+     * Genère le code d'une séléction en dehors d'un assign, on accède à la valeur
+     * de la séléction et non pas l'adresse où est stocké
+     * la séléction.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name     le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;
@@ -111,6 +119,13 @@ public class Selection extends AbstractLValue {
         compiler.setN(nActual);
     }
 
+    /**
+     * Genère le code d'une séléction où on retourne l'adresse mémoire, pour
+     * assigner dans celle-ci.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name     le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
         int nActual = compiler.getN() + 1;

@@ -39,6 +39,12 @@ public class While extends AbstractInst {
         this.body = body;
     }
 
+    /**
+     * Genère le code d'un while. on génere le code pour tester la conditions, ensuite les instructions et on boucle sur la condition.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
         Label labelCondition = new Label(

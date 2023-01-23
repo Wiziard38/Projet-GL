@@ -52,6 +52,13 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: end");
     }
 
+    /**
+     * Genère le code u programme. On fait deux passes sur les classes et une sur le programme principal.
+     * On ajoute aussi les erreurs à la fin
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
         if (!compiler.compileInArm()) {

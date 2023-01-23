@@ -115,9 +115,13 @@ public class DeclMethod extends AbstractDeclMethod {
         }
 
         MethodDefinition current = new MethodDefinition(returnMethodType, this.getLocation(), sig, index);
-        LOG.debug(this.getLocation());
-        current.setLabel(new Label(currentClassDef.getType().getName().getName() + "." + this.name.getName().getName()
-                + currentClassDef.getLocation().getLine() + (this.getLocation().getPositionInLine())));
+
+        // LOG.debug(this.getLocation());
+        current.setLabel(new Label(currentClassDef.getType().getName().getName()
+                + currentClassDef.getLocation().getLine()
+                + (currentClassDef.getLocation().getPositionInLine() + "."
+                        + this.name.getName().getName() + this.getLocation().getLine()
+                        + this.getLocation().getPositionInLine())));
         try {
             currentClassDef.getMembers().declare(this.name.getName(), current);
         } catch (DoubleDefException e) {
@@ -138,6 +142,13 @@ public class DeclMethod extends AbstractDeclMethod {
         this.body.verifyBody(compiler, localEnv, currentClassDef, returnTypeNonVoid);
     }
 
+    /**
+     * Genère le code d'une méthoe i.e d'abord les variables locales et ensuite les
+     * instructions.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param name     le nom du bloc ou on gènere le code assembleur
+     */
     protected void codeGenCorpMethod(DecacCompiler compiler, String name) {
         this.body.codeGenInstBody(compiler, name);
     }

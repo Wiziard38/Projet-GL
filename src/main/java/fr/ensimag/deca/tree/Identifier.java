@@ -38,6 +38,13 @@ import org.apache.log4j.Logger;
 public class Identifier extends AbstractIdentifier {
     private static final Logger LOG = Logger.getLogger(Identifier.class);
 
+    /**
+     * Genère le code pour print un identifier.
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param printHex bollean qui dit si il faut print en héxadécimale
+     * @param name le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
         int nActual = compiler.getN() + 1;
@@ -55,6 +62,12 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
+    /**
+     * Genère le code d'un identifier hors d'un print
+     *
+     * @param compiler compilateur ou ajouter les instructions
+     * @param nameBloc le nom du bloc ou on gènere le code assembleur
+     */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String nameBloc) {
         LOG.debug("nom du bloc: " + nameBloc);

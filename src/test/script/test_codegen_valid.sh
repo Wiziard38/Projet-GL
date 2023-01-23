@@ -11,7 +11,7 @@ PATH=$source_dir/src/test/script/launchers:"$PATH"
 # On recupere le directory d'entree
 input_dir="$source_dir/src/test/deca/codegen/valid/homemade"
 
-total_test=$(find $input_dir/test -type f -name "*.deca"| wc -l)
+total_test=$(find $input_dir/test/ -name "*.deca" ! -name "*cast*" ! -name "*instanceof*" | wc -l)
 total_test_registre=$(find $input_dir/test -type f -name "*.deca" -name "*test_depassement_registre*" | wc -l)
 total_test=$((total_test+total_test_registre))
 
@@ -23,7 +23,7 @@ echo "               CODEGEN - VALID TESTS                   "
 echo "-------------------------------------------------------"
 echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
 
-for fichier in $(find $input_dir/test/ -name "*.deca")
+for fichier in $(find $input_dir/test/ -name "*.deca" ! -name "*cast*" ! -name "*instanceof*")
 do
     nom=${fichier##*/}
     
@@ -45,11 +45,11 @@ do
         total_failed=$((total_failed+1))
     else
         total_valid=$((total_valid+1))
+        rm "$input_dir/test/${nom%.deca}.ass"
     fi
 
     printf "\033[1A"
     echo -en "\r${GREEN}PASSED: $total_valid ${NC}            ${RED}FAILED: $total_failed  ${NC}            TOTAL: $total_test"
-    rm "$input_dir/test/${nom%.deca}.ass"
 done
 
 

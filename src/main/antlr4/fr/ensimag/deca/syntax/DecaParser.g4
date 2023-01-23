@@ -458,7 +458,8 @@ type
 literal
 	returns[AbstractExpr tree]:
 	INT {
-                LOG.debug("It is an int: " + Integer.parseInt($INT.text));
+                BigDecimal parsedBigDecimal = new BigDecimal($INT.text);
+                LOG.debug("It is an int: " + parsedBigDecimal);
                 try {
                         $tree = new IntLiteral(Integer.parseInt($INT.text));
                         setLocation($tree, $INT);
@@ -467,7 +468,8 @@ literal
                         // set $tree to null, and then fail with the semantic predicate
                         // {$tree != null}?. In decac, we'll have a more advanced error
                         // management.
-                        $tree = null;
+                        throw new InvalidIntInput(this, $ctx);
+                        // $tree = null;
                 }
         }
 	| fd = FLOAT {

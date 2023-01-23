@@ -82,6 +82,7 @@ fi
 
 run_invalid_test -b -p
 run_invalid_test -b -v
+run_invalid_test -b -arm
 run_invalid_test -b $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -b"
@@ -151,9 +152,22 @@ echo "Pas de probleme detecte avec decac -r X"
 run_invalid_test -arm -p
 run_invalid_test -arm -p -v
 run_invalid_test -arm -v
+run_invalid_test -arm -P
+run_invalid_test -arm -n
+run_invalid_test -arm -r 5
 run_valid_test -arm $path/file1.deca
 
 echo "Pas de probleme detecte avec decac -arm"
+
+# ====================================================================================================
+
+run_invalid_test -P -arm
+run_valid_test -P $path/file1.deca $path/file2.deca $path/file3.deca
+run_valid_test -P -d $path/file1.deca $path/file2.deca $path/file3.deca
+run_valid_test -P -v $path/file1.deca $path/file2.deca $path/file3.deca
+run_valid_test -P -n $path/file1.deca $path/file2.deca $path/file3.deca
+
+echo "Pas de probleme detecte avec decac -P"
 
 # ====================================================================================================
 

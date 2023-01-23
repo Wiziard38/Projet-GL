@@ -77,8 +77,8 @@ Notre projet compile sous maven, voici les principaux goals du projet.
 ## Utilisation
 
 ```bash
-decac [[-p | -v | -arm] [-n] [-r X] [-d]* [-P] [file.deca]*]
-      | [-b]
+decac [[-p | -v] [-n] [-r X] [-d]* [-P] [file.deca]*]
+      | [-b] | [-arm] [-d]* [file.deca]*
 ```
 
 | Option              | Description                                                                                                                                                                                                                     | Default |         Required?         |

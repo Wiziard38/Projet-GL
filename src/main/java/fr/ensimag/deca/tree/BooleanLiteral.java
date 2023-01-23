@@ -55,8 +55,6 @@ public class BooleanLiteral extends AbstractExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

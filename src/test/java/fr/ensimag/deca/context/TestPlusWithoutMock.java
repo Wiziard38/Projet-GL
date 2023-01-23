@@ -62,8 +62,8 @@ public class TestPlusWithoutMock {
 
         @Override
         public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-            // TODO Auto-generated method stub
-            
+            // nothing to do
+
         }
     }
 

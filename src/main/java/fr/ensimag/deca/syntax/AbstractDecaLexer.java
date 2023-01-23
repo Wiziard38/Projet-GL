@@ -16,7 +16,6 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tree.LocationException;
@@ -30,8 +29,6 @@ import fr.ensimag.deca.tree.LocationException;
  * @date 01/01/2023
  */
 public abstract class AbstractDecaLexer extends Lexer {
-    private static final Logger LOG = Logger.getLogger(AbstractDecaLexer.class);
-
     private DecacCompiler decacCompiler;
     private File source;
 

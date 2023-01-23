@@ -21,8 +21,6 @@ import fr.ensimag.superInstructions.SuperOffset;
 import fr.ensimag.superInstructions.SuperPUSH;
 import fr.ensimag.superInstructions.SuperSUBSP;
 
-
-
 /**
  * Appel d'une méthode.
  *
@@ -102,7 +100,7 @@ public class MethodCall extends AbstractExpr {
      * @param currentClass
      *                     Environment in which the expression should be checked
      *                     (corresponds to the "env_exp" attribute)
-     * @param sig           Corresponds to the signature of the method called
+     * @param sig          Corresponds to the signature of the method called
      */
     public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Signature sig) throws ContextualError {
@@ -171,7 +169,7 @@ public class MethodCall extends AbstractExpr {
      * Genère le code pour un appel de méthode
      *
      * @param compiler compilateur ou ajouter les instructions
-     * @param name le nom du bloc ou on gènere le code assembleur
+     * @param name     le nom du bloc ou on gènere le code assembleur
      */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
@@ -207,7 +205,5 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-
     }
 }

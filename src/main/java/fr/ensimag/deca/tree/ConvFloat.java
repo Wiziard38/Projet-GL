@@ -39,7 +39,5 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 }

@@ -46,7 +46,7 @@ public class StringLiteral extends AbstractStringLiteral {
      * Genère le code d'un print de StringLiteral
      *
      * @param compiler compilateur ou ajouter les instructions
-     * @param name le nom du bloc ou on gènere le code assembleur
+     * @param name     le nom du bloc ou on gènere le code assembleur
      */
     @Override
     protected void codeGenPrint(DecacCompiler compiler, boolean printHex, String name) {
@@ -77,8 +77,6 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

@@ -33,7 +33,7 @@ public class ReadInt extends AbstractReadExpr {
      * Genère le code d'un readFloat
      *
      * @param compiler compilateur ou ajouter les instructions
-     * @param name le nom du bloc ou on gènere le code assembleur
+     * @param name     le nom du bloc ou on gènere le code assembleur
      */
     @Override
     protected void codeGenInst(DecacCompiler compiler, String name) {
@@ -61,8 +61,6 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     public void codeGenVarAddr(DecacCompiler compiler, String nameBloc) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

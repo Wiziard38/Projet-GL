@@ -11,7 +11,7 @@
 	PUSH R2
 	LOAD object.equals, R2
 	STORE R2, 1(SP)
-	LOAD a.testASM94, R2
+	LOAD a.testASM90, R2
 	STORE R2, 2(SP)
 	ADDSP #2
 
@@ -99,25 +99,5 @@ init.A150:
 	POP R4
 	RTS
 ; 
-; 
-ErreurPile:
-	WSTR "Erreur de débordement de pile dans le programme"
-	WNL
-	ERROR
-; 
-overflof_error:
-	WSTR "Erreur 'overflow' pendant une opération arithmétique"
-	WNL
-	ERROR
-; 
-io_error:
-	WSTR "Erreur lors d'une entrée/sortie"
-	WNL
-	ERROR
-; 
-ErreurArrondi:
-	WSTR "Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini"
-	WNL
-	ERROR
 ; 
 ; end main program

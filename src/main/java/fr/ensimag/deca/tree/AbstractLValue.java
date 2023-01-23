@@ -1,9 +1,11 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.Type;
 
 /**
  * Left-hand side value of an assignment.
@@ -23,7 +25,8 @@ public abstract class AbstractLValue extends AbstractExpr {
      *                     Environment in which the expression should be checked
      *                     (corresponds to the "env_exp" attribute)
      */
-    public abstract void verifyLValue(EnvironmentExp localEnv) throws ContextualError;
+    public abstract Type verifyLValue(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass) throws ContextualError;
 
     public abstract ExpDefinition getExpDefinition();
 }

@@ -1,0 +1,10 @@
+// test valide de la règle 3.12
+
+class Autruche {
+    int a;
+}
+
+class Pinguin extends Autruche {
+    int calcul(int a) {
+    }
+}

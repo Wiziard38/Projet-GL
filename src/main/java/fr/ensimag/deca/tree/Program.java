@@ -68,7 +68,8 @@ public class Program extends AbstractProgram {
         if (!compiler.compileInArm()) {
             compiler.addComment("Method declaration");
             classes.codeGenCorpMethod(compiler, "");
-            compiler.addLabel(compiler.getErreurPile());
+            if (!compiler.getCompilerOptions().getCheck()){
+                compiler.addLabel(compiler.getErreurPile());
             compiler.addInstruction(
                 SuperWSTR.main("Erreur de débordement de pile dans le programme", compiler.compileInArm()));
             compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
@@ -85,18 +86,8 @@ public class Program extends AbstractProgram {
             compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
             compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
             compiler.addComment("");
-            compiler.addLabel(compiler.getErreurArrondi());
-            compiler.addInstruction(
-                SuperWSTR.main("Erreur lors d'une opération arithmétique sur des flottant, arrondi vers 0 ou l'infini",
-                        compiler.compileInArm()));
-            compiler.addInstruction(SuperWNL.main(compiler.compileInArm()));
-            compiler.addInstruction(SuperERROR.main(compiler.compileInArm()));
-            compiler.addComment("");
-        //Gestion de la pile
-        // compiler.addInstructionFirst(SuperBOV.main(compiler.getErreurPile(), compiler.compileInArm()));
-        // compiler.addInstructionFirst(SuperTSTO.main(compiler.getD(), compiler.compileInArm()));
+            }
         }
-        // Passe numéro 2 des classes, on code le corp des méthodes
         
         
     }

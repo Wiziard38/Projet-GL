@@ -253,10 +253,6 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                         if (getLeftOperand().getType().isFloat()) {
                             compiler.addInstruction(SuperDIV.main(Register.getR(nActualRight),
                                     Register.getR(nActualLeft), compiler.compileInArm()));
-                            compiler.addInstruction(SuperCMP.main(new ImmediateFloat(0), Register.getR(nActualLeft),
-                                    compiler.compileInArm()));
-                            compiler.addInstruction(
-                                    SuperBEQ.main(compiler.getErreurArrondi(), compiler.compileInArm()));
                         } else {
                             compiler.addInstruction(SuperQUO.main(Register.getR(nActualRight),
                                     Register.getR(nActualLeft), compiler.compileInArm()));

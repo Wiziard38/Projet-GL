@@ -1,0 +1,148 @@
+/* Classe pour trier des entiers et recuperer des informations statistiques */
+class SortedValues {
+    int intIndexed_1, intIndexed_2, intIndexed_3, intIndexed_4, intIndexed_5;
+    boolean sorted = false;
+
+    /* Initialisateur pour ajouter les 5 entiers puis les trier */
+    void addValues(int x1, int x2, int x3, int x4, int x5) {
+        intIndexed_1 = x1;
+        intIndexed_2 = x2;
+        intIndexed_3 = x3;
+        intIndexed_4 = x4;
+        intIndexed_5 = x5;
+
+        this.sortValues();
+    }
+
+    void sortValues() {
+        boolean flag = true;
+        int index1 = 1, index2 = 2;
+
+        while (flag) {
+            flag = invertValues(index1, index2);
+
+            if (!flag || index1 != 5) {
+                flag = true;
+                index2 = index2 + 1;
+                index1 = index2 - 1;
+            } else if (index1 > 1) {
+                index1 = index1 - 1;
+            }
+        }
+        sorted = true;
+    }
+
+    /* Fonction qui va inverser la liste les entiers aux index 
+    @param index1 et
+    @param index2 pour qu'ils soient dans un ordre cohérents.
+    */
+    boolean invertValues(int index1, int index2) {
+        int tmp;
+
+        // Si la valeur est plus grande mais l'indice plus faible :
+        if (getValue(index1) > getValue(index2)) {
+            if (index1 < index2) {
+                tmp = getValue(index1);
+                setValue(index1, getValue(index2));
+                setValue(index2, tmp);
+                // There has been a change
+                return true;
+            }
+
+        // Si la valeur est plus faible mais l'indice plus grand :
+        } else {
+            if (index1 > index2) {
+                tmp = getValue(index2);
+                setValue(index2, getValue(index1));
+                setValue(index1, tmp);
+                // There has been a change
+                return true;
+            }
+        }
+
+        // There has been no change
+        return false;
+    }
+
+    /* Fonction qui renvoie l'entier correspondant a un index donné */
+    int getValue(int index) {
+        if (index == 1) {
+            return intIndexed_1;
+        } else if (index == 2) {
+            return intIndexed_2;
+        } else if (index == 3) {
+            return intIndexed_3;
+        } else if (index == 4) {
+            return intIndexed_4;
+        } else if (index == 5) {
+            return intIndexed_5;
+        }
+    }
+
+    /* Fonction qui assigne l'entier correspondant a un index donné */
+    void setValue(int index, int number) {
+        if (index == 1) {
+            intIndexed_1 = number;
+        } else if (index == 2) {
+            intIndexed_2 = number;
+        } else if (index == 3) {
+            intIndexed_3 = number;
+        } else if (index == 4) {
+            intIndexed_4 = number;
+        } else if (index == 5) {
+            intIndexed_5 = number;
+        }
+    }
+
+    float getMean() {
+        float nbVal = 5.0;
+        int count = intIndexed_1 + intIndexed_2 + intIndexed_3 + intIndexed_4 + intIndexed_5;
+        return count / nbVal;
+    }
+
+    void printList() {
+        print("La liste triée est : ");
+        print(intIndexed_1);
+        print(", ");
+        print(intIndexed_2);
+        print(", ");
+        print(intIndexed_3);
+        print(", ");
+        print(intIndexed_4);
+        print(", ");
+        println(intIndexed_5);
+    }
+}
+
+/* Class pour creer une nouvelle liste avec des valeurs rentrées a la main */
+class InputValues {
+    SortedValues __sortedValues;
+
+    /* Methode pour recuperer les entiers de l'utilisateur */
+    void requestValues() {
+        int readedValue;
+        int cmpt = 1;
+
+        while (cmpt < 5) {
+            readedValue = readInt();
+            __sortedValues.setValue(cmpt, readedValue);
+            cmpt = cmpt + 1;
+        }
+        __sortedValues.sortValues();
+    }
+
+    void usefullInfos() {
+        __sortedValues.printList();
+        println("La moyenne est : ", __sortedValues.getMean());
+    }
+}
+
+
+{
+    // SortedValues myList = new SortedValues();
+    // myList.addValues(4, 41, 21, 88, 7);
+    // myList.printList();
+    InputValues newInput = new InputValues();
+    newInput.requestValues();
+    newInput.usefullInfos();
+}
